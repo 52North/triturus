@@ -1,3 +1,22 @@
+/***************************************************************************************
+ * Copyright (C) 2011 by 52 North Initiative for Geospatial Open Source Software GmbH  *
+ *                                                                                     *
+ * Contact: Benno Schmidt & Martin May, 52 North Initiative for Geospatial Open Source *
+ * Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, Germany, info@52north.org *
+ *                                                                                     *
+ * This program is free software; you can redistribute and/or modify it under the      *
+ * terms of the GNU General Public License version 2 as published by the Free Software *
+ * Foundation.                                                                         *
+ *                                                                                     *
+ * This program is distributed WITHOUT ANY WARRANTY; even without the implied WARRANTY *
+ * OF MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public  *
+ * License for more details.                                                           *
+ *                                                                                     *
+ * You should have received a copy of the GNU General Public License along with this   *
+ * program (see gnu-gpl v2.txt). If not, write to the Free Software Foundation, Inc.,  *
+ * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA, or visit the Free Software *
+ * Foundation web page, http://www.fsf.org.                                            *
+ **************************************************************************************/
 package org.n52.v3d.triturus.core;
 
 import java.util.HashMap;
@@ -6,16 +25,19 @@ import java.net.URL;
 import java.net.MalformedURLException;
 
 /**
- * Klasse zur Übersetzung Rahmenwerk-spezifischer Ausnahmen in Fehlermeldungstexte.<p>
- * Die Fehlermeldungstexte sind über eine ASCII-Datei zu konfigurieren, in welcher zeilenweise eine eindeutige
- * Fehlernummer, ein Komma und ein einzeiliger Fehlermeldungstext angegeben sind.<p>
- * Bem.: Die Nutzung der auf Grundlage der ID übersetzten Fehlermeldungstexte obliegt der Applikation;
+ * Translation of framework-specific exceptions into error messages. The message text will be read from an ASCII
+ * file.<br />
+ * Note: The implemented error message mechanism is primarily used by the 52N terrainServer.
+ * <br /><br />
+ * <i>German:</i>: Klasse zur &Uuml;bersetzung Rahmenwerk-spezifischer Ausnahmen in Fehlermeldungstexte. Die
+ * Fehlermeldungstexte sind &uuml;ber eine ASCII-Datei zu konfigurieren, in welcher zeilenweise eine eindeutige
+ * Fehlernummer, ein Komma und ein einzeiliger Fehlermeldungstext angegeben sind.<br />
+ * Bem.: Die Nutzung der auf Grundlage der ID &uuml;bersetzten Fehlermeldungstexte obliegt der Applikation;
  * Rahmenwerk-intern werden die angegebenen Fehlermeldungen verwendet. Zur Nutzung siehe z. B. Anwendung
- * <tt>org.n52.v3d.conterra.suite.terrainservice.povraywts.WebTerrainServlet</tt>. Weitere Hinweise können dem
- * Installationshandbuch des <i>sdi-suite terrainServers</i> entnommen werden.<p>
+ * <tt>org.n52.v3d.conterra.suite.terrainservice.povraywts.WebTerrainServlet</tt>. Weitere Hinweise k&ouml;nnen dem
+ * Installationshandbuch des 52N terrainServers entnommen werden.<p>
  * @see T3dException
- * @author Benno Schmidt<br>
- * (c) 2005, con terra GmbH<br>
+ * @author Benno Schmidt
  */
 public class T3dExceptionMessage
 {
@@ -26,8 +48,10 @@ public class T3dExceptionMessage
     }
 
     /**
-     * liefert eine Instanz eines <tt>T3dExceptionMessage</tt>-Objektes. Die Klasse ist als Singleton implementiert.<p>
-     * @return <tt>T3dExceptionMessage</tt>-Instanz
+     * returns the <tt>T3dExceptionMessage</tt> instance (Singleton implementation).<br /><br />
+     * <i>German:</i>: liefert eine Instanz eines <tt>T3dExceptionMessage</tt>-Objektes. Die Klasse ist als Singleton
+     * implementiert.
+     * @return <tt>T3dExceptionMessage</tt> instance
      */
     static public T3dExceptionMessage getInstance() {
         if (sInstance == null)
@@ -36,16 +60,17 @@ public class T3dExceptionMessage
     }
 
     /**
-     * setzt die Konfigurationsdatei mit den Fehlermeldungstexten.<p>
-     * Wird für <tt>pLocation</tt> der Wert <i>null</i> oder ein Leerstring übergeben, erfolgt kein Lesevorgang.<p>
-     * @param pLocation Pfad, unter dem die Datei abgelegt ist, oder gültiger URL.
+     * reads the configuration file containing the message texts.<br /><br />
+     * <i>German:</i>: setzt die Konfigurationsdatei mit den Fehlermeldungstexten. Wird f&uuml;r <tt>pLocation</tt> der
+     * Wert <i>null</i> oder ein Leerstring &uuml;bergeben, erfolgt kein Lesevorgang.
+     * @param pLocation File name (incl. path) of message file, or valid URL.
      */
     public void readConfiguration(String pLocation)
     {
         if (pLocation == null || pLocation.length() <= 0)
             return;
 
-        InputStream is = null;
+        InputStream is;
         try {
             if (pLocation.startsWith("http"))
                 is = this.createInputStream(new URL(pLocation));
@@ -79,9 +104,6 @@ public class T3dExceptionMessage
         }
         catch (IOException e) {
             throw new T3dException(e.getMessage());
-        }
-        catch (T3dException e) {
-            throw e;
         }
     }
 
@@ -118,11 +140,14 @@ public class T3dExceptionMessage
     }
 
     /**
-     * liefert den Fehlermeldungstext für das angegebene <tt>Throwable</tt>-Objekt. Falls es sich bei dem angegebenen
-     * Objekt um eine <tt>T3dException</tt> handelt <i>und</i> eine Fehlernummer angegeben ist, wird der in der
-     * Konfigurationsdatei angegebene Fehlermeldungstext zurückgegeben.<p>
+     * returns the error message text for a given <tt>Throwable</tt>-object. if this object is a <tt>T3dException</tt>
+     * <i>and</i> an error number is available, the correpsonding message text from the error message file will be
+     * returned.<br /><br />
+     * <i>German:</i> liefert den Fehlermeldungstext f&uml;r das angegebene <tt>Throwable</tt>-Objekt. Falls es sich bei
+     * dem angegebenen Objekt um eine <tt>T3dException</tt> handelt <i>und</i> eine Fehlernummer angegeben ist, wird der
+     * in der Konfigurationsdatei angegebene Fehlermeldungstext zur&uuml;ckgegeben.
      * @param e <tt>Throwable</tt>-Objekt
-     * @return Fehlermeldungstext
+     * @return Error message text
      */
     public String translate(Throwable e)
     {
