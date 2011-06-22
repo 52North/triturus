@@ -30,18 +30,19 @@ import java.io.OutputStream;
 
 /**
  * A <tt>GifEncodedRaster</tt> represents an index-coded GIF image (GIF89a) holding elevation values. Usage example:
- * <code>
- *     GmSimpleElevationGrid myElevationGrid;
- *     GmSimple2dGridGeometry myGeom = (GmSimple2dGridGeometry) myElevationGrid.getGeometry();
- *     GifEncodedRaster img = new GifEncodedRaster(myGeom.numberOfColumns(), myGeom.numberOfRows());
- *     // Write GIF file
- *     try {
- *         FileOutputStream fos = new FileOutputStream(pFilename);
- *         img.encode(fos);
- *         fos.close();
- *     }
- *     catch { ... };
- * </code>
+ * <br /><br />
+ * <tt>
+ * GmSimpleElevationGrid myElevationGrid;<br />
+ * GmSimple2dGridGeometry myGeom = (GmSimple2dGridGeometry) myElevationGrid.getGeometry();<br />
+ * GifEncodedRaster img = new GifEncodedRaster(myGeom.numberOfColumns(), myGeom.numberOfRows());<br />
+ * // Write GIF file<br />
+ * try {<br />
+ * &nbsp;&nbsp;FileOutputStream fos = new FileOutputStream(pFilename);<br />
+ * &nbsp;&nbsp;img.encode(fos);<br />
+ * &nbsp;&nbsp;fos.close();<br />
+ * }<br />
+ * catch { ... };<br />
+ * </tt>
  * <br />
  * Note: For further information about GIF file generation, it is recommended to study the open-source package
  * <tt>ranab.img.gif</tt> by Rana Bhattacharyya, which is available via Koders.com; see http://corp.koders.com.

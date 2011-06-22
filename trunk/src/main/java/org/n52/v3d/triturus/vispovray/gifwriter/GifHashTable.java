@@ -24,7 +24,7 @@ package org.n52.v3d.triturus.vispovray.gifwriter;
  * @author Benno Schmidt
  * @see GifEncodedRaster
  */
-final class GifHashTable
+public class GifHashTable
 {
     private GifCodeEntry[] mTable;
     static final int sTableSize = 3851; // here a prime number

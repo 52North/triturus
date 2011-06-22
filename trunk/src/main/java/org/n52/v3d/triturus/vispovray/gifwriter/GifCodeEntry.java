@@ -24,7 +24,7 @@ package org.n52.v3d.triturus.vispovray.gifwriter;
  * @author Benno Schmidt
  * @see GifEncodedRaster
  */
-final class GifCodeEntry
+public class GifCodeEntry
 {
     private short mPriorCode = -1;
     private short mCode = -1;
