@@ -1,32 +1,55 @@
+/***************************************************************************************
+ * Copyright (C) 2011 by 52 North Initiative for Geospatial Open Source Software GmbH  *
+ *                                                                                     *
+ * Contact: Benno Schmidt & Martin May, 52 North Initiative for Geospatial Open Source *
+ * Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, Germany, info@52north.org *
+ *                                                                                     *
+ * This program is free software; you can redistribute and/or modify it under the      *
+ * terms of the GNU General Public License version 2 as published by the Free Software *
+ * Foundation.                                                                         *
+ *                                                                                     *
+ * This program is distributed WITHOUT ANY WARRANTY; even without the implied WARRANTY *
+ * OF MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public  *
+ * License for more details.                                                           *
+ *                                                                                     *
+ * You should have received a copy of the GNU General Public License along with this   *
+ * program (see gnu-gpl v2.txt). If not, write to the Free Software Foundation, Inc.,  *
+ * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA, or visit the Free Software *
+ * Foundation web page, http://www.fsf.org.                                            *
+ **************************************************************************************/
 package org.n52.v3d.triturus.vgis;
 
 /**
- * Abstrakte Basisklasse für 3-dimensionale geometrische Objekte. Die Klasse erweitert die Klasse <tt>VgGeomObject</tt>
- * um Definitionen für den Zugriff auf <i>metrische</i> Eigenschaften der Geometrien.<p>
- * @author Benno Schmidt<p>
- * (c) 2003, con terra GmbH & Institute for Geoinformatics
+ * Abstract base class for 3-dimensional geometric objects. This class extends <tt>VgGeomObject</tt> by definitions
+ * to access <i>metric</i> geometric properties
+ * @author Benno Schmidt
  */
 abstract public class VgGeomObject3d extends VgGeomObject 
 {
 	/**
-	 * liefert das Volumen des Geometrie-Objekts bezogen auf das zugrunde liegende räumliche Referenzsystem und die in
-     * z-Richtung verwendete Einheit.<p>
-	 * Bem.: Ggf. ist sicherzustellen, dass dem Flächenmaß eine vernünftige Einheit zugrunde liegt.<p>
+     * returns the geometric object's volume referring to the assigned coordinate reference system and to the measure
+     * used for z-coordinates.<br /><br />
+	 * <i>German:</i> Bem.: Ggf. ist sicherzustellen, dass dem Fl&auml;chenma&szlig; eine vern&uuml;nftige Einheit
+     * zugrunde liegt.
+     * @return Volume value
 	 * @see VgGeomObject#getSRS
 	 */
 	abstract public double volume();
 
 	/**
-	 * liefert die Oberfläche des Geometrie-Objekts bezogen auf das zugrunde liegende räumliche Referenzsystem und die
-     * in z-Richtung verwendete Einheit.<p>
-	 * Bem.: Ggf. ist sicherzustellen, dass dem Flächenmaß eine vernünftige Einheit zugrunde liegt.<p>
+     * returns the geometric object's surface area referring to the assigned coordinate reference system and to the
+     * measure used for z-coordinates.<br /><br />
+	 * <i>German:</i> Bem.: Ggf. ist sicherzustellen, dass dem Fl&auml;chenma&szlig; eine vern&uuml;nftige Einheit
+     * zugrunde liegt.
+     * @return Area value
 	 * @see VgGeomObject#getSRS
 	 */
 	abstract public double surface();
 
 	/**
-	 * liefert die Oberfläche des auf die xy-Ebene projizierten Geometrie-Objekts bezogen auf das zugrunde liegende
-     * räumliche Referenzsystem ("footprint area").<p>
+     * returns the geometric object's area referring to the assigned coordinate reference system with respect to
+     * the x-y plane (&quot;footprint area&quot;).
+     * @return Area value
 	 * @see VgGeomObject#getSRS
 	 */
 	public double areaXY() {

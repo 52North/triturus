@@ -1,13 +1,31 @@
+/***************************************************************************************
+ * Copyright (C) 2011 by 52 North Initiative for Geospatial Open Source Software GmbH  *
+ *                                                                                     *
+ * Contact: Benno Schmidt & Martin May, 52 North Initiative for Geospatial Open Source *
+ * Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, Germany, info@52north.org *
+ *                                                                                     *
+ * This program is free software; you can redistribute and/or modify it under the      *
+ * terms of the GNU General Public License version 2 as published by the Free Software *
+ * Foundation.                                                                         *
+ *                                                                                     *
+ * This program is distributed WITHOUT ANY WARRANTY; even without the implied WARRANTY *
+ * OF MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public  *
+ * License for more details.                                                           *
+ *                                                                                     *
+ * You should have received a copy of the GNU General Public License along with this   *
+ * program (see gnu-gpl v2.txt). If not, write to the Free Software Foundation, Inc.,  *
+ * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA, or visit the Free Software *
+ * Foundation web page, http://www.fsf.org.                                            *
+ **************************************************************************************/
 package org.n52.v3d.triturus.vgis;
 
 import org.n52.v3d.triturus.core.T3dException;
 
 /**
  * @deprecated
- * Klasse zur Verwaltung von Mesh's.
- * TODO: prüfen ob klasse ersetzt werden kann durch VgLineSegmentTopology
+ * Class to hold meshes.
+ * TODO: prï¿½fen ob klasse ersetzt werden kann durch VgLineSegmentTopology
  * @author
- * (c) 2003, con terra GmbH & Institute for Geoinformatics
  * @see org.n52.v3d.triturus.vgis.VgLineSegmentTopology
  */
 
@@ -51,7 +69,7 @@ abstract public class VgMesh
 	abstract public int[] getLineIndexArray();
 
 	/**
-	 * liefert Aussage darüber ob zwischen zwei Vertizes im Netz mit einem
+	 * liefert Aussage darï¿½ber ob zwischen zwei Vertizes im Netz mit einem
 	 * LineSegment verbunden sind.
 	 * Es ist stets die Bedingung <i>0 &lt;= vertex1 &lt; this.getNumberOfPoints()</i>
 	 * und <i>0 &lt;= vertex2 &lt; this.getNumberOfPoints()</i>  einzuhalten;
@@ -69,7 +87,7 @@ abstract public class VgMesh
 		T3dException;
 
 	/**
-	 * Methode zum Hinzufügen eines LineSegmentes zwischen zwei Vertizes
+	 * Methode zum Hinzufï¿½gen eines LineSegmentes zwischen zwei Vertizes
 	 * Es ist stets die Bedingung <i>0 &lt;= vertex1 &lt; this.getNumberOfPoints()</i>
 	 * und <i>0 &lt;= vertex2 &lt; this.getNumberOfPoints()</i>  einzuhalten;
 	 * anderenfalls wird eine <i>T3dException</i> geworfen.

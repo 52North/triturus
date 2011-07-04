@@ -1,43 +1,67 @@
+/***************************************************************************************
+ * Copyright (C) 2011 by 52 North Initiative for Geospatial Open Source Software GmbH  *
+ *                                                                                     *
+ * Contact: Benno Schmidt & Martin May, 52 North Initiative for Geospatial Open Source *
+ * Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, Germany, info@52north.org *
+ *                                                                                     *
+ * This program is free software; you can redistribute and/or modify it under the      *
+ * terms of the GNU General Public License version 2 as published by the Free Software *
+ * Foundation.                                                                         *
+ *                                                                                     *
+ * This program is distributed WITHOUT ANY WARRANTY; even without the implied WARRANTY *
+ * OF MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public  *
+ * License for more details.                                                           *
+ *                                                                                     *
+ * You should have received a copy of the GNU General Public License along with this   *
+ * program (see gnu-gpl v2.txt). If not, write to the Free Software Foundation, Inc.,  *
+ * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA, or visit the Free Software *
+ * Foundation web page, http://www.fsf.org.                                            *
+ **************************************************************************************/
 package org.n52.v3d.triturus.vgis;
 
 import org.n52.v3d.triturus.core.T3dException;
 
 /**
- * Klasse zur Verwaltung polygonaler Geometrien ("geschlossene Polylinien" mit Flächeneigenschaft). Die Polygone müssen
- * <i>planar</i> sein.<p>
- * <b>Planarität wird z. Zt. in der Implementierung <tt>GmPlane</tt> noch nicht überpüft. Die Flächenberechnung ist nur
- * für den 2D-Fall (xy-Ebene) Ebene implementiert. Lösungsansatz: Bestimmung der zugehörigen Ebene (Klasse
- * <tt>VgPlane</tt>) durch Minimierung der Abweichung der Polygon-Vertizes von der Ebene; einfache Rechenübung!
- * -> todo</b><p>
- * @author Benno Schmidt<br>
- * (c) 2003, con terra GmbH & Institute for Geoinformatics<br>
+ * Class to manage polygonal geometries &quot;closed polylines&quot; containing an area).<br /><br />
+ * <i>German:</i> Klasse zur Verwaltung polygonaler Geometrien ("geschlossene Polylinien" mit Fl&auml;cheneigenschaft).
+ * Die Polygone m&uuml;ssen <i>planar</i> sein.<br />
+ * <i>Planarit&auml;t wird z. Zt. in der Implementierung <tt>GmPlane</tt> noch nicht &uuml;berp&uuml;ft. Die
+ * Fl&auml;chenberechnung ist nur f&uuml;r den 2D-Fall (xy-Ebene) Ebene implementiert. L&ouml;sungsansatz: Bestimmung
+ * der zugeh&ouml;rigen Ebene (Klasse <tt>VgPlane</tt>) durch Minimierung der Abweichung der Polygon-Vertizes von der
+ * Ebene; einfache Rechen&uuml;bung! -> todo</i>
+ * @author Benno Schmidt
  */
 abstract public class VgPolygon extends VgGeomObject2d 
 {
 	/**
-	 * liefert den i-ten Eckpunkt des Polygons.<p>
-	 * Hierbei ist die Bedingung 0 &lt;= i &lt; <tt>this.numberOfCorners()</tt> einzuhalten;
-	 * anderenfalls wird eine <tt>T3dException</tt> geworfen.<p>
+     * returns the polygon's i-th vertex. The constraint 0 &lt;= i &lt; <tt>this.numberOfCorners()</tt> must always
+     * hold; otherwise a <tt>T3dException</tt> will be thrown.
+     * @return vertex
 	 * @throws T3dException
 	 */
 	abstract public VgPoint getVertex(int i) throws T3dException;
 	
-	/** gibt die Anzahl der Eckpunkte des Polygons zurück. */
+	/**
+     * returns the number of vertices.
+     * @return Number of vertices
+     */
 	abstract public int numberOfVertices();
 
-	/**
-	 * liefert den Flächeninhalt des Geometrie-Objekts bezogen auf das zugrunde liegende 
-	 * räumliche Referenzsystem.<p>
-	 * Bem.: <b>Die Methode ist noch nicht getestet.</b><p>
+    /**
+     * returns the polygon area referring to the assigned coordinate reference system.<br /><br />
+     * TODO: Die Methode ist noch nicht getestet!
+     * @return Area value
 	 * @see VgGeomObject#getSRS
 	 */
 	public double area() {
+
 		return this.sumUpAreaXY()[0]; 
 	}
 
  	/**
-	 * liefert den Umfang des Polygons bezogen auf das zugrunde liegende räumliche Referenzsystem.<p>
-	 * Bem.: <b>Die Methode ist noch nicht getestet.</b><p>
+	 * returns the circumference of the polygon referring to the assigned coordinate reference system.<br /><br />
+     * TODO: Die Methode ist noch nicht getestet!
+     * @return Circumference value
 	 * @see VgGeomObject#getSRS
 	 */
 	public double circumference()

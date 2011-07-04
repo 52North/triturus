@@ -1,104 +1,124 @@
+/***************************************************************************************
+ * Copyright (C) 2011 by 52 North Initiative for Geospatial Open Source Software GmbH  *
+ *                                                                                     *
+ * Contact: Benno Schmidt & Martin May, 52 North Initiative for Geospatial Open Source *
+ * Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, Germany, info@52north.org *
+ *                                                                                     *
+ * This program is free software; you can redistribute and/or modify it under the      *
+ * terms of the GNU General Public License version 2 as published by the Free Software *
+ * Foundation.                                                                         *
+ *                                                                                     *
+ * This program is distributed WITHOUT ANY WARRANTY; even without the implied WARRANTY *
+ * OF MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public  *
+ * License for more details.                                                           *
+ *                                                                                     *
+ * You should have received a copy of the GNU General Public License along with this   *
+ * program (see gnu-gpl v2.txt). If not, write to the Free Software Foundation, Inc.,  *
+ * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA, or visit the Free Software *
+ * Foundation web page, http://www.fsf.org.                                            *
+ **************************************************************************************/
 package org.n52.v3d.triturus.vgis;
 
 /**
- * Klasse zur Verwaltung dreidimensionaler Bounding-Boxes.
- * <p>
- * x- und y-Werte sind dabei bezogen auf das eingestellte räumliche Bezugssystem (SRS) anzugeben. Die Beziehungen
- * <tt>env.getMinX() &lt;= env.getMaxX()</tt> und <tt>env.getMinY() &lt;= env.getMaxY()</tt> sind von den
- * implementierenden Klassen stets einzuhalten.
- * <p>
- * @author Benno Schmidt<br>
- * (c) 2003, con terra GmbH & Institute for Geoinformatics<br>
+ * Three-dimensional bounding-box objects. x- and y-coodinates refer to the set spatial reference system (SRS). Note
+ * that the following assertions must hold: <tt>env.getMinX() &lt;= env.getMaxX()</tt> and <tt>env.getMinY()
+ * &lt;= env.getMaxY()</tt>.
+ * <br /><br />
+ * <i>German: </i> Klasse zur Verwaltung dreidimensionaler Bounding-Boxes. x- und y-Werte sind dabei bezogen auf das
+ * eingestellte r&auml;umliche Bezugssystem (SRS) anzugeben. Die Beziehungen <tt>env.getMinX() &lt;= env.getMaxX()</tt>
+ * und <tt>env.getMinY() &lt;= env.getMaxY()</tt> sind von den implementierenden Klassen stets einzuhalten.
+ * @author Benno Schmidt
+ * @see VgGeomObject#getSRS
  */
 abstract public class VgEnvelope extends VgGeomObject3d 
 {
 	/**
-     * setzt den minimalen x-Wert der Bounding-Box.<p>
-     * @param pX x-Wert
+     * sets the bounding-box's mimimal x-coordinate.
+     * @param pX x-coordinate refering to the set spatial reference system
      */
 	abstract public void setXMin(double pX);
 
-	/**
-     * liefert den minimalen x-Wert der Bounding-Box.<p>
-     * @return x-Wert
+    /**
+     * gets the bounding-box's mimimal x-coordinate.
+     * @return x-coordinate refering to the set spatial reference system
      */
 	abstract public double getXMin();
 
-	/**
-     * setzt den maximalen x-Wert der Bounding-Box.<p>
-     * @param pX x-Wert
+    /**
+     * sets the bounding-box's maximal x-coordinate.
+     * @param pX x-coordinate refering to the set spatial reference system
      */
 	abstract public void setXMax(double pX);
 
-	/**
-     * liefert den maximalen x-Wert der Bounding-Box.<p>
-     * @return x-Wert
+    /**
+     * gets the bounding-box's maximal x-coordinate.
+     * @return x-coordinate refering to the set spatial reference system
      */
 	abstract public double getXMax();
 
-	/**
-     * setzt den minimalen y-Wert der Bounding-Box.<p>
-     * @param pY y-Wert
+    /**
+     * sets the bounding-box's mimimal y-coordinate.
+     * @param pY y-coordinate refering to the set spatial reference system
      */
 	abstract public void setYMin(double pY);
 
-	/**
-     * liefert den minimalen y-Wert der Bounding-Box.<p>
-     * @return y-Wert
+    /**
+     * gets the bounding-box's mimimal y-coordinate.
+     * @return y-coordinate refering to the set spatial reference system
      */
 	abstract public double getYMin();
 
-	/**
-     * setzt den maximalen y-Wert der Bounding-Box.<p>
-     * @param pY y-Wert
+    /**
+     * sets the bounding-box's maximal y-coordinate.
+     * @param pY y-coordinate refering to the set spatial reference system
      */
 	abstract public void setYMax(double pY);
 
-	/**
-     * liefert den maximalen y-Wert der Bounding-Box.<p>
-     * @return y-Wert
+    /**
+     * gets the bounding-box's maximal y-coordinate.
+     * @return y-coordinate refering to the set spatial reference system
      */
 	abstract public double getYMax();
 
-	/**
-     * setzt den minimalen z-Wert der Bounding-Box.<p>
-     * @param pZ z-Wert
+    /**
+     * sets the bounding-box's mimimal z-coordinate.
+     * @param pZ z-coordinate
      */
 	abstract public void setZMin(double pZ);
 
-	/**
-     * liefert den minimalen z-Wert der Bounding-Box.<p>
-     * @return z-Wert
+    /**
+     * gets the bounding-box's mimimal z-coordinate.
+     * @return z-coordinate
      */
 	abstract public double getZMin();
 
-	/**
-     * setzt den maximalen z-Wert der Bounding-Box.<p>
-     * @param pZ z-Wert
+    /**
+     * sets the bounding-box's maximal z-coordinate.
+     * @param pZ z-coordinate
      */
 	abstract public void setZMax(double pZ);
 
-	/**
-     * liefert den maximalen z-Wert der Bounding-Box.<p>
-     * @return z-Wert
+    /**
+     * gets the bounding-box's maximal z-coordinate.
+     * @return z-coordinate
      */
 	abstract public double getZMax();
 
 	/**
-     * liefert den Mittelpunkt der Bounding-Box.<p>
-     * @return Mittelpunkt
+     * gets the bounding-box's center point.
+     * @return Center point
      */
 	abstract public VgPoint getCenterPoint();
 
     /**
-     * setzt den Mittelpunkt der Bounding-Box.<p>
-     * @param pCenter neuer Mittelpunkt
+     * sets the bounding-box's center point. Note that bounding-box will be translated by this operation.
+     * @param pCenter new center point
      */
     abstract public void setCenterPoint(VgPoint pCenter);
 
     /**
-     * Verschieben der Bounding-Box.<p>
-     * @param pShift Translationsvektor
+     * translates the bounding-box.
+     * @param pShift Translation vector
      */
     public void translate(VgPoint pShift)
     {
@@ -108,9 +128,9 @@ abstract public class VgEnvelope extends VgGeomObject3d
     }
 
     /**
-     * Skalierung der Bounding-Box. Der Mittelpunkt bleibt dabei erhalten, die Ausdehnungen der Bounding-Box in x-, y-
-     * und z-Richtung werden mit dem angegebenen Wert multipliziert.<p>
-     * @param pFactor Skalierungsfaktor
+     * performs a bounding-box scaling. The center-point will not be changed, but the bounding-box's extents in x-, y-
+     * and z-direction will be multiplied by the given factor.
+     * @param pFactor Scaling factor
      */
     public void scale(double pFactor)
     {
@@ -131,11 +151,11 @@ abstract public class VgEnvelope extends VgGeomObject3d
     }
 
     /**
-     * Skalierung der Bounding-Box. Der Mittelpunkt bleibt dabei erhalten, die Ausdehnungen der Bounding-Box in x-, y-
-     * und z-richtung werden auf die angegebenen Werte gesetzt.<p>
-     * @param pExtentX neue Ausdehnung in x-Richtung
-     * @param pExtentY neue Ausdehnung in y-Richtung
-     * @param pExtentZ neue Ausdehnung in z-Richtung
+     * performs a bounding-box scaling. The center-point will not be changed. The bounding-box's extents in x-, y-
+     * and z-direction will be set to the specified values.
+     * @param pExtentX new extent in x-direction
+     * @param pExtentY new extent in y-direction
+     * @param pExtentZ new extent in z-direction
      */
     public void resize(double pExtentX, double pExtentY, double pExtentZ)
     {
@@ -150,32 +170,32 @@ abstract public class VgEnvelope extends VgGeomObject3d
     }
 
     /**
-     * liefert die Ausdehnung der Bounding-Box in x-Richtung (Breite).<p>
-     * @return Ausdehnung &gt;= 0
+     * returns the bounding-box's extent in x-direction (width resp. length).
+     * @return Extent &gt;= 0
      */
     public double getExtentX() {
         return Math.abs(this.getXMax() - this.getXMin());
     }
 
     /**
-     * liefert die Ausdehnung der Bounding-Box in y-Richtung (Länge/Tiefe).<p>
-     * @return Ausdehnung &gt;= 0
+     * returns the bounding-box's extent in y-direction (length resp. width).
+     * @return Extent &gt;= 0
      */
     public double getExtentY() {
         return Math.abs(this.getYMax() - this.getYMin());
     }
 
     /**
-     * liefert die Ausdehnung der Bounding-Box in z-Richtung (Höhe).<p>
-     * @return Ausdehnung &gt;= 0
+     * returns the bounding-box's extent in z-direction (height).
+     * @return Extent &gt;= 0
      */
     public double getExtentZ() {
         return Math.abs(this.getZMax() - this.getZMin());
     }
 
     /**
-     * Abfrage der Länge der (3D-) Diagonalen der Bounding-Box.<p>
-     * @return Länge der Diagonalen
+     * returns the length of bounding-box's diagonal in 3D space.<p>
+     * @return Diagonal length
      */
     public double diagonalLength()
     {
@@ -187,9 +207,8 @@ abstract public class VgEnvelope extends VgGeomObject3d
     }
 
 	/**
-	 * liefert das Volumen des Geometrie-Objekts bezogen auf das zugrunde liegende räumliche Referenzsystem.<p>
-     * @return Volumen
-	 * @see VgGeomObject#getSRS
+	 * returns the bounding-box's volume with respect to the assigned spatial reference system.
+     * @return Volume
 	 */
 	public double volume() 
 	{
@@ -201,9 +220,8 @@ abstract public class VgEnvelope extends VgGeomObject3d
 	}
 
 	/**
-	 * liefert die Oberfläche des Geometrie-Objekts bezogen auf das zugrunde liegende räumliche Referenzsystem.<p>
-     * @return Oberfläche
-	 * @see VgGeomObject#getSRS
+	 * returns the surface area with respect to the assigned spatial reference system.
+     * @return Surface area
 	 */
 	public double surface()
 	{
@@ -215,7 +233,9 @@ abstract public class VgEnvelope extends VgGeomObject3d
 	}
 
     /**
-     * erweitert die räumliche Ausdehnung der Bounding-Box so, dass sie den angegebenen Punkt umfasst.<p>
+     * extends the bounding-box's spatial extent such that the specified point will be not lie outside of the
+     * bounding-box.
+     * @param pPnt Point that will be element of the modified bounding-box
      */
     public void letContainPoint(VgPoint pPnt)
     {
@@ -233,19 +253,20 @@ abstract public class VgEnvelope extends VgGeomObject3d
     }
 
     /**
-     * erweitert die räumliche Ausdehnung der Bounding-Box so, dass sie die angegebene Bounding-Box umfasst
-     * (Vereinigungsoperator).<p>
+     * extends the bounding-box's spatial extent such that te specified bounding-box will be part of the
+     * bounding-box (&quot;union operator&quot;).
+     * @param pEnv Bounding-box that will be element of the modified bounding-box
      */
     abstract public void letContainEnvelope(VgEnvelope pEnv);
 
     /**
-     * Prüfung von Bounding-Box-Objekten auf geometrische Übereinstimmung.<p>
-     * @param pEnv Mit <tt>this</tt> zu vergleichende Bounding-Box.
-     * @return <i>true</i>, falls geometrische Übereinstimmung, sonst <i>false</i>.
+     * checks bounding-boxes for geometrical equivalence.<p>
+     * @param pEnv Bounding-box that has to be compared with <tt>this</tt> object
+     * @return <i>true</i>, if for geometrical equivalence, else <i>false</i>
      */
     public boolean isSpatiallyEquivalent(VgEnvelope pEnv)
     {
-        double eps = 1.0e-2; // sollte für im Metern gegebenen Koordinaten ausreichen (Zentimeter-Genauigkeit) -> todo
+        double eps = 1.0e-2; // sollte fï¿½r in Metern gegebene Koordinaten ausreichen (Zentimeter-Genauigkeit) -> todo
         return
             Math.abs(this.getXMin() - pEnv.getXMin()) < eps &&
             Math.abs(this.getXMax() - pEnv.getXMax()) < eps &&
@@ -254,12 +275,12 @@ abstract public class VgEnvelope extends VgGeomObject3d
     }
 
     /**
-     * überprüft, ob ein gegebener Punkt innerhalb der Bounding-Box liegt.<p>
-     * @param pt zu überprüfender Punkt
-     * @return <i>true</i>, falls <tt>pt</tt> auf dem Rand oder innerhalb der Bounding-Box liegt, sonst <i>false</i>.
+     * checks, if a given point lies inside the bounding-Box.
+     * @param pt Point to be checked
+     * @return <i>true</i>, if <tt>pt</tt> lies inside the bounding-box or on the border, else <i>false</i>
      */
     public boolean contains(VgPoint pt) {
-        // TODO: SRS-Überprüfung fehlt noch!
+        // TODO: SRS-ï¿½berprï¿½fung fehlt noch!
         double x = pt.getX();
         if (x < this.getXMin() || x > this.getXMax()) return false;
         double y = pt.getY();
