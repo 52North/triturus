@@ -1,121 +1,159 @@
+/***************************************************************************************
+ * Copyright (C) 2011 by 52 North Initiative for Geospatial Open Source Software GmbH  *
+ *                                                                                     *
+ * Contact: Benno Schmidt & Martin May, 52 North Initiative for Geospatial Open Source *
+ * Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, Germany, info@52north.org *
+ *                                                                                     *
+ * This program is free software; you can redistribute and/or modify it under the      *
+ * terms of the GNU General Public License version 2 as published by the Free Software *
+ * Foundation.                                                                         *
+ *                                                                                     *
+ * This program is distributed WITHOUT ANY WARRANTY; even without the implied WARRANTY *
+ * OF MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public  *
+ * License for more details.                                                           *
+ *                                                                                     *
+ * You should have received a copy of the GNU General Public License along with this   *
+ * program (see gnu-gpl v2.txt). If not, write to the Free Software Foundation, Inc.,  *
+ * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA, or visit the Free Software *
+ * Foundation web page, http://www.fsf.org.                                            *
+ **************************************************************************************/
 package org.n52.v3d.triturus.vgis;
 
 import org.n52.v3d.triturus.core.T3dException;
 
 /**
- * Abstrakte Basisklasse zur Verwaltung georeferenzierter Profile. Unter einem <i>Profil</i> wird dabei 
- * eine Linienzug-Geometrie (2D-Polylinie als <i>Definitionslinie</i>) verstanden, zu deren Lauflänge ein 
+ * Abstract base class for geo-referenced cross-sections.<br /><br />
+ * <i>German:</i> Abstrakte Basisklasse zur Verwaltung georeferenzierter Profile. Unter einem <i>Profil</i> wird dabei
+ * eine Linienzug-Geometrie (2D-Polylinie als <i>Definitionslinie</i>) verstanden, zu deren Laufl&auml;nge ein
  * Stationierungsparameter t verwaltet wird. Jedem t-Wert innerhalb des Belegungsbereichs ist dabei ein 
- * eindeutiger Wert f(t) zugeordnet.<p>
- * Bei den Werten f(t) kann es sich insbesondere um Höhenwerte handeln. Daher werden sie innerhalb des 
- * vorliegenden Rahmenwerks als z-Werte bezeichnet.<p>
+ * eindeutiger Wert f(t) zugeordnet.<br />
+ * Bei den Werten f(t) kann es sich insbesondere um H&ouml;henwerte handeln. Daher werden sie innerhalb des
+ * vorliegenden Rahmenwerks als z-Werte bezeichnet.<br />
  * Der <i>Belegungsbereich</i> bezeichnet den Bereich, in dem zu der Definitionslinie z-Werte vorliegen. 
- * Vorliegend ist dieser auf eine Intervall der Gestalt [t_min, t_max] beschränkt. Ggf. ist zu sicherzustellen, 
+ * Vorliegend ist dieser auf eine Intervall der Gestalt [t_min, t_max] beschr&auml;nkt. Ggf. ist zu sicherzustellen,
  * dass diese Beschreibungsform ausreichend ist. Der Fall unbelegter Bereiche kann z. B. dann auftreten, 
- * wenn ein Teil der Definitionslinie des Profils außerhalb eines Höhengitters liegt und somit dort keine 
- * z-Werte interpoliert werden können.<p>
- * Bem.: Es wird vorausgesetzt, dass die über die Methode <tt>getTZPair</tt> abrufbare Folge der t-z-Wertepaare 
- * bezüglich t stets monoton wächst. Die Einhaltung dieser Bedingung durch die implementierenden Klassen ist
- * stets zu gewährleisten.<p>
- * <i>TODO: Die aktuelle Modellierung unterstüztt nur die Verwaltung eines Werteverlaufs z(t) je Profil. 
- * Zukünftig könnte dies erweitert werden! -> Benno</u>
- * @author Benno Schmidt<br>
- * (c) 1992-1996, Geopro GmbH, 2004 con terra GmbH<br>
+ * wenn ein Teil der Definitionslinie des Profils au&szlig;erhalb eines H&ouml;hengitters liegt und somit dort keine
+ * z-Werte interpoliert werden k&ouml;nnen.<br />
+ * Bem.: Es wird vorausgesetzt, dass die &uuml;ber die Methode <tt>getTZPair</tt> abrufbare Folge der t-z-Wertepaare
+ * bezï¿½glich t stets monoton w&auml;chst. Die Einhaltung dieser Bedingung durch die implementierenden Klassen ist
+ * stets zu gew&auml;hrleisten.<br />
+ * <i>TODO: Die aktuelle Modellierung unterstï¿½zt nur die Verwaltung eines Werteverlaufs z(t) je Profil. Zukï¿½nftig kï¿½nnte
+ * dies erweitert werden! -> Benno</i>
+ * @author Benno Schmidt
  */
 abstract public class VgProfile extends VgFeature 
 {
     private VgLineString mGeom = null; // Modellierung von VgProfile als VgLineString-Dekorierer
 
     /**
-     * setzt die Definitionslinie des Profils.<p>
-     * Bem.: Die z-Werte dieser Geometrie sind ohne Bedeutung.<p>
-     * @param pGeom <tt>VgLineString</tt>-Objekt
+     * sets the base-line.<br /><br />
+     * <i>German:</i> setzt die Definitionslinie des Profils.<br />
+     * Bem.: Die z-Werte dieser Geometrie sind ohne Bedeutung.
+     * @param pGeom <tt>VgLineString</tt> object
      */
     public void setGeometry(VgLineString pGeom) {
     	mGeom = pGeom;
     }
     
     /** 
-     * liefert die Definitionslinie des Profils.<p>
-     * @return <tt>VgLineString</tt>-Objekt
+     * returns the base-line.<br /><br />
+     * <i>German:</i> liefert die Definitionslinie des Profils.
+     * @return <tt>VgLineString</tt> object
      */
     public VgGeomObject getGeometry() {
     	return mGeom; 
     }  
 
     /**
-     * liefert die Anzahl der Stationsstellen des Profils, zu denen z(t)-Werte vorhanden sind.<p>
-     * @return Anzahl der Stützstellen
+     * returns the number of position vertices.<br /><br />
+     * <i>German:</i> liefert die Anzahl der Stationsstellen des Profils, zu denen z(t)-Werte vorhanden sind.
+     * @return Number of position vertices
      */
     abstract public int numberOfTZPairs();
     
     /**
-     * liefert die Werte der i-ten Stationsstelle des Profils. Das erste Element des Ergebnisfeldes enthält die 
-     * Stationierung t, das zweite Element den zugehörigen z-Wert.<p>
-     * Die Folge der t-z-Wertepaare wächst bezüglich t stets monoton, d. h. für alle i gilt stets 
-     * <i>getTZPair(i)[i] &lt;= getTZPair(i)[i + 1] </i>.<p>
+     * returns the values of the i-th position point. The first element of the result array holds the position t, the
+     * second element the corresponding z-value.<br /><br />
+     * <i>German:</> liefert die Werte der i-ten Stationsstelle des Profils. Das erste Element des Ergebnisfeldes
+     * enth&auml;lt die Stationierung t, das zweite Element den zugeh&ouml;rigen z-Wert.<p>
+     * Die Folge der t-z-Wertepaare w&auml;chst bez&uuml;glich t stets monoton, d. h. f&uuml;r alle i gilt stets
+     * <i>getTZPair(i)[i] &lt;= getTZPair(i)[i + 1] </i>.<br />
      * Es ist die Bedingung <i>0 &lt;= i &lt; this.numberOfTZPairs()</i> einzuhalten; anderenfalls wird eine
-     * <tt>T3dException</tt> geworfen.<p>
-     * @param i Stützpunkt-Index
-     * @return zweielementiges Feld mit Werten für t und z(t)
+     * <tt>T3dException</tt> geworfen.
+     * @param i Vertex index
+     * @return Array with two element containing the values for t and z(t)
      * @throws T3dException
      */
     abstract public double[] getTZPair(int i) throws T3dException;
 
     /**
-     * liefert den Wert des Stationierungsparameters t für den Startpunkt der Definitionslinie des Profils.<p>
-     * @return t-Wert, hier = 0
+     * returns the value of the position parameter t for the start-point of the base-line.<br /><br />
+     * <i>German:</> liefert den Wert des Stationierungsparameters t f&uuml;r den Startpunkt der Definitionslinie des
+     * Profils.
+     * @return t-value, here = 0
      */
     public double tStart() {
         return 0.;
     }
 
     /**
-     * liefert den Wert des Stationierungsparameters t für den Endpunkt der Definitionslinie des Profils.<p>
-     * @return Länge der Definitionslinie
+     * returns the value of the position parameter t for the end-point of the base-line.<br /><br />
+     * <i>German:</> liefert den Wert des Stationierungsparameters t f&uuml;r den Endpunkt der Definitionslinie des
+     * Profils. Zur&uuml;ckgegeben wird also die L&auml;nge der Definitionslinie.
+     * @return Base-line length
      */
     public double tEnd() {
     	return mGeom.length();
     }
 
     /**
-     * liefert den Wert des Stationierungsparameters t für den Anfang des Belegungsbereichs des Profils.<p>
-     * @return t-Wert &gt;= 0
+     * returns the value of the position parameter t for the begin of the base-line section that is providing
+     * z-values.<br /><br />
+     * <i>German:</> liefert den Wert des Stationierungsparameters t f&uuml;r den Anfang des Belegungsbereichs des
+     * Profils.
+     * @return t-value &gt;= 0
      */
     abstract public double tMin();
 
     /**
-     * liefert den Wert des Stationierungsparameters t das Ende des Belegungsbereichs des Profils.<p>
-     * @return t-Wert &lt;= <tt>this.tEnd()</tt>
+     * returns the value of the position parameter t for the end of the base-line section that is providing
+     * z-values.<br /><br />
+     * <i>German:</> liefert den Wert des Stationierungsparameters t f&uuml;r das Ende des Belegungsbereichs des
+     * Profils.
+     * @return t-value &lt;= <tt>this.tEnd()</tt>
      */
     abstract public double tMax();
 
     /**
-     * liefert den minimalen z-Wert des Profils.<p>
-     * @return Minimum aller z(t)
+     * returns the cross-section's minimal z-value.<br /><br />
+     * <i>German:</> liefert den minimalen z-Wert des Profils.
+     * @return Minimum of all z(t)
      */
     abstract public double zMin();
 
     /**
-     * liefert den maximalen z-Wert des Profils.<p>
-     * @return Maximum aller z(t)
+     * returns the cross-section's maximal z-value.<br /><br />
+     * <i>German:</> liefert den maximalen z-Wert des Profils.
+     * @return Maximum of all z(t)
      */
     abstract public double zMax();
     
-    /** 
-     * Methode aus der <tt>VgFeature</tt>-Schnittstelle. Da das Profil ein atomares Geoobjekt ist, liefert
-     * diese Methode stets <i>false</i> als Ergebnis.<p>
+    /**
+     * always returns <i>false</i>, since a cross-section describes no collection of features.<br /><br />
+     * <i>German:</> Methode aus der <tt>VgFeature</tt>-Schnittstelle. Da das Profil ein atomares Geoobjekt ist, liefert
+     * diese Methode stets <i>false</i> als Ergebnis.
      * @return <i>false</i>
      */
     public boolean isCollection() {
         return false;
     }
 
-    /** 
-     * Methode aus der <tt>VgFeature</tt>-Schnittstelle.<p>
-     * @param i (hier stets 0)
-     * @return Profil-Objekt selbst
-     * @throws org.n52.v3d.triturus.core.T3dException
+    /**
+     * return the cross-section object itself.<br /><br />
+     * <i>German:</> Methode aus der <tt>VgFeature</tt>-Schnittstelle.
+     * @param i (here always 0)
+     * @return Cross-section object itself
+     * @throws T3dException
      */ 
     public VgFeature getFeature(int i) throws T3dException
     {
@@ -125,9 +163,10 @@ abstract public class VgProfile extends VgFeature
         return this;
     }
     
-    /** 
-     * Methode aus der <tt>VgFeature</tt>-Schnittstelle. Da das Profil ein atomares Geoobjekt ist, liefert
-     * diese Methode stets 1 als Ergebnis.<p>
+    /**
+     * always returns 1 as resuilt, since a cross-section describes no collection of features.<br /><br />
+     * <i>German:</> Methode aus der <tt>VgFeature</tt>-Schnittstelle. Da das Profil ein atomares Geoobjekt ist, liefert
+     * diese Methode stets 1 als Ergebnis.
      * @return 1
      */
     public int numberOfSubFeatures() {

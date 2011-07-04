@@ -1,39 +1,56 @@
+/***************************************************************************************
+ * Copyright (C) 2011 by 52 North Initiative for Geospatial Open Source Software GmbH  *
+ *                                                                                     *
+ * Contact: Benno Schmidt & Martin May, 52 North Initiative for Geospatial Open Source *
+ * Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, Germany, info@52north.org *
+ *                                                                                     *
+ * This program is free software; you can redistribute and/or modify it under the      *
+ * terms of the GNU General Public License version 2 as published by the Free Software *
+ * Foundation.                                                                         *
+ *                                                                                     *
+ * This program is distributed WITHOUT ANY WARRANTY; even without the implied WARRANTY *
+ * OF MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public  *
+ * License for more details.                                                           *
+ *                                                                                     *
+ * You should have received a copy of the GNU General Public License along with this   *
+ * program (see gnu-gpl v2.txt). If not, write to the Free Software Foundation, Inc.,  *
+ * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA, or visit the Free Software *
+ * Foundation web page, http://www.fsf.org.                                            *
+ **************************************************************************************/
 package org.n52.v3d.triturus.vgis;
 
 import org.n52.v3d.triturus.t3dutil.T3dVector;
 import org.n52.v3d.triturus.core.T3dException;
 
 /**
- * Klasse zur Verwaltung eines (beliebig im Raum orientierten) Dreiecks.<p>
- * @author Benno Schmidt<br>
- * (c) 2003-2004, con terra GmbH & Institute for Geoinformatics<br>
+ * Class to hold a triangle that might be arbitrarily oriented in 3-D space.
+ * @author Benno Schmidt
  */
 abstract public class VgTriangle extends VgGeomObject2d 
 {
 	/** 
-	 * setzt die Eckpunkte des Dreiecks.<p> 
+	 * sets the triangle's corner-points.
 	 */
 	abstract public void setCornerPoints(VgPoint pCorner1, VgPoint pCorner2, VgPoint pCorner3);
 
 	/** 
      * @deprecated
-	 * liefert die Eckpunkte des Dreiecks.<p>
 	 * <i>TODO: Methode funktioniert in Implementierung gisimplm noch nicht richtig...</i><p>
 	 */
 	abstract public void getCornerPoints(VgPoint pCorner1, VgPoint pCorner2, VgPoint pCorner3);
     
     /** 
-     * liefert die Eckpunkte des Dreiecks.<p>
-     * @return dreielementiges Array mit Eckpunktn
+     * returns the triangle's corner-points.
+     * @return Array consisting of three elements holding the corner-points
      */
     abstract public VgPoint[] getCornerPoints();
 
 	/**
-	 * liefert den Flächeninhalt des definierten Dreiecks Objekts bezogen auf das zugrunde liegende räumliche
-     * Referenzsystem.<p>
+     * returns the triangle area referring to the assigned coordinate reference system.
+     * @return Area value
 	 * @see VgGeomObject#getSRS
 	 */
-	public double area() 
+    public double area()
 	{
 		VgPoint p1 = null, p2 = null, p3 = null;
 		this.getCornerPoints(p1, p2, p3);
@@ -47,10 +64,11 @@ abstract public class VgTriangle extends VgGeomObject2d
 	}
 
 	/**
-	 * liefert den Umfang des Dreiecks bezogen auf das zugrunde liegende räumliche Referenzsystem.<p>
+     * returns the triangle's circumference referring to the assigned coordinate reference system.
+     * @return Area value
 	 * @see VgGeomObject#getSRS
 	 */
-	public double circumference()
+    public double circumference()
 	{
 		VgPoint p1 = null, p2 = null, p3 = null;
 		this.getCornerPoints(p1, p2, p3);
@@ -62,10 +80,14 @@ abstract public class VgTriangle extends VgGeomObject2d
 	}
 	
 	/**
-	 * interpoliert auf Grundlage des Dreiecks den z-Wert an der Stelle <tt>pt</tt>. Die Methode liefert auch dann
-	 * ein Resultat, wenn er angegebene Punkt außerhalb des Dreiecks liegt (Extrapolation). Im Bedarfsfall ist zuvor
-	 * mittels <tt>this.isInside()</tt> zu prüfen, ob der Punkt innerhalb des Dreiecks liegt.<p>
-	 * Bem.: Die z-Koordinate von <tt>pt</tt> kann auf einen Dummy-Wert gesetzt sein.<p>
+     * performs z-value interpolation.<p>
+	 * <i>German:</i> interpoliert auf Grundlage des Dreiecks den z-Wert an der Stelle <tt>pt</tt>. Die Methode liefert
+     * auch dann ein Resultat, wenn er angegebene Punkt au&szlig;erhalb des Dreiecks liegt (Extrapolation). Im
+     * Bedarfsfall ist zuvor mittels <tt>this.isInside()</tt> zu pr&uuml;fen, ob der Punkt innerhalb des Dreiecks
+     * liegt.<p>
+	 * Bem.: Die z-Koordinate von <tt>pt</tt> kann auf einen Dummy-Wert gesetzt sein.
+     * @param pt
+     * @return
 	 * @see VgTriangle#isInsideXY
 	 */
 	public double interpolateZ(VgPoint pt) 
@@ -80,7 +102,7 @@ abstract public class VgTriangle extends VgGeomObject2d
         T3dVector dir1 = new T3dVector();
         dir1.assignDiff(t[1], t[2]);
 
-        // Lösung der Ebenengleichung t[2] + s0 * (t[0]-t[2]) + s1 * (t[1]-t[2]) = 0 mit Cramerscher Regel:
+        // Lï¿½sung der Ebenengleichung t[2] + s0 * (t[0]-t[2]) + s1 * (t[1]-t[2]) = 0 mit Cramerscher Regel:
 
         double detNum =
             - dir0.getX() * dir1.getY() * t[2].getZ()
@@ -105,12 +127,16 @@ abstract public class VgTriangle extends VgGeomObject2d
 	}
 
 	/**
-	 * prüft, ob die Stelle <tt>pt</tt> innerhalb des Dreiecks liegt. Wird in <tt>pEdge</tt> der Wert <i>true</i> 
-	 * angegeben, so liefert die Methode auch dann <i>true</i> als Resultat, wenn <tt>p</tt> auf einer der Dreiecksseiten 
-	 * liegt.<p>
+     * checks, if <tt>pt</tt> is inside the triangle.<p>
+	 * <i>German:</i> pr&uml;ft, ob die Stelle <tt>pt</tt> innerhalb des Dreiecks liegt. Wird in <tt>pEdge</tt> der Wert
+     * <i>true</i> angegeben, so liefert die Methode auch dann <i>true</i> als Resultat, wenn <tt>p</tt> auf einer der
+     * Dreiecksseiten liegt.<p>
 	 * Bem.: Die z-Koordinate von <tt>pt</tt> kann auf einen Dummy-Wert gesetzt sein, da die Berechnung in der x-Ebene
-	 * erfolgt.<p>
-	 * <b>TODO: Methode ist noch nicht getestet (von C++ portiert...)
+	 * erfolgt.
+	 * <b>TODO: Methode ist noch nicht getestet (von C++ portiert...)</b>
+     * @param pt
+     * @param pEdge
+     * @return
 	 */
 	public boolean isInsideXY(VgPoint pt, boolean pEdge)
     {
@@ -136,7 +162,7 @@ abstract public class VgTriangle extends VgGeomObject2d
 
         // pt liegt im echt Dreieck, wenn 0 < s0 + s1 < 1:
         if (s0 < 0. || s0 < 0. || s0 > 1. || s0 > 1.)
-            return false; // Pkt. außerhalb Parallelogramm
+            return false; // Pkt. auï¿½erhalb Parallelogramm
         if (s0 + s1 < 1.)
             return true; // Pkt. echt in Dreieck
         if (s0 + s1 == 1. && pEdge)
@@ -145,7 +171,6 @@ abstract public class VgTriangle extends VgGeomObject2d
 	}
 	
 	public String toString() {
-		VgPoint p1 = null, p2 = null, p3 = null;
 		VgPoint x[] = this.getCornerPoints();
 		return "[" + x[0].toString() + ", " + x[1].toString() + ", " + x[2].toString() + "]";
 	}

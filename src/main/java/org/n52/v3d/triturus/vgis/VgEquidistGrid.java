@@ -1,64 +1,96 @@
+/***************************************************************************************
+ * Copyright (C) 2011 by 52 North Initiative for Geospatial Open Source Software GmbH  *
+ *                                                                                     *
+ * Contact: Benno Schmidt & Martin May, 52 North Initiative for Geospatial Open Source *
+ * Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, Germany, info@52north.org *
+ *                                                                                     *
+ * This program is free software; you can redistribute and/or modify it under the      *
+ * terms of the GNU General Public License version 2 as published by the Free Software *
+ * Foundation.                                                                         *
+ *                                                                                     *
+ * This program is distributed WITHOUT ANY WARRANTY; even without the implied WARRANTY *
+ * OF MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public  *
+ * License for more details.                                                           *
+ *                                                                                     *
+ * You should have received a copy of the GNU General Public License along with this   *
+ * program (see gnu-gpl v2.txt). If not, write to the Free Software Foundation, Inc.,  *
+ * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA, or visit the Free Software *
+ * Foundation web page, http://www.fsf.org.                                            *
+ **************************************************************************************/
 package org.n52.v3d.triturus.vgis;
 
 import org.n52.v3d.triturus.t3dutil.T3dVector;
 import org.n52.v3d.triturus.core.T3dException;
 
 /**
- * Klasse zur Verwaltung äquidistanter, beliebig in der xy-Ebene orientierter Gittergeometrien.<p>
- * <tt>VgEquidistGrid</tt>-Objekte sind keine <tt>VgGeomObject2d</tt>-Objekte, da die zugehörige Interpretation
- * fehlt. Eine interpretierbare, konkrete Realisierung ist z. B. die im Paket "gisimplm" implementierte Klasse
- * <tt>GmSimple2dGridGeometry</tt>.<p>
+ * Class to manage equidistant grid geometries that be oriented arbitrarily inside the x-y plane.<br /><br />
+ * <i>German:</i> Klasse zur Verwaltung &auml;quidistanter, beliebig in der xy-Ebene orientierter Gittergeometrien.
+ * <tt>VgEquidistGrid</tt>-Objekte sind keine <tt>VgGeomObject2d</tt>-Objekte, da die zugeh&ouml;rige Interpretation
+ * fehlt. Eine interpretierbare, konkrete Realisierung ist z. B. die im Paket &quot;gisimplm&quot; implementierte Klasse
+ * <tt>GmSimple2dGridGeometry</tt>.
+ * @author Benno Schmidt
  * @see org.n52.v3d.triturus.gisimplm.GmSimple2dGridGeometry
- * @author Benno Schmidt<br>
- * (c) 2003, con terra GmbH & Institute for Geoinformatics<br>
  */
 abstract public class VgEquidistGrid extends VgGeomObject
 {
-	/** liefert die Anzahl der Zeilen des Gitters (erste Gitterachse).<p> */
+    /**
+     * returns the grid's number of rows (first grid axis).
+     */
 	abstract public int numberOfRows();
 
-	/** liefert die Anzahl der Spalten des Gitters (zweite Gitterachse).<p> */
+    /**
+     * returns the grid's number of columns (second grid axis).
+     */
 	abstract public int numberOfColumns();
 
-	/** liefert den Richtungsvektor der ersten Gitterachse (Zeilenrichtung).<p> */
+    /**
+     * returns the direction vector of the grid's first axis (row direction).
+     */
 	abstract public T3dVector getDirectionColumns();
 
-	/** liefert den Richtungsvektor der zweiten Gitterachse (Spaltenrichtung).<p> */
+    /**
+     * returns the direction vector of the grid's second  axis (column direction).
+     */
 	abstract public T3dVector getDirectionRows();
 
 	/** 
 	 * @deprecated
 	 * @see VgEquidistGrid#getCellSizeRows
 	 * @see VgEquidistGrid#getCellSizeColumns
-	 * liefert die Gitterweiten für die Achsen in <tt>pDeltaRows</tt> und <tt>pDeltaColumns</tt>.<p> 
-     * @param pDeltaRows Gitterweite in Richtung der 1. Achse (Zeilen)
-     * @param pDeltaColumns Gitterweite in Richtung der 2. Achse (Spalten)
+	 * <i>German:</i> liefert die Gitterweiten f&uuml;r die Achsen in <tt>pDeltaRows</tt> und <tt>pDeltaColumns</tt>.
+     * @param pDeltaRows Cell-width in direction of the first axis (rows)
+     * @param pDeltaColumns Cell-width in direction of the second axis (columns)
 	 */
 	abstract public void getDelta(Double pDeltaRows, Double pDeltaColumns);
 
 	/** 
-	 * liefert den Gitter-Abstand für die Gitter-Zeilen.<p>
-	 * @return Gitter-Abstand bezogen auf das zugrunde liegende SRS
+	 * returns the cell width of the grid's rows.
+	 * @return Cell-width with respect to the assigned coordinate reference system
+     * @see VgGeomObject2d#setSRS(String)
 	 */
 	abstract public double getCellSizeRows();
 
 	/** 
-	 * liefert den Gitter-Abstand für die Gitter-Spalten.<p>
-	 * @return Gitter-Abstand bezogen auf das zugrunde liegende SRS
+     * returns the cell width of the grid's columns.
+     * @return Cell-width with respect to the assigned coordinate reference system
+     * @see VgGeomObject2d#setSRS(String)
 	 */
 	abstract public double getCellSizeColumns();
 
-	/** liefert den Ursprungspunkt des Gitters. */
+    /**
+     * return the grid's origin point.
+     */
 	abstract public VgPoint getOrigin();
 
-	/**
-	 * liefert die Koordinate für das Gitterelement mit den angegebenen Indizes.<p>
-	 * Es sind die Bedingungen 0 &lt;= i &lt; <tt>this.getNoOfRows()</tt>, 0 &lt;= j &lt; <tt>this.getNoOfColumns()</tt>
-	 * einzuhalten; anderenfalls wird eine <tt>T3dException</tt> geworfen.<p>
-	 * @param i Index der Gitterzeile
-	 * @param j Index der Gitterspalte
-	 * @return Vertex mit x- und y-Koordinate (z undefiniert)
-	 */
+    /**
+     * returns the coordinate of the grid-element with the given indices.<br />
+     * The assertions <i>0 &lt;= i &lt; this.numberOfRows(), 0 &lt;= j &lt; this.numberOfColumns()</i> must hold,
+     * otherwise a <i>T3dException</i> will be thrown.
+     * @param i Index of grid row
+     * @param j Index of grid column
+     * @return Vertex consisting of x- and y-coordinate (with z undefined)
+     * @throws T3dException
+     */
 	abstract public VgPoint getVertexCoordinate(int i, int j) throws T3dException;
 
 	public String toString() {
