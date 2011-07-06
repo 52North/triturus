@@ -1,3 +1,22 @@
+/***************************************************************************************
+ * Copyright (C) 2011 by 52 North Initiative for Geospatial Open Source Software GmbH  *
+ *                                                                                     *
+ * Contact: Benno Schmidt & Martin May, 52 North Initiative for Geospatial Open Source *
+ * Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, Germany, info@52north.org *
+ *                                                                                     *
+ * This program is free software; you can redistribute and/or modify it under the      *
+ * terms of the GNU General Public License version 2 as published by the Free Software *
+ * Foundation.                                                                         *
+ *                                                                                     *
+ * This program is distributed WITHOUT ANY WARRANTY; even without the implied WARRANTY *
+ * OF MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public  *
+ * License for more details.                                                           *
+ *                                                                                     *
+ * You should have received a copy of the GNU General Public License along with this   *
+ * program (see gnu-gpl v2.txt). If not, write to the Free Software Foundation, Inc.,  *
+ * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA, or visit the Free Software *
+ * Foundation web page, http://www.fsf.org.                                            *
+ **************************************************************************************/
 package org.n52.v3d.triturus.gisimplm;
 
 import org.n52.v3d.triturus.t3dutil.T3dColor;
@@ -8,30 +27,30 @@ import org.n52.v3d.triturus.vgis.VgGeomObject;
 import java.io.*;
 import java.util.ArrayList;
 
-/** 
- * Einlesen von Geometrien über DXF. Die CAD-Objekte werden in <tt>VgAttrFeature</tt>-Objekte umgesetzt, in denen die
- * Information über AutoCAD-Layer und -Farbe in thematischen Attributen abgelegt ist.<p>
- * Bem.: Weitere AutoCAD-Attribute wie Linientypen, Textstile, Extrudierungshöhen etc. werden (noch!) nicht
- * berücksichtigt. Die <tt>IoDXFReader</tt>-Klasse ist nur rudimentär implementiert; es werden <b>nicht alle
- * AutoCAD-Entity-Typen unterstützt</b>, sondern nur ausgewählte einfache Geometrien wie z. B. POLYLINE (ausgenommen
- * Netz-ähnliche Strukturen) und 3DFACE. Blöcke (INSERTs) werden in attributierte Punktgeometrien transformiert. Die
- * nachfolgende Tabelle gibt einen Überblick, auf welche Art und Weise jeweils die konkrete Umsetzung erfolgt. Diese
- * Umsetzungsregeln sind beim DXF-Import aus CAD-Systemen zu beachten.<p>
+/**
+ * @deprecated
+ * <i>German:</i> Einlesen von Geometrien &uuml;ber DXF. Die CAD-Objekte werden in <tt>VgAttrFeature</tt>-Objekte
+ * umgesetzt, in denen die Information &uuml;ber AutoCAD-Layer und -Farbe in thematischen Attributen abgelegt ist.<br />
+ * Bem.: Weitere AutoCAD-Attribute wie Linientypen, Textstile, Extrudierungsh&ouml;hen etc. werden (noch!) nicht
+ * ber&uuml;cksichtigt. Die <tt>IoDXFReader</tt>-Klasse ist nur rudiment&auml;r implementiert; es werden <b>nicht alle
+ * AutoCAD-Entity-Typen unterst&uuml;tzt</b>, sondern nur ausgew&auml;hlte einfache Geometrien wie z. B. POLYLINE
+ * (ausgenommen Netz-&auml;hnliche Strukturen) und 3DFACE. Bl&ouml;cke (INSERTs) werden in attributierte Punktgeometrien
+ * transformiert. Die nachfolgende Tabelle gibt einen &Uuml;berblick, auf welche Art und Weise jeweils die konkrete
+ * Umsetzung erfolgt. Diese Umsetzungsregeln sind beim DXF-Import aus CAD-Systemen zu beachten.<br />
  * <table border="1">
  * <tr><td><i>AutoCAD-Entity-Typ</i></td><td><i>Terra3d VGis-Geometrie</i></td><td><tt>VgAttrFeature</tt>-Attribute</d></tr>
- * <tr><td>für alle untengenannten Typen:</td><td><tt>(VgGeomObject)</tt></td><td>Layer, Farbe (falls ungleich VONLAYER), eindeutige Referenz (falls vorhanden), AutoCAD-Entity-Typ</td></tr>
+ * <tr><td>f&uuml;r alle untengenannten Typen:</td><td><tt>(VgGeomObject)</tt></td><td>Layer, Farbe (falls ungleich VONLAYER), eindeutige Referenz (falls vorhanden), AutoCAD-Entity-Typ</td></tr>
  * <tr><td>POINT</td><td><tt>VgPoint</tt></td><td>-</td></tr>
  * <tr><td>LINE</td><td><tt>VgLineSegment</tt></td><td>-</td></tr>
  * <tr><td>POLYLINE</td><td><tt>VgLineString</tt> (offene Polylinien), <i>VgPolygon</i> (geschlossene Polylinien)</td><td>Polylinien-Typinformation (Gruppencode 70)</td></tr>
  * <tr><td>VERTEX und SEQEND</td><td>siehe POLYLINE</td><td>-</td></tr>
  * <tr><td>CIRCLE</td><td><tt>VgPoint</tt></td><td>Radius</td></tr>
  * <tr><td>INSERT</td><td><tt>VgPoint</tt></td><td>Blockname</td></tr>
- * <tr><td>3DFACE</td><td><tt>VgTriangle</tt></td><td>Information über unsichtbare Kanten</td></tr>
- * <tr><td>TEXT</td><td><tt>VgPoint</tt></td><td>Textinhalt, Texthöhe in Zeichnungseinheiten</td></tr>
- * <tr><td>nicht aufgeführte Typen:</td><td><i>-</i></td><td>-</td></tr>
+ * <tr><td>3DFACE</td><td><tt>VgTriangle</tt></td><td>Information ï¿½ber unsichtbare Kanten</td></tr>
+ * <tr><td>TEXT</td><td><tt>VgPoint</tt></td><td>Textinhalt, Texthï¿½he in Zeichnungseinheiten</td></tr>
+ * <tr><td>nicht aufgef&uuml;hrte Typen:</td><td><i>-</i></td><td>-</td></tr>
  * </table>
- * @author Benno Schmidt<br>
- * (c) 1996-1997, b+s software Ostbevern<br>
+ * @author Benno Schmidt
  * @see IoDXFReader.DxfEntity
  * @see IoDXFReader.DxfColor
  */
@@ -39,21 +58,20 @@ public class IoDXFReader extends IoObject
 {
     private String mLogString = "";
 
-    /** Konstruktor. */
     public IoDXFReader() {
         mLogString = this.getClass().getName();
     }
 
-    /** protokolliert die durchgeführte Transformation. */
     public String log() {
         return mLogString;
     }
 
     /**
-     * liest DXF-Objekte aus einer Datei ein und liefert entsprechende <tt>VgAttrFeature</tt>-Objekte.<p>
-     * @param pFilename Pfad, unter dem die Datei abgelegt ist.
-     * @return Ergebnisliste mit angehängten <tt>VgAttrFeature</tt>-Objekten
-     * @throws org.n52.v3d.triturus.core.T3dException
+     * reads DXF-entities fron a file and delivers (some) corresponding <tt>VgAttrFeature</tt>-objects.<br /><br />
+     * <i>German:</i> liest DXF-Objekte aus einer Datei ein und liefert entsprechende <tt>VgAttrFeature</tt>-Objekte.
+     * @param pFilename Pfad, unter dem die Datei abgelegt ist
+     * @return Ergebnisliste mit angeh&auml;ngten <tt>VgAttrFeature</tt>-Objekten
+     * @throws T3dException
      */
     public ArrayList readEntitiesFromFile(String pFilename) throws T3dException
     {
@@ -94,7 +112,7 @@ public class IoDXFReader extends IoObject
                     if (!(gc == 2 && purgedToken.toString().equalsIgnoreCase("ENTITIES"))) {
                         eof = getGCAndVal(lDatRead, gcBuf, rawToken);
                         lineNumber += 2;                
-                        continue; // bis zur ENTITIES-Sektion überlesen
+                        continue; // bis zur ENTITIES-Sektion ï¿½berlesen
                     } else
                         lFoundEntSect = true;
                 }
@@ -147,7 +165,7 @@ public class IoDXFReader extends IoObject
 
     private boolean getGCAndVal(BufferedReader pDatRead, StringBuffer pOutGC, StringBuffer pOutToken)
         throws T3dException
-        // gibt Gruppencode und aus DXF-Datei gelesenen Wert (Token) zurück
+        // gibt Gruppencode und aus DXF-Datei gelesenen Wert (Token) zurï¿½ck
     {
         String lStr;
 
@@ -210,7 +228,7 @@ public class IoDXFReader extends IoObject
     }
 
     /** 
-     * Innere Klasse zur Haltung von DXF-Entitys.<p>
+     * Inner class to hold DXF entities.
      */
     public class DxfEntity
     {
@@ -254,13 +272,13 @@ public class IoDXFReader extends IoObject
             mClu[40] = j++; // Radius
             mClu[62] = j++; // Farbnummer
             mClu[66] = j++; // Vertices-follow-Flag (POLYLINE)
-            mClu[70] = j++; // Polylinen-Flag (POLYLINE; z. B. ist Bit 0 gesetzt für geschlossene Polylinen)
+            mClu[70] = j++; // Polylinen-Flag (POLYLINE; z. B. ist Bit 0 gesetzt fï¿½r geschlossene Polylinen)
             mGCArrLen = j;
             mGC = new String[mGCArrLen];
             this.clear();
         }
 
-        /** setzt Entity-Daten zurück.<p> */
+        /** setzt Entity-Daten zur&uuml;ck. */
         public void clear() {
             for (int i = 0; i < mGCArrLen; i++)
                 mGC[i] = "";
@@ -271,7 +289,7 @@ public class IoDXFReader extends IoObject
             mPolylineIsComplete = false;
         }
 
-        /** setzt Wert für angegebenen Gruppencoorg.n52.v3d.<p> */
+        /** setzt Wert f&uuml;r angegebenen Gruppencode. */
         public void set(int pGC, String pVal) 
         {
             // System.out.println("set: " + pGC + ", " + pVal);
@@ -297,15 +315,15 @@ public class IoDXFReader extends IoObject
             }
         }
 
-        /** liefert Wert für angegebenen Gruppencoorg.n52.v3d.<p> */
+        /** liefert Wert f&uuml;r angegebenen Gruppencoorg.n52.v3d. */
         public String get(int pGC) {
             return mGC[ mClu[ pGC ] ];
         }
 
         /** 
-         * fügt der Entity einen Vertex hinzu. Sobald der Entity ein Vertex hinzugefügt worden ist, werden nachfolgende
-         * <tt>this.set()</tt>-Aufrufe außer für die Gruppencodes 10, 20 und 30 (Vertex-Koordinaten) bis zum nächsten
-         * <tt>this.clear()</tt> ignoriert.<p>
+         * f&uuml;gt der Entity einen Vertex hinzu. Sobald der Entity ein Vertex hinzugefï¿½gt worden ist, werden
+         * nachfolgende <tt>this.set()</tt>-Aufrufe au&szlig;er f&uuml;r die Gruppencodes 10, 20 und 30
+         * (Vertex-Koordinaten) bis zum n&auml;chsten <tt>this.clear()</tt> ignoriert.
          */
         public void addVertex() {
             mHasVertices = true;
@@ -313,18 +331,18 @@ public class IoDXFReader extends IoObject
             mVertices.add(new GmPoint(0., 0., 0.));
         }
 
-        /** schließt die Vertex-Eingabe für POLYLINE-Entitys ab.<p> */
+        /** schlie&szlig;t die Vertex-Eingabe f&uuml;r POLYLINE-Entitys ab. */
         public void completePolyline() {
             if (mHasVertices)
                 mPolylineIsComplete = true;
         }
 
-        /** liefert Information, ob für Entity bereits Daten gesetzt.<p> */
+        /** liefert Information, ob f&uuml;r Entity bereits Daten gesetzt. */
         public boolean isEmpty() {
             return mIsEmpty;
         }
 
-        /** liefert Information, ob Wert für Gruppencode bereits gesetzt.<p> */
+        /** liefert Information, ob Wert f&uuml;r Gruppencode bereits gesetzt. */
         public boolean isSet(int pGC) {
             if (mGC[ mClu[ pGC ] ].length() == 0)
                 return false;
@@ -341,7 +359,7 @@ public class IoDXFReader extends IoObject
         }
     
         /**
-         * erzeugt ein <tt>GmAttrFeature</tt>, in dem die Information der DXF-Entity abgelegt ist.<p>
+         * erzeugt ein <tt>GmAttrFeature</tt>, in dem die Information der DXF-Entity abgelegt ist.
          * @return <tt>GmAttrFeature-Objekt</tt> oder <i>null</i>
          */
         public GmAttrFeature generateGmAttrFeature() 
@@ -560,23 +578,21 @@ public class IoDXFReader extends IoObject
     }
     
     /** 
-     * Innere Klasse zur Handhabung der AutoCAD-Standardfarben.<p>
+     * Inner class to handle AutoCAD standard colors.>
      */
     public class DxfColor
     {
     	private int mCol = 7;
     	
-    	/** Konstruktor.<p> */
     	public DxfColor() {
     	}
     	
-    	/** Konstruktor.<p> */
     	public DxfColor( int pAcadColorNumber ) {
             mCol = pAcadColorNumber;
     	}
     	
     	/**
-    	 * setzt die für das aktuelle <tt>DxfColor</tt>-Objekt gesetzte Farbe in einen sprechenden Text um.<p>
+    	 * setzt die f&uuml;r das aktuelle <tt>DxfColor</tt>-Objekt gesetzte Farbe in einen sprechenden Text um.
     	 * @return Farbbezeichnung
     	 */
     	public String colorAsString() 
@@ -602,7 +618,7 @@ public class IoDXFReader extends IoObject
     	}
 
     	/**
-    	 * setzt die für das aktuelle <tt>DxfColor</tt>-Objekt gesetzte Farbe in eine <tt>VuColor</tt> um.<p>
+    	 * setzt die f&uuml;r das aktuelle <tt>DxfColor</tt>-Objekt gesetzte Farbe in eine <tt>VuColor</tt> um.
     	 * @return <tt>VuColor</tt>-Objekt
     	 */
     	public T3dColor toT3dColor()

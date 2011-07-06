@@ -1,3 +1,22 @@
+/***************************************************************************************
+ * Copyright (C) 2011 by 52 North Initiative for Geospatial Open Source Software GmbH  *
+ *                                                                                     *
+ * Contact: Benno Schmidt & Martin May, 52 North Initiative for Geospatial Open Source *
+ * Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, Germany, info@52north.org *
+ *                                                                                     *
+ * This program is free software; you can redistribute and/or modify it under the      *
+ * terms of the GNU General Public License version 2 as published by the Free Software *
+ * Foundation.                                                                         *
+ *                                                                                     *
+ * This program is distributed WITHOUT ANY WARRANTY; even without the implied WARRANTY *
+ * OF MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public  *
+ * License for more details.                                                           *
+ *                                                                                     *
+ * You should have received a copy of the GNU General Public License along with this   *
+ * program (see gnu-gpl v2.txt). If not, write to the Free Software Foundation, Inc.,  *
+ * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA, or visit the Free Software *
+ * Foundation web page, http://www.fsf.org.                                            *
+ **************************************************************************************/
 package org.n52.v3d.triturus.gisimplm;
 
 import org.n52.v3d.triturus.core.T3dException;
@@ -8,8 +27,7 @@ import java.util.Arrays;
 
 /**
  * todo: Kommentar
- * @author Martin May, Ilja Abramovic<br>
- * (c) 2003, Institute for Geoinformatics<br>
+ * @author Martin May, Ilja Abramovic
  */
 public class GmTopoTIN extends VgIndexedTIN {
 
@@ -89,15 +107,15 @@ public class GmTopoTIN extends VgIndexedTIN {
 		vertices = sTinGeom.getPoints();
 		//Dies wird der neue Dreiecks-Index - auf die Kanten:
 		triangles = new int[numberOfTriangles * 3];
-		//Hier wird zunächst ein zu großer Puffer gebildet, um performanten Zugriff zu ermöglichen:
-		edges = new int[numberOfTriangles * 3 * 2]; //max mögl. anzahl
+		//Hier wird zunï¿½chst ein zu groï¿½er Puffer gebildet, um performanten Zugriff zu ermï¿½glichen:
+		edges = new int[numberOfTriangles * 3 * 2]; //max mï¿½gl. anzahl
 		int[] exists = { -1, -1, -1 }; //0-1, 1-2, 0-2
 		for (int i = 0; i < numberOfTriangles; i++) {
 			int[] tr = sTinGeom.getTriangleVertexIndices(i);
 			//Richtung der Kanten geht verloren:
 			Arrays.sort(tr);
-			//Die erzeugten Kanten werden auf Existenz geprüft
-			//Äußerst unperformant...
+			//Die erzeugten Kanten werden auf Existenz geprï¿½ft
+			//ï¿½uï¿½erst unperformant...
 			for (int j = 0; j < numberOfEdges; j++) {
 				if (tr[0] == edges[j * 2]) {
 					if (tr[1] == edges[j * 2 + 1]) {
@@ -209,8 +227,8 @@ public class GmTopoTIN extends VgIndexedTIN {
 	}
 
 	/**
-	 * @param i Dreieckindex
-	 * @return Kantenarray des i-ten Dreiecks
+	 * @param i Triangle index
+	 * @return Edge-array for i-th triangle
 	 * @throws T3dException
 	 */
 	public int[] getTriangleAsEdges(int i) throws T3dException {
@@ -232,36 +250,36 @@ public class GmTopoTIN extends VgIndexedTIN {
     }
 
 	/**
-	 * @return Kantenanzahl
+	 * @return Number of edges
 	 */
 	public int numberOfEdges() {
 		return numberOfEdges;
 	}
 
 	/**
-	 * @return kantenarray
+	 * @return Edge-array
 	 */
 	public int[] getEdges() {
 		return edges;
 	}
 
 	/**
-	 * @return Vertexarray
+	 * @return Vertex-array
 	 */
 	public VgPoint[] getVertices() {
 		return vertices;
 	}
 
 	/**
-	 * @param i Vertexindex
-	 * @return i-ter Vertex
+	 * @param i Vertex index
+	 * @return i-tth vertex
 	 */
 	public VgPoint getVertex(int i) {
 		return vertices[i];
 	}
 
 	/**
-	 * @return Dreieckarray
+	 * @return Triangle array
 	 */
 	public int[] getTriangles() {
 		return triangles;

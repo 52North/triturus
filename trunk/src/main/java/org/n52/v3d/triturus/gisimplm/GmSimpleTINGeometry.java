@@ -1,3 +1,22 @@
+/***************************************************************************************
+ * Copyright (C) 2011 by 52 North Initiative for Geospatial Open Source Software GmbH  *
+ *                                                                                     *
+ * Contact: Benno Schmidt & Martin May, 52 North Initiative for Geospatial Open Source *
+ * Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, Germany, info@52north.org *
+ *                                                                                     *
+ * This program is free software; you can redistribute and/or modify it under the      *
+ * terms of the GNU General Public License version 2 as published by the Free Software *
+ * Foundation.                                                                         *
+ *                                                                                     *
+ * This program is distributed WITHOUT ANY WARRANTY; even without the implied WARRANTY *
+ * OF MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public  *
+ * License for more details.                                                           *
+ *                                                                                     *
+ * You should have received a copy of the GNU General Public License along with this   *
+ * program (see gnu-gpl v2.txt). If not, write to the Free Software Foundation, Inc.,  *
+ * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA, or visit the Free Software *
+ * Foundation web page, http://www.fsf.org.                                            *
+ **************************************************************************************/
 package org.n52.v3d.triturus.gisimplm;
 
 import org.n52.v3d.triturus.core.T3dException;
@@ -5,10 +24,10 @@ import org.n52.v3d.triturus.core.T3dNotYetImplException;
 import org.n52.v3d.triturus.vgis.*;
 
 /**
- * Klasse zur Verwaltung einer in ihrer Größe statischen TIN-Geometrie.<p>
+ * Class to hold a TIN-geometry that is static in its size.<br /><br />
+ * <i>German:</i> Klasse zur Verwaltung einer in ihrer Gr&ouml;&szlig;e statischen TIN-Geometrie.
  * <b>TODO: Die Bounding-Box-Berechnung ist noch nicht optimiert; siehe ggf. Coorg.n52.v3d.</b>
- * @author Benno Schmidt, Ilya Abramov<br>
- * (c) 2003, con terra GmbH & Institute for Geoinformatics<br>
+ * @author Benno Schmidt, Ilya Abramov
  */
 public class GmSimpleTINGeometry extends VgIndexedTIN
 {
@@ -20,10 +39,11 @@ public class GmSimpleTINGeometry extends VgIndexedTIN
 	private GmSimpleMesh mMesh;
 
 	/**
-     * Konstruktor. Die TIN-Größe lässt sich über die Methoden <i>this.newPointList()</i> und
-     * <i>this.newTriangleList()</i> nachträglich ändern.<p>
-     * @param pNumberOfPoints Anzahl der Punkte des TINs
-     * @param pNumberOfTriangles Anzahl der Deriecke des TINs
+     * Constructor.<br /><br />
+     * <i>German:</i> Konstruktor. Die TIN-Gr&ouml;&szlig;e l&auml;sst sich &uuml;ber die Methoden
+     * <tt>this.newPointList()</tt> und <tt>this.newTriangleList()</tt> nachtr&auml;glich &auml;ndern.
+     * @param pNumberOfPoints Number of points of the TIN
+     * @param pNumberOfTriangles Number of triangles of the TIN
 	 */
 	public GmSimpleTINGeometry(int pNumberOfPoints, int pNumberOfTriangles)
     {
@@ -43,22 +63,14 @@ public class GmSimpleTINGeometry extends VgIndexedTIN
 		}
 	}
 
-	/** liefert die Anzahl durch das TIN vermaschter Punkte (Vertizes).<p> */
 	public int numberOfPoints() {
 		return mNumberOfPoints;
 	}
 
-	/** liefert die Anzahl der Dreiecke (Facetten) des TINs.<p> */
 	public int numberOfTriangles() {
 		return mNumberOfTriangles;
 	}
 
-	/**
-     * liefert den i-ten Punkt (Vertex) des TINs.<p>
-     * Es ist stets die Bedingung <i>0 &lt;= i &lt; this.numberOfPoints()</i> einzuhalten; anderenfalls wird eine
-     * <i>T3dException</i> geworfen.<p>
-     * @throws org.n52.v3d.triturus.core.T3dException
-	 */
 	public VgPoint getPoint(int i) throws T3dException {
 		try {
 			return mPoints[i];
@@ -68,11 +80,13 @@ public class GmSimpleTINGeometry extends VgIndexedTIN
 		}
 	}
 
-	/**
-     * setzt den i-ten Punkt (Vertex) des TINs.<p>
-     * Es ist stets die Bedingung <i>0 &lt;= i &lt; this.numberOfPoints()</i> einzuhalten; anderenfalls wird eine
-     * <i>T3dException</i> geworfen.<p>
-     * @throws T3dException
+    /**
+	 * sets the i-th point (vertex) of the TIN structure.<br /><br />
+     * <i>German:</i> setzt den i-ten Punkt (Vertex) des TINs. Es ist stets die Bedingung
+     * 0 &lt;<= i &lt; <tt>this.numberOfPoints()</tt> einzuhalten; anderenfalls wird eine <tt>T3dException</tt>
+     * geworfen.
+     * @param i Point index
+     * @return Vertex object
 	 */
 	public void setPoint(int i, VgPoint pPnt) throws T3dException {
 		try {
@@ -88,12 +102,6 @@ public class GmSimpleTINGeometry extends VgIndexedTIN
 		}
 	}
 
-	/**
-     * liefert das i-te Dreieck (Facette) des TINs.<p>
-     * Es ist stets die Bedingung <i>0 &lt;= i &lt; this.numberOfTriangles()</i> einzuhalten; anderenfalls wird eine
-     * <i>T3dException</i> geworfen.
-     * @throws T3dException
-	 */
 	public VgTriangle getTriangle(int i) throws T3dException {
 		try {
 			return new GmTriangle(
@@ -107,13 +115,14 @@ public class GmSimpleTINGeometry extends VgIndexedTIN
 	}
 
 	/**
-     * setzt das i-te Dreieck (Facette) des TINs als aus den Eckpunkten mit den Indizes <tt>pPntIdx1, pPntIdx2</tt> und
-     * <tt>pPntIdx3</tt> bestehend.<p>
-     * Es ist stets die Bedingung <i>0 &lt;= i &lt; this.numberOfTriangles()</i> einzuhalten; anderenfalls wird eine
-     * <i>T3dException</i> geworfen.<p>
-     * @throws T3dException
+     * sets the i-th triangle (facet) of the TIN structure.<br /><br />
+     * <i>German:</i> setzt das i-te Dreieck (Facette) des TINs als aus den Eckpunkten mit den Indizes
+     * <tt>pPntIdx1</tt>, <tt></tt>pPntIdx2</tt> und <tt>pPntIdx3</tt> bestehend. Es ist stets die Bedingung
+     * 0 &lt;<= i &lt; <tt>this.numberOfTriangles()</tt> einzuhalten; anderenfalls wird eine <tt>T3dException</tt>
+     * geworfen.
+     * @return Triangle object
 	 */
-	public void setTriangle(int i, int pPntIdx1, int pPntIdx2, int pPntIdx3)
+    public void setTriangle(int i, int pPntIdx1, int pPntIdx2, int pPntIdx3)
 		throws T3dException {
 		try {
 			mTriangles[i][0] = pPntIdx1;
@@ -125,12 +134,6 @@ public class GmSimpleTINGeometry extends VgIndexedTIN
 		}
 	}
 
-	/**
-     * liefert die Vertex-Indizes des i-ten Dreiecks (Facette) des TINs.<p>
-     * Es ist stets die Bedingung <i>0 &lt;= i &lt; this.numberOfTriangles()</i> einzuhalten; anderenfalls wird eine
-     * <i>T3dException</i> geworfen.<p>
-     * @throws T3dException
-	 */
 	public int[] getTriangleVertexIndices(int i) throws T3dException {
 		try {
 			return new int[] { mTriangles[i][0], mTriangles[i][1], mTriangles[i][2] };
@@ -141,8 +144,10 @@ public class GmSimpleTINGeometry extends VgIndexedTIN
 	}
 
 	/**
-     * löscht die bestehende Punktliste. Hierdurch geht grundsätzlich auch die bestehende Dreiecksliste verloren.<p>
-	 * @param pNumberOfPoints Anzahl der Punkte des TINs
+     * removes an existing point-list.<br /><br />
+     * <i>German:</i> l&ouml;scht die bestehende Punktliste. Hierdurch geht grunds&auml;tzlich auch die bestehende
+     * Dreiecksliste verloren.
+	 * @param pNumberOfPoints Number of points of the TIN
 	 */
 	public void newPointList(int pNumberOfPoints) {
 		mNumberOfPoints = pNumberOfPoints;
@@ -156,8 +161,9 @@ public class GmSimpleTINGeometry extends VgIndexedTIN
 	}
 
 	/**
-     * löscht die bestehende Dreeicksliste.<p>
-     * @param pNumberOfTriangles Anzahl der Dreiecke des TINs
+     * removes an existing triangle-list.<br /><br />
+     * <i>German:</i> l&ouml;scht die bestehende Dreeicksliste.<p>
+     * @param pNumberOfTriangles Number of triangles of the TIN
 	 */
 	public void newTriangleList(int pNumberOfTriangles) {
 		mNumberOfTriangles = pNumberOfTriangles;
@@ -165,8 +171,8 @@ public class GmSimpleTINGeometry extends VgIndexedTIN
 	}
 
 	/**
-     * liefert die Bounding-Box der TIN-Geometrie.<p>
-     * @return Bounding-Box (in xy-Ebene); im Fehlerfall wird <i>null</i> zurückgegeben.
+     * returns the TIN geometry's bounding-box.
+     * @return Bounding-box (in x-y-plane), or <i>null</i> if an error occurs
      * */
 	public VgEnvelope envelope() {
 		if (!mCalculated) {
@@ -185,10 +191,10 @@ public class GmSimpleTINGeometry extends VgIndexedTIN
         throw new T3dNotYetImplException();
     }
 
-	/**
-     * liefert den niedrigsten im TIN enthaltenen Höhenwert.<p>
+    /**
+     * returns the TIN's minimum value (lowest elevation).
      * @throws T3dException
-	 */
+     */
 	public double minimalElevation() throws T3dException {
 		if (mEnv == null) {
 			throw new T3dException("TIN envelope not available.");
@@ -198,11 +204,11 @@ public class GmSimpleTINGeometry extends VgIndexedTIN
 		}
 	}
 
-	/**
-     * liefert den höchsten im TIN enthaltenen Höhenwert.<p>
+    /**
+     * returns the TIN's maximum value (highest elevation).
      * @throws T3dException
-	 */
-	public double maximalElevation() throws T3dException {
+     */
+    public double maximalElevation() throws T3dException {
 		if (mEnv == null) {
 			throw new T3dException("TIN envelope not available.");
 		}
@@ -211,10 +217,12 @@ public class GmSimpleTINGeometry extends VgIndexedTIN
 		}
 	}
 
-	/**
-     * deaktiviert "lazy evaluation" der Bounding-Box. Eine explizite Deaktivierung unmittelbar vor TIN-Editierungen
-     * (<tt>this.setPoint()</tt>-Aufrufen) kann aus Performanz-Gründen notwendig werden.
-	 */
+    /**
+     * deactivates lazy evaluation mode.<br /><br />
+     * <i>German:</i> deaktiviert &quot;lazy evaluation&quot; der Bounding-Box. Eine explizite Deaktivierung
+     * unmittelbar vor TIN-Editierungen (<tt>this.setPoint()</tt>-Aufrufe) kann aus Performanz-Gr&uuml;nden notwendig
+     * werden.
+     */
 	public void setBoundsInvalid() {
 		mCalculated = false;
 	}
@@ -247,16 +255,18 @@ public class GmSimpleTINGeometry extends VgIndexedTIN
 	}
 
 	private void updateBounds(VgPoint pOldPnt, VgPoint pNewPnt) {
-		mCalculated = false; // Lösung suboptimal, aber korrekt ;-)
+		mCalculated = false; // Lï¿½sung suboptimal, aber korrekt ;-)
 	}
 
 	/**
-	 * löscht das i-te Dreieck (Facette) des TINs, restliche Dreiecke werden "nachgeschoben".<p>
+     * deletes the i-th triangle from the TIN.<br /><br />
+     * <i>German:</i> l&ouml;scht das i-te Dreieck (Facette) des TINs, restliche Dreiecke werden
+     * &quot;nachgeschoben&quot;.<br />
      * Es ist stets die Bedingung <i>0 &lt;= i &lt; this.numberOfTriangles()</i> einzuhalten; anderenfalls wird eine
-     * <i>T3dException</i> geworfen.<p>
-	 * @param i Index des zu löschenden Dreiecks
+     * <i>T3dException</i> geworfen.
+     * todo verbessern??
+	 * @param i Index of the tringle to be deleted
 	 * @throws T3dException
-	 * todo verbessern??
 	 */
 	public void deleteTriangle(int i) throws T3dException {
 		if (i > this.numberOfTriangles()) {
@@ -270,26 +280,24 @@ public class GmSimpleTINGeometry extends VgIndexedTIN
 	}
 
 	/**
-	 * liefert aus dem TIN generiertes Mesh.<p>
+     * provides a mesh gemnerated from the TIN structure.<br /><br />
+     * <i>German:</i> liefert aus dem TIN generiertes Mesh.
+     * TODO ???
 	 * @return Mesh
-	 * TODO ???
 	 */
 	public GmSimpleMesh getMesh() {
 		mMesh = generateMesh();
 		return mMesh;
 	}
-	/**
-	 * generiert Mesh.<p>
-	 * @return
-	 */
-	private GmSimpleMesh generateMesh() {
+
+    private GmSimpleMesh generateMesh() {
 		GmSimpleMesh result = new GmSimpleMesh(mNumberOfPoints);
 		//	kopiere Vertizes
 		//	for (int i = 0; i < mNumberOfPoints; i++) {
 		//		result.setPoint(i, getPoint(i));
 		//	}
 		result.setPoints(mPoints);
-		//durchführen  der Vermaschung
+		//durchfï¿½hren  der Vermaschung
 		int[] trVertInd;
 		for (int i = 0; i < mNumberOfTriangles; i++) {
 			trVertInd = getTriangleVertexIndices(i);

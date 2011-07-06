@@ -1,3 +1,22 @@
+/***************************************************************************************
+ * Copyright (C) 2011 by 52 North Initiative for Geospatial Open Source Software GmbH  *
+ *                                                                                     *
+ * Contact: Benno Schmidt & Martin May, 52 North Initiative for Geospatial Open Source *
+ * Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, Germany, info@52north.org *
+ *                                                                                     *
+ * This program is free software; you can redistribute and/or modify it under the      *
+ * terms of the GNU General Public License version 2 as published by the Free Software *
+ * Foundation.                                                                         *
+ *                                                                                     *
+ * This program is distributed WITHOUT ANY WARRANTY; even without the implied WARRANTY *
+ * OF MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public  *
+ * License for more details.                                                           *
+ *                                                                                     *
+ * You should have received a copy of the GNU General Public License along with this   *
+ * program (see gnu-gpl v2.txt). If not, write to the Free Software Foundation, Inc.,  *
+ * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA, or visit the Free Software *
+ * Foundation web page, http://www.fsf.org.                                            *
+ **************************************************************************************/
 package org.n52.v3d.triturus.gisimplm;
 
 import org.n52.v3d.triturus.t3dutil.T3dVector;
@@ -7,18 +26,17 @@ import org.n52.v3d.triturus.vgis.VgTriangle;
 import org.n52.v3d.triturus.core.T3dException;
 
 /** 
- * <tt>VgPlane</tt>-Implementierung zur Verwaltung von Ebenen im dreidimensionalen Darstellungsraum.<p>
+ * <tt>VgPlane</tt>-implementation to hold planes in 3-D space.<br />
  * <i>todo: Klasse ist noch nicht getestet.</i>
- * @author Benno Schmidt<p>
- * (c) 2003, con terra GmbH & Institute for Geoinformatics
+ * @author Benno Schmidt
  */
 public class GmPlane extends VgPlane
 {
     private double mA, mB, mC, mD; // Ebenengleichung A*x + B*y + C*z + D = 0
 
     /** 
-     * Konstruktor. Es wird die durch die drei gegebenen Punkte definierte Ebene konstruiert. Falls die drei
-     * angegebenen Punkte kollinear sind, wird eine <tt>T3dException</tt> geworfen.<p>
+     * Construktor. The plane will be constructed by three given points. For collinear points, a <tt>T3dException</tt>
+     * will be thrown.
      */
     public GmPlane(VgPoint pt1, VgPoint pt2, VgPoint pt3)
     {
@@ -27,8 +45,8 @@ public class GmPlane extends VgPlane
     }
 
     /** 
-     * Konstruktor. Es wird die durch die gegebenen Dreieckspunkte definierte Ebene konstruiert. Falls die
-     * Dreiecksfläche = 0 ist, wird eine <tt>T3dException</tt> geworfen.
+     * Construktor. The plane will be constructed by a triangle's corner-points. If the triangle's surface area is 0,
+     * a <tt>T3dException</tt> will be thrown.
      */
 	public GmPlane(VgTriangle pTriangle) {
 		this.init(pTriangle);
@@ -56,11 +74,6 @@ public class GmPlane extends VgPlane
 		mD = -1. * (mA * pt1.getX() + mB * pt1.getY() + mC * pt1.getZ());		
 	}
 
- 	/**
- 	 * liefert einen zur Ebene gehörigen normierten Normalenvektor.<p>
- 	 * @see org.n52.v3d.triturus.vgis.VgPoint
- 	 * @return <i>Richtungsvektor</i> als <tt>VgPoint</tt>
- 	 */
 	public VgPoint getNormal()
 	{
 		T3dVector hlp = new T3dVector(mA, mB, mC); 
@@ -72,11 +85,6 @@ public class GmPlane extends VgPlane
 		return ret;
 	}
 
- 	/**
- 	 * liefert einen auf der Ebene liegenden Punkt.<p>
- 	 * @see org.n52.v3d.triturus.vgis.VgPoint
- 	 * @return <i>Ortssvektor</i> als <tt>VgPoint</tt>
- 	 */
 	public VgPoint getAnchor()
 	{
 		VgPoint ret = null;
@@ -99,9 +107,9 @@ public class GmPlane extends VgPlane
 	}
 	
 	/**
-	 * projiziert den Punkt <tt>pt</tt> in z.Richtung auf die Ebene. Ist die Ebene parallel zur z-Achse, wird eine
-     * <tt>T3dException</tt> geworfen.<p>
-	 * @return <tt>GmPoint</tt> mit gleicher x- und y-Koordinate wie <tt>pt</tt>.
+	 * projects a point <tt>pt</tt> in z-direction to the x-y-plane. If the plane is parallel to the z-axis, a
+     * <tt>T3dException</tt> will be thrown.
+	 * @return <tt>GmPoint</tt> with same x- and y-coordinate as <tt>pt</tt>
 	 * @throws T3dException
 	 */
 	public VgPoint projectPointZ(VgPoint pt)

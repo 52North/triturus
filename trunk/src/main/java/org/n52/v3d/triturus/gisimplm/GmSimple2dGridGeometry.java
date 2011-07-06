@@ -1,3 +1,22 @@
+/***************************************************************************************
+ * Copyright (C) 2011 by 52 North Initiative for Geospatial Open Source Software GmbH  *
+ *                                                                                     *
+ * Contact: Benno Schmidt & Martin May, 52 North Initiative for Geospatial Open Source *
+ * Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, Germany, info@52north.org *
+ *                                                                                     *
+ * This program is free software; you can redistribute and/or modify it under the      *
+ * terms of the GNU General Public License version 2 as published by the Free Software *
+ * Foundation.                                                                         *
+ *                                                                                     *
+ * This program is distributed WITHOUT ANY WARRANTY; even without the implied WARRANTY *
+ * OF MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public  *
+ * License for more details.                                                           *
+ *                                                                                     *
+ * You should have received a copy of the GNU General Public License along with this   *
+ * program (see gnu-gpl v2.txt). If not, write to the Free Software Foundation, Inc.,  *
+ * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA, or visit the Free Software *
+ * Foundation web page, http://www.fsf.org.                                            *
+ **************************************************************************************/
 package org.n52.v3d.triturus.gisimplm;
 
 import org.n52.v3d.triturus.vgis.VgEquidistGrid;
@@ -10,9 +29,8 @@ import org.n52.v3d.triturus.core.T3dException;
 import java.lang.Double;
 
 /** 
- * Klasse zur Verwaltung einer einfachen äquidistanten, achsenparallelen Gitter-Geometrie.<p>
- * @author Benno Schmidt<br>
- * (c) 2003, con terra GmbH & Institute for Geoinformatics<br>
+ * Class to manage equidistant grid geometries that be oriented arbitrarily inside the x-y plane.
+ * @author Benno Schmidt
  */
 public class GmSimple2dGridGeometry extends VgEquidistGrid
 {
@@ -21,9 +39,9 @@ public class GmSimple2dGridGeometry extends VgEquidistGrid
     private double mDeltaX, mDeltaY;
 
     /** 
-     * Konstruktor.<p>
-     * @param pCols Anzahl der Gitterspalten (x-Richtung)
-     * @param pRows Anzahl der Gitterzeilen (y-Richtung)
+     * Constructor.
+     * @param pCols Number of grid columns (x-direction)
+     * @param pRows Number of grid rows (y-direction)
      */
     public GmSimple2dGridGeometry(int pCols, int pRows, VgPoint pOrigin, double pDeltaX, double pDeltaY) 
     {
@@ -37,8 +55,8 @@ public class GmSimple2dGridGeometry extends VgEquidistGrid
     }
 
     /** 
-     * liefert die Bounding-Box der Gitter-Geometrie.<p>
-     * @return Bounding-Box (in xy-Ebene; "Lattice"-Sicht)
+     * returns the grid geometry's bounding-box.<br />
+     * @return Bounding-box (in x-y-plane; &quot;Lattice&quot; view)
      */
     public VgEnvelope envelope()
     {
@@ -53,57 +71,49 @@ public class GmSimple2dGridGeometry extends VgEquidistGrid
        return new GmEnvelope(xMin, xMax, yMin, yMax, 0., 0.);
     }
 
-    /** 
-     * liefert die Anzahl der Punkte in Richtung der x-Achse (Spalten).<p>
-     * @return Spaltenanzahl
-     */
     public int numberOfColumns() {
         return mCols;
     }
     
-    /** 
-     * liefert die Anzahl der Punkte in Richtung der y-Achse (Zeilen).<p>
-     * @return Zeilenanzahl
-     */
     public int numberOfRows() {
         return mRows;
     }
 
     /**
-     * liefert den Vektor, der die erste Achse des Gitters (Zeilenrichtung) aufspannt.<p>
-     * @return Richtungsvektor
+     * returns the vector that spans the grid's first axis (row direction).
+     * @return Direction vector
      */
     public T3dVector getDirectionRows() {
         return new T3dVector(0., 1., 0.);
     }
     
-    /** 
-     * liefert den Vektor, der die zweite Achse des Gitters (Spaltenrichtung) aufspannt.<p>
-     * @return Richtungsvektor
+    /**
+     * returns the vector that spans the grid's second axis (column direction).
+     * @return Direction vector
      */
     public T3dVector getDirectionColumns() {
         return new T3dVector(1., 0., 0.);
     }
 
     /** 
-     * setzt den Ursprungspunkt des Gitters.<p>
-     * @param pPnt Gitterursprung
+     * sets the grid's origin point.
+     * @param pPnt Grid origin
      */
     public void setOrigin(VgPoint pPnt) {
         mOrigin = pPnt;
     }
     
     /** 
-     * liefert den Ursprungspunkt des Gitters.<p>
-     * @return Gitterursprung
+     * returns the grid's origin point.
+     * @return Grid origin
      */
     public VgPoint getOrigin() {
         return mOrigin;
     }
 
     /** 
-     * liefert die Gitterweite in x-Richtung (entlang der Gitter-Spalten).<p>
-     * @return Gitterweite
+     * returns the grid-cell size in x-direction (along the grid's columns).
+     * @return Cell size
      */
     public double getDeltaX() {
         return mDeltaX;
@@ -117,8 +127,8 @@ public class GmSimple2dGridGeometry extends VgEquidistGrid
     }
 
     /** 
-     * liefert die Gitterweite in y-Richtung (entlang der Gitter-Zeilen).<p>
-     * @return Gitterweite
+     * returns the grid-cell size in y-direction (along the grid's rows).
+     * @return Cell size
      */
     public double getDeltaY() {
         return mDeltaY;
@@ -135,8 +145,9 @@ public class GmSimple2dGridGeometry extends VgEquidistGrid
       * @deprecated
       * @see VgEquidistGrid#getCellSizeRows
       * @see VgEquidistGrid#getCellSizeColumns
-      * liefert die Gitterweiten für die Achsen in <tt>pDeltaRows</tt> und <tt>pDeltaColumns</tt>.<p> 
-      * Bem.: Die Reihenfolge der Ausgabe-Parameter ist zu beachten!<p>
+      * <i>German:</i> liefert die Gitterweiten f&uuml;r die Achsen in <tt>pDeltaRows</tt> und <tt>pDeltaColumns</tt>.
+     * <br />
+      * Bem.: Die Reihenfolge der Ausgabe-Parameter ist zu beachten!
       * @param pDeltaRows Gitterweite in Richtung der 1. Achse (Zeilen)
       * @param pDeltaColumns Gitterweite in Richtung der 2. Achse (Spalten)
       */
@@ -145,15 +156,6 @@ public class GmSimple2dGridGeometry extends VgEquidistGrid
         pDeltaColumns = new Double(this.getCellSizeColumns());
     }	
 
-    /** 
-     * liefert die Koordinate für das Gitterelement mit den angegebenen Indizes.<p>
-     * Es sind die Bedingungen <i>0 &lt;= i &lt; this.numberOfRows(), 0 &lt;= j &lt; this.numberOfColumns()</i>
-     * einzuhalten; anderenfalls wird eine <tt>T3dException</tt> geworfen.<p>
-     * @param i Index der Gitterzeile
-     * @param j Index der Gitterspalte
-     * @return Vertex mit x- und y-Koordinate (z undefiniert)
-     * @throws org.n52.v3d.triturus.core.T3dException
-     */
     public VgPoint getVertexCoordinate(int i, int j) throws T3dException
     {
         if (i < 0 || i >= mRows || j < 0 || j >= mCols) 

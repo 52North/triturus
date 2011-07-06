@@ -1,3 +1,22 @@
+/***************************************************************************************
+ * Copyright (C) 2011 by 52 North Initiative for Geospatial Open Source Software GmbH  *
+ *                                                                                     *
+ * Contact: Benno Schmidt & Martin May, 52 North Initiative for Geospatial Open Source *
+ * Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, Germany, info@52north.org *
+ *                                                                                     *
+ * This program is free software; you can redistribute and/or modify it under the      *
+ * terms of the GNU General Public License version 2 as published by the Free Software *
+ * Foundation.                                                                         *
+ *                                                                                     *
+ * This program is distributed WITHOUT ANY WARRANTY; even without the implied WARRANTY *
+ * OF MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public  *
+ * License for more details.                                                           *
+ *                                                                                     *
+ * You should have received a copy of the GNU General Public License along with this   *
+ * program (see gnu-gpl v2.txt). If not, write to the Free Software Foundation, Inc.,  *
+ * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA, or visit the Free Software *
+ * Foundation web page, http://www.fsf.org.                                            *
+ **************************************************************************************/
 package org.n52.v3d.triturus.gisimplm;
 
 import org.n52.v3d.triturus.core.T3dProcFilter;
@@ -7,11 +26,10 @@ import org.n52.v3d.triturus.vgis.VgPoint;
 import java.util.ArrayList;
 
 /** 
- * Diese Klasse ermöglicht die Berechnung eines Gittermodells ("Gridding") für eine Menge verstreut liegender (3D-)
- * Datenpunkte. Resultat ist ein <tt>GmSimpleElevationGrid</tt>-Objekt. Zur Berechnung der z-Werte in den Gitterpunkten
- * kann zwischen verschiedenen Sampling-Verfahren gewählt werden.<p>
- * @author Benno Schmidt<br>
- * (c) 1992-1996, Geopro GmbH<br>
+ * This class allows to construct a grid model (&quot;gridding&quot;) for a collection of scattered (3-D) data points.
+ * The result will be given as <tt>GmSimpleElevationGrid</tt>-object. Various sampling-methods can be used to determine
+ * grid-vertices' z-values.
+ * @author Benno Schmidt
  */
 public class FltPointSet2ElevationGrid extends T3dProcFilter
 {
@@ -20,18 +38,26 @@ public class FltPointSet2ElevationGrid extends T3dProcFilter
     private GmSimpleElevationGrid mGrid = null; // Zielgitter
 
     // Verfahrensparameter:
-    /** Konstante für "Nächster-Nachbar"-Verfahren. */
+    /**
+     * Constant for &quot;nearest neighbor&quot; method as gridding method
+     */
     public final static short cNearestNeighbor = 1;
-    /** Konstante für Inverse-Distanzen-Verfahren. */
+    /**
+     * Constant for &quot;inverse distances&quot; method as gridding method
+     */
     public final static short cInverseDist = 2;
-    private int mInvDistExp = 2; // Exponent 2 als Default für Inverse Distanzen
-    /** Konstante für Dreiecksfunktion als Sampling-Verfahren. */
+    private int mInvDistExp = 2; // Exponent 2 als Default fï¿½r Inverse Distanzen
+    /**
+     * Constant for triangular weight function method as gridding method
+     */
     public final static short cTriangleFnc = 3;
-    /** Konstante für Franke/Little-Gewichtung als Sampling-Verfahren. */
+    /**
+     * Constant for Franke/Little weighting as gridding method
+     */
     public final static short cFrankeLittle = 4;
-    private final double cMaxWeight = 1.e10; // max. Wert für Franke/Little-Gewichtsfkt. 
-    // Bem.: Für einen Suchradius von 100 m und einem Abstand von 1 cm ergäbe sich hierbei ein
-    // Gewicht von ungefähr 10.000, d. h. der Wert 1e10 müsste eigentlich voll ausreichen...
+    private final double cMaxWeight = 1.e10; // max. Wert fï¿½r Franke/Little-Gewichtsfkt. 
+    // Bem.: Fï¿½r einen Suchradius von 100 m und einem Abstand von 1 cm ergï¿½be sich hierbei ein
+    // Gewicht von ungefï¿½hr 10.000, d. h. der Wert 1e10 mï¿½sste eigentlich voll ausreichen...
 
     private short mWeightFnc = 1; // Nearest-Neighbor als Default
 
@@ -43,29 +69,32 @@ public class FltPointSet2ElevationGrid extends T3dProcFilter
     private double mSumN[];
 
     /**
-     * Konstruktor. Als Parameter sind die Zielgeometrie und der Suchradius anzugeben. Bei Verwendung dieses
-     * Konstruktors wird das "Nächster-Nachbar"-Verfahren angewendet.<p>
-     * @param pGeom Geometrie des Zielgitters
-     * @param pRadius Suchradius (bezogen auf verwendetes räumliches Referenzsystem)
+     * Constructor. Target geometry and search-radius have to be given as input parameters. For this constructor, the
+     * &quot;nearest neighbor&quot; will be used.<br /><br />
+     * <i>German:</i> Konstruktor. Als Parameter sind die Zielgeometrie und der Suchradius anzugeben. Bei Verwendung
+     * dieses Konstruktors wird das "Nï¿½chster-Nachbar"-Verfahren angewendet.
+     * @param pGeom the target-grid's geometry
+     * @param pRadius Search-radius (referring to the set coordinate reference system)
+     * @see this#cNearestNeighbor
      */
     public FltPointSet2ElevationGrid(GmSimple2dGridGeometry pGeom, double pRadius) 
     {
-        this.init(pGeom, this.cNearestNeighbor, pRadius);
+        this.init(pGeom, cNearestNeighbor, pRadius);
     }
 
     /** 
-     * Konstruktor. Als Parameter sind der Suchradius und die für das "Gridding" die zu verwendende Gewichtsfunktion
-     * anzugeben. Unterstützt werden die folgenden Funktionen:<p>
+     * Constructor. Search-radius and the weight-function used for the gridding process have to be given as input
+     * parameters. The following funtions are suppoerted:<br />
      * <table border="1">
-     * <tr><td><i>pWeightFnc</i></td><td>Gewichtsfunktion</td></tr>
-     * <tr><td><tt>this.cNearestNeighbor</tt></td><td>nächster Nachbar erhält größtes Gewicht</td></tr>
-     * <tr><td><tt>this.cInverseDist</tt></td><td>Inverse Distanzen (Exponent frei wählbar)</td></tr>
-     * <tr><td><tt>this.cTriangleFnc</tt></td><td>Dreiecksfunktion<td></td></tr>
-     * <tr><td><tt>this.cFrankeLittle</tt></td><td>Franke/Little-Gewichtung<td></td></tr>
+     * <tr><td><i>pWeightFnc</i></td><td>Weight function</td></tr>
+     * <tr><td><tt>this.cNearestNeighbor</tt></td><td>next neighbor gets highest weight</td></tr>
+     * <tr><td><tt>this.cInverseDist</tt></td><td>Inverse distances (selectable exponent)</td></tr>
+     * <tr><td><tt>this.cTriangleFnc</tt></td><td>Triangle function<td></td></tr>
+     * <tr><td><tt>this.cFrankeLittle</tt></td><td>Franke/Little-Weighting<td></td></tr>
      * </table><p>
-     * @param pGeom Geometrie des Zielgitters
-     * @param pWeightFnc Konstante für Gewichtsfunktion
-     * @param pRadius Suchradius
+     * @param pGeom the target-grid's geometry
+     * @param pWeightFnc Constant determining the weight function
+     * @param pRadius Search-radius (referring to the set coordinate reference system)
      */
     public FltPointSet2ElevationGrid(GmSimple2dGridGeometry pGeom, short pWeightFnc, double pRadius)
     {
@@ -82,55 +111,55 @@ public class FltPointSet2ElevationGrid extends T3dProcFilter
     }
 
     /**
-     * setzt den Exponenten für die Inverse-Distanzen-Gewichtsfunktion (insofern diese verwendet wird).<p>
-     * @param pExp Exponent (Default-mäßig auf 2 gesetzt)
+     * sets the exponent to be used for the inverse distance weight-function (if this method is to be used).
+     * @param pExp Exponent (default-value is 2)
      */
     public void setInverseDistanceExponent(int pExp) {
         mInvDistExp = pExp;
     }
 
     /**
-     * setzt die Zielgitter-Geometrie.<p>
-     * @param pGrid Höhengitter
+     * sets the target-grid's geometry.
+     * @param pGrid Elevation-grid
      */
     public void setGridGeometry(GmSimpleElevationGrid pGrid) {
         mGrid = pGrid;
     }
 
     /**
-     * setzt den Suchradius.<p>
-     * @param pRadius Suchradius
+     * sets the search-radius.
+     * @param pRadius Search-radius
      */
     public void setSearchRadius(double pRadius) {
         mRadius = pRadius;
     }
 
-    /** protokolliert die durchgeführte Transformation. */
     public String log() {
         return mLogString;
     }
 
     /**
-     * liefert den benötigten Speicherplatz-Bedarf (nur für Testzwecke). Unmittelbar vor Durchführung des "Griddings"
-     * durch die Methode <tt>this.transform()</tt> wird eine Schätzung des benötigten Speichers (auf dem Heap) in Byte
-     * ermittelt.<p>
-     * @return geschätzter Speicherplatz-Bedarf in Byte
+     * estimates the amount of memory needed to perform the gridding process (for test-purposes only). Before starting
+     * the gridding operation by a call to <tt>this.transform()</tt> the amount of memory (usually, in heap-space)
+     * given in Bytes will estimated.
+     * @return geschï¿½tzter Memory-demand in Bytes
      */
     public int estimateMemoryConsumption() {
     	return 2 * mNX * mNY * /* sizeof(double) = */ 8; // stimmt das?
     }
 
     /**
-     * ermittelt die Anzahl der innerhalb des Suchkreises liegenden Gitterpunkte bezogen auf das Ziel-Gitter. Für das
-     * Funktionieren des durch die Methode <tt>this.transform()</tt> durchgeführten "Griddings" ist diese Funktion
-     * unerheblich; vielmehr kann sie zur Abschätzung des erforderlichen Rechenaufwandes dienlich sein.<p>
-     * @return Anzahl der zu samplenden Punkte innerhalb der festgelegten Suchkreise
+     * determines the number of grid-points inside the search-radius with the respect to the target grid.<br /><br />
+     * <i>German:</i> F&uuml;r das Funktionieren des durch die Methode <tt>this.transform()</tt> durchgef&uuml;hrten
+     * &quot;Griddings&quot; ist diese Funktion unerheblich; vielmehr kann sie zur Absch&auml;tzung des erforderlichen
+     * Rechenaufwandes dienlich sein.
+     * @return Number of points to be sampled inside the search-circles
      */
     public int numberOfPointsInSearchCircle() 
     {
        int ct = 1; // Gitterpkt. selbst
 
-       // zum Suchkreis gehöriges "Rechteck":
+       // zum Suchkreis gehï¿½riges "Rechteck":
        int ctX = (int)(mRadius / mDX);
        int ctY = (int)(mRadius / mDY);
        
@@ -151,9 +180,9 @@ public class FltPointSet2ElevationGrid extends T3dProcFilter
     }   
 
     /** 
-     * führt die Gitter-Berechnung durch.<p>
-     * @param pPointSet Liste von <tt>VgPoint</tt>-Objekten
-     * @throws org.n52.v3d.triturus.core.T3dException
+     * performs the grid calulation.
+     * @param pPointSet List of <tt>VgPoint</tt>-objects
+     * @throws T3dException
      */
     public GmSimpleElevationGrid transform(ArrayList pPointSet) throws T3dException
     {   	
@@ -164,12 +193,12 @@ public class FltPointSet2ElevationGrid extends T3dProcFilter
         mSumN = new double[mNX * mNY];
                  
         // In mSumZ[] wird im Weiteren die Summe der gewichteten z-Werte zwischengespeichert, in mSumN[] die
-        // Summe der Gewichte. Der Interpolationswert ergibt sich dann später aus mSumZ[i]/mSumN[i], falls
-        // mWeightFnc = cInverseDist oder = cFrankeLittle. Für mWeightFnc = cNearestNeighbor erfolgt die Berechnung
-        // anders: sSumN[i] wird als Merker für den Abstand des Punktes missbraucht, dessen z-Wert in mSumZ[i]
+        // Summe der Gewichte. Der Interpolationswert ergibt sich dann spï¿½ter aus mSumZ[i]/mSumN[i], falls
+        // mWeightFnc = cInverseDist oder = cFrankeLittle. Fï¿½r mWeightFnc = cNearestNeighbor erfolgt die Berechnung
+        // anders: sSumN[i] wird als Merker fï¿½r den Abstand des Punktes missbraucht, dessen z-Wert in mSumZ[i]
         // abgelegt ist.
    
-        if (mWeightFnc != this.cNearestNeighbor) {
+        if (mWeightFnc != cNearestNeighbor) {
             for (int i = 0; i < mNX * mNY; i++) {
                 mSumZ[i] = 0.;
                 mSumN[i] = 0.;
@@ -177,7 +206,7 @@ public class FltPointSet2ElevationGrid extends T3dProcFilter
         } 
         else {
             for (int i = 0; i < mNX * mNY; i++) 
-                mSumN[i] = -1.; // soll heißen: noch keinen Abstand gemerkt
+                mSumN[i] = -1.; // soll heiï¿½en: noch keinen Abstand gemerkt
         }
 
         try {
@@ -199,7 +228,7 @@ public class FltPointSet2ElevationGrid extends T3dProcFilter
         return Math.sqrt(k1 * k1 + k2 * k2);
     }
 
-    // Verarbeitung aller Punkte der übergebenen Liste und Belegung vom mSumZ[] und mSumN[]:
+    // Verarbeitung aller Punkte der ï¿½bergebenen Liste und Belegung vom mSumZ[] und mSumN[]:
     private void processPoints(ArrayList pPointSet)
     {
         // Suchradius in Matrixkoord.:
@@ -216,7 +245,7 @@ public class FltPointSet2ElevationGrid extends T3dProcFilter
         double r, weight = 0.;
         VgPoint pnt;
 
-        for (int i = 0; i < pPointSet.size(); i++) // für alle Punkte der Liste
+        for (int i = 0; i < pPointSet.size(); i++) // fï¿½r alle Punkte der Liste
         {
             pnt = ((VgPoint) pPointSet.get(i));
             x = pnt.getX();

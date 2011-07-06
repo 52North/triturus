@@ -1,3 +1,22 @@
+/***************************************************************************************
+ * Copyright (C) 2011 by 52 North Initiative for Geospatial Open Source Software GmbH  *
+ *                                                                                     *
+ * Contact: Benno Schmidt & Martin May, 52 North Initiative for Geospatial Open Source *
+ * Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, Germany, info@52north.org *
+ *                                                                                     *
+ * This program is free software; you can redistribute and/or modify it under the      *
+ * terms of the GNU General Public License version 2 as published by the Free Software *
+ * Foundation.                                                                         *
+ *                                                                                     *
+ * This program is distributed WITHOUT ANY WARRANTY; even without the implied WARRANTY *
+ * OF MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public  *
+ * License for more details.                                                           *
+ *                                                                                     *
+ * You should have received a copy of the GNU General Public License along with this   *
+ * program (see gnu-gpl v2.txt). If not, write to the Free Software Foundation, Inc.,  *
+ * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA, or visit the Free Software *
+ * Foundation web page, http://www.fsf.org.                                            *
+ **************************************************************************************/
 package org.n52.v3d.triturus.gisimplm;
 
 import org.n52.v3d.triturus.vgis.VgPolygon;
@@ -9,12 +28,14 @@ import org.n52.v3d.triturus.core.T3dException;
 import java.util.ArrayList;
 
 /**
- * <tt>VgPolygon</tt>-Implementierung, bei der die Punktkoordinaten im Speicher vorgehalten werden. x- und y-Werte sind
- * bezogen auf das eingestellte räumliche Bezugssystem (SRS) anzugeben. Die Eckpunkte können mit einer z-Koordinate
- * versehen sein.<p>
- * Bem.: In der vorliegenden Implementierung erfolgt keine Prüfung auf Überlappung der Liniensegmente.
- * @author Benno Schmidt<br>
- * (c) 2003, con terra GmbH & Institute for Geoinformatics<br>
+ * <tt>VgPolygon</tt>-implementation. Object information will be kept in main memory.<br />
+ * x- and y-values have to be given with respect to the spatial reference system (SRS) that has been set for the
+ * geometric object. z-values might be provided for the object's vertices.<br /><br />
+ * <i>German:</i> <tt>VgPolygon</tt>-Implementierung, bei der die Punktkoordinaten im Speicher vorgehalten werden. x-
+ * und y-Werte sind bezogen auf das eingestellte rï¿½umliche Bezugssystem (SRS) anzugeben. Die Eckpunkte k&ouml;nnen mit
+ * einer z-Koordinate versehen sein.<br />
+ * Bem.: In der vorliegenden Implementierung erfolgt keine Pr&uuml;fung auf &Uuml;berlappung der Liniensegmente.
+ * @author Benno Schmidt
  */
 public class GmPolygon extends VgPolygon
 {
@@ -24,11 +45,11 @@ public class GmPolygon extends VgPolygon
     	mVertices = new ArrayList();
     }
 
-    /** 
-     * fügt dem Polygon (am Ende der Vertex-Liste) einen Eckpunkt hinzu.<p> 
-     * Vorbedingung: <tt>N = this.numberOfVertices()</tt>
-     * Nachbedingung: <tt>this.numberOfVertices() = N + 1</tt><p>
-     * @throws org.n52.v3d.triturus.core.T3dException
+    /**
+     * adds a vertex point to the polygon (at the end of the vertex-list).<br />
+     * Pre-condition: <tt>N = this.numberOfVertices()</tt>
+     * Post-condition: <tt>this.numberOfVertices() = N + 1</tt>
+     * @throws T3dException
      */
     public void addVertex(VgPoint pPnt) throws T3dException
     {
@@ -37,13 +58,7 @@ public class GmPolygon extends VgPolygon
     	mVertices.add(lPnt);
     }
 
-    /** 
-     * liefert den i-ten Eckpunkt des Polygons.<p> 
-     * Hierbei ist die Bedingung <tt>0 &lt;= i &lt; this.numberOfVertices()</tt> einzuhalten; 
-     * anderenfalls wird eine <tt>T3dException</tt> geworfen.<p>
-     * @throws T3dException
-     */
-    public VgPoint getVertex(int i) throws T3dException 
+    public VgPoint getVertex(int i) throws T3dException
     {
     	if (i < 0 || i >= this.numberOfVertices())
     	    throw new T3dException("Index out of bounds.");
@@ -51,16 +66,15 @@ public class GmPolygon extends VgPolygon
     	return (GmPoint) mVertices.get( i );
     }
 
-    /** gibt die Anzahl der Eckpunkte des Polygons zurück. */
     public int numberOfVertices() {
     	return mVertices.size();
     }
     
-    /** 
-     * liefert die Bounding-Box der Geometrie.<p>
-     * @return <tt>GmEnvelope</tt> oder <i>null</i>, falls <tt>this.numberOfVertices() = 0</tt>.
-     */
-    public VgEnvelope envelope()
+   /**
+    * returns the polygon's bounding-box.
+    * @return <tt>GmEnvelope</tt>, or <i>null</i> for <tt>this.numberOfVertices() = 0</tt>.
+    */
+   public VgEnvelope envelope()
     {
     	if (this.numberOfVertices() > 0) {
     	    GmEnvelope mEnv = new GmEnvelope(this.getVertex(0));
@@ -72,8 +86,8 @@ public class GmPolygon extends VgPolygon
     }
     
     /** 
-	 * liefert die zugehörige "Footprint"-Geometrie.<p>
-	 * @return "Footprint" als <tt>GmPolygon</tt>-Objekt
+	 * returns the object's footprint geometry (projection to the x-y-plane).
+	 * @return &quot;Footprint&quot; as <tt>GmPolygon</tt>-object
   	 */
 	public VgGeomObject footprint()
 	{

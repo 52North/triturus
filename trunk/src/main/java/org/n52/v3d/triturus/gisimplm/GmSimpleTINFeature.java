@@ -1,3 +1,22 @@
+/***************************************************************************************
+ * Copyright (C) 2011 by 52 North Initiative for Geospatial Open Source Software GmbH  *
+ *                                                                                     *
+ * Contact: Benno Schmidt & Martin May, 52 North Initiative for Geospatial Open Source *
+ * Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, Germany, info@52north.org *
+ *                                                                                     *
+ * This program is free software; you can redistribute and/or modify it under the      *
+ * terms of the GNU General Public License version 2 as published by the Free Software *
+ * Foundation.                                                                         *
+ *                                                                                     *
+ * This program is distributed WITHOUT ANY WARRANTY; even without the implied WARRANTY *
+ * OF MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public  *
+ * License for more details.                                                           *
+ *                                                                                     *
+ * You should have received a copy of the GNU General Public License along with this   *
+ * program (see gnu-gpl v2.txt). If not, write to the Free Software Foundation, Inc.,  *
+ * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA, or visit the Free Software *
+ * Foundation web page, http://www.fsf.org.                                            *
+ **************************************************************************************/
 package org.n52.v3d.triturus.gisimplm;
 
 import org.n52.v3d.triturus.vgis.VgFeature;
@@ -9,19 +28,20 @@ import org.n52.v3d.triturus.core.T3dNotYetImplException;
 
 import java.util.ArrayList;
 
-/** 
- * Klasse zur Verwaltung einfacher "2D"-TINs für Geländemodelle.<p>
- * @author Benno Schmidt<br>
- * (c) 2003, con terra GmbH & Institute for Geoinformatics<br>
+/**
+ * Class to manage simple &quot;2-D&quot; TINs for terrain models.<br /><br />
+ * <i>German:</i> Klasse zur Verwaltung einfacher "2D"-TINs f&uuml;r Gel&auml;ndemodelle.
+ * @author Benno Schmidt
  */
 public class GmSimpleTINFeature extends VgFeature
 {
     private VgTIN mGeom;
     private String mTheme = "Elevations"; 
 
-    /** 
-     * Konstruktor. Die Punkte und Dreiecke des TINs lassen sich über das Objekt
-     * <tt>((GmSimpleTINGeometry) this.getGeometry())</tt> setzen.<p>
+    /**
+     * Constructor.<br /><br />
+     * <i>German:</i> Konstruktor. Die Punkte und Dreiecke des TINs lassen sich &uuml;ber das Objekt
+     * <tt>((GmSimpleTINGeometry) this.getGeometry())</tt> setzen.
      * @see GmSimpleTINGeometry
      */
     public GmSimpleTINFeature() 
@@ -31,8 +51,8 @@ public class GmSimpleTINFeature extends VgFeature
     }
 
     /** 
-     * liefert Metainformation über Thematik.<p>
-     * @return Liste von Strings
+     * provides thematic meta-information.
+     * @return List of strings
      */
     public ArrayList getThematicAttributes() {
        ArrayList lList = new ArrayList();
@@ -41,36 +61,36 @@ public class GmSimpleTINFeature extends VgFeature
     }
     
     /** 
-     * liefert die Objekt-Geometrie.<p>
-     * @return <tt>GmSimpleTINGeometry</tt>-Objekt
+     * returns the object geometry.
+     * @return <tt>GmSimpleTINGeometry</tt>-object
+     * @see org.n52.v3d.triturus.gisimplm.GmSimpleTINGeometry
      */
     public VgGeomObject getGeometry() {
         return mGeom;
     }
 
 	/**
-	 * setzt die Objekt-Geometrie.<p>
-	 * @param pGeom TIN-Geometrie
+	 * sets the object geometry.
+	 * @param pGeom TIN-geometry
 	 */
 	public void setGeometry(VgTIN pGeom) {
 		mGeom = pGeom;
 	}
 
-	/**
-	 * Methode aus der <tt>VgFeature</tt>-Schnittstelle. Da das TIN ein atomares Geoobjekt ist, liefert diese Methode
-     * stets <i>false</i> als Resultat.<p>
-     * @return false
+    /**
+     * always returns <i>false</i>, since a <tt>GmSimpleTINFeature</tt> consists of one and only geo-object.
+     * @return <i>false</i>
      */
     public boolean isCollection() {
         return false;
     }
 
     /** 
-     * Methode aus der <tt>VgFeature</tt>-Schnittstelle.<p>
-     * @param i (hier stets 0)
-     * @return TIN selbst
-     * @throws org.n52.v3d.triturus.core.T3dException
-     */ 
+     * always returns this <tt>GmSimpleTINFeature</tt> itself.
+     * @param i (here always 0)
+     * @return TIN itself
+     * @throws T3dException
+     */
     public VgFeature getFeature( int i ) throws T3dException
     {
         if (i != 0) 
@@ -83,7 +103,9 @@ public class GmSimpleTINFeature extends VgFeature
         return 1;
     }
 
-    /** liefert die Bounding-Box des TINs. */
+    /**
+     * returns the TIN's bounding-box.
+     */
     public VgEnvelope envelope()
     {
         if (mGeom != null)
@@ -92,9 +114,8 @@ public class GmSimpleTINFeature extends VgFeature
             return null;
     }
 
-    /** 
-     * liefert den kleinsten (niedrigsten) im TIN enthaltenen Höhenwert.<p>
-     * @throws T3dException
+    /**
+     * returns the TIN's minimum value (lowest elevation).
      */
     public double minimalElevation() throws T3dException
     {
@@ -108,8 +129,7 @@ public class GmSimpleTINFeature extends VgFeature
     }
 
     /** 
-     * liefert den größten (höchsten) im TIN enthaltenen Höhenwert.<p>
-     * @throws T3dException
+     * returns the TIN's minimum value (highest elevation).
      */
     public double maximalElevation() throws T3dException
     {
@@ -122,10 +142,11 @@ public class GmSimpleTINFeature extends VgFeature
         throw new T3dNotYetImplException();
     }
 
-    /** 
-     * deaktiviert "lazy evaluation" der Bounding-Box.<p>
-     * Eine explizite Deaktivierung unmittelbar vor TIN-Editierungen (<tt>this.setPoint()</tt>-Aufrufen) 
-     * kann aus Performanz-Gründen notwendig werden.<p>
+    /**
+     * deactivates lazy evaluation mode.<br /><br />
+     * <i>German:</i> deaktiviert &quot;lazy evaluation&quot; der Ausdehnung in z-Richtung.<br />
+     * Eine explizite Deaktivierung unmittelbar vor TIN-Editierungen (<tt>this.setPoint()</tt>-Aufrufe) kann aus
+     * Performanz-Gr&uuml;nden notwendig werden.
      */
     public void setBoundsInvalid()
     {
@@ -135,10 +156,10 @@ public class GmSimpleTINFeature extends VgFeature
         throw new T3dNotYetImplException();
     }
 
-	/**
-	 * liefert die zugehörige "Footprint"-Geometrie.<p>
-	 * @return "Footprint" als <tt>GmSimpleTINGeometry</tt>-Objekt
-  	 */
+    /**
+     * returns the corresponding footprint geometry.
+     * @return Footprint as <tt>GmSimpleTINGeometry</tt>-object
+     */
 	public VgGeomObject footprint() {
 		return mGeom.footprint();
 	}
