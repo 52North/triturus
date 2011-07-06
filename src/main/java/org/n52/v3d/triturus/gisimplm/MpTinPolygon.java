@@ -1,4 +1,22 @@
-
+/***************************************************************************************
+ * Copyright (C) 2011 by 52 North Initiative for Geospatial Open Source Software GmbH  *
+ *                                                                                     *
+ * Contact: Benno Schmidt & Martin May, 52 North Initiative for Geospatial Open Source *
+ * Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, Germany, info@52north.org *
+ *                                                                                     *
+ * This program is free software; you can redistribute and/or modify it under the      *
+ * terms of the GNU General Public License version 2 as published by the Free Software *
+ * Foundation.                                                                         *
+ *                                                                                     *
+ * This program is distributed WITHOUT ANY WARRANTY; even without the implied WARRANTY *
+ * OF MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public  *
+ * License for more details.                                                           *
+ *                                                                                     *
+ * You should have received a copy of the GNU General Public License along with this   *
+ * program (see gnu-gpl v2.txt). If not, write to the Free Software Foundation, Inc.,  *
+ * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA, or visit the Free Software *
+ * Foundation web page, http://www.fsf.org.                                            *
+ **************************************************************************************/
 package org.n52.v3d.triturus.gisimplm;
 
 import java.util.Vector;
@@ -18,7 +36,7 @@ public class MpTinPolygon extends T3dProcMapper
 	private GmPolygon pol;
 
 	/**
-	 * Konstruktor.
+	 * Constructor.
 	 * @param tin TIN 
 	 * @param pol Polygon
 	 */
@@ -27,18 +45,14 @@ public class MpTinPolygon extends T3dProcMapper
 		this.pol = pol;
 	}
 
-	/**
-	 * protokolliert die durchgeführte Transformation.
-	 * @see org.n52.v3d.triturus.core.T3dProcMapper#log()
-	 */
 	public String log() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	/**
-	 * liefert das TIN, das Ergebnis der Verschneidung ist.<p>
-	 * @return TIN-Geometrie
+	 * returns the TIN that results from the intersection performed.
+	 * @return TIN-geometry
 	 */
 	public GmSimpleTINGeometry intersect() {
 		GmSimpleTINGeometry result =
@@ -70,7 +84,7 @@ public class MpTinPolygon extends T3dProcMapper
 //		//
 //		//	create MCPointInRing algorithm
 //		MCPointInRing alg = new MCPointInRing(sh);
-//		//hole ein Vertex aus TIN und prüfe, ob in Polygon
+//		//hole ein Vertex aus TIN und prï¿½fe, ob in Polygon
 //		int numTinPoints = tin.numberOfPoints();
 //		for (int i = 0; i < numTinPoints; i++) {
 //			VgPoint p = tin.getPoint(i);

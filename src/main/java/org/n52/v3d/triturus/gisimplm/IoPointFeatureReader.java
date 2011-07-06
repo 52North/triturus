@@ -1,3 +1,22 @@
+/***************************************************************************************
+ * Copyright (C) 2011 by 52 North Initiative for Geospatial Open Source Software GmbH  *
+ *                                                                                     *
+ * Contact: Benno Schmidt & Martin May, 52 North Initiative for Geospatial Open Source *
+ * Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, Germany, info@52north.org *
+ *                                                                                     *
+ * This program is free software; you can redistribute and/or modify it under the      *
+ * terms of the GNU General Public License version 2 as published by the Free Software *
+ * Foundation.                                                                         *
+ *                                                                                     *
+ * This program is distributed WITHOUT ANY WARRANTY; even without the implied WARRANTY *
+ * OF MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public  *
+ * License for more details.                                                           *
+ *                                                                                     *
+ * You should have received a copy of the GNU General Public License along with this   *
+ * program (see gnu-gpl v2.txt). If not, write to the Free Software Foundation, Inc.,  *
+ * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA, or visit the Free Software *
+ * Foundation web page, http://www.fsf.org.                                            *
+ **************************************************************************************/
 package org.n52.v3d.triturus.gisimplm;
 
 import org.n52.v3d.triturus.core.IoObject;
@@ -6,9 +25,11 @@ import org.n52.v3d.triturus.core.T3dException;
 import java.io.*;
 import java.util.ArrayList;
 
-/** 
- * Einlesen punkthafter Geoobjekte. In den Eingabedateien stehen zeilenweise x-, y- und z-Koordinaten und Attributwerte
- * durch Leerzeichen voneinander getrennt. Die Namen der Attribute werden aus einer Metadaten-Datei eingelesen.<p>
+/**
+ * Import of features constisting of point-geometries.<br /><br />
+ * <i>German:</i> Einlesen punkthafter Geoobjekte. In den Eingabedateien stehen zeilenweise x-, y- und z-Koordinaten und
+ * Attributwerte durch Leerzeichen voneinander getrennt. Die Namen der Attribute werden aus einer Metadaten-Datei
+ * eingelesen.<br />
  * Beispiel:
  * <pre>
  * IoPointFeatureReader reader = new IoPointFeatureReader();
@@ -19,9 +40,8 @@ import java.util.ArrayList;
  * catch (T3dException e) {
  *     ...
  * }
- * </pre><p>
- * @author Benno Schmidt<br>
- * (c) 2003, con terra GmbH & Institute for Geoinformatics<br>
+ * </pre>
+ * @author Benno Schmidt
  */
 public class IoPointFeatureReader extends IoObject
 {
@@ -35,20 +55,19 @@ public class IoPointFeatureReader extends IoObject
     private ArrayList mAttrNames = null;
     private ArrayList mAttrTypes = null;
         
-    /** Konstruktor. */
     public IoPointFeatureReader() {
         mLogString = this.getClass().getName();
     }
 
-    /** protokolliert die durchgeführte Transformation. */
     public String log() {
         return mLogString;
     }
 
     /**
-     * liest eine Menge attributierter 3D-Punkte aus einer ASCII-Datei ein.<p>
-     * @param pFilename Pfad, unter dem die Datei abgelegt ist
-     * @return <tt>ArrayList</tt> von <tt>VgAttrFeature</tt>-Objekten mit <tt>VgPoint</tt>-Geometrien
+     * reads a set of 3-D points with thematic attributes from an ASCII file.<br /><br />
+     * <i>German:</i> liest eine Menge attributierter 3D-Punkte aus einer ASCII-Datei ein.
+     * @param pFilename File path
+     * @return <tt>ArrayList</tt> of <tt>VgAttrFeature</tt>-objects with <tt>VgPoint</tt>-geometries
      * @throws org.n52.v3d.triturus.core.T3dException
      */
     public ArrayList readFromFile(String pFilename) throws T3dException
@@ -113,9 +132,10 @@ public class IoPointFeatureReader extends IoObject
     }
 
     /**
-     * liest die Namen und Typen der verwendeten Attribute aus einer Metadaten-Datei im ASCII-Format ein.<p>
-     * @param pFilename Pfad, unter dem die Datei abgelegt ist
-     * @throws T3dException
+     * reads names and types of the thematic attributes from an metadata file in ASCII format.<br /><br />
+     * <i>German:</i> liest die Namen und Typen der verwendeten Attribute aus einer Metadaten-Datei im ASCII-Format ein.
+     * @param pFilename File path
+     * @throws org.n52.v3d.triturus.core.T3dException
      */
     public void readFromMetaFile(String pFilename) throws T3dException
     {

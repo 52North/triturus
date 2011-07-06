@@ -1,3 +1,22 @@
+/***************************************************************************************
+ * Copyright (C) 2011 by 52 North Initiative for Geospatial Open Source Software GmbH  *
+ *                                                                                     *
+ * Contact: Benno Schmidt & Martin May, 52 North Initiative for Geospatial Open Source *
+ * Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, Germany, info@52north.org *
+ *                                                                                     *
+ * This program is free software; you can redistribute and/or modify it under the      *
+ * terms of the GNU General Public License version 2 as published by the Free Software *
+ * Foundation.                                                                         *
+ *                                                                                     *
+ * This program is distributed WITHOUT ANY WARRANTY; even without the implied WARRANTY *
+ * OF MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public  *
+ * License for more details.                                                           *
+ *                                                                                     *
+ * You should have received a copy of the GNU General Public License along with this   *
+ * program (see gnu-gpl v2.txt). If not, write to the Free Software Foundation, Inc.,  *
+ * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA, or visit the Free Software *
+ * Foundation web page, http://www.fsf.org.                                            *
+ **************************************************************************************/
 package org.n52.v3d.triturus.gisimplm;
 
 import org.n52.v3d.triturus.vgis.VgEnvelope;
@@ -8,27 +27,26 @@ import org.n52.v3d.triturus.core.T3dException;
 import org.n52.v3d.triturus.t3dutil.T3dVector;
 
 /**
- * Bounding-Box-Implementierung, bei der die Punktkoordinaten im Speicher vorgehalten werden.
+ * 3D-Bounding-box (<i>envelope</i>) implementation. Object information will be kept in main memory.<br />
+ * x- and y-values have to be given with respect to the spatial reference system (SRS) that has been set for the
+ * geometric object. The assertions
+ * <tt>env.getMinX() &lt;= env.getMaxX()</tt>, <tt>env.getMinY() &lt;= env.getMaxY()</tt> and
+ * <tt>env.getMinZ() &lt;= env.getMaxZ()</tt> always hold.
  * <p>
- * x- und y-Werte sind dabei bezogen auf das eingestellte räumliche Bezugssystem (SRS) anzugeben. Die Beziehungen
- * <tt>env.getMinX() &lt;= env.getMaxX()</tt>, <tt>env.getMinY() &lt;= env.getMaxY()</tt> und
- * <tt>env.getMinZ() &lt;= env.getMaxZ()</tt> werden stets eingehalten.
- * <p>
- * @author Benno Schmidt<br>
- * (c) 2003-2004, con terra GmbH & Institute for Geoinformatics<br>
+ * @author Benno Schmidt
  */
 public class GmEnvelope extends VgEnvelope
 {
     private double mXMin, mXMax, mYMin, mYMax, mZMin, mZMax;
 
     /** 
-     * Konstruktor.<p>
-     * @param pXMin minimaler x-Wert
-     * @param pXMax maximaler x-Wert
-     * @param pYMin minimaler y-Wert
-     * @param pYMax maximaler y-Wert
-     * @param pZMin minimaler z-Wert
-     * @param pZMax maximaler z-Wert
+     * Constructor.
+     * @param pXMin minimal x-value
+     * @param pXMax maximal x-value
+     * @param pYMin minimal y-value
+     * @param pYMax maximal y-value
+     * @param pZMin minimal z-value
+     * @param pZMax maximal z-value
      */
     public GmEnvelope(double pXMin, double pXMax, double pYMin, double pYMax, double pZMin, double pZMax) 
     {
@@ -40,8 +58,8 @@ public class GmEnvelope extends VgEnvelope
     }
 
     /** 
-     * Konstruktor. Die Geometrie der Bounding-Box <tt>pEnv</tt> wird dabei übernommen.<p>
-     * @param pEnv Envelope mit zu übernehmender Geometrie
+     * Constructor. The geometry of the bounding-box <tt>pEnv</tt> will be taken over.
+     * @param pEnv Envelope holding geometry to be taken over
      */
     public GmEnvelope(VgEnvelope pEnv)
     {
@@ -53,9 +71,9 @@ public class GmEnvelope extends VgEnvelope
     }
 
     /**
-     * Konstruktor. Die Koordinaten des angegebenen Punktes werden dabei übernommen, es entsteht eine Bounding-Box
-     * mit der Fläche 0.<p>
-     * @param pPnt Punktgeometrie
+     * Constructor. The given point's coordinates will be taken over; the resulting bounding-box will have an interior
+     * volume of 0.
+     * @param pPnt Point geometry
      */
     public GmEnvelope(VgPoint pPnt)
     {
@@ -67,9 +85,10 @@ public class GmEnvelope extends VgEnvelope
     }
 
     /**
-     * Konstruktor. Die Geometrie der bounding-Box wird durch zwei Eckpunkte spezifiziert.<p>
-     * @param pPnt1 erster Eckpunkt
-     * @param pPnt2 zweiter Eckpunkt
+     * Constructor. The geometry havwe to be specified by two opposite corner-points (e.g., &quot;lower left
+     * bottom&quot; and &quot;upper right top&quot;).
+     * @param pPnt1 first corner
+     * @param pPnt2 second corner
      */
     public GmEnvelope(VgPoint pPnt1, VgPoint pPnt2)
     {
@@ -84,11 +103,11 @@ public class GmEnvelope extends VgEnvelope
     }
 
     /**
-     * Konstruktor. Die Bounding-Box wird anhand des angegebenen Mittelpunktes und der Breiten- und Tiefenangabe
-     * (Ausdehnungen in x- und y-Richtung) konstruiert.<p>
-     * @param pCenter Mittelpunkt
-     * @param pWidth Breitenangabe (x-Richtung)
-     * @param pDepth Tiefenangabe (y-Richtung)
+     * Constructor. The bounding-Box will be constructed on base of the given center point and the depth- and width-
+     * value (extents in x-direction resp. und y-direction).
+     * @param pCenter Center point
+     * @param pWidth Width (x-direction)
+     * @param pDepth Depth  (y-direction)
      */
     public GmEnvelope(VgPoint pCenter, double pWidth, double pDepth)
     {
@@ -96,16 +115,16 @@ public class GmEnvelope extends VgEnvelope
         mYMin = pCenter.getY() - pDepth / 2.; mYMax = pCenter.getY() + pDepth / 2.;
         mZMin = pCenter.getZ(); mZMax = pCenter.getZ();
 
-        // this.assureOrdering(); hier nicht nötig
+        // this.assureOrdering(); hier nicht nï¿½tig
     }
 
     /**
-     * Konstruktor. Dieser Konstruktor initialisiert die Bounding-Box anhand der angegebenen Komma-separierten
-     * Koordinatenliste. Sind keine z-Werte angegeben, wird z = 0 gesetzt.<p>
-     * Beispiele: <tt>&quot;3500000,5800000,3600000,5900000&quot;, &quot;3500000,5800000,50.5,3600000,5900000,100&quot;</tt><p>
-     * Die Methode wirft eine <tt>T3dException</tt>, falls der String kein interpretierbaren Koordinatenangaben
-     * enthält.<p>
-     * @param pCommaSeparatedList Liste mit 4 oder 6 Koordinaten
+     *
+     * Constructor. The bounding-box will be initialized by the specified comma-separated coordinate list. If no
+     * z-values are given, z will be set to 0.<br />
+     * Examples: <tt>&quot;3500000,5800000,3600000,5900000&quot;, &quot;3500000,5800000,50.5,3600000,5900000,100&quot;</tt><br />
+     * If the given string describes no valid coordinate list, a <tt>T3dException</tt> will be thrown.
+     * @param pCommaSeparatedList List consisting of 4 or 6 coordinate-values
      */
     public GmEnvelope(String pCommaSeparatedList)
     {
@@ -127,125 +146,93 @@ public class GmEnvelope extends VgEnvelope
         this.assureOrdering();
     }
 
-    /**
-     * setzt den minimalen x-Wert der Bounding-Box. Der x-Wert ist bezogen auf das eingestellte räumliche Bezugssystem
-     * (SRS) anzugeben.<p>
-     * Bem.: Nach Aufruf dieser Methode ist die Einhaltung der Bedingung <i>env.getXMin() &lt;= env.getXMax()</i> nicht
-     * zugesichert. Falls nötig, ist die Methode <tt>assureOrdering()</tt> explizit aufzurufen!<p>
-     * @param pX x-Wert
+	/**
+     * sets the bounding-box's minimal x-coordinate.<br />
+     * After method execution it is not asserted that the condition <i>env.getXMin() &lt;= env.getXMax()</i> holds.
+     * If necessary, the method <tt>assureOrdering()</tt> has to be called explicitly!
+     * @param pX x-coordinate referring to the set spatial reference system
      */
     public void setXMin(double pX) {
         mXMin = pX;
     }
 
-    /**
-     * liefert den minimalen x-Wert der Bounding-Box. Der Wert bezieht sich auf das eingestellte räumliches
-     * Bezugssystem (SRS).<p>
-     * @return x-Wert
-     */
     public double getXMin() {
         return mXMin;
     }
 
-    /** 
-     * setzt den maximalen x-Wert der Bounding-Box. Der x-Wert ist bezogen auf das eingestellte räumliche Bezugssystem
-     * (SRS) anzugeben.<p>
-     * Bem.: Nach Aufruf dieser Methode ist die Einhaltung der Bedingung <i>env.getXMin() &lt;= env.getXMax()</i> nicht
-     * zugesichert. Falls nötig, ist die Methode <tt>assureOrdering()</tt> explizit aufzurufen!<p>
-     * @param pX x-Wert
+    /**
+     * sets the bounding-box's maximal x-coordinate.
+     * After method execution it is not asserted that the condition <i>env.getXMin() &lt;= env.getXMax()</i> holds.
+     * If necessary, the method <tt>assureOrdering()</tt> has to be called explicitly!
+     * @param pX x-coordinate referring to the set spatial reference system
      */
     public void setXMax(double pX) {
         mXMax = pX;
     }
 
-    /**
-     * liefert den maximalen x-Wert der Bounding-Box. Der Wert bezieht sich auf das eingestellte räumliches
-     * Bezugssystem (SRS).<p>
-     * @return x-Wert
-     */
     public double getXMax() {
         return mXMax;
     }
 
-    /** 
-     * setzt den minimalen y-Wert der Bounding-Box. Der y-Wert ist bezogen auf das eingestellte räumliche Bezugssystem
-     * (SRS) anzugeben.<p>
-     * Bem.: Nach Aufruf dieser Methode ist die Einhaltung der Bedingung <i>env.getYMin() &lt;= env.getYMax()</i> nicht
-     * zugesichert. Falls nötig, ist die Methode <tt>assureOrdering()</tt> explizit aufzurufen!<p>
-     * @param pY y-Wert
+    /**
+     * sets the bounding-box's minimal y-coordinate.
+     * After method execution it is not asserted that the condition <i>env.getXMin() &lt;= env.getXMax()</i> holds.
+     * If necessary, the method <tt>assureOrdering()</tt> has to be called explicitly!
+     * @param pY y-coordinate referring to the set spatial reference system
      */
     public void setYMin(double pY) {
         mYMin = pY;
     }
 
-    /**
-     * liefert den minimalen y-Wert der Bounding-Box. Der Wert bezieht sich auf das eingestellte räumliches
-     * Bezugssystem (SRS).<p>
-     * @return y-Wert
-     */
     public double getYMin() {
         return mYMin;
     }
 
-    /** 
-     * setzt den maximalen y-Wert der Bounding-Box. Der y-Wert ist bezogen auf das eingestellte räumliche Bezugssystem
-     * (SRS) anzugeben.<p>
-     * Bem.: Nach Aufruf dieser Methode ist die Einhaltung der Bedingung <i>env.getYMin() &lt;= env.getYMax()</i> nicht
-     * zugesichert. Falls nötig, ist die Methode <tt>assureOrdering()</tt> explizit aufzurufen!<p>
-     * @param pY y-Wert
+    /**
+     * sets the bounding-box's maximal y-coordinate.
+     * After method execution it is not asserted that the condition <i>env.getXMin() &lt;= env.getXMax()</i> holds.
+     * If necessary, the method <tt>assureOrdering()</tt> has to be called explicitly!
+     * @param pY y-coordinate referring to the set spatial reference system
      */
     public void setYMax(double pY) {
         mYMax = pY;
     }
 
-    /**
-     * liefert den maximalen y-Wert der Bounding-Box. Der Wert bezieht sich auf das eingestellte räumliche Bezugssystem
-     * (SRS).<p>
-     * @return y-Wert
-     */
     public double getYMax() {
         return mYMax;
     }
 
     /**
-     * setzt den minimalen z-Wert der Bounding-Box.<p>
-     * Bem.: Nach Aufruf dieser Methode ist die Einhaltung der Bedingung <i>env.getZMin() &lt;= env.getZMax()</i> nicht
-     * zugesichert. Falls nötig, ist die Methode <tt>assureOrdering()</tt> explizit aufzurufen!<p>
-     * @param pZ z-Wert
+     * sets the bounding-box's minimal z-coordinate.
+     * After method execution it is not asserted that the condition <i>env.getXMin() &lt;= env.getXMax()</i> holds.
+     * If necessary, the method <tt>assureOrdering()</tt> has to be called explicitly!
+     * @param pZ z-coordinate
      */
     public void setZMin(double pZ) {
        mZMin = pZ;
     }
 
-    /**
-     * liefert den minimalen z-Wert der Bounding-Box.<p>
-     * @return z-Wert
-     */
     public double getZMin() {
         return mZMin;
     }
 
     /**
-     * setzt den maximalen z-Wert der Bounding-Box.<p>
-     * Bem.: Nach Aufruf dieser Methode ist die Einhaltung der Bedingung <i>env.getZMin() &lt;= env.getZMax()</i> nicht
-     * zugesichert. Falls nötig, ist die Methode <tt>assureOrdering()</tt> explizit aufzurufen!<p>
-     * @param pZ z-Wert
-      */
+     * sets the bounding-box's maximal z-coordinate.
+     * After method execution it is not asserted that the condition <i>env.getXMin() &lt;= env.getXMax()</i> holds.
+     * If necessary, the method <tt>assureOrdering()</tt> has to be called explicitly!
+     * @param pZ z-coordinate
+     */
     public void setZMax(double pZ) {
         mZMax = pZ;
     }
 
-    /**
-     * liefert den maximalen z-Wert der Bounding-Box.<p>
-     * @return z-Wert
-     */
     public double getZMax() {
         return mZMax;
     }
 
     /**
-     * liefert den unteren linken vorderen Eckpunkt der Bounding-Box.<p>
-     * @return <tt>GmPoint</tt> mit minimalem x-, y- und z-Wert
+     * returns the bounding-box's &quot;lower left bottom&quot; corner.
+     * @return <tt>GmPoint</tt> with minimum x-, y- and z-value
      */
     public VgPoint getLowerLeftFrontCorner() {
         VgPoint ret = new GmPoint(mXMin, mYMin, mZMin);
@@ -254,8 +241,8 @@ public class GmEnvelope extends VgEnvelope
     }
 
     /**
-     * liefert den oberen rechten hinteren Eckpunkt der Bounding-Box.<p>
-     * @return <tt>GmPoint</tt> mit maximalem x-, y- und z-Wert
+     * returns the bounding-box's &quot;upper right top&quot; corner.
+     * @return <tt>GmPoint</tt> with maximum x-, y- and z-value
      */
     public VgPoint getUpperRightBackCorner() {
         VgPoint ret = new GmPoint(mXMax, mYMax, mZMax);
@@ -263,18 +250,10 @@ public class GmEnvelope extends VgEnvelope
         return ret;
     }
 
-	/**
-     * liefert den Mittelpunkt der Bounding-Box.<p>
-     * @return Mittelpunkt
-     */
 	public VgPoint getCenterPoint() {
 		return new GmPoint(0.5 * (mXMin + mXMax), 0.5 * (mYMin + mYMax), 0.5 * (mZMin + mZMax));
 	}
 
-    /**
-     * setzt den Mittelpunkt der Bounding-Box.<p>
-     * @param pCenter neuer Mittelpunkt
-     */
     public void setCenterPoint(VgPoint pCenter) {
         double mx = (this.getXMax() + this.getXMin()) / 2.;
         double my = (this.getYMax() + this.getYMin()) / 2.;
@@ -284,9 +263,10 @@ public class GmEnvelope extends VgEnvelope
     }
 
     /**
-     * liefert eine innerhalb der xy-Ebene um den Ursprung gedrehte Bounding-Box.<p>
-     * @param pAzimuth Drehwinkel im Bogenmaß (im Uhrzeigersinn)
-     * @return gedrehte Bounding-Box als Polygon
+     * returns a bounding-box that has been rotated around the coordinate-system's origin (0, 0, 0) with respect to the
+     * x-y-plane.
+     * @param pAzimuth Rotation angle in radians (given clockwise)
+     * @return rotated &quot;bounding-box&quot; (which is no bounding-box any more) as polygon
      */
     public VgPolygon rotateXY(double pAzimuth) {
         double cx = this.getCenterPoint().getX();
@@ -308,10 +288,11 @@ public class GmEnvelope extends VgEnvelope
     }
 
     /**
-     * liefert eine gegenüber der xy-Ebene um den Ursprung gedrehte Bounding-Box.<p>
+     * returns a bounding-box that has been rotated around the coordinate-system's origin (0, 0, 0) with respect to the
+     * z-axis.
      * TODO: Methode ist noch nicht getestet
-     * @param pInclination Drehwinkel im Bogenmaß
-     * @return gedrehte Bounding-Box als Polygon
+     * @param pInclination Rotation angle in radians
+     * @return rotated &quot;bounding-box&quot; (which is no bounding-box any more) as polygon
      */
     public VgPolygon rotateZ(double pInclination) {
         double cx = this.getCenterPoint().getX();
@@ -332,10 +313,6 @@ public class GmEnvelope extends VgEnvelope
         return ret;
     }
 
-    /**
-     * erweitert die räumliche Ausdehnung der Bounding-Box so, dass sie die angegebene Bounding-Box umfasst
-     * (Vereinigungsoperator).<p>
-     */
     public void letContainEnvelope(VgEnvelope pEnv)
     {
     	this.assertSRS(pEnv);
@@ -347,10 +324,6 @@ public class GmEnvelope extends VgEnvelope
         return this;
     }
 
-	/** 
-	 * liefert das zugehörige "Footprint"-Objekt.<p>
-	 * @return "Footprint" als <tt>GmEnvelope</tt>-Objekt
-  	 */
 	public VgGeomObject footprint() {
         GmPolygon res = new GmPolygon();
 		res.addVertex(new GmPoint(mXMin, mYMin, 0.));
@@ -361,8 +334,8 @@ public class GmEnvelope extends VgEnvelope
 	}
 
     /**
-     * Veranlassung, dass die Bedingungen <i>this.getXMin() &lt;= this.getXMax()</i>,
-     * <i>this.getYMin() &lt;= this.getYMax()</i> und <i>this.getZMin() &lt;= this.getZMax()</i> eingehalten werden.<p>
+     * provokes that the conditions <i>this.getXMin() &lt;= this.getXMax()</i>,
+     * <i>this.getYMin() &lt;= this.getYMax()</i> and <i>this.getZMin() &lt;= this.getZMax()</i> will hold.
      */
     public void assureOrdering() {
         this.assureOrderingX();
@@ -371,21 +344,21 @@ public class GmEnvelope extends VgEnvelope
     }
 
     /**
-     * Veranlassung, dass die Bedingung <i>this.getXMin() &lt;= this.getXMax()</i> eingehalten wird.<p>
+     * provokes that the condition <i>this.getXMin() &lt;= this.getXMax()</i> will hold.
      */
     public void assureOrderingX() {
         if (mXMin > mXMax) { double hlp = mXMin; mXMin = mXMax; mXMax = hlp; }
     }
 
     /**
-     * Veranlassung, dass die Bedingung <i>this.getYMin() &lt;= this.getYMax()</i> eingehalten wird.<p>
+     * provokes that the condition <i>this.getYMin() &lt;= this.getYMax()</i> will hold.
      */
     public void assureOrderingY() {
         if (mYMin > mYMax) { double hlp = mYMin; mYMin = mYMax; mYMax = hlp; }
     }
 
     /**
-     * Veranlassung, dass die Bedingung <i>this.getZMin() &lt;= this.getZMax()</i> eingehalten wird.<p>
+     * provokes that the condition <i>this.getZMin() &lt;= this.getZMax()</i> will hold.
      */
     public void assureOrderingZ() {
         if (mZMin > mZMax) { double hlp = mZMin; mZMin = mZMax; mZMax = hlp; }

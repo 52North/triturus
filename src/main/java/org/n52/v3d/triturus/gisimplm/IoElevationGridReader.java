@@ -1,3 +1,22 @@
+/***************************************************************************************
+ * Copyright (C) 2011 by 52 North Initiative for Geospatial Open Source Software GmbH  *
+ *                                                                                     *
+ * Contact: Benno Schmidt & Martin May, 52 North Initiative for Geospatial Open Source *
+ * Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, Germany, info@52north.org *
+ *                                                                                     *
+ * This program is free software; you can redistribute and/or modify it under the      *
+ * terms of the GNU General Public License version 2 as published by the Free Software *
+ * Foundation.                                                                         *
+ *                                                                                     *
+ * This program is distributed WITHOUT ANY WARRANTY; even without the implied WARRANTY *
+ * OF MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public  *
+ * License for more details.                                                           *
+ *                                                                                     *
+ * You should have received a copy of the GNU General Public License along with this   *
+ * program (see gnu-gpl v2.txt). If not, write to the Free Software Foundation, Inc.,  *
+ * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA, or visit the Free Software *
+ * Foundation web page, http://www.fsf.org.                                            *
+ **************************************************************************************/
 package org.n52.v3d.triturus.gisimplm;
 
 import java.io.BufferedReader;
@@ -21,10 +40,10 @@ import java.util.StringTokenizer;
 import java.net.URL;
 import java.net.MalformedURLException;
 
-/** 
- * Einlesen von Gitter-basiertern Höhenmodellen (Typ <tt>GmSimpleElevationGrid</tt>) aus Dateien.<p>
- * @author Benno Schmidt und Martin May<br>
- * (c) 2003-2004, con terra GmbH & Institute for Geoinformatics<br>
+/**
+ * Reading elevation grids (of type <tt>GmSimpleElevationGrid</tt>) from a file or URL location.<br /><br />
+ * <i>German:</i> Einlesen von Gitter-basiertern H&ouml;henmodellen (Typ <tt>GmSimpleElevationGrid</tt>) aus Dateien.
+ * @author Benno Schmidt und Martin May
  */
 public class IoElevationGridReader extends IoObject
 {
@@ -33,30 +52,30 @@ public class IoElevationGridReader extends IoObject
     private String mFormat;
     private GmSimpleElevationGrid mElevationGrid = null;
 
-    /** 
-     * Konstruktor. Als Parameter ist der Dateiformattyp zu setzen. Wird dieser nicht unterstützt, wird später während
-     * des Lesevorgangs eine Ausnahme geworfen.<p>
-     * Es werden z. Zt. die folgenden Formate unterstützt:<p>
+    /**
+     * Constructor.<br /><br />
+     * <i>German:</i> Konstruktor. Als Parameter ist der Dateiformattyp zu setzen. Wird dieser nicht unterst&uuml;tzt,
+     * wird sp&auml;ter w&auml;hrend des Lesevorgangs eine Ausnahme geworfen.<br />
+     * Es werden z. Zt. die folgenden Formate unterst&uuml;tzt:<br />
      * <ul>
-     * <li><i>ArcIGrd:</i> ArcInfo-ASCII-Grids</li>
-     * <li><i>AcGeo:</i> ACADGEO-Format (Lattice ohne Farbinformation)</li>
-     * <li><i>BSQ:</i> Byte-sequenzielles ESRI-Format</li>
+     * <li><i>ArcIGrd:</i> ArcInfo ASCII grids</li>
+     * <li><i>AcGeo:</i> ACADGEO format (lattice without color-information</li>
+     * <li><i>BSQ:</i> Byte-sequential ESRI-format</li>
      * </ul><p>
-     * @param pFormat Format-String, z. B. "ArcIGrd"
+     * @param pFormat Format-string, e.g. <tt></tt>&quot;ArcIGrd&quot;</tt>
      */
     public IoElevationGridReader(String pFormat) {
         mLogString = this.getClass().getName();
         this.setFormatType(pFormat);
     }
 
-    /** protokolliert die durchgeführte Transformation. */
     public String log() {
         return mLogString;
     }
 
     /** 
-     * setzt den Formattyp.<p>
-     * @param pFormat Format-String (z. B. "ArcIGrd")
+     * sets the format type.
+     * @param pFormat Format-string (e.g. <tt></tt>&quot;ArcIGrd&quot;</tt>)
      */
     public void setFormatType(String pFormat)
     {
@@ -65,9 +84,10 @@ public class IoElevationGridReader extends IoObject
 
     /**
      * @deprecated
-     * liest ein Elevation-Grid aus einer Datei ein.<p>
-     * @param pLocation Pfad, unter dem die Datei abgelegt ist, oder gültiger URL.
-     * @return Elevation-Grid (im Fehlerfall <i>null</i>)
+     * reads an elevation-grid from a file or URL location.<br /><br />
+     * <i>German:</i> liest ein Elevation-Grid aus einer Datei ein.<br />
+     * @param pLocation File path or valid URL
+     * @return Elevation-gridm, or <i>null</i> if an error occurs
      * @throws org.n52.v3d.triturus.core.T3dNotYetImplException
      * @throws org.n52.v3d.triturus.core.T3dException
      */
@@ -77,17 +97,19 @@ public class IoElevationGridReader extends IoObject
     }
 
     /**
-     * liest ein Elevation-Grid aus einer Datei oder über die Angabe eines URLs ein.<p>
-     * Bem.: URLs müssen mit "http" beginnen, Dateien mit absoluter Pfadangabe mit "file" (noch zu testen). Relative
-     * Pfade funktionieren auch (testdata/...)<p>
-     * @param pLocation Pfad, unter dem die Datei abgelegt ist, oder gültiger URL.
-     * @return Elevation-Grid (im Fehlerfall <i>null</i>)
+     * @deprecated
+     * reads an elevation-grid from a file or URL location.<br /><br />
+     * <i>German:</i> liest ein Elevation-Grid aus einer Datei ein.<br />
+     * Bem.: URLs m&uuml;ssen mit "http" beginnen, Dateien mit absoluter Pfadangabe mit "file" (noch zu testen).
+     * Relative Pfade funktionieren auch (testdata/...)
+     * @param pLocation File path or valid URL
+     * @return Elevation-gridm, or <i>null</i> if an error occurs
      * @throws org.n52.v3d.triturus.core.T3dNotYetImplException
      * @throws org.n52.v3d.triturus.core.T3dException
      */
     public GmSimpleElevationGrid read(String pLocation) throws T3dException
     {
-    	InputStream is = null;
+    	InputStream is;
 		try {
 			if (pLocation.startsWith("http"))
 	    		is = this.createInputStream(new URL(pLocation));
@@ -104,14 +126,14 @@ public class IoElevationGridReader extends IoObject
         if (mFormat.equalsIgnoreCase("ArcIGrd")) i = 1;
         if (mFormat.equalsIgnoreCase("AcGeo")) i = 2;
         if (mFormat.equalsIgnoreCase("BSQ")) i = 3;
-        // --> hier ggf. weitere Typen ergänzen...
+        // --> hier ggf. weitere Typen ergï¿½nzen...
 
         try {
             switch (i) {
                 case 1: this.readArcInfoAsciiGrid(this.createBufferedReader(is)); break;
                 case 2: this.readAcadGeoGrid(this.createBufferedReader(is)); break;
                 case 3: this.readEsriBandSequential(pLocation); break;
-                // --> hier ggf. weitere Typen ergänzen...
+                // --> hier ggf. weitere Typen ergï¿½nzen...
 
                 default: throw new T3dNotYetImplException("Unsupported file format");
             }
@@ -139,7 +161,8 @@ public class IoElevationGridReader extends IoObject
     }
 
     /**
-     * liest ein 2D-Float-Array aus dem Stream aus und generiert daraus ein Grid.<p>
+     * reads a 2-D float array from a stream and generates a grid from it.<br /<<br />
+     * <i>German:</i> liest ein 2D-Float-Array aus dem Stream aus und generiert daraus ein Grid.
 	 * @param inputStream
      * @throws IOException
 	 */
@@ -197,7 +220,7 @@ public class IoElevationGridReader extends IoObject
                 cellSize); // Gitterweite y-Richtung
             mElevationGrid.setLatticeInterpretation(); // todo: okay? Konsequenzen?
 
-            // Höhenwerte lesen und Belegen des Zielgitters:
+            // Hï¿½henwerte lesen und Belegen des Zielgitters:
             float z = 0.f;
             String line = null;
 
@@ -228,7 +251,7 @@ public class IoElevationGridReader extends IoObject
         }
     } // readArcInfoAsciiGrid()
 
-    // private Helfer, benötigt in readArcInfoAsciiGrid():
+    // private Helfer, benï¿½tigt in readArcInfoAsciiGrid():
 
     private int parseInt(String check, String line) throws T3dException
     {
@@ -322,7 +345,7 @@ public class IoElevationGridReader extends IoObject
                 (yTo - yFrom) / ((double)nRows - 1.)); // Gitterweite y-Richtung
             mElevationGrid.setLatticeInterpretation();
 
-            // Belegen der Gitterpunkte mit Höhenwerten:
+            // Belegen der Gitterpunkte mit Hï¿½henwerten:
 
             double z;
             mElevationGrid.setZBoundsInvalid(); // Performanz!
@@ -357,7 +380,7 @@ public class IoElevationGridReader extends IoObject
         }
     } // readAcadGeoGrid()
 
-    // private Helfer, benötigt in readAcadGeoGrid():
+    // private Helfer, benï¿½tigt in readAcadGeoGrid():
 
     // Extraktion des i-ten Tokens (i >= 1!, i max. = 4) aus einem String ('pSep" als Trenner):
     private String getStrTok(String pStr, int i, String pSep) throws T3dException
@@ -413,7 +436,7 @@ public class IoElevationGridReader extends IoObject
 			hdrTokRead.lowerCaseMode(true);//alle Tokens in Kleinbuchstaben holen
 			hdrTokRead.commentChar(35);//Hash signalisiert Kommentar-Zeile...
 			hdrTokRead.eolIsSignificant(false);//Zeilenumbruch unwichtig
-			hdrTokRead.wordChars(65,90);//Großbuchstaben
+			hdrTokRead.wordChars(65,90);//Groï¿½buchstaben
 			hdrTokRead.wordChars(97,122);//Kleinbuchstaben
 			int tokType=0;
 			hdrTokRead.parseNumbers();//Die Nummern lesen wir 'direkt'
@@ -434,7 +457,7 @@ public class IoElevationGridReader extends IoObject
 				}
 			} while (tokType!=StreamTokenizer.TT_EOF);
 			
-			//Einige Werte prüfen:
+			//Einige Werte prï¿½fen:
 			if(header.get("pixeltype").equals("float")) isFloat=true;
 			else if(header.get("pixeltype").equals("int") || header.get("pixeltype").equals("integer")) isFloat=false;
 			else throw new T3dException("Pixeltype not supported: " + header.get("pixeltype"));
@@ -453,7 +476,7 @@ public class IoElevationGridReader extends IoObject
 			bqwTokRead.lowerCaseMode(true);//alle Tokens in Kleinbuchstaben holen
 			bqwTokRead.commentChar(35);//Hash signalisiert Kommentar-Zeile...
 			bqwTokRead.eolIsSignificant(false);//Zeilenumbruch unwichtig
-			bqwTokRead.wordChars(65,90);//Großbuchstaben
+			bqwTokRead.wordChars(65,90);//Groï¿½buchstaben
 			bqwTokRead.wordChars(97,122);//Kleinbuchstaben
 			tokType=0;
 			bqwTokRead.parseNumbers();//Die Nummern lesen wir 'direkt'
@@ -468,7 +491,7 @@ public class IoElevationGridReader extends IoObject
 			tokType = bqwTokRead.nextToken();
 			if(tokType==StreamTokenizer.TT_NUMBER) LLy = bqwTokRead.nval;
 			
-			//Korrektur des Ursprungs nach LL (falls nötig)
+			//Korrektur des Ursprungs nach LL (falls nï¿½tig)
 			if(Dx<0){
 				LLx = LLx + Dx * ((Integer)header.get("ncols")).intValue();
 				Dx = 0-Dx;
@@ -491,7 +514,7 @@ public class IoElevationGridReader extends IoObject
 
 			FileInputStream bsqFS = new FileInputStream(bsqName);
 			
-			// Belegen der Gitterpunkte mit Höhenwerten:
+			// Belegen der Gitterpunkte mit Hï¿½henwerten:
 			int startrow,startcol;
 			if(rowOrder==-1) startrow=mElevationGrid.numberOfRows()-1;
 			else startrow=0;
@@ -517,7 +540,7 @@ public class IoElevationGridReader extends IoObject
 					if(isFloat) {
 //						float z = Float.intBitsToFloat(zRaw);
 						float z = lBuf.get(j);
-						if(z>-8000) mElevationGrid.setValue(i, j, z);//Man könnte auf NaN prüfen, aber...
+						if(z>-8000) mElevationGrid.setValue(i, j, z);//Man kï¿½nnte auf NaN prï¿½fen, aber...
 					} else mElevationGrid.setValue(i, j, lBuf.get(j));
 				}
 				System.out.println("Reihe: " + i);

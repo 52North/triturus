@@ -1,3 +1,22 @@
+/***************************************************************************************
+ * Copyright (C) 2011 by 52 North Initiative for Geospatial Open Source Software GmbH  *
+ *                                                                                     *
+ * Contact: Benno Schmidt & Martin May, 52 North Initiative for Geospatial Open Source *
+ * Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, Germany, info@52north.org *
+ *                                                                                     *
+ * This program is free software; you can redistribute and/or modify it under the      *
+ * terms of the GNU General Public License version 2 as published by the Free Software *
+ * Foundation.                                                                         *
+ *                                                                                     *
+ * This program is distributed WITHOUT ANY WARRANTY; even without the implied WARRANTY *
+ * OF MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public  *
+ * License for more details.                                                           *
+ *                                                                                     *
+ * You should have received a copy of the GNU General Public License along with this   *
+ * program (see gnu-gpl v2.txt). If not, write to the Free Software Foundation, Inc.,  *
+ * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA, or visit the Free Software *
+ * Foundation web page, http://www.fsf.org.                                            *
+ **************************************************************************************/
 package org.n52.v3d.triturus.gisimplm;
 
 import java.io.BufferedWriter;
@@ -14,9 +33,10 @@ import java.io.*;
 import java.text.DecimalFormat;
 
 /**
- * Schreiben von Gitter-basiertern Höhenmodellen (Typ <tt>GmSimpleElevationGrid</tt>) in Dateien oder Ströme.<p>
- * @author Benno Schmidt<br>
- * (c) 2003-2004, con terra GmbH & Institute for Geoinformatics<br>
+ * Writing elevation grids (of type <tt>GmSimpleElevationGrid</tt>) to a file or stram.<br /><br />
+ * <i>German:</i> Schreiben von Gitter-basiertern H&ouml;henmodellen (Typ <tt>GmSimpleElevationGrid</tt>) in Dateien
+ * oder Str&ouml;me.
+ * @author Benno Schmidt
  */
 public class IoElevationGridWriter extends IoAbstractWriter
 {
@@ -27,52 +47,53 @@ public class IoElevationGridWriter extends IoAbstractWriter
     private MpHypsometricColor mHypsometricColMap = null;
 
     /**
-     * Konstruktor. Als Parameter ist der Dateiformattyp zu setzen. Wird dieser nicht unterstützt, wird später während
-     * des Schreibvorgangs eine Ausnahme geworfen.<p>
-     * Es werden z. Zt. die folgenden Formate unterstützt:<p>
+     * Constructor.<br /><br />
+     * <i>German:</i> Konstruktor. Als Parameter ist der Dateiformattyp zu setzen. Wird dieser nicht unterst&uuml;tzt,
+     * wird sp&auml;ter w&auml;hrend des Schreibvorgangs eine Ausnahme geworfen.<br />
+     * Es werden z. Zt. die folgenden Formate unterst&uuml;tzt:<br />
      * <ul>
-     * <li><i>ArcIGrd:</i> ArcInfo-ASCII-Grids (Zellen-basiert)</li>
-     * <li><i>AcGeo:</i> ACADGEO-Format, Lattice ohne Farbinformation</li>
-     * <li><i>AcGeoTIN:</i> ACADGEO-TIN-Format</li>
-     * <li><i>Vrml1:</i> VRML 1.0-Szene (nicht-optimiertes Dreicksnetz)</li>
-     * <li><i>Vrml2:</i> VRML 2.0-Szene (Typ ElevationGrid)</li>
-     * <li><i>X3d:</i> X3D-Szene</li>
-     * <li><i>XYZ:</i> einfache ASCII-Datei mit Koordinaten der Höhenpunkte</li>
+     * <li><i>ArcIGrd:</i> ArcInfo ASCII grids (cell-based)</li>
+     * <li><i>AcGeo:</i> ACADGEO format, lattice without color information</li>
+     * <li><i>AcGeoTIN:</i> ACADGEO-TIN format</li>
+     * <li><i>Vrml1:</i> VRML 1.0 scene (non-optimized triangle mesh)</li>
+     * <li><i>Vrml2:</i> VRML 2.0 scene (type ElevationGrid)</li>
+     * <li><i>X3d:</i> X3D scene</li>
+     * <li><i>XYZ:</i> plain ASCII-file with coordinates of the elevation points</li>
      * </ul><p>
      * Bem.:<p>
-     * 1. ArcInfo-ASCII-Grids können nur dann geschrieben werden, wenn die Gitterweite in x- und y-Richtung
-     * übereinstimmen. Für nicht-belegte Gitterpunkte wird ein ausgewiesener NODATA-Wert geschrieben. Dieser lässt sich
-     * über die Methode <tt>this.setNoDataValue()</tt> explizit setzen. Default-Wert ist -9999.<p>
-     * 2. Der VRML-Export erfolgt durch ein Speicherplatz-intensives Dreiecksnetz und ist insofern optimierbar.<p>
-     * 3. Der X3D-Export ist nicht georeferenziert und nur prototypisch implementiert.<p>
+     * 1. ArcInfo-ASCII-Grids k&ouml;nnen nur dann geschrieben werden, wenn die Gitterweite in x- und y-Richtung
+     * &uuml;bereinstimmen. F&uuml;r nicht-belegte Gitterpunkte wird ein ausgewiesener NODATA-Wert geschrieben. Dieser
+     * l&auml;sst sich &uuml;ber die Methode <tt>this.setNoDataValue()</tt> explizit setzen. Default-Wert ist -9999.
+     * <br />
+     * 2. Der VRML-Export erfolgt durch ein Speicherplatz-intensives Dreiecksnetz und ist insofern optimierbar.<br />
+     * 3. Der X3D-Export ist nicht georeferenziert und nur prototypisch implementiert.<br />
      * 4. Um das <tt>GmSimpleElevationGrid</tt> als GIF-Bild abzuspeichern, kann bei Bedarf die Klasse 
      * <tt>IoElevationGridGIFWriter</tt> aus dem Paket org.n52.v3d.triturus.vispovray genutzt werden.
-     * <p>
-     * @param pFormat Format-String, z. B. "ArcIGrd"
+     * @param pFormat Format-string, e.g. <tt>&quot;ArcIGrd&quot;</tt>
      */
     public IoElevationGridWriter(String pFormat) {
         mLogString = this.getClass().getName();
         this.setFormatType(pFormat);
     }
 
-    /** protokolliert die durchgeführte Transformation. */
     public String log() {
         return mLogString;
     }
 
     /** 
-     * setzt den Formattyp.<p>
-     * @param pFormat Format-String, z. B. "ArcIGrd"
+     * sets the format type.
+     * @param pFormat Format-string (e.g. <tt></tt>&quot;ArcIGrd&quot;</tt>)
      */
     public void setFormatType(String pFormat) {
         mFormat = pFormat;
     }
 
     /**
-     * schreibt ein Elevation-Grid in eine Datei. Wird der spezifizierte Formattyp nicht unterstützt, wirft die Methode
-     * eine <tt>T3dNotYetImplException</tt>.<p>
-     * @param pGrid zu schreibendes Elevation-Grid
-     * @param pFilename Pfad, unter dem die Datei abgelegt wird.
+     * writes an elevation-grid to a file:<br /><br />
+     * <i>German:</i> schreibt ein Elevation-Grid in eine Datei. Wird der spezifizierte Formattyp nicht
+     * unterst&uuml;tzt, wirft die Methode eine <tt>T3dNotYetImplException</tt>.
+     * @param pGrid Elevation-Grid to be written
+     * @param pFilename File path
      * @throws T3dException
      */
     public void writeToFile(GmSimpleElevationGrid pGrid, String pFilename) throws T3dException, T3dNotYetImplException
@@ -85,7 +106,7 @@ public class IoElevationGridWriter extends IoAbstractWriter
         if (mFormat.equalsIgnoreCase("Vrml2")) i = 5;
         if (mFormat.equalsIgnoreCase("X3d")) i = 6;
         if (mFormat.equalsIgnoreCase("XYZ")) i = 7;
-        // --> hier ggf. weitere Typen ergänzen...
+        // --> hier ggf. weitere Typen ergï¿½nzen...
 
         try {
             switch (i) {
@@ -96,7 +117,7 @@ public class IoElevationGridWriter extends IoAbstractWriter
                 case 5: this.writeVrml2(pGrid, pFilename); break;
                 case 6: this.writeSimpleX3d(pGrid, pFilename); break;
                 case 7: this.writeAsciiXYZ(pGrid, pFilename); break;
-                // --> hier ggf. weitere Typen ergänzen...
+                // --> hier ggf. weitere Typen ergï¿½nzen...
 
                 default: throw new T3dException("Unsupported file format.");
             }
@@ -140,7 +161,7 @@ public class IoElevationGridWriter extends IoAbstractWriter
             lDat.write("NODATA_value  " + mNoDataValue); // line 6
             lDat.newLine();
 
-            // Schreiben der Höhenwerte für Gitterpunkte:
+            // Schreiben der Hï¿½henwerte fï¿½r Gitterpunkte:
             for (int i = lGeom.numberOfRows() - 1; i >= 0; i--) { 
                 for (int j = 0; j < lGeom.numberOfColumns(); j++) {
                     if (pGrid.isSet(i, j))
@@ -166,8 +187,10 @@ public class IoElevationGridWriter extends IoAbstractWriter
     } // writeArcInfoAsciiGrid()
 
     /**
-     * setzt den NODATA-Wert für ArcInfo-ASCII-Grids. Der Default-Wert von -9999 wird hierdurch überschrieben.<p>
-     * @param pNoDataValue NODATA-Wert
+     * sets the NODATA-value for ArcInfo ASCII grids.<br /<<br />
+     * <i>German:</i> setzt den NODATA-Wert f&uuml;r ArcInfo-ASCII-Grids. Der Default-Wert von -9999 wird hierdurch
+     * &uuml;berschrieben.
+     * @param pNoDataValue NODATA-value
      */
     public void setNoDataValue(int pNoDataValue) {
     	mNoDataValue = pNoDataValue;
@@ -195,7 +218,7 @@ public class IoElevationGridWriter extends IoAbstractWriter
 
             DecimalFormat dfZ = this.getDecimalFormatZ();
 
-            // Schreiben der Höhenwerte für Gitterpunkte:
+            // Schreiben der Hï¿½henwerte fï¿½r Gitterpunkte:
             for (int j = 0; j < lGeom.numberOfColumns(); j++)
                 for (int i = 0; i < lGeom.numberOfRows(); i++) {
                     if (pGrid.isSet(i, j))
@@ -244,7 +267,7 @@ public class IoElevationGridWriter extends IoAbstractWriter
             DecimalFormat dfXY = this.getDecimalFormatXY();
             DecimalFormat dfZ = this.getDecimalFormatZ();
 
-            // Schreiben der Höhenwerte für Gitterpunkte:
+            // Schreiben der Hï¿½henwerte fï¿½r Gitterpunkte:
             for (int j = 0; j < lGeom.numberOfColumns(); j++)
                 for (int i = 0; i < lGeom.numberOfRows(); i++) {
                     GmPoint pt = new GmPoint(lGeom.getVertexCoordinate( i, j ));
@@ -319,7 +342,7 @@ public class IoElevationGridWriter extends IoAbstractWriter
             lDat.write("    Coordinate3 {"); lDat.newLine();
             lDat.write("      point ["); lDat.newLine();
 
-            // VRML Teil 1 (Angabe der Stützpunkte):
+            // VRML Teil 1 (Angabe der Stï¿½tzpunkte):
 
             DecimalFormat dfXY = this.getDecimalFormatZ();
             DecimalFormat dfZ = this.getDecimalFormatZ();
@@ -378,9 +401,10 @@ public class IoElevationGridWriter extends IoAbstractWriter
     } // writeSimpleVrml1()
 
     /**
-     * ermöglicht, das Höhengitter als hypsometrisch eingefärbtes Modell zu exportieren. Dieser Modus wird nur für das
-     * Format "Vrml2" unterstützt.<p>
-     * @param pColMap Hypsometrische Farbzuordnung oder <i>null</i>, falls keine Einfärbung erfolgen soll.
+     * enables the export of hypsometric coloured models.<br /><br />
+     * <i>German:</i> erm&ouml;glicht, das H&ouml;hengitter als hypsometrisch eingef&auml;rbtes Modell zu exportieren.
+     * Dieser Modus wird nur f&uuml;r dasFormat &quot;Vrml2&quot; unterstï¿½tzt.
+     * @param pColMap Hypsometric color-assignment or <i>null</i>, if no colouring shall be carried out
      */
     public void setHypsometricColorMapper(MpHypsometricColor pColMap) {
     	mHypsometricColMap = pColMap;
@@ -430,7 +454,7 @@ public class IoElevationGridWriter extends IoAbstractWriter
             lDat.newLine();
 lDat.write("Group { children ["); lDat.newLine();                   // TODO
 lDat.write("DEF Relief Transform {"); lDat.newLine();
-            lDat.write("    scale 1 5 1"); // Überhöhung
+            lDat.write("    scale 1 5 1"); // ï¿½berhï¿½hung
             lDat.write("    children ["); lDat.newLine();
             lDat.write("        Transform {"); lDat.newLine();
             lDat.write("            translation " + ox + " 0.0 " + oy); lDat.newLine();
@@ -442,7 +466,7 @@ lDat.write("DEF Relief Transform {"); lDat.newLine();
             lDat.write("                        }"); lDat.newLine();
 if (false) {
 lDat.write("                        texture ImageTexture {"); lDat.newLine();              // TODO
-String lDrape = "http://www.wischelo.de/images/email.png";      // todo variabel machen!!        jpeg müsste auch gehen...
+String lDrape = "http://www.wischelo.de/images/email.png";      // todo variabel machen!!        jpeg mï¿½sste auch gehen...
 System.out.println("DRAPE = " + lDrape);                   // todo: Problem: Bild ist noch spiegelbildlich!!
 lDat.write("                            url \"" + lDrape + "\""); lDat.newLine();
 lDat.write("                        }"); lDat.newLine();
@@ -487,7 +511,7 @@ mHypsometricColMap = null;
             lDat.write("            ]"); lDat.newLine(); // Ende children
             lDat.write("        }"); lDat.newLine(); // Ende Transform Verschiebung
             lDat.write("    ]"); lDat.newLine(); // Ende children
-            lDat.write("}"); lDat.newLine(); // Ende Transform Überhöhung
+            lDat.write("}"); lDat.newLine(); // Ende Transform ï¿½berhï¿½hung
 lDat.write(", DEF Sensor TouchSensor {} ] }"); lDat.newLine();
 
 lDat.write("DEF Clock TimeSensor {"); lDat.newLine();
@@ -565,11 +589,11 @@ lDat.write("ROUTE Interpolator.value_changed TO Relief.set_scale"); lDat.newLine
 
             lDat.write("      height=\"" );
 
-            // Angabe der Höhenwerte:
+            // Angabe der Hï¿½henwerte:
             for (int j = 0; j < lGeom.numberOfColumns(); j++) {
                 for (int i = 0; i < lGeom.numberOfRows(); i++) {
                     lDat.write("" + (lExaggeration * pGrid.getValue(i, j)) + " ");
-                    // this.getDecimalFormatZ() hier unberücksichtigt... -> todo
+                    // this.getDecimalFormatZ() hier unberï¿½cksichtigt... -> todo
                 }
             }
             lDat.write("\"/>"); lDat.newLine();

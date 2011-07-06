@@ -1,11 +1,30 @@
+/***************************************************************************************
+ * Copyright (C) 2011 by 52 North Initiative for Geospatial Open Source Software GmbH  *
+ *                                                                                     *
+ * Contact: Benno Schmidt & Martin May, 52 North Initiative for Geospatial Open Source *
+ * Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, Germany, info@52north.org *
+ *                                                                                     *
+ * This program is free software; you can redistribute and/or modify it under the      *
+ * terms of the GNU General Public License version 2 as published by the Free Software *
+ * Foundation.                                                                         *
+ *                                                                                     *
+ * This program is distributed WITHOUT ANY WARRANTY; even without the implied WARRANTY *
+ * OF MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public  *
+ * License for more details.                                                           *
+ *                                                                                     *
+ * You should have received a copy of the GNU General Public License along with this   *
+ * program (see gnu-gpl v2.txt). If not, write to the Free Software Foundation, Inc.,  *
+ * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA, or visit the Free Software *
+ * Foundation web page, http://www.fsf.org.                                            *
+ **************************************************************************************/
 package org.n52.v3d.triturus.gisimplm;
 
 import org.n52.v3d.triturus.vgis.*;
 
 /**
- * Implementierende Klasse zur Verwaltung (beliebig im Raum orientierter) Dreiecke.<p>
- * @author Benno Schmidt<br>
- * (c) 2003, con terra GmbH & Institute for Geoinformatics<br>
+ * Implementing class to manage triangles with arbitrary orientation in 3-D space.<br /><br />
+ * <i>German:</i> Implementierende Klasse zur Verwaltung (beliebig im Raum orientierter) Dreiecke.
+ * @author Benno Schmidt
  */
 public class GmTriangle extends VgTriangle 
 {
@@ -14,17 +33,14 @@ public class GmTriangle extends VgTriangle
     private boolean mEnvIsCalculated = false;
 
     /* 
-     * Konstruktor.<p>
+     * Constructor.
      */
     public GmTriangle(VgPoint pCorner1, VgPoint pCorner2, VgPoint pCorner3) 
     {
         this.setCornerPoints(pCorner1, pCorner2, pCorner3); 
     }
 
-    /** 
-     * setzt die Eckpunkte des Dreiecks.<p> 
-     */
-    public void setCornerPoints(VgPoint pCorner1, VgPoint pCorner2, VgPoint pCorner3) 
+    public void setCornerPoints(VgPoint pCorner1, VgPoint pCorner2, VgPoint pCorner3)
     {
         mP1 = new GmPoint(pCorner1);
         this.assertSRS(pCorner2); 
@@ -34,20 +50,15 @@ public class GmTriangle extends VgTriangle
         mEnvIsCalculated = false;
     }
     
-	/** 
-	 * @deprecated
-	 * liefert die Eckpunkte des Dreiecks.<p>
-	 * <i>TODO: Methode funktioniert noch nicht richtig...</i><p>
-	 */
 	public void getCornerPoints(VgPoint pCorner1, VgPoint pCorner2, VgPoint pCorner3) {
 		pCorner1 = mP1;
 		pCorner2 = mP2;
 		pCorner3 = mP3;
 	}
 
-    /** 
-     * liefert die Eckpunkte des Dreiecks.<p>
-     * @return dreielementiges Array mit <tt>GmPoint</tt>-Objekten
+    /**
+     * returns the triangle's corner-points.
+     * @return Array consisting of three <tt>GmPoint</tt>-objects holding the corner-points
      */
     public VgPoint[] getCornerPoints() {
     	GmPoint[] res = new GmPoint[3];
@@ -56,7 +67,8 @@ public class GmTriangle extends VgTriangle
     }
 
     /** 
-     * liefert die Bounding-Box der Geometrie.<p>
+     * returns the TIN-geometry's bounding-box.
+     * @return Bounding-box
      */
     public VgEnvelope envelope() 
     {
@@ -71,9 +83,9 @@ public class GmTriangle extends VgTriangle
         return mEnv;
     }
     
-	/** 
-	 * liefert das zugehörige "Footprint"-Dreieck.<p>
-	 * @return "Footprint" als <tt>GmTriangle</tt>-Objekt
+	/**
+     * returns the TIN's footprint.
+     * @return Footprint as <tt>GmTriangle</tt>-object
   	 */
 	public VgGeomObject footprint() {
 		return new GmTriangle(

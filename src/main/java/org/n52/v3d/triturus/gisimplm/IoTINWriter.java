@@ -1,6 +1,24 @@
+/***************************************************************************************
+ * Copyright (C) 2011 by 52 North Initiative for Geospatial Open Source Software GmbH  *
+ *                                                                                     *
+ * Contact: Benno Schmidt & Martin May, 52 North Initiative for Geospatial Open Source *
+ * Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, Germany, info@52north.org *
+ *                                                                                     *
+ * This program is free software; you can redistribute and/or modify it under the      *
+ * terms of the GNU General Public License version 2 as published by the Free Software *
+ * Foundation.                                                                         *
+ *                                                                                     *
+ * This program is distributed WITHOUT ANY WARRANTY; even without the implied WARRANTY *
+ * OF MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public  *
+ * License for more details.                                                           *
+ *                                                                                     *
+ * You should have received a copy of the GNU General Public License along with this   *
+ * program (see gnu-gpl v2.txt). If not, write to the Free Software Foundation, Inc.,  *
+ * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA, or visit the Free Software *
+ * Foundation web page, http://www.fsf.org.                                            *
+ **************************************************************************************/
 package org.n52.v3d.triturus.gisimplm;
 
-import org.n52.v3d.triturus.core.IoObject;
 import org.n52.v3d.triturus.core.T3dException;
 import org.n52.v3d.triturus.core.T3dNotYetImplException;
 import org.n52.v3d.triturus.vgis.VgIndexedTIN;
@@ -9,41 +27,41 @@ import java.io.*;
 import java.text.DecimalFormat;
 
 /** 
- * Schreiben von TINs (Typ <tt>GmSimpleTINFeature</tt>) in Dateien oder Ströme.<p>
- * @author Benno Schmidt<br>
- * (c) 2003-2004, con terra GmbH & Institute for Geoinformatics<br>
+ * Writing TINs to files or streams.<br /><br />
+ * <i>German:</i> Schreiben von TINs (Typ <tt>GmSimpleTINFeature</tt>) in Dateien oder Str&ouml;me.
+ * @author Benno Schmidt
  */
 public class IoTINWriter extends IoAbstractWriter
 {
     private String mLogString = "";
     private String mFormat;
 
-    /** 
-     * Konstruktor. Als Parameter ist der Dateiformattyp zu setzen. Wird dieser nicht unterstützt, wird später während
-     * des Schreibvorgangs eine Ausnahme geworfen.<p>
-     * Es werden die folgenden Formate unterstützt:
+    /**
+     * Constructor.<br /><br />
+     * <i>German:</i> Konstruktor. Als Parameter ist der Dateiformattyp zu setzen. Wird dieser nicht unterst&uuml;tzt,
+     * wird sp&auml;ter w&auml;hrend des Schreibvorgangs eine Ausnahme geworfen.<br />
+     * Es werden die folgenden Formate unterst&uuml;tzt:<br />
      * <ul>
-     * <li><i>AcGeo:</i> ACADGEO-Format</li>
-     * <li><i>Vrml1:</i> VRML 1.0-Szene (als Dreicksnetz)</li>
+     * <li><i>AcGeo:</i> ACADGEO format</li>
+     * <li><i>Vrml1:</i> VRML 1.0 scene (as triangle mesh)</li>
      * </ul>
      * Bem.:<p>
-     * <b>Bislang ist keiner der Exporter getestet! Für den VRML-Export ist die Orientierung der Dreiecke noch
-     * unberücksichtigt!</b><p>
-     * @param pFormat Format-String, z. B. "AcGeo"
+     * <b>Bislang ist keiner der Exporter getestet! F&uuml;r den VRML-Export ist die Orientierung der Dreiecke noch
+     * unber&uuml;cksichtigt!</b>
+     * @param pFormat Format-string (e.g. <tt></tt>&quot;AcGeo&quot;</tt>)
      */
     public IoTINWriter(String pFormat) {
         mLogString = this.getClass().getName();
         this.setFormatType(pFormat);
     }
 
-    /** protokolliert die durchgeführte Transformation. */
     public String log() {
         return mLogString;
     }
 
     /** 
-     * setzt den Formattyp.<p>
-     * @param pFormat Dateityp (z. B. "AcGeo")
+     * sets the format type.
+     * @param pFormat Format-string (e.g. <tt></tt>&quot;AcGeo&quot;</tt>)
      */
     public void setFormatType(String pFormat)
     {
@@ -51,10 +69,11 @@ public class IoTINWriter extends IoAbstractWriter
     }
 
     /**
-     * schreibt ein TIN in eine Datei. Wird der spezifizierte Formattyp nicht unterstützt, wirft die Methode eine
-     * <tt>T3dNotYetImplException</tt>.<p>
-     * @param pTIN zu schreibendes TIN
-     * @param pFilename Pfad, unter dem die Datei abgelegt wird
+     * writes a TIN to a file.<br /><br />
+     * <i>German:</i> schreibt ein TIN in eine Datei. Wird der spezifizierte Formattyp nicht unterst&uuml;tzt, wirft die
+     * Methode eine <tt>T3dNotYetImplException</tt>.
+     * @param pTIN TIN to be written
+     * @param pFilename File path
      * @throws org.n52.v3d.triturus.core.T3dException
      * @throws org.n52.v3d.triturus.core.T3dNotYetImplException
      */
@@ -64,13 +83,13 @@ public class IoTINWriter extends IoAbstractWriter
         int i = 0;
         if (mFormat.equalsIgnoreCase("AcGeo")) i = 1;
         if (mFormat.equalsIgnoreCase("Vrml1")) i = 2;
-        // --> hier ggf. weitere Typen ergänzen...
+        // --> hier ggf. weitere Typen ergï¿½nzen...
 
         try {
             switch (i) {
                 case 1: this.writeAcadGeoTIN(pTIN, pFilename); break;
                 case 2: this.writeSimpleVrml(pTIN, pFilename); break;
-                // --> hier ggf. weitere Typen ergänzen...
+                // --> hier ggf. weitere Typen ergï¿½nzen...
 
                 default: throw new T3dNotYetImplException("Unsupported file format");
             }
@@ -156,7 +175,7 @@ public class IoTINWriter extends IoAbstractWriter
             lDat.write("    Coordinate3 {"); lDat.newLine();
             lDat.write("      point ["); lDat.newLine();
 
-            // VRML Teil 1 (Angabe der Stützpunkte):
+            // VRML Teil 1 (Angabe der Stï¿½tzpunkte):
 
             DecimalFormat dfXY = this.getDecimalFormatZ();
             DecimalFormat dfZ = this.getDecimalFormatZ();

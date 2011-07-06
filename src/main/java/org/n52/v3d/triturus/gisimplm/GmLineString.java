@@ -1,3 +1,22 @@
+/***************************************************************************************
+ * Copyright (C) 2011 by 52 North Initiative for Geospatial Open Source Software GmbH  *
+ *                                                                                     *
+ * Contact: Benno Schmidt & Martin May, 52 North Initiative for Geospatial Open Source *
+ * Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, Germany, info@52north.org *
+ *                                                                                     *
+ * This program is free software; you can redistribute and/or modify it under the      *
+ * terms of the GNU General Public License version 2 as published by the Free Software *
+ * Foundation.                                                                         *
+ *                                                                                     *
+ * This program is distributed WITHOUT ANY WARRANTY; even without the implied WARRANTY *
+ * OF MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public  *
+ * License for more details.                                                           *
+ *                                                                                     *
+ * You should have received a copy of the GNU General Public License along with this   *
+ * program (see gnu-gpl v2.txt). If not, write to the Free Software Foundation, Inc.,  *
+ * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA, or visit the Free Software *
+ * Foundation web page, http://www.fsf.org.                                            *
+ **************************************************************************************/
 package org.n52.v3d.triturus.gisimplm;
 
 import java.util.ArrayList;
@@ -9,11 +28,10 @@ import org.n52.v3d.triturus.vgis.VgGeomObject;
 import org.n52.v3d.triturus.core.T3dException;
 
 /**
- * <tt>VgLineString</tt>-Implementierung, bei der die Punktkoordinaten im Speicher vorgehalten werden. x- und y-Werte
- * sind bezogen auf das eingestellte räumliche Bezugssystem (SRS) anzugeben. Die Eckpunkte können mit einer
- * z-Koordinate versehen sein.<p>
- * @author Benno Schmidt<br>
- * (c) 2003, con terra GmbH & Institute for Geoinformatics<br>
+ * <tt>VgLineString</tt>-implementation. Object information will be kept in main memory.<br />
+ * x- and y-values have to be given with respect to the spatial reference system (SRS) that has been set for the
+ * geometric object. z-values might be provided for the object's vertices.
+ * @author Benno Schmidt
  */
 public class GmLineString extends VgLineString
 {
@@ -24,13 +42,14 @@ public class GmLineString extends VgLineString
     }
 
     /**
-     * Konstruktor. Dieser Konstruktor initialisiert den Linienzug anhand der angegebenen Komma-separierten
-     * Koordinatenliste. In der Liste,. die mindestens zwei Stützpunkt-Angaben enthalten muss, sind stets z-Werte
-     * anzugeben.<p>
+     * Constructor.<br /><br />
+     * <i>German:</i> Konstruktor. Dieser Konstruktor initialisiert den Linienzug anhand der angegebenen
+     * Komma-separierten Koordinatenliste. In der Liste,. die mindestens zwei St&uuml;tzpunkt-Angaben enthalten muss,
+     * sind stets z-Werte anzugeben.<br />
      * Beispiel: <tt>&quot;3500010,5800010,50.5,3600010,5800010,100&quot;</tt><p>
      * Die Methode wirft eine <tt>T3dException</tt>, falls der String kein interpretierbaren Koordinatenangaben
-     * enthält.<p>
-     * @param pCommaSeparatedList Liste mit 3 x N Koordinaten (N > 1)
+     * enth&auml;lt.
+     * @param pCommaSeparatedList List containing 3 x N coordinates (N > 1)
      */
     public GmLineString(String pCommaSeparatedList)
     {
@@ -55,10 +74,10 @@ public class GmLineString extends VgLineString
     }
 
     /**
-     * fügt der Polylinie (am Ende der Vertex-Liste) einen Stützpunkt hinzu.<p> 
-     * Vorbedingung: <tt>N = this.numberOfVertices()</tt>
-     * Nachbedingung: <tt>this.numberOfVertices() = N + 1</tt><p>
-     * @throws org.n52.v3d.triturus.core.T3dException
+     * adds a vertex point to the polyline (at the end of the vertex-list).<br />
+     * Pre-condition: <tt>N = this.numberOfVertices()</tt>
+     * Post-condition: <tt>this.numberOfVertices() = N + 1</tt>
+     * @throws T3dException
      */
     public void addVertex(VgPoint pPnt) throws T3dException
     {
@@ -67,13 +86,7 @@ public class GmLineString extends VgLineString
     	mVertices.add(lPnt);
     }
 
-    /** 
-     * liefert den i-ten Stützpunkt der Polylinie.<p> 
-     * Hierbei ist die Bedingung <tt>0 &lt;= i &lt; this.numberOfVertices()</tt> einzuhalten; anderenfalls wird eine
-     * <tt>T3dException</tt> geworfen.<p>
-     * @throws T3dException
-     */
-    public VgPoint getVertex(int i) throws T3dException 
+    public VgPoint getVertex(int i) throws T3dException
     {
     	if (i < 0 || i >= this.numberOfVertices())
     	    throw new T3dException("Index out of bounds.");
@@ -81,14 +94,13 @@ public class GmLineString extends VgLineString
     	return (GmPoint) mVertices.get(i);
     }
 
-    /** gibt die Anzahl der Stützpunkte der Polylinie zurück. */
     public int numberOfVertices() {
     	return mVertices.size();
     }
     
     /** 
-     * liefert die Bounding-Box der Geometrie.<p>
-     * @return <tt>GmEnvelope</tt> oder <i>null</i>, falls <tt>this.numberOfVertices() = 0</tt>.
+     * returns the geometric object's bounding-box.
+     * @return <tt>GmEnvelope</tt>, or <i>null</i> for <tt>this.numberOfVertices() = 0</tt>.
      */
     public VgEnvelope envelope()
     {
@@ -102,8 +114,8 @@ public class GmLineString extends VgLineString
     }
     
     /** 
-	 * liefert die zugehörige "Footprint"-Geometrie.<p>
-	 * @return "Footprint" als <tt>GmLineString</tt>-Objekt
+	 * returns the object's footprint geometry (projection to the x-y-plane).
+	 * @return &quot;Footprint&quot; as <tt>GmLineString</tt>-object
   	 */
 	public VgGeomObject footprint()
 	{
@@ -118,8 +130,9 @@ public class GmLineString extends VgLineString
 	}
 	
 	/**
-	 * <b>vorübergehende Implementierung -> Profillinien sind in anderen GK-Meridianstreifen
-	 * zu transformieren. -> sauber in Rahmenwerk einbauen -> TODO Benno</b>
+     * TODO: documentation.<br /><br />
+	 * <i>German:</i> <b>vorï¿½bergehende Implementierung -> Profillinien sind in anderen GK-Meridianstreifen
+	 * zu transformieren. -> sauber in Rahmenwerk einbauen -> TODO Benno
 	 */
 	public GmLineString getConverted() {
 		GmLineString ret = new GmLineString();

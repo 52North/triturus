@@ -1,3 +1,22 @@
+/***************************************************************************************
+ * Copyright (C) 2011 by 52 North Initiative for Geospatial Open Source Software GmbH  *
+ *                                                                                     *
+ * Contact: Benno Schmidt & Martin May, 52 North Initiative for Geospatial Open Source *
+ * Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, Germany, info@52north.org *
+ *                                                                                     *
+ * This program is free software; you can redistribute and/or modify it under the      *
+ * terms of the GNU General Public License version 2 as published by the Free Software *
+ * Foundation.                                                                         *
+ *                                                                                     *
+ * This program is distributed WITHOUT ANY WARRANTY; even without the implied WARRANTY *
+ * OF MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public  *
+ * License for more details.                                                           *
+ *                                                                                     *
+ * You should have received a copy of the GNU General Public License along with this   *
+ * program (see gnu-gpl v2.txt). If not, write to the Free Software Foundation, Inc.,  *
+ * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA, or visit the Free Software *
+ * Foundation web page, http://www.fsf.org.                                            *
+ **************************************************************************************/
 package org.n52.v3d.triturus.gisimplm;
 
 import org.n52.v3d.triturus.vgis.*;
@@ -7,12 +26,14 @@ import java.util.Collections;
 import java.lang.Comparable;
 
 /**
- * <tt>VgProfile</tt>-Implementierung, bei der die Profil-Geometrie im Speicher vorgehalten wird.<p>
- * Bem.: Die vorliegende Implementierung liegt eine vereinfachte ACAD-GEO-Modellierung zugrunde (Beschränkung 
- * auf einen Werteverlauf z(t) pro Definitionslinie, keine Berücksichtigung visueller Attribute).<p>
+ * <tt>VgProfile</tt>-implementation. Object information will be kept in main memory.<br />
+ * x- and y-values have to be given with respect to the spatial reference system (SRS) that has been set for the
+ * geometric object. z-values might be provided for the object's vertices.<br /><br />
+ * <i>German:</i> <tt>VgProfile</tt>-Implementierung, bei der die Profil-Geometrie im Speicher vorgehalten wird.<br />
+ * Bem.: Die vorliegende Implementierung liegt eine vereinfachte ACAD-GEO-Modellierung zugrunde (Beschr&auml;nkung
+ * auf einen Werteverlauf z(t) pro Definitionslinie, keine Ber&uuml;cksichtigung visueller Attribute).<br />
  * @see GmProfile.TZPair
- * @author Benno Schmidt<br>
- * (c) 1992-1996, Geopro GmbH, 2004 con terra GmbH<br>
+ * @author Benno Schmidt
  */
 public class GmProfile extends VgProfile
 {
@@ -20,8 +41,8 @@ public class GmProfile extends VgProfile
     private boolean mOrdered;
     
     /**
-     * Konstruktor.<p>
-     * @param pGeom <tt>VgLineString</tt>-Objekt mit Defintionslinie
+     * Constructor.
+     * @param pGeom <tt>VgLineString</tt>-object holding defining base-line
      */
     public GmProfile(VgLineString pGeom) {
     	this.setGeometry(pGeom);
@@ -29,26 +50,11 @@ public class GmProfile extends VgProfile
     	mOrdered = true;
     }
     
-    /**
-     * liefert die Anzahl der Stationsstellen des Profils, zu denen z(t)-Werte vorhanden sind.<p>
-     * @return Anzahl der Stützstellen
-     */
     public int numberOfTZPairs() {
         this.provideOrder();
         return mProfileData.size();
     }
 
-    /**
-     * liefert die Werte der i-ten Stationsstelle des Profils. Das erste Element des Ergebnisfeldes enthält die 
-     * Stationierung t, das zweite Element den zugehörigen z-Wert.<p>
-     * Die Folge der t-z-Wertepaare wächst bezüglich t stets monoton, d. h. für alle i gilt stets 
-     * <i>getTZPair(i)[i] &lt;= getTZPair(i)[i + 1] </i>.<p>
-     * Es ist die Bedingung <i>0 &lt;= i &lt; this.numberOfTZPairs()</i> einzuhalten; anderenfalls wird eine
-     * <tt>T3dException</tt> geworfen.<p>
-     * @param i Stützpunkt-Index
-     * @return zweielementiges Feld mit Werten für t und z(t)
-     * @throws T3dException
-     */
     public double[] getTZPair(int i) throws T3dException
     {
         this.provideOrder();
@@ -61,12 +67,13 @@ public class GmProfile extends VgProfile
     }
     
     /**
-     * fügt dem Profil eine Stationsstelle hinzu. Das erste Element des Parameterfeldes enthält die 
-     * Stationierung t, das zweite Element den zugehörigen z-Wert. Durch die Operation erhöht sich der Wert 
-     * für <tt>this.numberOfTZPairs()</tt> um 1.<p>
-     * Bem.: Der Fall, dass für die angegebenen Station t bereits ein z-Wert im Profilverlauf enthalten ist, wird
-     * nicht abgefangen.<p> 
-     * @param pVal zweielementiges Feld mit Werten für t und z(t)
+     * adds a point to the cross-section.<br /><br />
+     * <i>German:</i> f&uuml;gt dem Profil eine Stationsstelle hinzu. Das erste Element des Parameterfeldes enth&auml;lt
+     * die Stationierung t, das zweite Element den zugeh&ouml;rigen z-Wert. Durch die Operation erh&ouml;ht sich der
+     * Wert f&uuml;r <tt>this.numberOfTZPairs()</tt> um 1.<br />
+     * Bem.: Der Fall, dass f&uuml;r die angegebenen Station t bereits ein z-Wert im Profilverlauf enthalten ist, wird
+     * nicht abgefangen.
+     * @param pVal Array consisting of two elements holding the values for t and z(t)
      */
     public void addTZPair(double[] pVal) throws T3dException
     {
@@ -79,10 +86,6 @@ public class GmProfile extends VgProfile
         }
     }
 
-    /**
-     * liefert den Wert des Stationierungsparameters t für den Anfang des Belegungsbereichs des Profils.<p>
-     * @return t-Wert &gt;= 0
-     */
     public double tMin() {
         if (mProfileData.size() > 0)
             return ((TZPair) mProfileData.get(0)).getT();
@@ -90,10 +93,6 @@ public class GmProfile extends VgProfile
             return 0.;
     }
 
-    /**
-     * liefert den Wert des Stationierungsparameters t das Ende des Belegungsbereichs des Profils.<p>
-     * @return t-Wert &lt;= <tt>this.tEnd()</tt>
-     */
     public double tMax() {
         if (mProfileData.size() > 0)
             return ((TZPair) mProfileData.get(mProfileData.size() - 1)).getT();
@@ -101,15 +100,9 @@ public class GmProfile extends VgProfile
             return 0.;
     }
 
-    /**
-     * liefert den minimalen z-Wert des Profils.<p>
-     * Bem.: Falls <tt>this.numberOfTZPairs()</tt> = 0 ist, wird der Wert 0.0 als Ergebnis zurückgegeben. Dieser Fall
-     * ist von der aufrufenden Anwendung explizit abzufangen.<p>
-     * @return Minimum aller z(t)
-     */
-    public double zMin() 
+    public double zMin()
     {
-        this.provideOrder(); // da t-Werte doppelt vorkommen können
+        this.provideOrder(); // da t-Werte doppelt vorkommen kï¿½nnen
 
         if (this.numberOfTZPairs() <= 0)
             return 0.;
@@ -123,14 +116,15 @@ public class GmProfile extends VgProfile
     }
 
     /**
-     * liefert den maximalen z-Wert des Profils.<p>
-     * Bem.: Falls <tt>this.numberOfTZPairs()</tt> = 0 ist, wird der Wert 0.0 als Ergebnis zurückgegeben. Dieser Fall
-     * ist von der aufrufenden Anwendung explizit abzufangen.<p>
-     * @return Maximum aller z(t)
+     * returns the cross-section's maximal z-value.<br /><br />
+     * <i>German:</> liefert den maximalen z-Wert des Profils.<br />
+     * Bem.: Falls <tt>this.numberOfTZPairs()</tt> = 0 ist, wird der Wert 0.0 als Ergebnis zur&uuml;ckgegeben. Dieser
+     * Fall ist von der aufrufenden Anwendung explizit abzufangen.
+     * @return Maximum of all z(t)
      */
-    public double zMax() 
+    public double zMax()
     {
-        this.provideOrder(); // da t-Werte doppelt vorkommen können
+        this.provideOrder(); // da t-Werte doppelt vorkommen kï¿½nnen
 
         if (this.numberOfTZPairs() <= 0)
             return 0.;
@@ -179,29 +173,46 @@ public class GmProfile extends VgProfile
     }
     
     /** 
-     * Innere Klasse zur Haltung von t-z-Wertepaaren.<p>
+     * Inner class to hold t-z value pairs.
      */
     public class TZPair implements Comparable
     {
     	private double mT;
     	private double mZ;
     	
-    	/** Konstruktor.<p> */
+    	/**
+         * Constructor.
+         */
     	public TZPair(double t, double z) { mT = t; mZ = z; };
     	
-    	/** liefert den Stationierungsparameter.<p> */
+    	/**
+         * returns t.<br /><br />
+         * <i>German:</i> liefert den Stationierungsparameter.
+         */
     	public double getT() { return mT; }
 
-    	/** setzt den Stationierungsparameter.<p> */
+    	/**
+         * sets t.<br /><br />
+         * <i>German:</i> setzt den Stationierungsparameter.
+         */
     	public void setT(double t) { mT = t; }
 
-    	/** liefert den Höhenwert.<p> */
+    	/**
+         * returns z.<br /><br />
+         * <i>German:</i> liefert den H&ouml;henwert.
+         */
     	public double getZ() { return mZ; }
 
-    	/** setzt den Höhenwert.<p> */
+    	/**
+         * sets z.<br /><br />
+         * <i>German:</i> setzt den H&ouml;henwert.
+         */
     	public void setZ(double z) { mZ = z; }
     	
-    	/** definiert eine Ordnung auf t-z-Wertepaaren.<p> */
+    	/**
+         * defines an order-realtion on t-z value-pairs.<br /><br />
+         * <i>German:</i> definiert eine Ordnung auf t-z-Wertepaaren.
+         */
     	public int compareTo(Object tzp) {
     	    if (mT > ((TZPair) tzp).getT()) return 1;
     	    if (mT < ((TZPair) tzp).getT()) return -1;

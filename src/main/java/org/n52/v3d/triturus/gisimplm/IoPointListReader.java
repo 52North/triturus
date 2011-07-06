@@ -1,3 +1,22 @@
+/***************************************************************************************
+ * Copyright (C) 2011 by 52 North Initiative for Geospatial Open Source Software GmbH  *
+ *                                                                                     *
+ * Contact: Benno Schmidt & Martin May, 52 North Initiative for Geospatial Open Source *
+ * Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, Germany, info@52north.org *
+ *                                                                                     *
+ * This program is free software; you can redistribute and/or modify it under the      *
+ * terms of the GNU General Public License version 2 as published by the Free Software *
+ * Foundation.                                                                         *
+ *                                                                                     *
+ * This program is distributed WITHOUT ANY WARRANTY; even without the implied WARRANTY *
+ * OF MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public  *
+ * License for more details.                                                           *
+ *                                                                                     *
+ * You should have received a copy of the GNU General Public License along with this   *
+ * program (see gnu-gpl v2.txt). If not, write to the Free Software Foundation, Inc.,  *
+ * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA, or visit the Free Software *
+ * Foundation web page, http://www.fsf.org.                                            *
+ **************************************************************************************/
 package org.n52.v3d.triturus.gisimplm;
 
 import org.n52.v3d.triturus.core.IoObject;
@@ -25,9 +44,9 @@ public class IoPointListReader extends IoObject
     private VgEnvelope mSpatialFilter = null;
 
     /**
-     * Konstruktor. Als Parameter ist der Dateiformattyp zu setzen. Wird dieser nicht unterstützt, wird später während
+     * Konstruktor. Als Parameter ist der Dateiformattyp zu setzen. Wird dieser nicht unterstï¿½tzt, wird spï¿½ter wï¿½hrend
      * des Lesevorgangs eine Ausnahme geworfen.<p>
-     * Es werden die folgenden Formate unterstützt:
+     * Es werden die folgenden Formate unterstï¿½tzt:
      * <ul>
      * <li><i>Plain:</i> ASCII-Datei, zeilenweise x, y und z separiert durch Blank</li>
      * <li><b>... weitere Typen insb. Vermessungsformate -> Benno</b></li>
@@ -39,7 +58,7 @@ public class IoPointListReader extends IoObject
         this.setFormatType(pFormat);
     }
 
-    /** protokolliert die durchgeführte Transformation. */
+    /** protokolliert die durchgefï¿½hrte Transformation. */
     public String log() {
         return mLogString;
     }
@@ -54,7 +73,7 @@ public class IoPointListReader extends IoObject
     }
 
     /**
-     * liest eine Menge von 3D-Punkten einer Datei ein. Wird der spezifizierte Formattyp nicht unterstützt, wirft die
+     * liest eine Menge von 3D-Punkten einer Datei ein. Wird der spezifizierte Formattyp nicht unterstï¿½tzt, wirft die
      * Methode eine <tt>T3dNotYetImplException</tt>.<p>
      * @param pFilename Pfad, unter dem die Datei abgelegt ist.
      * @return <tt>ArrayList</tt> von <tt>VgPoint</tt>-Objekten
@@ -65,12 +84,12 @@ public class IoPointListReader extends IoObject
     {
         int i = 0;
         if (mFormat.equalsIgnoreCase("Plain")) i = 1;
-        // --> hier ggf. weitere Typen ergänzen...
+        // --> hier ggf. weitere Typen ergï¿½nzen...
 
         try {
             switch (i) {
                 case 1: this.readPlainAscii(pFilename); break;
-                // --> hier ggf. weitere Typen ergänzen...
+                // --> hier ggf. weitere Typen ergï¿½nzen...
 
                 default: throw new T3dNotYetImplException("Unsupported file format");
             }
@@ -139,10 +158,10 @@ System.out.println("lineNumber = " + lineNumber);
     } // readPlainAscii()
 
     /**
-     * setzt einen räumlichen Filter für die einzulesenden Punkte. Punkte, die außerhalb der durch <tt>pFilter</tt>
-     * gegebenen Bounding-Box liegen, werden nicht berücksichtigt.<p>
-     * Soll keine räumliche Filterung erfolgen, ist der Wert <i>null</i> als Parameter zu setzen (Voreinstellung).<p>
-     * Bem.: Die z-Werte der Bounding-Box sind auf hinreichend kleine/große Werte zu setzen.<p>
+     * setzt einen rï¿½umlichen Filter fï¿½r die einzulesenden Punkte. Punkte, die auï¿½erhalb der durch <tt>pFilter</tt>
+     * gegebenen Bounding-Box liegen, werden nicht berï¿½cksichtigt.<p>
+     * Soll keine rï¿½umliche Filterung erfolgen, ist der Wert <i>null</i> als Parameter zu setzen (Voreinstellung).<p>
+     * Bem.: Die z-Werte der Bounding-Box sind auf hinreichend kleine/groï¿½e Werte zu setzen.<p>
      * @param pFilter Bounding-Box
      */
     public void setSpatialFilter(VgEnvelope pFilter) {
@@ -150,16 +169,16 @@ System.out.println("lineNumber = " + lineNumber);
     }
 
     /**
-     * liefert den gesetzten räumlichen Filter. Punkte, die außerhalb der Bounding-Box des Filters liegen, werden beim
-     * Einlesen nicht berücksichtigt.<p>
-     * Falls kein räumlicher Filter gesetzt ist, wird der Wert <i>null</i> zurückgegeben.<p>
-     * @return 3D-Bounding-Box für räumliche Filterung oder <i>null</i>
+     * liefert den gesetzten rï¿½umlichen Filter. Punkte, die auï¿½erhalb der Bounding-Box des Filters liegen, werden beim
+     * Einlesen nicht berï¿½cksichtigt.<p>
+     * Falls kein rï¿½umlicher Filter gesetzt ist, wird der Wert <i>null</i> zurï¿½ckgegeben.<p>
+     * @return 3D-Bounding-Box fï¿½r rï¿½umliche Filterung oder <i>null</i>
      */
     public VgEnvelope getSpatialFilter() {
         return mSpatialFilter;
     }
 
-    // private Helfer, benötigt in readPlainAscii():
+    // private Helfer, benï¿½tigt in readPlainAscii():
 
     // Extraktion des i-ten Tokens (i >= 1!, i max. = 4) aus einem String ('pSep" als Trenner):
     private String getStrTok(String pStr, int i, String pSep) throws T3dException

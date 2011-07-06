@@ -1,9 +1,22 @@
-/*
- * Created on 11.11.2003
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
+/***************************************************************************************
+ * Copyright (C) 2011 by 52 North Initiative for Geospatial Open Source Software GmbH  *
+ *                                                                                     *
+ * Contact: Benno Schmidt & Martin May, 52 North Initiative for Geospatial Open Source *
+ * Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, Germany, info@52north.org *
+ *                                                                                     *
+ * This program is free software; you can redistribute and/or modify it under the      *
+ * terms of the GNU General Public License version 2 as published by the Free Software *
+ * Foundation.                                                                         *
+ *                                                                                     *
+ * This program is distributed WITHOUT ANY WARRANTY; even without the implied WARRANTY *
+ * OF MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public  *
+ * License for more details.                                                           *
+ *                                                                                     *
+ * You should have received a copy of the GNU General Public License along with this   *
+ * program (see gnu-gpl v2.txt). If not, write to the Free Software Foundation, Inc.,  *
+ * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA, or visit the Free Software *
+ * Foundation web page, http://www.fsf.org.                                            *
+ **************************************************************************************/
 package org.n52.v3d.triturus.gisimplm;
 
 import java.util.ArrayList;
@@ -12,11 +25,11 @@ import org.n52.v3d.triturus.t3dutil.GKTransform;
 import org.n52.v3d.triturus.t3dutil.T3dVector;
 
 /**
- * Repräsentiert das Profile einer Station (Messstelle).<p>
+ * class to represent a station's cross-section.<br /><br />
+ * <i>German:</i> Reprï¿½sentiert das Profile einer Station (Messstelle).
  * TODO: noch zu optimieren...
  * @see IoWSPReader
  * @author Torsten Heinen
- * (c) 2003, Institute for Geoinformatics<br>
  */
 public class GmWSPProfile {
 	int slopeNeighbors = 6;
@@ -31,12 +44,12 @@ public class GmWSPProfile {
 	public double altBearingPosition = 0;
 	public double altWSPPosition = 0;
 
-	//erstmal nur die reinen Höhendaten
+	//erstmal nur die reinen Hï¿½hendaten
 	//vorerst public zur schnelleren bearbeitung
 	public ProfileRecord[] profileRecords;
 	public int lSohleIndex;
 	public int rSohleIndex;
-	//später vielleicht noch Abfluss, LL, LF, usw. (siehe Datei)
+	//spï¿½ter vielleicht noch Abfluss, LL, LF, usw. (siehe Datei)
 
 	public GmWSPProfile(int stationID, int recCount) {
 		this.stationID = stationID;
@@ -372,14 +385,14 @@ public class GmWSPProfile {
 			return false;
 	}
 
-	/*
-	 * Gibt die Punkte des Profils zurück. Z.B.: double[0][2*n] = [x1,y1,x2,y2,..getX()n,yn] 
+	/**
+	 * returns the cross-section's points.<br /><br />
+	 * <i>German:</i> Gibt die Punkte des Profils zurï¿½ck. Z.B.: double[0][2*n] = [x1,y1,x2,y2,..getX()n,yn]
 	 * double[0][0..n] = Punkte links des Flusses mit Bemerkung "DGM"
 	 * double[1][0..n] = Punkte links des Flusses bis zum Uferbereich 
 	 * double[2][0..n] = Punkte des Flussbettes
 	 * double[3][0..n] = Punkte rechts des Flusses bis zum Uferbereich 
 	 * double[4][0..n] = Punkte rechts des Flusses mit Bemerkung "DGM"
-	 * 
 	 */
 	public double[][] getProfilePoints() {
 		ArrayList lDGM = new ArrayList(30);
@@ -456,7 +469,7 @@ public class GmWSPProfile {
 						profileReferencePoint.getY()
 							+ (Math.cos((degree * Math.PI) / 180) * dist)));
 				flussbett.add(new Double(profileRecords[i].getHeight()));
-				//check Übergang			
+				//check ï¿½bergang			
 			}
 			//			else if (note.equalsIgnoreCase("dgm") && area!=0) {
 			//				rDGM.add(new Double( profileReferencePoint.getX() + (Math.sin( (degree*Math.PI)/180 ) * dist)));
@@ -502,7 +515,7 @@ public class GmWSPProfile {
 	public GmPoint getCenterPoint() {
 		float height = -999;
 
-		//XY steht schon fest, aber Z (Höhe) muss noch gesucht werden...
+		//XY steht schon fest, aber Z (Hï¿½he) muss noch gesucht werden...
 		for (int i = 0; i < profileRecords.length; i++) {
 			if (altZeroPosition != 0) {
 				//System.out.println(altZeroPosition);
@@ -565,8 +578,8 @@ public class GmWSPProfile {
 			ret = ret + "Peilprofil=" + altBearingPosition + " ";
 		if (altWSPPosition != 0)
 			ret = ret + "WSP=" + altWSPPosition + " ";
-		ret = ret + "\n" + profileRecords.length + " Einträge:\n";
-		ret = ret + "ID;Distanz;WSP-Lage[üNN];Kennzahl;Bemerkung\n";
+		ret = ret + "\n" + profileRecords.length + " Eintrï¿½ge:\n";
+		ret = ret + "ID;Distanz;WSP-Lage[ï¿½NN];Kennzahl;Bemerkung\n";
 		for (int i = 0; i < profileRecords.length; i++) {
 			ret = ret + i + ":\t" + profileRecords[i].toString() + "\n";
 		}
@@ -720,7 +733,7 @@ public class GmWSPProfile {
 
 
 	/**
-	 * @param konvertierung in dreierStreifen
+	 * @param Transformation to Gau&szlig;-Kr&uuml;ger Streifen 3
 	 * @return
 	 */
 	public void dreierStreifen(boolean dreierStreifen) {

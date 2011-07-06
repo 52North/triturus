@@ -3,23 +3,21 @@ package org.n52.v3d.triturus.gisimplm;
 import org.n52.v3d.triturus.core.T3dProcFilter;
 
 /**
- * Filter-Klasse zum Einbau einer Polygon-Geometrie in ein TIN (geometrische Verschneidung).<p>
- * @author Martin May, Ilja Abramovic<br>
- * (c) 2003-2004, Institute for Geoinformatics<br>
+ * @deprecated
+ * Filter class to integrate polygonal geometries into a TIN (geometric intersection).<br /><br />
+ * <i>German:</i> Filter-Klasse zum Einbau einer Polygon-Geometrie in ein TIN (geometrische Verschneidung).
+ * @author Martin May, Ilja Abramovic
  */
 public class FltTINPolygonAssembler extends T3dProcFilter
 {
-	/**
-	 * protokolliert die durchgeführte Transformation.
-	 * @see org.n52.v3d.triturus.core.T3dProcMapper#log()
-	 */
 	public String log() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	/**
-	 * liefert das TIN, das Ergebnis der Verschneidung ist.<p>
+     * return the TIN that results from the intersection operation.<br /><br />
+	 * <i>German:</i> liefert das TIN, das Ergebnis der Verschneidung ist.<p>
 	 * @param pTIN TIN, in dessen Geometrie die Polygon-Geometrie eingebaut werden soll.
 	 * @param pPolygon einzubauende Geometrie
    	 * @return TIN-Geometrie

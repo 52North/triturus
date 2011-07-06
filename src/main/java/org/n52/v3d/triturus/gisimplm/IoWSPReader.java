@@ -1,4 +1,22 @@
-
+/***************************************************************************************
+ * Copyright (C) 2011 by 52 North Initiative for Geospatial Open Source Software GmbH  *
+ *                                                                                     *
+ * Contact: Benno Schmidt & Martin May, 52 North Initiative for Geospatial Open Source *
+ * Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, Germany, info@52north.org *
+ *                                                                                     *
+ * This program is free software; you can redistribute and/or modify it under the      *
+ * terms of the GNU General Public License version 2 as published by the Free Software *
+ * Foundation.                                                                         *
+ *                                                                                     *
+ * This program is distributed WITHOUT ANY WARRANTY; even without the implied WARRANTY *
+ * OF MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public  *
+ * License for more details.                                                           *
+ *                                                                                     *
+ * You should have received a copy of the GNU General Public License along with this   *
+ * program (see gnu-gpl v2.txt). If not, write to the Free Software Foundation, Inc.,  *
+ * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA, or visit the Free Software *
+ * Foundation web page, http://www.fsf.org.                                            *
+ **************************************************************************************/
 package org.n52.v3d.triturus.gisimplm;
 
 import java.io.BufferedReader;
@@ -13,10 +31,10 @@ import org.n52.v3d.triturus.core.T3dException;
 import org.n52.v3d.triturus.t3dutil.T3dVector;
 
 /**
- * Einlesen wasserbaulicher Querprofile.<p>
+ * reads in application-special cross-section data.<br /><br />
+ * <i>German:</i> Einlesen wasserbaulicher Querprofile.<p>
  * @see GmWSPProfile
- * @author Torsten Heinen<br>
- * (c) 2003, Institute for Geoinformatics<br>
+ * @author Torsten Heinen
  */
 public class IoWSPReader extends IoObject
 {
@@ -32,8 +50,10 @@ public class IoWSPReader extends IoObject
 	public int numProfiles() {
 		return wspProfiles.size();
 	}
-	/*
-	 * Gibt die Punkte der Profile zurück. Z.B.: double[0][2*n] = [x1,y1,x2,y2,..xn,yn] 
+
+	/**
+	 * returns the number of section-points.<br /><br />
+	 * <i>German:</i> Gibt die Punkte der Profile zurï¿½ck. Z.B.: double[0][2*n] = [x1,y1,x2,y2,..xn,yn]
 	 * double[0][0..n] = Punkte links des Flusses mit Bemerkung "DGM"
 	 * double[1][0..n] = Punkte links des Flusses bis zum Uferbereich 
 	 * double[2][0..n] = Punkte des Flussbettes
@@ -154,13 +174,13 @@ public class IoWSPReader extends IoObject
 			tokenizer.wordChars(':', ':');
 			tokenizer.eolIsSignificant(false);
 
-			//Flussmittelpunkt: x/y= Gauss-Krüger; z Koordinate bezeichnet Profilewinkel in GON 
+			//Flussmittelpunkt: x/y= Gauss-Krï¿½ger; z Koordinate bezeichnet Profilewinkel in GON 
 			T3dVector temp = new T3dVector();
 			// im CC Bereich gibt es mit unter bis zu drei Zusatzpunkte...
 			T3dVector altZero = new T3dVector();
-			//"Null-Punkt" -> Datensatz enthält kein 0.00 Punkt => X/Y bezieht sich wahrscheinlich auf ALTernativen "Nullpunkt"
+			//"Null-Punkt" -> Datensatz enthï¿½lt kein 0.00 Punkt => X/Y bezieht sich wahrscheinlich auf ALTernativen "Nullpunkt"
 			T3dVector altBearing = new T3dVector();
-			//"Peilprofil" -> Datensatz enthält kein 0.00 Punkt => Grad GON bezieht sich wahrscheinlich auf "Peilprofil"
+			//"Peilprofil" -> Datensatz enthï¿½lt kein 0.00 Punkt => Grad GON bezieht sich wahrscheinlich auf "Peilprofil"
 			T3dVector altWSP = new T3dVector(); //"WSP" ?????
 			//			double d0; //wird zwar ausgelesen aber noch nicht von readCC(...) weitergegeben
 			// ...wobei: point2d.x = Distance; point2d.y = height;
@@ -175,9 +195,9 @@ public class IoWSPReader extends IoObject
 					profiles.setProfileReference(new T3dVector(temp.getX(), temp.getY(), 0));
 					profiles.setGon(temp.getZ());
 
-					//Zusätzliche Punkte ausm CC Block ins profil schreiben...
-					//wenn keine vorhanden sind, dann einfach überschreiben. 
-					//Standardmässig sind die eh alle auf 0
+					//Zusï¿½tzliche Punkte ausm CC Block ins profil schreiben...
+					//wenn keine vorhanden sind, dann einfach ï¿½berschreiben. 
+					//Standardmï¿½ssig sind die eh alle auf 0
 					profiles.altZeroPosition = (float) altZero.getX();
 					profiles.altBearingPosition = (float) altBearing.getX();
 					profiles.altWSPPosition = (float) altWSP.getX();

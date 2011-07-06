@@ -1,3 +1,22 @@
+/***************************************************************************************
+ * Copyright (C) 2011 by 52 North Initiative for Geospatial Open Source Software GmbH  *
+ *                                                                                     *
+ * Contact: Benno Schmidt & Martin May, 52 North Initiative for Geospatial Open Source *
+ * Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, Germany, info@52north.org *
+ *                                                                                     *
+ * This program is free software; you can redistribute and/or modify it under the      *
+ * terms of the GNU General Public License version 2 as published by the Free Software *
+ * Foundation.                                                                         *
+ *                                                                                     *
+ * This program is distributed WITHOUT ANY WARRANTY; even without the implied WARRANTY *
+ * OF MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public  *
+ * License for more details.                                                           *
+ *                                                                                     *
+ * You should have received a copy of the GNU General Public License along with this   *
+ * program (see gnu-gpl v2.txt). If not, write to the Free Software Foundation, Inc.,  *
+ * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA, or visit the Free Software *
+ * Foundation web page, http://www.fsf.org.                                            *
+ **************************************************************************************/
 package org.n52.v3d.triturus.gisimplm;
 
 import java.io.*;
@@ -8,10 +27,10 @@ import org.n52.v3d.triturus.vgis.VgLineString;
 import org.n52.v3d.triturus.vgis.VgPoint;
 
 /**
- * Schreiben von Profilen (Typ <tt>VgProfile</tt>) in Dateien oder Ströme.<p>
- * @author Benno Schmidt<br>
- * <b>Bem.: SVG-Export nur protoypisch implementiert, aber lauffähig!</b> 
- * (c) 2004-2006, con terra GmbH & Institute for Geoinformatics<br>
+ * Writes cross-section data to a file or stream.<br /><br />
+ * <i>German:</i> Schreiben von Profilen (Typ <tt>VgProfile</tt>) in Dateien oder Str&ouml;me.
+ * <b>Bem.: SVG-Export nur protoypisch implementiert, aber lauff&auml;hig!</b>
+ * @author Benno Schmidt
  */
 public class IoProfileWriter extends IoAbstractWriter
 {
@@ -19,38 +38,39 @@ public class IoProfileWriter extends IoAbstractWriter
     private String mFormat;
 
     /**
-     * Konstruktor. Als Parameter ist der Dateiformattyp zu setzen. Wird dieser nicht unterstützt, wird später während
-     * des Schreibvorgangs eine Ausnahme geworfen.<p>
-     * Es werden z. Zt. die folgenden Formate unterstützt:<p>
+     * Constructor.<br /><br />
+     * <i>German:</i> Konstruktor. Als Parameter ist der Dateiformattyp zu setzen. Wird dieser nicht unterst&uuml;tzt,
+     * wird sp&auml;ter w&auml;hrend des Schreibvorgangs eine Ausnahme geworfen.<br />
+     * Es werden z. Zt. die folgenden Formate unterstï¿½tzt:<p>
      * <ul>
-     * <li><i>AcGeo:</i> ACADGEO-Format für Profile</li>
-     * <li><i>SVG:</i> SVG-Datei</li>
+     * <li><i>AcGeo:</i> ACADGEO format for cross-sections (Profildatei)</li>
+     * <li><i>SVG:</i> SVG file</li>
      * </ul><p>
-     * @param pFormat Format-String, z. B. "AcGeo"
+     * @param pFormat Format-string, e.g. <tt>&quot;AcGeo&quot;</tt>
      */
     public IoProfileWriter(String pFormat) {
         mLogString = this.getClass().getName();
         this.setFormatType(pFormat);
     }
 
-    /** protokolliert die durchgeführte Transformation. */
     public String log() {
         return mLogString;
     }
 
-    /** 
-     * setzt den Formattyp.<p>
-     * @param pFormat Format-String, z. B. "AcGeo"
+   /**
+     * sets the format type.
+     * @param pFormat Format-string (e.g. <tt></tt>&quot;AcGeo&quot;</tt>)
      */
-    public void setFormatType(String pFormat) {
+   public void setFormatType(String pFormat) {
         mFormat = pFormat;
     }
 
     /**
-     * schreibt ein Profil in eine Datei. Wird der spezifizierte Formattyp nicht unterstützt, wirft die Methode
-     * eine <tt>T3dNotYetImplException</tt>.<p>
-     * @param pProfile zu schreibendes Profil
-     * @param pFilename Pfad, unter dem die Datei abgelegt wird.
+     * writes cross-section data to a file.<br /><br />
+     * <i>German:</i> schreibt ein Profil in eine Datei. Wird der spezifizierte Formattyp nicht unterst&uuml;tzt, wirft
+     * die Methode eine <tt>T3dNotYetImplException</tt>.
+     * @param pProfile Cross-section to be written
+     * @param pFilename File path
      * @throws T3dException
      */
     public void writeToFile(VgProfile pProfile, String pFilename) throws T3dException
@@ -58,13 +78,13 @@ public class IoProfileWriter extends IoAbstractWriter
         int i = 0;
         if (mFormat.equalsIgnoreCase("AcGeo")) i = 1;
         if (mFormat.equalsIgnoreCase("SVG")) i = 2;
-        // --> hier ggf. weitere Typen ergänzen...
+        // --> hier ggf. weitere Typen ergï¿½nzen...
 
         try {
             switch (i) {
                 case 1: this.writeAcadGeoProfile(pProfile, pFilename); break;
                 case 2: this.writeSVG(pProfile, pFilename); break;
-                // --> hier ggf. weitere Typen ergänzen...
+                // --> hier ggf. weitere Typen ergï¿½nzen...
 
                 default: throw new T3dException("Unsupported file format.");
             }
@@ -129,8 +149,8 @@ public class IoProfileWriter extends IoAbstractWriter
 
     private void writeSVG(VgProfile pProfile, String pFilename) throws T3dException
     {
-        int lImageWidth = 500;      // todo von außen setzbar machen
-        int lImageHeight = 300;     // todo von außen setzbar machen
+        int lImageWidth = 500;      // todo von auï¿½en setzbar machen
+        int lImageHeight = 300;     // todo von auï¿½en setzbar machen
         int lImageBorder = 10;
         int lAddInfoHeight1 = 30;
         int lAddInfoHeight2 = 20;
@@ -168,7 +188,7 @@ public class IoProfileWriter extends IoAbstractWriter
                 this.setTZRange(
                     pProfile.tStart(), pProfile.tEnd(), zLevels[0], zLevels[zLevels.length - 1]);
 
-            // Kasten oben (Überschrift):
+            // Kasten oben (ï¿½berschrift):
             lDat.write("  <rect x=\"" + lImageBorder + "\" y=\"" + lImageBorder + "\" ");
             lDat.write("width=\"" + (mCanvPrfXMax - lImageBorder) + "\" ");
             lDat.write("height=\"" + lAddInfoHeight1 + "\" style=\"fill:rgb(200,200,200)\" rx=\"0\" ry=\"0\"/>");
@@ -176,12 +196,12 @@ public class IoProfileWriter extends IoAbstractWriter
             lDat.write("  <g style=\"font-family:sans-serif;font-size:14;fill:rgb(0,0,40)\">"); 
             lDat.newLine();
             lDat.write("    <text x=\"" + (lImageBorder + 6) + "\" y=\"" + (lImageBorder + 6 + 14) + "\">");
-            lDat.write("Triturus cross-section profile</text>");  // todo von außen setzbar machen, z. B. sdi.suite terrainServer cross-section profile
+            lDat.write("Triturus cross-section profile</text>");  // todo von auï¿½en setzbar machen, z. B. sdi.suite terrainServer cross-section profile
             lDat.newLine();
             lDat.write("  </g>");
             lDat.newLine();
 
-            // Kästen für Beschriftungen:
+            // Kï¿½sten fï¿½r Beschriftungen:
             lDat.write("  <rect x=\"" + lImageBorder + "\" y=\"" + mCanvPrfYMin + "\" ");
             lDat.write("width=\"" + lZAnnotWidth + "\" ");
             lDat.write("height=\"" + (mCanvPrfYMax - mCanvPrfYMin) + "\" style=\"fill:rgb(227,227,227)\" rx=\"0\" ry=\"0\"/>");
@@ -230,7 +250,7 @@ public class IoProfileWriter extends IoAbstractWriter
                 }                
             }
 
-            // Höhenniveaus (horizontale Hilfslinien):
+            // Hï¿½henniveaus (horizontale Hilfslinien):
             if (zLevels != null) {
                 for (int i = 0; i < zLevels.length; i++) {
                     lDat.write("  <line ");
@@ -343,7 +363,7 @@ public class IoProfileWriter extends IoAbstractWriter
         }
         else {
             int lNumberOfLevels = 0;
-            int lDoubledNumberOfZeroDigits = 7; // ungerade Werte für 5'er-Schritte
+            int lDoubledNumberOfZeroDigits = 7; // ungerade Werte fï¿½r 5'er-Schritte
             int lMin = 0, lMax = 0;
             int lDiv = 0;
             do {

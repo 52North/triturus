@@ -1,3 +1,22 @@
+/***************************************************************************************
+ * Copyright (C) 2011 by 52 North Initiative for Geospatial Open Source Software GmbH  *
+ *                                                                                     *
+ * Contact: Benno Schmidt & Martin May, 52 North Initiative for Geospatial Open Source *
+ * Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, Germany, info@52north.org *
+ *                                                                                     *
+ * This program is free software; you can redistribute and/or modify it under the      *
+ * terms of the GNU General Public License version 2 as published by the Free Software *
+ * Foundation.                                                                         *
+ *                                                                                     *
+ * This program is distributed WITHOUT ANY WARRANTY; even without the implied WARRANTY *
+ * OF MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public  *
+ * License for more details.                                                           *
+ *                                                                                     *
+ * You should have received a copy of the GNU General Public License along with this   *
+ * program (see gnu-gpl v2.txt). If not, write to the Free Software Foundation, Inc.,  *
+ * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA, or visit the Free Software *
+ * Foundation web page, http://www.fsf.org.                                            *
+ **************************************************************************************/
 package org.n52.v3d.triturus.gisimplm;
 
 import org.n52.v3d.triturus.vgis.VgPoint;
@@ -7,17 +26,17 @@ import org.n52.v3d.triturus.vgis.T3dSRSException;
 import org.n52.v3d.triturus.core.T3dException;
 
 /**
- * <tt>VgPoint</tt>-Implementierung, bei der die Punktkoordinaten im Speicher vorgehalten werden. x- und y-Werte sind
- * bezogen auf das eingestellte räumliche Bezugssystem (SRS) anzugeben.<p>
- * @author Benno Schmidt<br>
- * (c) 2003-2004, con terra GmbH & Institute for Geoinformatics<br>
+ * <tt>VgPoint</tt>-implementation. Object information will be kept in main memory.<br />
+ * x- and y-values have to be given with respect to the spatial reference system (SRS) that has been set for the
+ * geometric object.
+ * @author Benno Schmidt
  */
 public class GmPoint extends VgPoint
 {
     private double mX, mY, mZ;
 
     /**
-     * Konstruktor. Dieser Konstruktor initialisiert x, y und z mit den angegebenen Koordinaten.<p>
+     * Constructor.
      */
     public GmPoint(double pX, double pY, double pZ) {
         mX = pX;
@@ -26,7 +45,7 @@ public class GmPoint extends VgPoint
     }
 
     /**
-     * Konstruktor. Dieser Konstruktor initialisiert x, y und z jeweils mit dem Wert 0.<p>
+     * Constructor. x, y and z will be set to 0.
      */
     public GmPoint() {
         mX = 0.;
@@ -35,19 +54,18 @@ public class GmPoint extends VgPoint
     }
 
     /**
-     * Konstruktor. Dieser Konstruktor initialisiert x, y und z mit Koordinaten des angegebenen Punktobjekts.<p>
+     * Constructor. x, y and z will be set to the coordinates of the given point.
      */
     public GmPoint(VgPoint pt) {
     	this.set(pt);
     }
 
     /**
-     * Konstruktor. Dieser Konstruktor initialisiert x, y und z anhand der angegebenen Komma-separierten
-     * Koordinatenliste. Ist kein z-Wert angegeben, wird z = 0 gesetzt.<p>
-     * Beispiele: <tt>&quot;3500000,5800000&quot;, &quot;3500000,5800000,50.5&quot;</tt><p>
-     * Die Methode wirft eine <tt>T3dException</tt>, falls der String kein interpretierbaren Koordinatenangaben
-     * enthält.<p>
-     * @param pCommaSeparatedList Liste mit 2 oder 3 Koordinaten
+     * Constructor. x, y and z will be set according the values given in a comma-separated coordinate list. If no
+     * z-value is specified, z will be set to 0.<br />
+     * Examples: <tt>&quot;3500000,5800000&quot;, &quot;3500000,5800000,50.5&quot;</tt><br />
+     * If the given string can not be interpreted, a <tt>T3dException</tt> will be thrown.
+     * @param pCommaSeparatedList List consisting of 2 or 3 coordinate-values
      */
     public GmPoint(String pCommaSeparatedList) {
         String[] coords = pCommaSeparatedList.split(",");
@@ -62,61 +80,41 @@ public class GmPoint extends VgPoint
     }
 
 	/**
-	 * setzt den x-Wert der Punktgeometrie.<p> 
-	 * Bem.: Für <i>geografische Koordinaten</i> (EPSG:4326) ist als x-Wert die geografische Breite anzugeben, für
-     * <i>Gauß-Krüger-Koordinaten</i> der Rechtswert.<p>
+     * setzt den x-Wert der Punktgeometrie.<p>
+	 * Bem.: Fï¿½r <i>geografische Koordinaten</i> (EPSG:4326) ist als x-Wert die geografische Breite anzugeben, fï¿½r
+     * <i>Gauï¿½-Krï¿½ger-Koordinaten</i> der Rechtswert.<p>
 	 */
     public void setX(double pX) { 
         mX = pX; 
     }
 
-    /**
-     * liefert den x-Wert der Punktgeometrie.<p>
-     */
     public double getX() {
         return mX;
     }
 
-	/** 
-	 * setzt den y-Wert der Geometrie.<p> 
-	 * Bem.: Für <i>geografische Koordinaten</i> (EPSG:4326) ist als y-Wert die geografische Breite anzugeben, für
-     * <i>Gauß-Krüger-Koordinaten</i> der Hochwert.<p>
-	 */
-    public void setY(double pY) { 
+    public void setY(double pY) {
         mY = pY; 
     }
 
-    /**
-     * liefert den y-Wert der Geometrie.<p>
-     */
     public double getY() {
         return mY;
     }
 
-    /**
-     * setzt den z-Wert der Geometrie.<p>
-     */
     public void setZ(double pZ) {
         mZ = pZ;
     }
 
-    /**
-     * liefert den z-Wert der Geometrie (z. B. Höhenwert).<p>
-     */
     public double getZ() {
         return mZ;
     }
 
-    /**
-     * liefert die Bounding-Box der Geometrie.<p>
-     */
     public VgEnvelope envelope() {
         VgEnvelope lEnv = new GmEnvelope(mX, mX, mY, mY, mZ, mZ);
         return lEnv;
     }
 
 	/** 
-	 * liefert den zugehörigen "Footprint"-Punkt.<p>
+     * returns the object's footprint geometry (projection to the x-y-plane).
 	 * @return "Footprint" als <tt>GmPoint</tt>-Objekt
   	 */
 	public VgGeomObject footprint() {
@@ -125,8 +123,8 @@ public class GmPoint extends VgPoint
 
     /**
      * @deprecated
-     * berechnet den Abstand zweier Punkte bezogen auf die xy-Ebene. Falls die Punkte nicht im gleichen räumlichen
-     * Bezugssystem liegen, wird eine <tt>T3dSRSException</tt> geworfen.<p>
+     * returns the distance between two points with respect to the x-y-plane. If the points refer to different
+     * coordinate reference systems, a <tt>T3dSRSException</tt> will be thrown.
      * @throws org.n52.v3d.triturus.vgis.T3dSRSException
      * @see VgPoint#distanceXY
      */
@@ -149,8 +147,8 @@ public class GmPoint extends VgPoint
 
     /** 
      * @deprecated
-     * berechnet den Abstand zweier Punkte im Dreidimensionalen. Falls die Punkte nicht im gleichen räumlichen
-     * Bezugssystem liegen, wird eine <tt>T3dNotYetImplException</tt> geworfen.<p>
+     * returns the distance between two points with respect in 3-D space. If the points refer to different
+     * coordinate reference systems, a <tt>T3dSRSException</tt> will be thrown.
      * @throws T3dSRSException
      * @see VgPoint#distance
      */

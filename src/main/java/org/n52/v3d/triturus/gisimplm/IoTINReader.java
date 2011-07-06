@@ -1,3 +1,22 @@
+/***************************************************************************************
+ * Copyright (C) 2011 by 52 North Initiative for Geospatial Open Source Software GmbH  *
+ *                                                                                     *
+ * Contact: Benno Schmidt & Martin May, 52 North Initiative for Geospatial Open Source *
+ * Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, Germany, info@52north.org *
+ *                                                                                     *
+ * This program is free software; you can redistribute and/or modify it under the      *
+ * terms of the GNU General Public License version 2 as published by the Free Software *
+ * Foundation.                                                                         *
+ *                                                                                     *
+ * This program is distributed WITHOUT ANY WARRANTY; even without the implied WARRANTY *
+ * OF MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public  *
+ * License for more details.                                                           *
+ *                                                                                     *
+ * You should have received a copy of the GNU General Public License along with this   *
+ * program (see gnu-gpl v2.txt). If not, write to the Free Software Foundation, Inc.,  *
+ * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA, or visit the Free Software *
+ * Foundation web page, http://www.fsf.org.                                            *
+ **************************************************************************************/
 package org.n52.v3d.triturus.gisimplm;
 
 import java.io.BufferedReader;
@@ -22,9 +41,9 @@ import java.util.StringTokenizer;
 import java.util.Vector;
 
 /**
- * Einlesen von TINs (Typ <tt>GmSimpleTINFeature</tt>) aus Dateien.<p>
- * @author Benno Schmidt und Martin May<br>
- * (c) 2003-2004, con terra GmbH & Institute for Geoinformatics<br>
+ * Reading TINs from a file.<br /><br />
+ * <i>German:</i> Einlesen von TINs (Typ <tt>GmSimpleTINFeature</tt>) aus Dateien.
+ * @author Benno Schmidt, Martin May
  */
 public class IoTINReader extends IoObject
 {
@@ -33,34 +52,34 @@ public class IoTINReader extends IoObject
     private String mFormat;
     private GmSimpleTINFeature mTIN = null;
 
-    /** 
-     * Konstruktor. Als Parameter ist der Dateiformattyp zu setzen. Wird dieser nicht unterstützt, wird später während
-     * des Lesevorgangs eine Ausnahme geworfen.<p>
-     * Es werden die folgenden Formate unterstützt:
+    /**
+     * Constructor.<br /><br />
+     * <i>German:</i> Konstruktor. Als Parameter ist der Dateiformattyp zu setzen. Wird dieser nicht unterst&uuml;tzt,
+     * wird sp&auml;ter w&auml;hrend des Lesevorgangs eine Ausnahme geworfen.<br />
+     * Es werden die folgenden Formate unterst&uuml;tzt:<br />
      * <ul>
-     * <li><i>AcGeo:</i> ACADGEO-Format</li>
+     * <li><i>AcGeo:</i> ACADGEO format</li>
 	 * <li><i>Vrml2:</i> VRML 2</li>
-	 * <li><i>ArcTIN:</i> ESRI-TIN-Format</li>
+	 * <li><i>ArcTIN:</i> ESRI TIN format</li>
 	 * <li><i>GMT_TIN:</i> ...</li>
      * </ul>
-     * Bem.: 1. Der Reader für das Format <i>VRML2</i> ist noch methodisch zu testen: Was passiert, wenn mehrere TINs
-     * in VRML-Datei (z. B. pro Farbe ein Teil-TIN, Gebäude als TIN, ...)? 2. Ist der <i>ArcTIN</i>-Reader wirklich ein
-     * Arc- bzw. ESRI-Format? 3. Ist der <i>GMT_TIN</i>-Reader getestet? Was für ein Format ist das?<p>
-     * @param pFormat Format-String, z. B. "AcGeo"
+     * Bem.: 1. Der Reader f&uuml;r das Format <i>VRML2</i> ist noch methodisch zu testen: Was passiert, wenn mehrere
+     * TINs in VRML-Datei (z. B. pro Farbe ein Teil-TIN, Geb&auml;ude als TIN, ...)? 2. Ist der <i>ArcTIN</i>-Reader
+     * wirklich ein Arc- bzw. ESRI-Format? 3. Ist der <i>GMT_TIN</i>-Reader getestet? Was f&uuml;r ein Format ist das?
+     * @param pFormat Format-String, e.g. <tt>&quot;AcGeo&quot;</tt>
      */
     public IoTINReader(String pFormat) {
         mLogString = this.getClass().getName();
         this.setFormatType( pFormat );
     }
 
-    /** protokolliert die durchgeführte Transformation. */
     public String log() {
         return mLogString;
     }
 
-    /** 
-     * setzt den Formattyp.<p>
-     * @param pFormat Dateityp (z. B. "AcGeo")
+    /**
+     * sets the format type.
+     * @param pFormat Format-string (e.g. <tt></tt>&quot;AcGeo&quot;</tt>)
      */
     public void setFormatType(String pFormat)
     {
@@ -69,10 +88,11 @@ public class IoTINReader extends IoObject
 
     /**
      * @deprecated
-     * liest ein TIN aus einer Datei ein. Wird der spezifizierte Formattyp nicht unterstützt, wirft die Methode eine
-     * <tt>T3dNotYetImplException</tt>.<p>
-     * @param pFilename Pfad, unter dem die Datei abgelegt ist
-     * @return TIN (im Fehlerfall <i>null</i>)
+     * reads a TIN from a file.<br /><br />
+     * <i>German:</i> liest ein TIN aus einer Datei ein. Wird der spezifizierte Formattyp nicht unterstï¿½tzt, wirft die
+     * Methode eine <tt>T3dNotYetImplException</tt>.
+     * @param pFilename File path
+     * @return TIN, or <i>null</i> if an error occurs
      * @throws org.n52.v3d.triturus.core.T3dException
      * @throws org.n52.v3d.triturus.core.T3dNotYetImplException
      */
@@ -83,10 +103,11 @@ public class IoTINReader extends IoObject
     }
 
     /**
-     * liest ein TIN aus einer Datei ein oder über die Angabe eines URLs ein. Wird der spezifizierte Formattyp nicht
-     * unterstützt, wirft die Methode eine <tt>T3dNotYetImplException</tt>.<p>
-     * @param pLocation Pfad, unter dem die Datei abgelegt ist, oder ein gültiger URL.
-     * @return TIN (im Fehlerfall <i>null</i>)
+     * reads a TIN from a file or URL location.<br /><br />
+     * <i>German:</i> liest ein TIN aus einer Datei ein oder &uuml;ber die Angabe eines URLs ein. Wird der spezifizierte
+     * Formattyp nicht unterst&uuml;tzt, wirft die Methode eine <tt>T3dNotYetImplException</tt>.
+     * @param pLocation File path or valid URL
+     * @return TIN, or <i>null</i> if an error occurs
      * @throws org.n52.v3d.triturus.core.T3dException
      * @throws org.n52.v3d.triturus.core.T3dNotYetImplException
      */
@@ -97,7 +118,7 @@ public class IoTINReader extends IoObject
         if (mFormat.equalsIgnoreCase("Vrml2")) i = 2;
 		if (mFormat.equalsIgnoreCase("ArcTIN")) i = 3;
 		if (mFormat.equalsIgnoreCase("GMT_TIN")) i = 4;
-        // --> hier ggf. weitere Typen ergänzen...
+        // --> hier ggf. weitere Typen ergï¿½nzen...
 
         BufferedReader reader = null;
         try {
@@ -120,7 +141,7 @@ public class IoTINReader extends IoObject
 						//System.out.println("Load GMT file: " + xyzFilename+ " "+ tinFilename);
 						this.readGMTTin(xyzFilename, tinFilename);
 						break;
-                // --> hier ggf. weitere Typen ergänzen...
+                // --> hier ggf. weitere Typen ergï¿½nzen...
 
                 default: throw new T3dNotYetImplException("Unsupported file format");
             }
@@ -282,7 +303,7 @@ public class IoTINReader extends IoObject
         }
     } // readAcadGeoTIN()
 
-    // private Helfer, die in readAcadGeoTIN() benötigt werden:
+    // private Helfer, die in readAcadGeoTIN() benï¿½tigt werden:
 
     // Extraktion des i-ten Tokens (i >= 1!, i max. = 4) aus einem String ('pSep' als Trenner):
     private String getStrTok(String pStr, int i, String pSep) throws T3dException
@@ -320,8 +341,8 @@ public class IoTINReader extends IoObject
         return Integer.parseInt(pStr);
     } 
 
-	// Quick-and-dirty-Implementierung für VRML 2-Import: Versuche das erste IndexedFaceSet zu finden und hole es...
-	// Das muss natürlich GeoVRML sein... :-]
+	// Quick-and-dirty-Implementierung fï¿½r VRML 2-Import: Versuche das erste IndexedFaceSet zu finden und hole es...
+	// Das muss natï¿½rlich GeoVRML sein... :-]
 	private void readVRML2(String pFilename) throws T3dException
     {
 		int lineNumber = 0;
@@ -344,7 +365,7 @@ public class IoTINReader extends IoObject
 			lTokRead.lowerCaseMode(true);//alle Tokens in Kleinbuchstaben holen
 			lTokRead.commentChar(35);//Hash signalisiert Kommentar-Zeile...
 			lTokRead.eolIsSignificant(false);//Zeilenumbruch unwichtig
-			lTokRead.wordChars(65,90);//Großbuchstaben
+			lTokRead.wordChars(65,90);//Groï¿½buchstaben
 			lTokRead.wordChars(97,122);//Kleinbuchstaben
 //			System.out.println("EOF: " + StreamTokenizer.TT_EOF);
 //			System.out.println("EOL: " + StreamTokenizer.TT_EOL);
@@ -381,7 +402,7 @@ public class IoTINReader extends IoObject
 			}
 			if(!lTokRead.sval.equals("coordindex")) throw new T3dException("Could not find indices.");
 			int countI=0;
-			int[] indices = new int[100000]; //Hier könnten auch Facetten kommen - fehlt noch!
+			int[] indices = new int[100000]; //Hier kï¿½nnten auch Facetten kommen - fehlt noch!
 			while((tokType=lTokRead.nextToken())!=StreamTokenizer.TT_EOF){
 				if(tokType==StreamTokenizer.TT_NUMBER){
 					if(lTokRead.nval>=0) indices[countI++]=(int)lTokRead.nval;
