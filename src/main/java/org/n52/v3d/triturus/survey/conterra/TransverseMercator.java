@@ -1,25 +1,26 @@
+/***************************************************************************************
+ * Copyright (C) 2011 by 52 North Initiative for Geospatial Open Source Software GmbH  *
+ *                                                                                     *
+ * Contact: Benno Schmidt & Martin May, 52 North Initiative for Geospatial Open Source *
+ * Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, Germany, info@52north.org *
+ *                                                                                     *
+ * This program is free software; you can redistribute and/or modify it under the      *
+ * terms of the GNU General Public License version 2 as published by the Free Software *
+ * Foundation.                                                                         *
+ *                                                                                     *
+ * This program is distributed WITHOUT ANY WARRANTY; even without the implied WARRANTY *
+ * OF MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public  *
+ * License for more details.                                                           *
+ *                                                                                     *
+ * You should have received a copy of the GNU General Public License along with this   *
+ * program (see gnu-gpl v2.txt). If not, write to the Free Software Foundation, Inc.,  *
+ * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA, or visit the Free Software *
+ * Foundation web page, http://www.fsf.org.                                            *
+ **************************************************************************************/
 package org.n52.v3d.triturus.survey.conterra;
 
 /**
- * Overview :
- * Abstract :
- * @author  :   spanier
- * Date     :   Jul 1, 2003
- * Time     :   3:40:50 PM
- * Copyright:   Copyright (c) con terra GmbH
- * @link    :   www.conterra.de
- * @version :   0.1
- *
- * Revision :
- * @author  :   spanier
- * Date     :
- *
- */
-
-
-//import
-
-/**
+ * @author Udo Einspanier
  */
 public class TransverseMercator implements Projection {
     // static attributes...
@@ -34,8 +35,8 @@ public class TransverseMercator implements Projection {
     // static methods
 
     protected double centralmeridian = 0.0d;	//Bezugsmeridian
-    protected double nulllat = 0.0d;				//Bezugsbreite (in England nicht Äquator)
-    protected double factor = 0.0d;				//Maßstabsfaktor (Schnittzylinder)
+    protected double nulllat = 0.0d;				//Bezugsbreite (in England nicht ï¿½quator)
+    protected double factor = 0.0d;				//Maï¿½stabsfaktor (Schnittzylinder)
     protected	double northing = 0.0d;			//Nordverschiebung
     protected	double easting = 0.0d;       	//Ostverschiebung
 
@@ -157,8 +158,8 @@ public class TransverseMercator implements Projection {
 
 
         double ETA = ellipsoid.getPowE2() * Math.pow(cos_Bf, 2.0d);
-        double N = c / Math.sqrt(1.0d + ETA);    		//Querkrümmungshalbmesser
-        //OutputDebugString("Querkrümmungshalbmesser ok\n");
+        double N = c / Math.sqrt(1.0d + ETA);    		//Querkrï¿½mmungshalbmesser
+        //OutputDebugString("Querkrï¿½mmungshalbmesser ok\n");
 
         double y_N 				= rechts / N;
 
@@ -168,13 +169,13 @@ public class TransverseMercator implements Projection {
         double DB = - s1 + s2 - s3;
         double B = Bf + DB * tan_Bf;         //geogr. Breite in Radiant
 
-        //Länge  aus GK-Koord.
+        //Lï¿½nge  aus GK-Koord.
         double DL = y_N -
                         (Math.pow(y_N, 3.0d) * (1.0d + 2.0d * tan_Bf_2 + ETA) / 6.0d)	+
                          Math.pow(y_N, 5.0d) * (5.0d + 28.0d * tan_Bf_2 + 24.0d * tan_Bf_4) / 120.0d;
-        double L = (centralmeridian * GeoSysUtil.DEG2RAD) + (DL / cos_Bf); 	//geogr. Länge in Rad
+        double L = (centralmeridian * GeoSysUtil.DEG2RAD) + (DL / cos_Bf); 	//geogr. Lï¿½nge in Rad
 
-        //Länge/Breite -> Rechts/Hoch
+        //Lï¿½nge/Breite -> Rechts/Hoch
 //        x = L;        //Grad->Rad       //???
 //        y = B;        //Breite in Rad   //???
 /*
@@ -199,7 +200,7 @@ public class TransverseMercator implements Projection {
         return GeoSysUtil.return2DCoord(lon, lat, out);
     }
 
-    //Skalierung und Nord- und Ostverschiebung durchführen
+    //Skalierung und Nord- und Ostverschiebung durchfï¿½hren
     protected double[] addOffset(double x, double y, double[] out) {
         x *= factor;
         y *= factor;

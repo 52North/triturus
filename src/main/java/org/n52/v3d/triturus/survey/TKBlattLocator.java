@@ -1,3 +1,22 @@
+/***************************************************************************************
+ * Copyright (C) 2011 by 52 North Initiative for Geospatial Open Source Software GmbH  *
+ *                                                                                     *
+ * Contact: Benno Schmidt & Martin May, 52 North Initiative for Geospatial Open Source *
+ * Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, Germany, info@52north.org *
+ *                                                                                     *
+ * This program is free software; you can redistribute and/or modify it under the      *
+ * terms of the GNU General Public License version 2 as published by the Free Software *
+ * Foundation.                                                                         *
+ *                                                                                     *
+ * This program is distributed WITHOUT ANY WARRANTY; even without the implied WARRANTY *
+ * OF MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public  *
+ * License for more details.                                                           *
+ *                                                                                     *
+ * You should have received a copy of the GNU General Public License along with this   *
+ * program (see gnu-gpl v2.txt). If not, write to the Free Software Foundation, Inc.,  *
+ * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA, or visit the Free Software *
+ * Foundation web page, http://www.fsf.org.                                            *
+ **************************************************************************************/
 package org.n52.v3d.triturus.survey;
 
 import java.util.HashMap;
@@ -5,33 +24,37 @@ import org.n52.v3d.triturus.vgis.VgPoint;
 import org.n52.v3d.triturus.vgis.T3dSRSException;
 import org.n52.v3d.triturus.core.T3dException;
 
-/** 
- * Klasse zur Ermittlung der Blattnummern der Topografischen Karten TK 25, TK 50, TK 100 der bundesdeutschen
- * Landesvermessungsämter.<p>
+/**
+ * Determination of German TK-Blattnummer identifers.<br /><br />
+ * <i>German:</i> Klasse zur Ermittlung der Blattnummern der Topografischen Karten TK 25, TK 50, TK 100 der
+ * bundesdeutschen Landesvermessungs&auml;mter.<br />
  * Bem.: Dem Blattschnitt der TK 25 liegt dabei eine Gradabteilungskarte mit Linien geografischer Koordinaten in
- * Abständen von 10 Längenminuten (10' entsprechend 1/6 Grad) und 6 Breitenminuten (6' entsprechend 1/10 Grad)
- * zugrunorg.n52.v3d.<p>
- * @author Benno Schmidt<br>
- * (c) 2003-2005, con terra GmbH<br>
+ * Abstï¿½nden von 10 Lï¿½ngenminuten (10' entsprechend 1/6 Grad) und 6 Breitenminuten (6' entsprechend 1/10 Grad)
+ * zugrunde.
+ * @author Benno Schmidt
  */
 public class TKBlattLocator
 {
 	private HashMap mBlattnamen;
 	
-	/** Konstruktor. */
+	/**
+     * Constructor.
+     */
 	public TKBlattLocator() {
 		this.initBlattnamen();
 	}
 	 
 	/**
-	 * liefert die Nummer des TK-Blattes für den angegebenen Punkt.<p>
+     * returns the TK-identifier for a given point.<br /><br />
+	 * <i>German:</i> liefert die Nummer des TK-Blattes f&uuml;r den angegebenen Punkt.<br />
 	 * @param pTKBez TK-Werk, z. B. <tt>"TK 25"</tt>, <tt>"TK 50"</tt> oder <tt>"TK 100"</tt>
 	 * @param pt Position gegeben in geografischen Koordinaten
 	 * @return Blattnummer
 	 * @throws org.n52.v3d.triturus.core.T3dException
 	 * @throws org.n52.v3d.triturus.vgis.T3dSRSException
 	 */
-	public String blattnummer(String pTKBez, VgPoint pt) throws T3dException, T3dSRSException
+    // todo engl. javadoc der Parameter
+    public String blattnummer(String pTKBez, VgPoint pt) throws T3dException, T3dSRSException
 	{
   		if (! (pt.getSRS().equalsIgnoreCase("EPSG:4326")))
             throw new T3dSRSException( "TKBlattLocator can not process SRS \"" + pt.getSRS() + "\"." );
@@ -54,12 +77,14 @@ public class TKBlattLocator
     }
 
     /**
-     * formatiert die TK-Blattnummer für die angegebene Nummern-Kombination.<p>
-     * Beispiel: <tt>blattnummer(47,9)</tt> liefert &quot;4709&quot; als Resultat.<p>
+     * formats the TK-Blattnummer.<br /><br />
+     * <i>German:</i> formatiert die TK-Blattnummer f&uuml;r die angegebene Nummern-Kombination.<br />
+     * Beispiel: <tt>blattnummer(47,9)</tt> liefert &quot;4709&quot; als Resultat.
      * @param i ersten beiden Ziffern der Blattnummer-Angabe als Ganzzahl
      * @param j letzten beiden Ziffern der Blattnummer-Angabe als Ganzzahl
      * @return Blattnummer
      */
+    // todo engl. javadoc der Parameter
     static public String blattnummer(int i, int j) {
         String ret = "";
         if (i < 10) ret += "0";
@@ -111,29 +136,31 @@ public class TKBlattLocator
 	{
 		mBlattnamen = new HashMap();
         
-		mBlattnamen.put("4210", "Lüdinghausen");
+		mBlattnamen.put("4210", "Lï¿½dinghausen");
 		mBlattnamen.put("4211", "Ascheberg");
 		mBlattnamen.put("4212", "Drensteinfurt");
 		mBlattnamen.put("4310", "Datteln");
-		mBlattnamen.put("4311", "Lünen");
+		mBlattnamen.put("4311", "Lï¿½nen");
 		mBlattnamen.put("4312", "Hamm");
 		mBlattnamen.put("4410", "Dortmund");
 		mBlattnamen.put("4411", "Kamen");
 		mBlattnamen.put("4412", "Unna");
-		mBlattnamen.put("L4111", "Münster");
-		mBlattnamen.put("L4310", "Lünen");
-		mBlattnamen.put("C4310", "Münster");
+		mBlattnamen.put("L4111", "Mï¿½nster");
+		mBlattnamen.put("L4310", "Lï¿½nen");
+		mBlattnamen.put("C4310", "Mï¿½nster");
 		mBlattnamen.put("C4710", "Dortmund");
         // Liste kann bei Bedarf erweitert werden...
 	}
 
-	/** 
-	 * liefert den Namen des TK-Blatts mit der angegebenen Blattnummer.<p>
-	 * Bem.: Diese Methode ist nur für Teilgebiete Nordrhein-Westfalens realisiert; siehe private Methode
-     * TkBlattLocator#initBlattnamen im Quellcoorg.n52.v3d.<p>
+	/**
+     * returns the TK-Blatt name for a given TK-Blatt identifiert.<br /><br />
+	 * <i>German:</i> liefert den Namen des TK-Blatts mit der angegebenen Blattnummer.<br />
+	 * Bem.: Diese Methode ist nur f&uuml;r Teilgebiete Nordrhein-Westfalens realisiert; siehe private Methode
+     * TkBlattLocator#initBlattnamen im Quellcoorg.n52.v3d.
 	 * @param pBlattnummer Blattnummer, z. B. aus <tt>this.blattnummer()</tt>.
 	 * @return Blattname oder Leerstring, falls nicht vorliegend.
 	 */
+    // todo engl. javadoc der Parameter
 	public String blattname(String pBlattnummer) 
 	{
 		String ret = (String)(mBlattnamen.get(pBlattnummer));

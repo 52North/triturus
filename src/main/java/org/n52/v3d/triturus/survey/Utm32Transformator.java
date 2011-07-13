@@ -1,3 +1,22 @@
+/***************************************************************************************
+ * Copyright (C) 2011 by 52 North Initiative for Geospatial Open Source Software GmbH  *
+ *                                                                                     *
+ * Contact: Benno Schmidt & Martin May, 52 North Initiative for Geospatial Open Source *
+ * Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, Germany, info@52north.org *
+ *                                                                                     *
+ * This program is free software; you can redistribute and/or modify it under the      *
+ * terms of the GNU General Public License version 2 as published by the Free Software *
+ * Foundation.                                                                         *
+ *                                                                                     *
+ * This program is distributed WITHOUT ANY WARRANTY; even without the implied WARRANTY *
+ * OF MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public  *
+ * License for more details.                                                           *
+ *                                                                                     *
+ * You should have received a copy of the GNU General Public License along with this   *
+ * program (see gnu-gpl v2.txt). If not, write to the Free Software Foundation, Inc.,  *
+ * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA, or visit the Free Software *
+ * Foundation web page, http://www.fsf.org.                                            *
+ **************************************************************************************/
 package org.n52.v3d.triturus.survey;
 
 import org.n52.v3d.triturus.vgis.VgPoint;
@@ -11,11 +30,11 @@ import org.n52.v3d.triturus.survey.conterra.GeographicTransformException;
 import java.lang.Double;
 
 /**
- * Klasse zur Transformation von Punkten in das/aus dem UTM32-System.<p>
+ * Transformation of positions given in UTM 32.<br /><br />
+ * <i>German:</i> Klasse zur Transformation von Punkten in das/aus dem UTM32-System.<br />
  * Geografische Koordinaten sind stets dezimal in Altgrad anzugeben. Rechts- und Hochwerte sind in m anzugeben (d. h.,
- * unter Verwendung von 7 Vorkommastellen).<p>
- * @author Benno Schmidt<br>
- * (c) 2005 con terra GmbH<br>
+ * unter Verwendung von 7 Vorkommastellen).
+ * @author Benno Schmidt
  */
 public class Utm32Transformator
 {
@@ -25,14 +44,17 @@ public class Utm32Transformator
 	private double mBreite = 0.;
 
 	/**
-	 * transformiert eine eine auf den WGS-84-Ellipsoid bezogene geografische Koordinate in das UTM32-System.<p>
-	 * Vor dem Methodenaufruf muss das Ergebnisobjekt bereits instanziiert sein (z. B. als <tt>GmPoint</tt>).<p>
+     * transforms coordinates referring to the WGS-84-ellipsoid to UTM32.<br /><br />
+	 * <i>German:</i> transformiert auf den WGS-84-Ellipsoid bezogene geografische Koordinaten in das UTM32-System.
+     * <br />
+	 * Vor dem Methodenaufruf muss das Ergebnisobjekt bereits instanziiert sein (z. B. als <tt>GmPoint</tt>).
 	 * @see VgPoint
 	 * @param pIn zu transformierender Punkt in geografischen Koordinaten (EPSG:4326)
 	 * @param pOut Punkt mit berechneten Koordinaten im UTM32-System
 	 * @throws T3dSRSException
 	 * @throws java.lang.NullPointerException falls <tt>pOut</tt> nicht intanziiert
 	 */
+    // todo engl. javadoc der Parameter
 	public void latLon2Utm(VgPoint pIn, VgPoint pOut) throws T3dSRSException
 	{
         if (! pIn.getSRS().equalsIgnoreCase(VgGeomObject.SRSLatLonWgs84))
@@ -48,12 +70,15 @@ public class Utm32Transformator
 	}
 
     /**
-     * transformiert eine auf den WGS-84-Ellipsoid bezogene geografische Koordinate in das UTM32-System.<p>
+     * transforms coordinates referring to the WGS-84-ellipsoid to UTM32.<br /><br />
+	 * <i>German:</i> transformiert eine auf den WGS-84-Ellipsoid bezogene geografische Koordinate in das UTM32-System.
+     * <br />
      * @param pLat geografische Breite des zu transformierenden Punktes
-     * @param pLon geografische Länge des zu transformierenden Punktes
+     * @param pLon geografische L&auml;nge des zu transformierenden Punktes
      * @param pRechts berechneter Rechtswert (UTM32-System)
      * @param pHoch berechneter Hochwert (UTM32-System)
      */
+    // todo engl. javadoc der Parameter
     public void latLon2Gkk(double pLat, double pLon, Double pRechts, Double pHoch)
     {
         this.geoWgs84InUtm(pLat, pLon);
@@ -63,12 +88,15 @@ public class Utm32Transformator
     }
 
     /**
-     * transformiert eine UTM32-Koordinate in auf den WGS-84-Ellipsoid bezogene geografische Koordinaten.<p>
-     * Vor dem Methodenaufruf muss das Ergebnisobjekt bereits instanziiert sein (z. B. als <tt>GmPoint</tt>).<p>
+     * transforms UTM32 coordinates to geographic coordinates referring to the WGS-84-ellipsoid.<br /><br />
+	 * <i>German:</i> transformiert eine UTM32-Koordinate in auf den WGS-84-Ellipsoid bezogene geografische Koordinaten.
+     * <br />
+     * Vor dem Methodenaufruf muss das Ergebnisobjekt bereits instanziiert sein (z. B. als <tt>GmPoint</tt>).
      * @param pIn zu transformierender Punkt im UTM32-System
      * @param pOut Punkt mit berechneten geografischen Koordinaten
      * @throws java.lang.NullPointerException falls <tt>pOut</tt> nicht intanziiert
      */
+    // todo engl. javadoc der Parameter
     public void utm2LatLon(VgPoint pIn, VgPoint pOut)
     {
         String srs = pIn.getSRS();
@@ -85,12 +113,15 @@ public class Utm32Transformator
     }
 
     /**
-     * transformiert eine UTM32-Koordinate in auf den WGS-84-Ellipsoid bezogene geografische Koordinaten.<p>
+     * transforms UTM32 coordinates to geographic coordinates referring to the WGS-84-ellipsoid.<br /><br />
+	 * <i>German:</i> transformiert eine UTM32-Koordinate in auf den WGS-84-Ellipsoid bezogene geografische Koordinaten.
+     * <br />
      * @param pRechts zu transformierender Rechtswert (UTM32-System)
      * @param pHoch zu transformierender Hochwert (UTM32-System)
-     * @param pLat berechnete geografische Länge
+     * @param pLat berechnete geografische Lï¿½nge
      * @param pLon berechnete geografische Breite
      */
+     // todo engl. javadoc der Parameter
     public void utm2LatLon(double pRechts, double pHoch, Double pLat, Double pLon) throws T3dSRSException
     {
         this.utmInGeoWgs84(pRechts, pHoch);

@@ -1,25 +1,26 @@
+/***************************************************************************************
+ * Copyright (C) 2011 by 52 North Initiative for Geospatial Open Source Software GmbH  *
+ *                                                                                     *
+ * Contact: Benno Schmidt & Martin May, 52 North Initiative for Geospatial Open Source *
+ * Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, Germany, info@52north.org *
+ *                                                                                     *
+ * This program is free software; you can redistribute and/or modify it under the      *
+ * terms of the GNU General Public License version 2 as published by the Free Software *
+ * Foundation.                                                                         *
+ *                                                                                     *
+ * This program is distributed WITHOUT ANY WARRANTY; even without the implied WARRANTY *
+ * OF MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public  *
+ * License for more details.                                                           *
+ *                                                                                     *
+ * You should have received a copy of the GNU General Public License along with this   *
+ * program (see gnu-gpl v2.txt). If not, write to the Free Software Foundation, Inc.,  *
+ * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA, or visit the Free Software *
+ * Foundation web page, http://www.fsf.org.                                            *
+ **************************************************************************************/
 package org.n52.v3d.triturus.survey.conterra;
 
 /**
- * Overview :
- * Abstract :
- * @author  :   spanier
- * Date     :   Jul 1, 2003
- * Time     :   5:00:58 PM
- * Copyright:   Copyright (c) con terra GmbH
- * @link    :   www.conterra.de
- * @version :   0.1
- *
- * Revision :
- * @author  :   spanier
- * Date     :
- *
- */
-
-
-//import
-
-/**
+ * @author Udo Einspanier
  */
 public class GeographicTransform {
 
@@ -68,7 +69,7 @@ public class GeographicTransform {
     }
 
     public double[] forward(double x, double y, double z, double[] out) throws GeographicTransformException {
-        //später auch src überprüfen, jetzt ist es immer WGS84
+        //spï¿½ter auch src ï¿½berprï¿½fen, jetzt ist es immer WGS84
         //
 //        data.xout = data.xin; //* DEG2RAD;	//nur bei ellipsoidischen RBZ
 //        data.yout = data.yin; //* DEG2RAD;
@@ -87,7 +88,7 @@ public class GeographicTransform {
             out[1] *= GeoSysUtil.DEG2RAD;
         }
 
-        //Datumsübergang
+        //Datumsï¿½bergang
         //
         Datum sourceDatum = sourceGcs.getDatum();
         Datum targetDatum = targetGcs.getDatum();
@@ -117,7 +118,7 @@ public class GeographicTransform {
     }
 
     public double[] reverse(double x, double y, double z, double[] out) throws GeographicTransformException {
-        //später auch target überprüfen, jetzt ist es immer WGS84
+        //spï¿½ter auch target ï¿½berprï¿½fen, jetzt ist es immer WGS84
         //
 //        data.xout = data.xin; //* DEG2RAD;	//nur bei ellipsoidischen RBZ
 //        data.yout = data.yin; //* DEG2RAD;
@@ -136,7 +137,7 @@ public class GeographicTransform {
             out[1] *= GeoSysUtil.DEG2RAD;
         }
 
-        //Datumsübergang
+        //Datumsï¿½bergang
         //
         Datum targetDatum = targetGcs.getDatum();
         Datum sourceDatum = sourceGcs.getDatum();

@@ -1,13 +1,22 @@
-/**
- * Titel:           mapClient-Framework
- * erstellt von:    Benno Schmidt
- * erstellt am:     14.09.2006
- * Copyright:       con terra GmbH
- *
- * geändert von:    $Author: schmidt $
- * geändert am:     $Date: 2006/10/30 12:04:25 $
- * Version:         $Revision: 1.1 $
- */
+/***************************************************************************************
+ * Copyright (C) 2011 by 52 North Initiative for Geospatial Open Source Software GmbH  *
+ *                                                                                     *
+ * Contact: Benno Schmidt & Martin May, 52 North Initiative for Geospatial Open Source *
+ * Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, Germany, info@52north.org *
+ *                                                                                     *
+ * This program is free software; you can redistribute and/or modify it under the      *
+ * terms of the GNU General Public License version 2 as published by the Free Software *
+ * Foundation.                                                                         *
+ *                                                                                     *
+ * This program is distributed WITHOUT ANY WARRANTY; even without the implied WARRANTY *
+ * OF MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public  *
+ * License for more details.                                                           *
+ *                                                                                     *
+ * You should have received a copy of the GNU General Public License along with this   *
+ * program (see gnu-gpl v2.txt). If not, write to the Free Software Foundation, Inc.,  *
+ * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA, or visit the Free Software *
+ * Foundation web page, http://www.fsf.org.                                            *
+ **************************************************************************************/
 package org.n52.v3d.triturus.survey;
 
 import org.n52.v3d.triturus.vgis.VgPoint;
@@ -25,18 +34,18 @@ import org.apache.commons.logging.LogFactory;
 
 
 /**
- * Klasse zur Ermittlung allgemeiner Kachelnummern ("Blattnummern"). Den Kacheln liegen stets Linien geografischer
- * Koordinaten in festen Abständen zugrunorg.n52.v3d. Die Kachelnummern sind stets vierstellig in der Form "B1B2B3B4" (wobei
- * B1, B2, B3, B4 Zeichen im Bereich '0'...'9').<p>
- * Bem.: Ein Beispiel einer derartigen Kachelung ist der Blattschnitt der bundedeutschen TK 25.<p>
+ * Tile identifier locator.<br /><br />
+ * <i>German: </i>Klasse zur Ermittlung allgemeiner Kachelnummern ("Blattnummern"). Den Kacheln liegen stets Linien
+ * geografischer Koordinaten in festen AbstAauml;nden zugrunde. Die Kachelnummern sind stets vierstellig in der Form
+ * &quot;B1B2B3B4&quot; (wobei B1, B2, B3, B4 Zeichen im Bereich '0'...'9').<br />
+ * Bem.: Ein Beispiel einer derartigen Kachelung ist der Blattschnitt der bundedeutschen TK 25.<br />
  * Die Zuordnungsvorschrift einer Blattnummer zu einer Kachel ergibt sich wie folgt:<p>
  * <tt>(B12, B34)T = A * (lambda, phi)T + b</tt>, wobei sich der Blattnummernteil BiBj aus Math.ceil(Bij) ergibt und
- * gegebenenfalls um eine führende '0' ergänzt wird (Bi = '0', falls Bij < 10). A ist eine 2x2-Matrix, b ein 2x1-Vektor,
- * transponierte Vektoren sind durch ein nachgestelltes T gekennzeichnet. Eine Kachelung ist hier somit durch die 6
- * Parameter a11, a12, b1, a21, a22, b2 eindeutig festgelegt.<p>
+ * gegebenenfalls um eine f&uuml;hrende '0' ergï¿½nzt wird (Bi = '0', falls Bij < 10). A ist eine 2x2-Matrix, b ein
+ * 2x1-Vektor, transponierte Vektoren sind durch ein nachgestelltes T gekennzeichnet. Eine Kachelung ist hier somit
+ * durch die 6 Parameter a11, a12, b1, a21, a22, b2 eindeutig festgelegt.
  * @see TKBlattLocator
- * @author Benno Schmidt<br>
- * (c) 2006, con terra GmbH<br>
+ * @author Benno Schmidt
  */
 public class TileLocator
 {
@@ -44,12 +53,17 @@ public class TileLocator
 
     private ArrayList mTileLocatorEntries = new ArrayList();
 
-    /** Konstruktor. */
+    /**
+     * Constructor.
+     */
     public TileLocator() {
         this.readProperties("tiledef.properties"); // Properties-Datei einlesen
     }
 
-    /** Konstruktor für Testzwecke. */
+    /**
+     * @deprecated
+     * Constructor for debug purposes only.
+     */
     public TileLocator(String lParam)
     {
         if (lParam.equalsIgnoreCase("test"))
@@ -147,20 +161,22 @@ public class TileLocator
     }
 
     /**
-     * liefert die vierstellige Kachelnummer für den angegebenen Punkt.<p>
+     * returns the tile identifier for a given position.<br /><br />
+     * <i>German:</i> liefert die vierstellige Kachelnummer f&uuml;r den angegebenen Punkt.<br />
      * @param pTileId Bezeichner der verwendeten Kachelung, z. B. <tt>"TK25"</tt> oder <tt>"earth"</tt>
      * @param pt Position gegeben in geografischen Koordinaten
      * @return Kachelnummer
      * @throws org.n52.v3d.triturus.core.T3dException
      * @throws org.n52.v3d.triturus.vgis.T3dSRSException
      */
+    // todo engl. javadoc der Parameter
     public String tileNumber(String pTileId, VgPoint pt) throws T3dException, T3dSRSException
     {
-        pt.setSRS("EPSG:4326");// todo muss eigentlich raus, läuft dann aber noch nicht... :-(
+        pt.setSRS("EPSG:4326");// todo muss eigentlich raus, lï¿½uft dann aber noch nicht... :-(
         if (! (pt.getSRS().equalsIgnoreCase("EPSG:4326")))
             throw new T3dSRSException( "TileLocator can not process SRS \"" + pt.getSRS() + "\"." );
 
-        // zum übergebenen Bezeichner gehörigen TileLocatorEntry suchen:
+        // zum ï¿½bergebenen Bezeichner gehï¿½rigen TileLocatorEntry suchen:
         TileLocatorEntry lEntry = this.getTileLocatorEntry(pTileId);
         if (lEntry == null)
             throw new T3dException("TileLocatorEntry \"" + pTileId + "\" is not available!");
@@ -170,12 +186,14 @@ public class TileLocator
     }
 
     /**
-     * formatiert die Kachelnummer für die angegebene Nummern-Kombination.<p>
+     * formats the tile identifier.<br /><br />
+     * <i>German:</i> formatiert die Kachelnummer f&uuml;r die angegebene Nummern-Kombination.<br />
      * Beispiel: <tt>blattnummer(47,9)</tt> liefert &quot;4709&quot; als Resultat.<p>
      * @param i ersten beiden Ziffern der Blattnummer-Angabe als Ganzzahl
      * @param j letzten beiden Ziffern der Blattnummer-Angabe als Ganzzahl
      * @return Blattnummer
      */
+    // todo engl. javadoc der Parameter
     static public String blattnummer(int i, int j) {
         String ret = "";
         if (i < 10) ret += "0";
@@ -210,7 +228,7 @@ public class TileLocator
         double phi_min = inv21 * (B12 - par[2]) + inv22 * (B34 - par[5]);
         double lambda_max = inv11 * ((B12 + 1) - par[2]) + inv12 * ((B34 + 1) - par[5]);
         double phi_max = inv21 * ((B12 + 1) - par[2]) + inv22 * ((B34 + 1) - par[5]);
-        // todo: stimmt so nur für kacheln, für die B12, B34 gegenüber lambda, phi monoton steigend
+        // todo: stimmt so nur fï¿½r kacheln, fï¿½r die B12, B34 gegenï¿½ber lambda, phi monoton steigend
 
         return new GmEnvelope(lambda_min, lambda_max, phi_min, phi_max, 0., 0.);
     }

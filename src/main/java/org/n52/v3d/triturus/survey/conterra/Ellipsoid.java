@@ -1,25 +1,26 @@
+/***************************************************************************************
+ * Copyright (C) 2011 by 52 North Initiative for Geospatial Open Source Software GmbH  *
+ *                                                                                     *
+ * Contact: Benno Schmidt & Martin May, 52 North Initiative for Geospatial Open Source *
+ * Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, Germany, info@52north.org *
+ *                                                                                     *
+ * This program is free software; you can redistribute and/or modify it under the      *
+ * terms of the GNU General Public License version 2 as published by the Free Software *
+ * Foundation.                                                                         *
+ *                                                                                     *
+ * This program is distributed WITHOUT ANY WARRANTY; even without the implied WARRANTY *
+ * OF MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public  *
+ * License for more details.                                                           *
+ *                                                                                     *
+ * You should have received a copy of the GNU General Public License along with this   *
+ * program (see gnu-gpl v2.txt). If not, write to the Free Software Foundation, Inc.,  *
+ * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA, or visit the Free Software *
+ * Foundation web page, http://www.fsf.org.                                            *
+ **************************************************************************************/
 package org.n52.v3d.triturus.survey.conterra;
 
 /**
- * Overview :
- * Abstract :
- * @author  :   spanier
- * Date     :   Jun 30, 2003
- * Time     :   11:02:14 AM
- * Copyright:   Copyright (c) con terra GmbH
- * @link    :   www.conterra.de
- * @version :   0.1
- *
- * Revision :
- * @author  :   spanier
- * Date     :
- *
- */
-
-
-//import
-
-/**
+ * @author Udo Einspanier
  */
 public class Ellipsoid {
 
@@ -63,20 +64,20 @@ public class Ellipsoid {
     private double powE1; // power of 1. num. excentricity
     private double powE2; // power of 2. num. excentricity
 
-    // Meridianbogenlänge
+    // Meridianbogenlï¿½nge
     private double f1;
     private double f2;
     private double f3;
     private double f4;
     private double f5;
 
-    // geogr. Breite Lotfußpunkt
+    // geogr. Breite Lotfuï¿½punkt
     private double gE0;
     private double gF2;
     private double gF4;
     private double gF6;
 
-    private double[] en = new double[5]; // Meridianbogenabstände
+    private double[] en = new double[5]; // Meridianbogenabstï¿½nde
 
     // static methods
 
@@ -202,20 +203,20 @@ public class Ellipsoid {
     public double getQuerkruemmungshalbmesser(double lat) {
         return powA / Math.sqrt(
             powA * Math.pow(Math.cos (lat), 2.0d)  + // ??? 2.0l
-            powB * Math.pow (Math.sin (lat), 2.0d)); //Querkrümmungshalbmesser // ??? 2.0l
+            powB * Math.pow (Math.sin (lat), 2.0d)); //Querkrï¿½mmungshalbmesser // ??? 2.0l
     }
 
     public double getPolkruemmungshalbmesser() {
-        //Krümmungshalbmesser am Pol (lat = 90°):
+        //Krï¿½mmungshalbmesser am Pol (lat = 90ï¿½):
         return powA / b;
     }
 
-    //Krümmungshalbmesser der Hauptvertikalen (für Molodensky)
+    //Krï¿½mmungshalbmesser der Hauptvertikalen (fï¿½r Molodensky)
     public double getRN(double lat) {
         return a / Math.sqrt(1.0d/*l*/ - powE1 * Math.pow(Math.sin(lat), 2.0d/*l*/));
     }
 
-    //Krümmungshalbmesser im Hauptmeridian (für Molodensky)
+    //Krï¿½mmungshalbmesser im Hauptmeridian (fï¿½r Molodensky)
     public double getRM(double lat) {
         return a * (1.0d/*l*/ - powE1) / Math.pow(
             1.0d/*l*/ - (powE1 * Math.pow(Math.sin(lat), 2.0d/*l*/)), 1.5d/*l*/);
@@ -257,7 +258,7 @@ public class Ellipsoid {
         if (lon < 0.0)    //Winkel positiv machen (0 - 2pi)
             lon += GeoSysUtil.PI2;
 
-        //Höhe berechnen:
+        //Hï¿½he berechnen:
         //
         var1 = Math.atan2 (b * Math.tan(lat), a);
         var2 = pp - a * Math.cos (var1);
@@ -266,7 +267,7 @@ public class Ellipsoid {
         if (var2 < 0.0)
             h = - h;
 
-        //alternative Funktion für die Höhe (Transformation of GPS Results)
+        //alternative Funktion fï¿½r die Hï¿½he (Transformation of GPS Results)
         //double h = pp / cos(lat) - Querkruemmungshalbmesser(lat);
 
         return GeoSysUtil.return3DCoord(lon, lat, h, out);
@@ -281,7 +282,7 @@ public class Ellipsoid {
         powE2 = (powA - powB) / powB;
         e1 = Math.sqrt(powE1);
 
-        //Konstanten für Meridianbogenlänge
+        //Konstanten fï¿½r Meridianbogenlï¿½nge
         // Formeln nach Hofmann-Wellenhof GSP in der Praxis S. 93
         //
 
@@ -294,7 +295,7 @@ public class Ellipsoid {
         f5 =  315.0/512.0 * Math.pow(n3,4.0);
 
         //Konstanten zur Berechnung der geographischen Breite des
-        //Lotfußpunktes
+        //Lotfuï¿½punktes
 
         double e2_4 = powE2 * powE2;
         double e2_6 = e2_4 * powE2;
@@ -309,7 +310,7 @@ public class Ellipsoid {
         gF4 = (e2_4 * 21.0/256.0) 	- (e2_6 * 21.0/256.0) + (e2_8 * 533.0/8192.0);
         gF6 = (e2_6 * 151.0/6144.0) - (e2_8 * 453.0/12288.0);
 
-        //Hilfsvariablen für proj
+        //Hilfsvariablen fï¿½r proj
         double t;
         double es = powE1;
         en[0] = C00 - es * (C02 + es * (C04 + es * (C06 + es * C08)));
