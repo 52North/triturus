@@ -1,3 +1,22 @@
+/***************************************************************************************
+ * Copyright (C) 2011 by 52 North Initiative for Geospatial Open Source Software GmbH  *
+ *                                                                                     *
+ * Contact: Benno Schmidt & Martin May, 52 North Initiative for Geospatial Open Source *
+ * Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, Germany, info@52north.org *
+ *                                                                                     *
+ * This program is free software; you can redistribute and/or modify it under the      *
+ * terms of the GNU General Public License version 2 as published by the Free Software *
+ * Foundation.                                                                         *
+ *                                                                                     *
+ * This program is distributed WITHOUT ANY WARRANTY; even without the implied WARRANTY *
+ * OF MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public  *
+ * License for more details.                                                           *
+ *                                                                                     *
+ * You should have received a copy of the GNU General Public License along with this   *
+ * program (see gnu-gpl v2.txt). If not, write to the Free Software Foundation, Inc.,  *
+ * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA, or visit the Free Software *
+ * Foundation web page, http://www.fsf.org.                                            *
+ **************************************************************************************/
 package org.n52.v3d.triturus.survey;
 
 import org.n52.v3d.triturus.vgis.VgPoint;
@@ -11,17 +30,20 @@ import org.n52.v3d.triturus.survey.conterra.GeographicTransformException;
 import java.lang.Double;
 
 /**
- * Klasse zur Transformation von Punkten in das/aus dem Gauß-Krüger-System.<p>
+ * @deprecated
+ * Transformation of positions given in Gauss-Kruger-coordinates.<br /><br />
+ * <i>German:</i> Klasse zur Transformation von Punkten in das/aus dem Gau&szlig;-Kr&uuml;ger-System.<br />
  * Geografische Koordinaten sind stets dezimal in Altgrad anzugeben. Rechts- und Hochwerte sind in m anzugeben (d. h.,
- * unter Verwendung von 7 Vorkommastellen).<p>
- * Die Umrechnungsvorschrift entspricht der des nordrhein-westfälischen Landesvermessungsamtes (d. h., die Ergebnisse
- * besitzen prinzipiell Gültigkeit für alle alten Bundesländer). Die Gauß-Krüger-Koordinaten sind auf den
- * Bessel-Ellipsoid bezogen. Die Reichweite der Formeln liegt bei 3 Längengraden.<p>
- * Die Berechnungsreihenfolgen wurden abgeändert, so dass die Routinen möglichst schnell abgearbeitet werden können.<p>
- * <b>Bem.: Die Transformationen für den WGS-84-Ellipsoid sind (im Gegensatz zum Bessel-Ellipoid) leider noch nicht
- * getestet.</b><p>
- * @author Benno Schmidt<br>
- * (c) 1993-1996, Geopro GmbH, 2004-2005 con terra GmbH<br>
+ * unter Verwendung von 7 Vorkommastellen).<br />
+ * Die Umrechnungsvorschrift entspricht der des nordrhein-westf&auml;lischen Landesvermessungsamtes (d. h., die
+ * Ergebnisse besitzen prinzipiell G&uuml;ltigkeit f&uuml;r alle alten Bundesl&auml;nder). Die
+ * Gau&szlig;-Kr&uuml;ger-Koordinaten sind auf den Bessel-Ellipsoid bezogen. Die Reichweite der Formeln liegt bei 3
+ * L&auml;ngengraden.<br />
+ * Die Berechnungsreihenfolgen wurden abge&auml;ndert, so dass die Routinen m&ouml;glichst schnell abgearbeitet werden
+ * k&ouml;nnen.<br />
+ * <b>Bem.: Die Transformationen f&uuml;r den WGS-84-Ellipsoid sind (im Gegensatz zum Bessel-Ellipoid) leider noch nicht
+ * getestet.</b>
+ * @author Benno Schmidt
  */
 public class GaussKrugerTransformator
 {
@@ -31,15 +53,17 @@ public class GaussKrugerTransformator
 	private double mBreite = 0.;
 
 	/**
-	 * transformiert eine geografische Koordinate in das Gauß-Krüger-System.<p>
-	 * Vor dem Methodenaufruf muss das Ergebnisobjekt bereits instanziiert sein (z. B. als <tt>GmPoint</tt>).<p>
+	 * transforms geographic coordinates to Gauss-Kruger.<br /><br />
+	 * <i>German:</i> transformiert eine geografische Koordinate in das Gau&szlig;-Kr&uuml;ger-System.<br />
+	 * Vor dem Methodenaufruf muss das Ergebnisobjekt bereits instanziiert sein (z. B. als <tt>GmPoint</tt>).
 	 * @see VgPoint
 	 * @param pIn zu transformierender Punkt in geografischen Koordinaten (EPSG:4326)
-	 * @param pMerid Nummer des Gauß-Krüger-Meridianstreifens (z. B. 2, 3 oder 4)
-	 * @param pOut Punkt mit berechneten Koordinaten im Gauß-Krüger-System
+	 * @param pMerid Nummer des Gau&szlig;-Kr&uuml;ger-Meridianstreifens (z. B. 2, 3 oder 4)
+	 * @param pOut Punkt mit berechneten Koordinaten im Gauï¿½-Krï¿½ger-System
 	 * @throws T3dSRSException
 	 * @throws java.lang.NullPointerException falls <tt>pOut</tt> nicht intanziiert
 	 */
+	// todo engl. javadoc der Parameter
 	public void latLon2Gkk(VgPoint pIn, int pMerid, VgPoint pOut) throws T3dSRSException
 	{
         short lCase = 0;
@@ -61,17 +85,20 @@ public class GaussKrugerTransformator
 		pOut.setY(mHoch);
 		pOut.setZ(pIn.getZ());
 
-		pOut.setSRS("EPSG:3146" + (4 + pMerid)); // also z. B. "EPSG:31467" für Gauß-Krüger Streifen 3
+		pOut.setSRS("EPSG:3146" + (4 + pMerid)); // also z. B. "EPSG:31467" fï¿½r Gauï¿½-Krï¿½ger Streifen 3
 	}
 
 	/**
-	 * transformiert eine auf den Bessel-Ellipsoid bezogene geografische Koordinate in das Gauß-Krüger-System.<p>
+	 * transforms geographic coordinates referring to the Bessel-ellipsoid to Gauss-Kruger.<br /><br />
+	 * <i>German:</i> transformiert eine auf den Bessel-Ellipsoid bezogene geografische Koordinate in das
+     * Gau&szlig;-Kr&uuml;ger-System.
 	 * @param pLat geografische Breite des zu transformierenden Punktes
-	 * @param pLon geografische Länge des zu transformierenden Punktes
-	 * @param pMerid Nummer des Gauß-Krüger-Meridianstreifens (z. B. 2, 3 oder 4)
-	 * @param pRechts berechneter Rechtswert (Gauß-Krüger-System)
-	 * @param pHoch berechneter Hochwert (Gauß-Krüger-System)
+	 * @param pLon geografische L&auml;nge des zu transformierenden Punktes
+	 * @param pMerid Nummer des Gau&szlig;-Kr&uuml;ger-Meridianstreifens (z. B. 2, 3 oder 4)
+	 * @param pRechts berechneter Rechtswert (Gau&szlig;-Kr&uuml;ger-System)
+	 * @param pHoch berechneter Hochwert (Gau&szlig;-Kr&uuml;ger-System)
 	 */
+	// todo engl. javadoc der Parameter
 	public void latLonBessel2Gkk(double pLat, double pLon, int pMerid, Double pRechts, Double pHoch)
 	{
 		this.geoBesselInGkk(pLat, pLon, pMerid);
@@ -81,13 +108,16 @@ public class GaussKrugerTransformator
 	}
 
 	/**
-	 * transformiert eine Gauß-Krüger-Koordinate in auf den Bessel-Ellipsoid bezogene geografische Koordinaten.<p>
-	 * Vor dem Methodenaufruf muss das Ergebnisobjekt bereits instanziiert sein (z. B. als <tt>GmPoint</tt>).<p>
-	 * @param pIn zu transformierender Punkt im Gauß-Krüger-System
+	 * transforms Gauss-Kruger coordinates to geographic coordinates referring to the Bessel-ellipsoid.<br /><br />
+	 * <i>German:</i> transformiert eine Gau&szlig;-Kr&uuml;ger-Koordinate in auf den Bessel-Ellipsoid bezogene
+     * geografische Koordinaten.<br />
+	 * Vor dem Methodenaufruf muss das Ergebnisobjekt bereits instanziiert sein (z. B. als <tt>GmPoint</tt>).
+	 * @param pIn zu transformierender Punkt im Gau&szlig;-Kr&uuml;ger-System
 	 * @param pOut Punkt mit berechneten geografischen Koordinaten
 	 * @throws java.lang.NullPointerException falls <tt>pOut</tt> nicht intanziiert
 	 */
-	public void gkk2LatLonBessel(VgPoint pIn, VgPoint pOut)
+	// todo engl. javadoc der Parameter
+    public void gkk2LatLonBessel(VgPoint pIn, VgPoint pOut)
 	{
 		String srs = pIn.getSRS();
 		if ( !(
@@ -113,12 +143,15 @@ public class GaussKrugerTransformator
 	}
 
 	/**
-     * transformiert eine Gauß-Krüger-Koordinate in auf den Bessel-Ellipsoid bezogene geografische Koordinaten.<p>
-	 * @param pRechts zu transformierender Rechtswert (Gauß-Krüger-System)
-	 * @param pHoch zu transformierender Hochwert (Gauß-Krüger-System)
-	 * @param pLat berechnete geografische Länge
+     * transforms Gauss-Kruger coordinates to geographic coordinates referring to the Bessel-ellipsoid.<br /><br />
+	 * <i>German:</i> transformiert eine Gau&szlig;-Kr&uuml;ger-Koordinate in auf den Bessel-Ellipsoid bezogene
+     * geografische Koordinaten.
+	 * @param pRechts zu transformierender Rechtswert (Gau&szlig;-Kr&uuml;ger-System)
+	 * @param pHoch zu transformierender Hochwert (Gau&szlig;-Kr&uuml;ger-System)
+	 * @param pLat berechnete geografische L&auml;nge
 	 * @param pLon berechnete geografische Breite
 	 */
+    // todo engl. javadoc der Parameter
 	public void gkk2LatLonBessel(double pRechts, double pHoch, Double pLat, Double pLon) throws T3dSRSException
 	{
 		this.gkkInGeoBessel(pRechts, pHoch);
@@ -128,13 +161,16 @@ public class GaussKrugerTransformator
 	}
 
     /**
-     * transformiert eine auf den WGS-84-Ellipsoid bezogene geografische Koordinate in das Gauß-Krüger-System.<p>
+     * transforms geographic coordinates referring to the WGS84-ellipsoid to Gauss-Kruger.<br /><br />
+	 * <i>German:</i> transformiert eine auf den WGS-84-Ellipsoid bezogene geografische Koordinate in das
+     * Gau&szlig;-Kr&uuml;ger-System.
      * @param pLat geografische Breite des zu transformierenden Punktes
-     * @param pLon geografische Länge des zu transformierenden Punktes
-     * @param pMerid Nummer des Gauß-Krüger-Meridianstreifens (z. B. 2, 3 oder 4)
-     * @param pRechts berechneter Rechtswert (Gauß-Krüger-System)
-     * @param pHoch berechneter Hochwert (Gauß-Krüger-System)
+     * @param pLon geografische L&auml;nge des zu transformierenden Punktes
+     * @param pMerid Nummer des Gau&szlig;-Kr&uuml;ger-Meridianstreifens (z. B. 2, 3 oder 4)
+     * @param pRechts berechneter Rechtswert (Gau&szlig;-Kr&uuml;ger-System)
+     * @param pHoch berechneter Hochwert (Gau&szlig;-Kr&uuml;ger-System)
      */
+    // todo engl. javadoc der Parameter
     public void latLon2Gkk(double pLat, double pLon, int pMerid, Double pRechts, Double pHoch)
     {
         this.geoWgs84InGkk(pLat, pLon, pMerid);
@@ -144,12 +180,15 @@ public class GaussKrugerTransformator
     }
 
     /**
-     * transformiert eine Gauß-Krüger-Koordinate in auf den WGS-84-Ellipsoid bezogene geografische Koordinaten.<p>
-     * Vor dem Methodenaufruf muss das Ergebnisobjekt bereits instanziiert sein (z. B. als <tt>GmPoint</tt>).<p>
-     * @param pIn zu transformierender Punkt im Gauß-Krüger-System
+     * transforms geographic coordinates referring to the WGS84-ellipsoid to Gauss-Kruger.<br /><br />
+	 * <i>German:</i> transformiert eine Gau&szlig;-Kr&uuml;ger-Koordinate in auf den WGS-84-Ellipsoid bezogene
+     * geografische Koordinaten.<br />
+     * Vor dem Methodenaufruf muss das Ergebnisobjekt bereits instanziiert sein (z. B. als <tt>GmPoint</tt>).
+     * @param pIn zu transformierender Punkt im Gau&szlig;-Kr&uuml;ger-System
      * @param pOut Punkt mit berechneten geografischen Koordinaten
      * @throws java.lang.NullPointerException falls <tt>pOut</tt> nicht intanziiert
      */
+    // todo engl. javadoc der Parameter
     public void gkk2LatLon(VgPoint pIn, VgPoint pOut)
     {
         String srs = pIn.getSRS();
@@ -176,12 +215,15 @@ public class GaussKrugerTransformator
     }
 
     /**
-     * transformiert eine Gauß-Krüger-Koordinate in auf den WGS-84-Ellipsoid bezogene geografische Koordinaten.<p>
-     * @param pRechts zu transformierender Rechtswert (Gauß-Krüger-System)
-     * @param pHoch zu transformierender Hochwert (Gauß-Krüger-System)
-     * @param pLat berechnete geografische Länge
+     * transforms Gauss-Kruger coordinates to geographic coordinates referring to the WGS84-ellipsoid.<br /><br />
+	 * <i>German:</i> transformiert eine Gau&szlig;-Kr&uuml;ger-Koordinate in auf den WGS-84-Ellipsoid bezogene
+     * geografische Koordinaten.
+     * @param pRechts zu transformierender Rechtswert (Gau&szlig;-Kr&uuml;ger-System)
+     * @param pHoch zu transformierender Hochwert (Gau&szlig;-Kr&uuml;ger-System)
+     * @param pLat berechnete geografische Lï¿½nge
      * @param pLon berechnete geografische Breite
      */
+    // todo engl. javadoc der Parameter
     public void gkk2LatLon(double pRechts, double pHoch, Double pLat, Double pLon) throws T3dSRSException
     {
         this.gkkInGeoWgs84(pRechts, pHoch);
@@ -264,9 +306,9 @@ public class GaussKrugerTransformator
         final double c5 = -0.00004363980;
         final double c6 =  0.00000562025;
         final double eStrich2 = 0.006719218798;
-        final double x90 = 10000855.7646; // Bogenlänge Meridianquadrant
+        final double x90 = 10000855.7646; // Bogenlï¿½nge Meridianquadrant
         final double k2 = 325632.08677;
-        final double c = 6398786.8481; // große Erdhalbachse
+        final double c = 6398786.8481; // groï¿½e Erdhalbachse
 		double phi, phi2;
 		double eta_f2, t_f, N_f, B_f;
 		double cosB_f, cos2B_f;

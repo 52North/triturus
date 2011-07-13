@@ -1,25 +1,30 @@
+/***************************************************************************************
+ * Copyright (C) 2011 by 52 North Initiative for Geospatial Open Source Software GmbH  *
+ *                                                                                     *
+ * Contact: Benno Schmidt & Martin May, 52 North Initiative for Geospatial Open Source *
+ * Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, Germany, info@52north.org *
+ *                                                                                     *
+ * This program is free software; you can redistribute and/or modify it under the      *
+ * terms of the GNU General Public License version 2 as published by the Free Software *
+ * Foundation.                                                                         *
+ *                                                                                     *
+ * This program is distributed WITHOUT ANY WARRANTY; even without the implied WARRANTY *
+ * OF MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public  *
+ * License for more details.                                                           *
+ *                                                                                     *
+ * You should have received a copy of the GNU General Public License along with this   *
+ * program (see gnu-gpl v2.txt). If not, write to the Free Software Foundation, Inc.,  *
+ * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA, or visit the Free Software *
+ * Foundation web page, http://www.fsf.org.                                            *
+ **************************************************************************************/
 package org.n52.v3d.triturus.survey.conterra;
 
-/**
- * Overview :
- * Abstract :
- * @author  :   spanier
- * Date     :   19.08.2004
- * Time     :   16:06:42
- * Copyright:   Copyright (c) con terra GmbH
- * @link    :   www.conterra.de
- * @version :   0.1
- *
- * Revision :
- * @author  :   spanier
- * Date     :
- *
- */
 import java.util.Map;
 import java.util.TreeMap;
 
 /**
  * Creates CoordinateTransforms based on identifiers like EPSG codes.
+ * @author Udo Einspanier
  */
 public class CoordinateTransformFactory {
     /*
@@ -32,7 +37,7 @@ public class CoordinateTransformFactory {
             /*Rotations Parameter ex*/     0.000004195141264009,
             /*Rotations Parameter ey*/     0.0000008771733932315,
             /*Rotations Parameter ez*/    -0.00001735458445447,
-            /*Maßstabsfaktor m*/          -0.000012687,
+            /*Maï¿½stabsfaktor m*/          -0.000012687,
             "Potsdam (NRW)");
 
     public static Datum datumEd1950 = new HelmertDiffDatum(
@@ -42,8 +47,8 @@ public class CoordinateTransformFactory {
             /*Rotations Parameter ex*/     2.002280502982e-6,
             /*Rotations Parameter ey*/     -8.920571732415e-7,
             /*Rotations Parameter ez*/     -1.866532672271e-6,
-            /*Maßstabsfaktor m*/          0.000002,
-            "Europäisches Datum 1950");
+            /*Maï¿½stabsfaktor m*/          0.000002,
+            "Europï¿½isches Datum 1950");
 
 
     /*
@@ -70,15 +75,15 @@ public class CoordinateTransformFactory {
     /*
     * Projections
     */
-    public static Projection projectionGk1Nrw = new GaussKrueger(1, 3, "Gauß-Krüger 1-er Streifen");
+    public static Projection projectionGk1Nrw = new GaussKrueger(1, 3, "Gauï¿½-Krï¿½ger 1-er Streifen");
 
-    public static Projection projectionGk2Nrw = new GaussKrueger(2, 3, "Gauß-Krüger 2-er Streifen");
+    public static Projection projectionGk2Nrw = new GaussKrueger(2, 3, "Gauï¿½-Krï¿½ger 2-er Streifen");
 
-    public static Projection projectionGk3Nrw = new GaussKrueger(3, 3, "Gauß-Krüger 3-er Streifen");
+    public static Projection projectionGk3Nrw = new GaussKrueger(3, 3, "Gauï¿½-Krï¿½ger 3-er Streifen");
 
-    public static Projection projectionGk4Nrw = new GaussKrueger(4, 3, "Gauß-Krüger 4-er Streifen");
+    public static Projection projectionGk4Nrw = new GaussKrueger(4, 3, "Gauï¿½-Krï¿½ger 4-er Streifen");
 
-    public static Projection projectionGk5Nrw = new GaussKrueger(5, 3, "Gauß-Krüger 5-er Streifen");
+    public static Projection projectionGk5Nrw = new GaussKrueger(5, 3, "Gauï¿½-Krï¿½ger 5-er Streifen");
 
 
     /*
