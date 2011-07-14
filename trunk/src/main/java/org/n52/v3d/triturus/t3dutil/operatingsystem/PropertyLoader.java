@@ -1,3 +1,22 @@
+/***************************************************************************************
+ * Copyright (C) 2011 by 52 North Initiative for Geospatial Open Source Software GmbH  *
+ *                                                                                     *
+ * Contact: Benno Schmidt & Martin May, 52 North Initiative for Geospatial Open Source *
+ * Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, Germany, info@52north.org *
+ *                                                                                     *
+ * This program is free software; you can redistribute and/or modify it under the      *
+ * terms of the GNU General Public License version 2 as published by the Free Software *
+ * Foundation.                                                                         *
+ *                                                                                     *
+ * This program is distributed WITHOUT ANY WARRANTY; even without the implied WARRANTY *
+ * OF MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public  *
+ * License for more details.                                                           *
+ *                                                                                     *
+ * You should have received a copy of the GNU General Public License along with this   *
+ * program (see gnu-gpl v2.txt). If not, write to the Free Software Foundation, Inc.,  *
+ * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA, or visit the Free Software *
+ * Foundation web page, http://www.fsf.org.                                            *
+ **************************************************************************************/
 package org.n52.v3d.triturus.t3dutil.operatingsystem;
 
 import org.n52.v3d.triturus.core.T3dException;
@@ -12,11 +31,10 @@ import java.util.Set;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-
 /**
- * Hilfsklasse zum Einlesen von Properties-Dateien.<p>
- * @author Benno Schmidt<br>
- * (c) 2006, con terra GmbH<br>
+ * Helper class to read property files.<br /><br />
+ * <i>German:</i> Hilfsklasse zum Einlesen von Properties-Dateien.
+ * @author Benno Schmidt
  */
 public class PropertyLoader {
     private Log sLogger = LogFactory.getLog(PropertyLoader.class);
@@ -25,6 +43,7 @@ public class PropertyLoader {
     private HashMap mPropertiesMap;
 
     /**
+     * todo engl. JavaDoc
      * liefert die <tt>PropertyLoader</tt>-Instanz.<p>
      * Bem.: Der <tt>PropertyLoader</tt> ist als Singleton implementiert.<p>
      * @return <tt>PropertyLoader</tt>-Objekt
@@ -43,12 +62,13 @@ public class PropertyLoader {
     }
 
     /**
+     * todo engl. JavaDoc
      * liest die Properties aus der angegebenen Datei.<p>
      * Falls sich die Properties-Datei im Verzeichnis Verzeichnis <tt>WEB-INF/classes</tt> einer Web-Anwendung befindet,
-     * ist für den Parameter <tt>pPathComplete</tt> der Wert <i>false</i> zu übergeben, <tt>pFileName</tt> enthält dabei
+     * ist fï¿½r den Parameter <tt>pPathComplete</tt> der Wert <i>false</i> zu ï¿½bergeben, <tt>pFileName</tt> enthï¿½lt dabei
      * keine Pfadangabe.<p>
      * @param pFileName Dateiname
-     * @param pPathComplete <i>true</i>, falls der vollständige Dateipfad angegeben wird, sonst <i>false</i>.
+     * @param pPathComplete <i>true</i>, falls der vollstï¿½ndige Dateipfad angegeben wird, sonst <i>false</i>.
      * @throws IOException
      */
     public void loadProperties(String pFileName, boolean pPathComplete) throws IOException {
@@ -61,6 +81,7 @@ public class PropertyLoader {
     }
 
     /**
+     * todo engl. JavaDoc
      * liest die Properties aus der angegebenen Datei. Diese Methodenaufruf entspricht
      * <tt>this.loadProperties(pFileName, false)</tt>.<p>
      * @param pFileName Dateiname
@@ -89,9 +110,10 @@ public class PropertyLoader {
     }
 
     /**
-     * liefert den vollständigen Pfad der gegebenen Properties-Datei.<p>
+     * todo engl. JavaDoc
+     * liefert den vollstï¿½ndigen Pfad der gegebenen Properties-Datei.<p>
      * @param pFileName Dateiname
-     * @return vollständige Pfadangabe
+     * @return vollstï¿½ndige Pfadangabe
      * @throws FileNotFoundException
      */
     public String getCompleteFileNameForPropertyFile(String pFileName) throws FileNotFoundException {
@@ -110,8 +132,9 @@ public class PropertyLoader {
     }
 
     /**
-     * liefert den Wert des angegebenen Schlüssels (Property).<p>
-     * @param pKey Schlüssel (Property-Name)
+     * todo engl. JavaDoc
+     * liefert den Wert des angegebenen Schlï¿½ssels (Property).<p>
+     * @param pKey Schlï¿½ssel (Property-Name)
      * @return Wert als Zeichenkette
      * @throws org.n52.v3d.triturus.core.T3dException
      */
@@ -123,9 +146,10 @@ public class PropertyLoader {
     }
 
     /**
-     * liefert den Wert des angegebenen Schlüssels (Property). Es wird davon ausgegangen, dass für den Schlüssel ein
+     * todo engl. JavaDoc
+     * liefert den Wert des angegebenen Schlï¿½ssels (Property). Es wird davon ausgegangen, dass fï¿½r den Schlï¿½ssel ein
      * ganzzahliger Wert angegeben ist.<p>
-     * @param pKey Schlüssel (Property-Name)
+     * @param pKey Schlï¿½ssel (Property-Name)
      * @return Wert als Ganzzahl
      * @throws org.n52.v3d.triturus.core.T3dException
      */
@@ -135,9 +159,10 @@ public class PropertyLoader {
     }
 
     /**
-     * liefert den Wert des angegebenen Schlüssels (Property). Es wird davon ausgegangen, dass für den Schlüssel ein
+     * todo engl. JavaDoc
+     * liefert den Wert des angegebenen Schlï¿½ssels (Property). Es wird davon ausgegangen, dass fï¿½r den Schlï¿½ssel ein
      * boolescher Wert angegeben ist.<p>
-     * @param pKey Schlüssel (Property-Name)
+     * @param pKey Schlï¿½ssel (Property-Name)
      * @return boolescher Wert
      * @throws org.n52.v3d.triturus.core.T3dException
      */
@@ -147,9 +172,10 @@ public class PropertyLoader {
     }
 
     /**
-     * liefert den Wert des angegebenen Schlüssels (Property). Falls der Schlüssel nicht vorhanden ist, wird der
-     * übergebene Vorgabewert zurückgegeben.<p>
-     * @param pKey Schlüssel (Property-Name)
+     * todo engl. JavaDoc
+     * liefert den Wert des angegebenen Schlï¿½ssels (Property). Falls der Schlï¿½ssel nicht vorhanden ist, wird der
+     * ï¿½bergebene Vorgabewert zurï¿½ckgegeben.<p>
+     * @param pKey Schlï¿½ssel (Property-Name)
      * @param pDefaultValue Vorgabewert
      * @return Wert als Zeichenkette
      * @throws org.n52.v3d.triturus.core.T3dException
@@ -215,6 +241,7 @@ public class PropertyLoader {
     }
 
     /**
+     * todo engl. JavaDoc
      * liefert die Anzahl der eingelesenen Properties.<p>
      * @return Anzahl > 0
      */
@@ -223,10 +250,11 @@ public class PropertyLoader {
     }
 
     /**
+     * todo engl. JavaDoc
      * holt eine Property aus der Properties-Map. Die Methode gibt jedoch keine Exception in das Logfile, falls eine
      * Property nicht vorhanden ist, da keine <tt>T3dException</tt> geworfen wird.<p>
-     * Falls der Schlüssel nicht vorhanden ist, wird der übergebene Vorgabewert zurückgegeben.<p>
-     * @param pKey Schlüssel (Property-Name)
+     * Falls der Schlï¿½ssel nicht vorhanden ist, wird der ï¿½bergebene Vorgabewert zurï¿½ckgegeben.<p>
+     * @param pKey Schlï¿½ssel (Property-Name)
      * @param pDefaultValue Vorgabewert
      * @return Wert als Zeichenkette
      */

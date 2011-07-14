@@ -1,3 +1,22 @@
+/***************************************************************************************
+ * Copyright (C) 2011 by 52 North Initiative for Geospatial Open Source Software GmbH  *
+ *                                                                                     *
+ * Contact: Benno Schmidt & Martin May, 52 North Initiative for Geospatial Open Source *
+ * Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, Germany, info@52north.org *
+ *                                                                                     *
+ * This program is free software; you can redistribute and/or modify it under the      *
+ * terms of the GNU General Public License version 2 as published by the Free Software *
+ * Foundation.                                                                         *
+ *                                                                                     *
+ * This program is distributed WITHOUT ANY WARRANTY; even without the implied WARRANTY *
+ * OF MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public  *
+ * License for more details.                                                           *
+ *                                                                                     *
+ * You should have received a copy of the GNU General Public License along with this   *
+ * program (see gnu-gpl v2.txt). If not, write to the Free Software Foundation, Inc.,  *
+ * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA, or visit the Free Software *
+ * Foundation web page, http://www.fsf.org.                                            *
+ **************************************************************************************/
 package org.n52.v3d.triturus.examples.srtm90import;
 
 import org.n52.v3d.triturus.gisimplm.*;
@@ -9,10 +28,11 @@ import org.n52.v3d.triturus.vgis.VgPoint;
 import java.util.ArrayList;
 
 /**
- * Beispielanwendung: Einlesen von SRTM 90 m-Daten und Aufbereitung zu einer seitens des sdi.suite terrainServers
- * verwendbaren Kachelung.<p>
- * @author Benno Schmidt<br>
- * (c) 2006, con terra GmbH<br>
+ * Triturus example application: Reads SRTM90 data and transforms them into tiles that can be processed by the 52N
+ * terrainServer.<br /><br />
+ * <i>German:</i> Beispielanwendung: Einlesen von SRTM 90 m-Daten und Aufbereitung zu einer seitens des 52N
+ * terrainServers verwendbaren Kachelung.
+ * @author Benno Schmidt
  */
 public class Srtm90Import
 {

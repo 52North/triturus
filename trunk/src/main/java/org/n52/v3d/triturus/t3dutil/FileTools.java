@@ -10,21 +10,20 @@ import java.io.File;
 
 /**
  * @deprecated -> org.n52.v3d.triturus.t3dutil.operatingsystem
- * Hier werden einige benötigte Datei-Methoden vorgehalten
- * @author Martin May<br>
- * (c) 2003, Institute for Geoinformatics<br>
+ * Hier werden einige benï¿½tigte Datei-Methoden vorgehalten
+ * @author Martin May
  */
 public class FileTools {
 	
 	/**
-	 * Die Methode gibt den Pfad als String mit abschließendem File-Separator zurück.<p>
+	 * Die Methode gibt den Pfad als String mit abschlieï¿½endem File-Separator zurï¿½ck.<p>
 	 * @return TempDir 
 	 */
 	public static String findTempDir() {
 		/*
 		 * Es ist anzumerken, dass System.getProperty("java.io.tmpdir")
 		 * mal mit und mal ohne File-Separator am Ende geliefert wird.
-		 * Dies kann über 'File' umgangen werden.
+		 * Dies kann ï¿½ber 'File' umgangen werden.
 		 */
 		File SysTemp = new File(System.getProperty("java.io.tmpdir"));
 		String retVal;
@@ -34,7 +33,7 @@ public class FileTools {
 			//TODO Hier kann sicher noch etwas mehr Intelligenz hinterlegt werden...
 			retVal = "C:\\Temp\\";
 		}
-		System.out.println("Benutze temporäres Verzeichnis: " + retVal);
+		System.out.println("Benutze temporï¿½res Verzeichnis: " + retVal);
 		return retVal;
 		
 	}

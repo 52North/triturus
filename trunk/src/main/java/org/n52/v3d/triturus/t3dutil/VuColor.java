@@ -4,8 +4,7 @@ package org.n52.v3d.triturus.t3dutil;
  * @deprecated
  * Klasse zur Verwaltung einer Farbinformation.<p>
  * Bem.: Statt dieser Klasse sollte <tt>T3dColor</tt> verwendet werden.<p>
- * @author Benno Schmidt<br>
- * (c) 2003, con terra GmbH & Institute for Geoinformatics<br>
+ * @author Benno Schmidt
  */
 public class VuColor
 {
@@ -14,9 +13,9 @@ public class VuColor
     private int mColMod = 1; // 1 = RGB, 2 = HSV
     
     /** 
-     * Konstruktor für eine Farbangabe im RGB-Modell. 
+     * Konstruktor fï¿½r eine Farbangabe im RGB-Modell. 
      * @param pRed Rot-Anteil als Wert zwischen 0 und 1
-     * @param pGreen Grün-Anteil als Wert zwischen 0 und 1
+     * @param pGreen Grï¿½n-Anteil als Wert zwischen 0 und 1
      * @param pBlue Blau-Anteil als Wert zwischen 0 und 1
      */
     public VuColor(float pRed, float pGreen, float pBlue) {
@@ -24,9 +23,9 @@ public class VuColor
     }
 
     /** 
-     * Konstruktor für eine Farbangabe im RGB-Modell mit Alpha-Wert.
+     * Konstruktor fï¿½r eine Farbangabe im RGB-Modell mit Alpha-Wert.
      * @param pRed Rot-Anteil als Wert zwischen 0 und 1
-     * @param pGreen Grün-Anteil als Wert zwischen 0 und 1
+     * @param pGreen Grï¿½n-Anteil als Wert zwischen 0 und 1
      * @param pBlue Blau-Anteil als Wert zwischen 0 und 1
      * @param pAlpha Alpha-Wert zwischen 0 und 1
      */
@@ -38,7 +37,7 @@ public class VuColor
     }
 
     /** 
-     * Konstruktor für eine Farbe im angegebenen Farbmodell. 
+     * Konstruktor fï¿½r eine Farbe im angegebenen Farbmodell. 
      * @param pColorSystem "RGB" oder "HSV"
      */
     public VuColor(String pColorSystem) {
@@ -50,13 +49,13 @@ public class VuColor
     }
 
     /**
-     * Konstruktor für eine Farbe im angegebenen Farbmodell. Die Angaben müssen jeweils auf den
+     * Konstruktor fï¿½r eine Farbe im angegebenen Farbmodell. Die Angaben mï¿½ssen jeweils auf den
      * Wertebereich 0...1 bezogen sein.
      * <b>Methode ist noch nicht getestet!</b>
      * @param pColorSystem "RGB" oder "HSV"
-     * @param pVal1 Rot-Wert für Farbmodell "RGB", Hue-Wert (Farbton) für "HSV"
-     * @param pVal2 Grün-Wert für Farbmodell "RGB", Sättigungs-Wert für "HSV"
-     * @param pVal3 Blau-Wert für Farbmodell "RGB", V-Wert für "HSV"
+     * @param pVal1 Rot-Wert fï¿½r Farbmodell "RGB", Hue-Wert (Farbton) fï¿½r "HSV"
+     * @param pVal2 Grï¿½n-Wert fï¿½r Farbmodell "RGB", Sï¿½ttigungs-Wert fï¿½r "HSV"
+     * @param pVal3 Blau-Wert fï¿½r Farbmodell "RGB", V-Wert fï¿½r "HSV"
      */
     public VuColor(String pColorSystem, float pVal1, float pVal2, float pVal3) 
     {
@@ -64,14 +63,14 @@ public class VuColor
     }
 
     /**
-     * Konstruktor für eine Farbe im angegebenen Farbmodell. Mit Ausnahme des Hue-Wertes müssen die 
-     * Angaben jeweils auf den Wertebereich 0...1 bezogen sein. Der Hue-Wert ist im Bogenmaß anzugeben
+     * Konstruktor fï¿½r eine Farbe im angegebenen Farbmodell. Mit Ausnahme des Hue-Wertes mï¿½ssen die 
+     * Angaben jeweils auf den Wertebereich 0...1 bezogen sein. Der Hue-Wert ist im Bogenmaï¿½ anzugeben
      * (0...2*pi).
      * <b>noch nicht implementiert!</b>
      * @param pColorSystem "RGB" oder "HSV"
-     * @param pVal1 Rot-Wert für Farbmodell "RGB", Hue-Wert (Farbton) für "HSV"
-     * @param pVal2 Grün-Wert für Farbmodell "RGB", Sättigungs-Wert für "HSV"
-     * @param pVal3 Blau-Wert für Farbmodell "RGB", V-Wert für "HSV"
+     * @param pVal1 Rot-Wert fï¿½r Farbmodell "RGB", Hue-Wert (Farbton) fï¿½r "HSV"
+     * @param pVal2 Grï¿½n-Wert fï¿½r Farbmodell "RGB", Sï¿½ttigungs-Wert fï¿½r "HSV"
+     * @param pVal3 Blau-Wert fï¿½r Farbmodell "RGB", V-Wert fï¿½r "HSV"
      * @param pAlpha Alpha-Wert
      */
     public VuColor(String pColorSystem, float pVal1, float pVal2, float pVal3, float pAlpha) 
@@ -120,8 +119,8 @@ public class VuColor
     }
 
     /**      
-     * liefert Grün-Anteil der Farbe bezogen auf RGB-Farbmodell.
-     * @return Grün-Wert zwischen 0 und 1
+     * liefert Grï¿½n-Anteil der Farbe bezogen auf RGB-Farbmodell.
+     * @return Grï¿½n-Wert zwischen 0 und 1
      */
     public float getGreen() {
         return mGreen;
@@ -136,16 +135,16 @@ public class VuColor
     }
 
     /** 
-     * setzt Opazität/Transparenz. 
-     * @param pAlpha 1.0 für Transparenz = 0 % (voll-opak), 0.0 für Transparenz = 100 %
+     * setzt Opazitï¿½t/Transparenz. 
+     * @param pAlpha 1.0 fï¿½r Transparenz = 0 % (voll-opak), 0.0 fï¿½r Transparenz = 100 %
      */
     public void setAlpha(float pAlpha) {
         mAlpha = pAlpha;
     }
  
     /** 
-     * liefert Opazität/Transparenz.
-     * @return 1.0 für Transparenz = 0 % (voll-opak), 0.0 für Transparenz = 100 %
+     * liefert Opazitï¿½t/Transparenz.
+     * @return 1.0 fï¿½r Transparenz = 0 % (voll-opak), 0.0 fï¿½r Transparenz = 100 %
      */
     public float getAlpha() {
         return mAlpha;
@@ -153,7 +152,7 @@ public class VuColor
 
     /**      
      * liefert Hue-Wert (Farbton) bezogen auf HSV-Farbmodell.
-     * @return Hue-Wert im Bogenmaß (0...2*pi)
+     * @return Hue-Wert im Bogenmaï¿½ (0...2*pi)
      * <b>Methode noch nicht getestet!</b>
      */
     public float getHue() 
@@ -169,15 +168,15 @@ public class VuColor
 	else
             H = 4.f + (mRed - mGreen) / delta; // zwischen Magenta und Cyan
         float sixth = (float) (Math.PI / 3.);
- 	H *= sixth; // Bogenmaß
+ 	H *= sixth; // Bogenmaï¿½
 	if (H < 0.f)
 	    H += 6. * sixth;
 	return H;
     }
 
     /**      
-     * liefert Sättigungswert bezogen auf HSV-Farbmodell.
-     * @return Sättigungswert zwischen 0 und 1
+     * liefert Sï¿½ttigungswert bezogen auf HSV-Farbmodell.
+     * @return Sï¿½ttigungswert zwischen 0 und 1
      * <b>Methode noch nicht getestet!</b>
      */
     public float getSaturation() 

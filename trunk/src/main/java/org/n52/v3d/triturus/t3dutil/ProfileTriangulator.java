@@ -10,13 +10,11 @@ import java.util.ArrayList;
  * Diese Klasse verbindet Profile und allgemeine Liniensegmente zu einem TIN.
  * Zur Triangulierung wird intern bis jetzt nur ein 2D Delaunay Algorithmus 
  * verwendet.
- * Die 3D Punkte der Profile werden für jedes Profil einzelnd und nacheinander
- * übergeben. Dabei ist es möglich ein Profil auch segmentiert, d.h. in verschiedenen
+ * Die 3D Punkte der Profile werden fï¿½r jedes Profil einzelnd und nacheinander
+ * ï¿½bergeben. Dabei ist es mï¿½glich ein Profil auch segmentiert, d.h. in verschiedenen
  * Bereiche (z.B. Uferbereich, Hang und Flussbett) aufgeteilt anzugeben. Diese Bereiche
  * werden dann getrennt voneinander mit dem darauffolgenden Profil trianguliert.
- * 
- * @author Torsten Heinen 
- *
+ * @author Torsten Heinen
  */
 public class ProfileTriangulator {
 	public final int DELAUNAY = 0;
@@ -39,7 +37,7 @@ public class ProfileTriangulator {
 	
 	/**
 	 * Diese Methode gibt die bei der Triangulierung verwendeten Punkte
-	 * zurück. Diese sind die gleich der Eingabepunkte.
+	 * zurï¿½ck. Diese sind die gleich der Eingabepunkte.
 	 * 
 	 * @return Array der verwendeten 3D Punkte x1,y1,z1,...xn,yn,zn
 	 */
@@ -54,7 +52,7 @@ public class ProfileTriangulator {
 
 	/**
 	 * Mit Hilfe dieser Methode kann man sich die Indizes des erzeugten TINs
-	 * zurückgeben lassen. 
+	 * zurï¿½ckgeben lassen. 
 	 * @return Indizes des TINs (t1_1, t1_2, t1_3, t2_1 ...)
 	 */
 	public int[] resultIndizes() {
@@ -66,13 +64,13 @@ public class ProfileTriangulator {
 	}
 	
 	/**
-	 * Fügt die zu triangulierenden Profile hinzu. Sie müssen in 
-	 * der richtigen Reihenfolge hinzugefügt werden. 
-	 * Das übergebende Array kann (muss aber nicht) Punkte in verschiedenen Segmenten
-	 * beinhalten. Diese Segmente werden getrennt voneinander mit dem nächsten Profil 
+	 * Fï¿½gt die zu triangulierenden Profile hinzu. Sie mï¿½ssen in 
+	 * der richtigen Reihenfolge hinzugefï¿½gt werden. 
+	 * Das ï¿½bergebende Array kann (muss aber nicht) Punkte in verschiedenen Segmenten
+	 * beinhalten. Diese Segmente werden getrennt voneinander mit dem nï¿½chsten Profil 
 	 * trianguliert.
 	 * 
-	 * WICHTIG: Alle übergebenen Profile müssen die gleiche Anzahl von
+	 * WICHTIG: Alle ï¿½bergebenen Profile mï¿½ssen die gleiche Anzahl von
 	 * Segmenten enthalten! 
 	 * 
 	 * Beispiel:
@@ -105,7 +103,7 @@ public class ProfileTriangulator {
 	}
 	
 	private void triangulate(double[][] prevPoints, double[][] points) {		
-		// für jeden Satz von Punkten...
+		// fï¿½r jeden Satz von Punkten...
 		for (int i=0; i<points.length; i++) {
 			// konvertieren von 3D nach 2D ...
 			double[] points2D;
@@ -123,9 +121,9 @@ public class ProfileTriangulator {
 	}
 	
 	/**
-	 * Fügt die beiden 3D Array vom aktuellen und letzten Profil zusammen.
+	 * Fï¿½gt die beiden 3D Array vom aktuellen und letzten Profil zusammen.
 	 * Dabei wird eine Konvertierung von den 3D Koordinaten in 2D Koordinaten
-	 * unter Ausschluss des Z Wertes durchgeführt. (x1, y1, z1)->(x1, y1)
+	 * unter Ausschluss des Z Wertes durchgefï¿½hrt. (x1, y1, z1)->(x1, y1)
 	 * 
 	 * @param prevPoints
 	 * @param points

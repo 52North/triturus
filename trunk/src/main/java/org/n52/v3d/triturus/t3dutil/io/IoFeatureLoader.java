@@ -1,9 +1,22 @@
-/*
- * Created on 12.07.2004
- *
- * TODO To change the template for this generated file go to
- * Window - Preferences - Java - Code Generation - Code and Comments
- */
+/***************************************************************************************
+ * Copyright (C) 2011 by 52 North Initiative for Geospatial Open Source Software GmbH  *
+ *                                                                                     *
+ * Contact: Benno Schmidt & Martin May, 52 North Initiative for Geospatial Open Source *
+ * Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, Germany, info@52north.org *
+ *                                                                                     *
+ * This program is free software; you can redistribute and/or modify it under the      *
+ * terms of the GNU General Public License version 2 as published by the Free Software *
+ * Foundation.                                                                         *
+ *                                                                                     *
+ * This program is distributed WITHOUT ANY WARRANTY; even without the implied WARRANTY *
+ * OF MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public  *
+ * License for more details.                                                           *
+ *                                                                                     *
+ * You should have received a copy of the GNU General Public License along with this   *
+ * program (see gnu-gpl v2.txt). If not, write to the Free Software Foundation, Inc.,  *
+ * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA, or visit the Free Software *
+ * Foundation web page, http://www.fsf.org.                                            *
+ **************************************************************************************/
 package org.n52.v3d.triturus.t3dutil.io;
 
 import org.n52.v3d.triturus.core.IoObject;
@@ -13,10 +26,8 @@ import org.n52.v3d.triturus.gisimplm.IoTINReader;
 import org.n52.v3d.triturus.vgis.VgFeature;
 
 /**
- * Hilfklasse zum Laden von VgFeatures. 
- *
+ * Helper class to load VgFeature objects.
  * @author Torsten Heinen
- * Copyright (c) 2004, con terra GmbH & Institute for Geoinformatics<br>
  */
 public class IoFeatureLoader extends IoObject {
 	public static final int GRID_ACGEO = 0;
@@ -27,17 +38,17 @@ public class IoFeatureLoader extends IoObject {
 	public static String DEM_TIN_PATH;
 			
 	/**
-	 * Default-Konstruktor. 
+     * @deprecated
+	 * Constructor.
 	 */
 	public IoFeatureLoader() {
 		this("testdata/DEM-Grid/", "testdata/DEM-TIN/");
 	}
 
 	/**
-	 * Konstruktor mit Pfadangaben zu Grid und Tin Daten. 
-	 * 
-	 * @param demGridPath
-	 * @param demTinPath
+	 * Constructor.
+	 * @param demGridPath Path to folder holding elevation-grid data
+	 * @param demTinPath Path to folder holding TIN data
 	 */
 	public IoFeatureLoader(String demGridPath, String demTinPath) {
 		DEM_GRID_PATH = demGridPath;
@@ -46,13 +57,14 @@ public class IoFeatureLoader extends IoObject {
 	
 	
 	/**
-	 * Methode zum Laden von Höhenmodellen unbekannten Formates. Intern werden alle bekannten Formate 
+     * loads elevation-models in arbitrary formats.<br /><br />
+	 * <i>German:</i> Methode zum Laden von Hï¿½henmodellen unbekannten Formates. Intern werden alle bekannten Formate
 	 * ausprobiert.
-	 *   
-	 * @param location Ort der Daten, kann eine URL (file oder http) oder ein realtiver Dateiname sein (wenn Pfad über Konstruktor gesetzt).
-	 * @return das geladene Höhenmodell-Feature 
+	 * @param location Ort der Daten, kann eine URL (file oder http) oder ein realtiver Dateiname sein (wenn Pfad ï¿½ber Konstruktor gesetzt).
+	 * @return das geladene Hï¿½henmodell-Feature 
 	 * @throws T3dException
 	 */
+    // todo engl. JavaDoc fÃ¼r Parameter
 	public VgFeature loadFeature(String location) throws T3dException {
 		VgFeature feature = null;
 		StringBuffer log = new StringBuffer("<IoFeatureLoader> Loading " + location + " ...");
@@ -73,13 +85,15 @@ public class IoFeatureLoader extends IoObject {
 	}
 	
 	/**
-	 * Methode zu Laden eines Höhenmodells (andere Features (Points,etc) müssen noch hinzugefügt werden) mit bekanntem Format.
-	 * 
-	 * @param location Ort der Daten, kann eine URL (file oder http) oder ein relativer Dateiname sein (wenn Pfad über Konstruktor gesetzt).
+	 * loads an elevation-model with a given format.<br /><br />
+	 * <i>German:</i> Methode zu Laden eines H&ouml;henmodells (andere Features (Points,etc) m&uuuml;ssen noch
+     * hinzugef&uuml;gt werden) mit bekanntem Format.
+	 * @param location Ort der Daten, kann eine URL (file oder http) oder ein relativer Dateiname sein (wenn Pfad ï¿½ber Konstruktor gesetzt).
 	 * @param type
-	 * @return das geladene Höhenmodell-Feature
+	 * @return das geladene Hï¿½henmodell-Feature
 	 * @throws T3dException
 	 */
+    // todo engl. JavaDoc fÃ¼r Parameter
 	public VgFeature loadFeature(String location, int type) throws T3dException {
 		StringBuffer log = new StringBuffer("<IoFeatureLoader> Loading ");
 		long sTime = System.currentTimeMillis();		
@@ -132,10 +146,7 @@ public class IoFeatureLoader extends IoObject {
 		System.out.println(log.toString());
 		return feature;
 	}
-	
-	/* (non-Javadoc)
-	 * @see org.n52.v3d.triturus.core.IoObject#log()
-	 */
+
 	public String log() {
 		// TODO Auto-generated method stub
 		return null;

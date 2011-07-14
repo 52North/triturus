@@ -4,8 +4,7 @@ import org.n52.v3d.triturus.core.T3dException;
 
 /**
  * Klasse zur Zuordnung von Farbwerten zu nominal skalierten thematischen Attributen.<p>
- * @author Benno Schmidt<br>
- * (c) 2004, con terra GmbH & Institute for Geoinformatics<br>
+ * @author Benno Schmidt
  */
 public class MpNominalValue2Color extends MpValue2Color
 {
@@ -16,7 +15,7 @@ public class MpNominalValue2Color extends MpValue2Color
         mLogString = this.getClass().getName();
     }
 
-    /** protokolliert die durchgeführte Operation. */
+    /** protokolliert die durchgefï¿½hrte Operation. */
     public String log() {
         return mLogString;
     }

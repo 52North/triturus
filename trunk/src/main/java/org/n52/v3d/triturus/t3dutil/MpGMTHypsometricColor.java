@@ -12,19 +12,18 @@ import org.n52.v3d.triturus.core.T3dException;
 
 /**
  * Klasse zur Ermittlung hypsometrischer Farbwerte. Die Zuordnung basiert auf einer Farbtabelle, die verschiedenen
- * Höhen jeweils einen Farbwert zugeordnet. Die durch die Methode <tt>transform()</tt> abgefragten Farbwerte werden
- * (wenn nötig) mittels linearer Interpolation bestimmt.<p>
- * Die Farbtabellen können bis jetzt nur durch das Laden von Dateien im GMT-konformen Farbtabellen-Format erzeugt
+ * Hï¿½hen jeweils einen Farbwert zugeordnet. Die durch die Methode <tt>transform()</tt> abgefragten Farbwerte werden
+ * (wenn nï¿½tig) mittels linearer Interpolation bestimmt.<p>
+ * Die Farbtabellen kï¿½nnen bis jetzt nur durch das Laden von Dateien im GMT-konformen Farbtabellen-Format erzeugt
  * werden. (TODO addDivision(height, color) Methoden...)<p>
  * Farbtabelle RGB -> Interpolation in RGB -> Farbwert RGB
  * Farbtabelle HSV -> Interpolation in HSV -> Farbwert HSV
  * 
- * Werden minimale und maximale Höhen im Konstruktor angegeben, dann wird die Farbtabelle 
+ * Werden minimale und maximale Hï¿½hen im Konstruktor angegeben, dann wird die Farbtabelle 
  * auf diese genormt und die Transformation liefert relative und keine absoluten Farbwerte.
  * 
  * @see org.n52.v3d.triturus.t3dutil.MpSimpleHypsometricColor
  * @author Torsten Heinen
- * (c) 2003-2004, con terra GmbH & Institute for Geoinformatics<br>
  */
 public class MpGMTHypsometricColor extends MpHypsometricColor
 {
@@ -39,8 +38,8 @@ public class MpGMTHypsometricColor extends MpHypsometricColor
 	private String mColorSpace="";
 	private String mInterpolationSpace="";	
 
-	private double mMinElevation = 0, mMaxElevation = 0; // min/max Höhen aus der Datei
-	private double mRelMinElevation = 0, mRelMaxElevation = 0; // min/max der relativen Höhen
+	private double mMinElevation = 0, mMaxElevation = 0; // min/max Hï¿½hen aus der Datei
+	private double mRelMinElevation = 0, mRelMaxElevation = 0; // min/max der relativen Hï¿½hen
 	
     /** Konstruktor. */
     public MpGMTHypsometricColor() {
@@ -61,13 +60,13 @@ public class MpGMTHypsometricColor extends MpHypsometricColor
     }
 
     /**
-     * Konstruktor. Als Parameter sind die Datei mit den Farbzuordnungen sowie die minimale und maximale Höhe für die
+     * Konstruktor. Als Parameter sind die Datei mit den Farbzuordnungen sowie die minimale und maximale Hï¿½he fï¿½r die
      * relative Transformation anzugeben.<p>
-     * Bei der relativer Transformation werden die Höhen in der Datei (min bzw. max) auf die 
-     * übergebenen Höhen genormt.
+     * Bei der relativer Transformation werden die Hï¿½hen in der Datei (min bzw. max) auf die 
+     * ï¿½bergebenen Hï¿½hen genormt.
      * @param pMapFile Dateiname mit Pfadangabe
-     * @param pRelMinElevation minimaler Höhenwert
-     * @param pRelMaxElevation maximaler Höhenwert
+     * @param pRelMinElevation minimaler Hï¿½henwert
+     * @param pRelMaxElevation maximaler Hï¿½henwert
      * @see MpHypsometricColor#setColorMapFile
      */
     public MpGMTHypsometricColor(String pMapFile, String pInterpolationSpace, double pRelMinElevation, double pRelMaxElevation) {
@@ -79,16 +78,16 @@ public class MpGMTHypsometricColor extends MpHypsometricColor
         setInterpolationSpace(pInterpolationSpace);
     }    
 
-    /** protokolliert die durchgeführte Operation. */
+    /** protokolliert die durchgefï¿½hrte Operation. */
     public String log() {
         return mLogString;
     }
 
     /**
-     * Lädt eine Farbtabelle aus der angegebenen Datei. Bisher werden nur GMT-konforme Farbtabellen unterstützt
+     * Lï¿½dt eine Farbtabelle aus der angegebenen Datei. Bisher werden nur GMT-konforme Farbtabellen unterstï¿½tzt
      * (http://gmt.soest.hawaii.edu)<p>
-     * Tritt ein Fehler beim Laden auf, wird <i>false</i> als Ergebnis zurückgegeben; eine Transformation würde im
-     * Weiteren zu einem Fehler führen! (TODO!)<p>
+     * Tritt ein Fehler beim Laden auf, wird <i>false</i> als Ergebnis zurï¿½ckgegeben; eine Transformation wï¿½rde im
+     * Weiteren zu einem Fehler fï¿½hren! (TODO!)<p>
      * @param pFilename Den zu ladenen Farbtabelle
      * @return <i>true</i>, falls Laden der Tabelle erfolgreich, sonst <i>false</i>.
      */
@@ -125,12 +124,12 @@ public class MpGMTHypsometricColor extends MpHypsometricColor
     }
 	 
     /**
-     * liefert die zu einem Höhenwert gehörige Farbe. Die Farbwerte werden durch lineare Interpolation basierend auf
+     * liefert die zu einem Hï¿½henwert gehï¿½rige Farbe. Die Farbwerte werden durch lineare Interpolation basierend auf
      * der zuvor gesetzten Farbtabelle ermittelt.<p>
-     * Basiert die Farbtabelle auf RGB-Werten, so wird auch im RGB-Farbraum interpoliert. Die zurückgegebene
-     * Farbinformation ist dann im RGB-Farbraum angegeben. Entsprechendes gilt für HSV-Farbtabellen.<p>
-     * @param pElevation Höhenwert
-     * @return der Höhe zugewiesener Farbwert
+     * Basiert die Farbtabelle auf RGB-Werten, so wird auch im RGB-Farbraum interpoliert. Die zurï¿½ckgegebene
+     * Farbinformation ist dann im RGB-Farbraum angegeben. Entsprechendes gilt fï¿½r HSV-Farbtabellen.<p>
+     * @param pElevation Hï¿½henwert
+     * @return der Hï¿½he zugewiesener Farbwert
      */
     public T3dColor transform(double pElevation)
     {
@@ -151,10 +150,10 @@ public class MpGMTHypsometricColor extends MpHypsometricColor
     }
         
     /**
-     * Ermittelt den Farbwert zu der angegebene Höhe durch lineare 
+     * Ermittelt den Farbwert zu der angegebene Hï¿½he durch lineare 
      * Interpolation zwischen der Farbtabelle. Die Farbtabelle muss 
      * zuvor mit setColorFile(filename) erfolgreich ausgelesen worden sein.
-     * <p>Höhen, die ausserhalb der eingelesenden Werte liegen werden an
+     * <p>Hï¿½hen, die ausserhalb der eingelesenden Werte liegen werden an
      * die minimalen bzw. maximalen Werte angepasst.
      * 
 	 * @param elevation
@@ -226,7 +225,7 @@ public class MpGMTHypsometricColor extends MpHypsometricColor
 	/** 
 	 * Hilfmethode zum Speichern der Farbwerte in die beiden 
 	 * Daten Arrays (mHeights & mColors).
-	 * Konvertiert RGB[0..255] -> [0..1], HSV wird übernommen (gmt werte in grad, T3DColor???)
+	 * Konvertiert RGB[0..255] -> [0..1], HSV wird ï¿½bernommen (gmt werte in grad, T3DColor???)
 	 */
 	private void put(double height, double rORh, double gORs, double bORv) {
 		if (tHeights==null)
@@ -271,15 +270,15 @@ public class MpGMTHypsometricColor extends MpHypsometricColor
     
 	/** 
 	 * Liest eine GMT-Farbelle aus der angegebenen Datei. <p>
-	 * Eigene Farbtabelle können einfach erstellt und benutzt werden, wenn sie dem
+	 * Eigene Farbtabelle kï¿½nnen einfach erstellt und benutzt werden, wenn sie dem
 	 * folgendem Format entsprechen:<p>
-	 * Es müssen zwei beliebige Header-Zeilen existieren (werden aber 
+	 * Es mï¿½ssen zwei beliebige Header-Zeilen existieren (werden aber 
 	 * nicht mit gespeichert)! Ab der dritten Zeile kann dann optional eine Beschreibung 
 	 * folgen. Nach der Beschreibung muss "COLOR_MODEL" gefolgt von "RGB" oder "HSV" folgen. 
-	 * Danach die Farbtabelle im Format "von_Höhe X Y Z bis_Höhe X Y Z", wobei X, Y und Z die 
-	 * Farbwert im zugehörigen "COLOR_MODEL" sind, also X=R oder H, Y=G oder S und Z=B oder V.<p>
+	 * Danach die Farbtabelle im Format "von_Hï¿½he X Y Z bis_Hï¿½he X Y Z", wobei X, Y und Z die 
+	 * Farbwert im zugehï¿½rigen "COLOR_MODEL" sind, also X=R oder H, Y=G oder S und Z=B oder V.<p>
 	 * 
-	 * Achtung: In GMT-Tabellen werden nur die Höhen- und Farbwerte werden ausgelesen! 
+	 * Achtung: In GMT-Tabellen werden nur die Hï¿½hen- und Farbwerte werden ausgelesen! 
 	 * Einige Bezeichnung in dem Format sind mir nicht ganz klar:
 	 * 1) Am Ende von RGB-Dateien:
 	 * 		F	255	255	255				
@@ -316,7 +315,7 @@ public class MpGMTHypsometricColor extends MpHypsometricColor
 			tokenizer.ordinaryChar('#');
 			tokenizer.eolIsSignificant(true);
 			
-			//id aus der ersten zeile überlesen
+			//id aus der ersten zeile ï¿½berlesen
 			tokenizer.nextToken();
 			while (tokenizer.ttype != StreamTokenizer.TT_EOL) {
 					tokenizer.nextToken();					
@@ -357,7 +356,7 @@ public class MpGMTHypsometricColor extends MpHypsometricColor
 			} 
 			tokenizer.nextToken(); //EOL auslesen
 					
-			//jetzt die höhen und farbwerte
+			//jetzt die hï¿½hen und farbwerte
 			while (tokenizer.ttype != StreamTokenizer.TT_EOF) {
 				//so lange zahlen auslesen, bis eine nummer gelesen wird
 				tokenizer.nextToken();

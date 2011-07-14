@@ -1,132 +1,192 @@
+/***************************************************************************************
+ * Copyright (C) 2011 by 52 North Initiative for Geospatial Open Source Software GmbH  *
+ *                                                                                     *
+ * Contact: Benno Schmidt & Martin May, 52 North Initiative for Geospatial Open Source *
+ * Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, Germany, info@52north.org *
+ *                                                                                     *
+ * This program is free software; you can redistribute and/or modify it under the      *
+ * terms of the GNU General Public License version 2 as published by the Free Software *
+ * Foundation.                                                                         *
+ *                                                                                     *
+ * This program is distributed WITHOUT ANY WARRANTY; even without the implied WARRANTY *
+ * OF MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public  *
+ * License for more details.                                                           *
+ *                                                                                     *
+ * You should have received a copy of the GNU General Public License along with this   *
+ * program (see gnu-gpl v2.txt). If not, write to the Free Software Foundation, Inc.,  *
+ * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA, or visit the Free Software *
+ * Foundation web page, http://www.fsf.org.                                            *
+ **************************************************************************************/
 package org.n52.v3d.triturus.t3dutil;
 
 import org.n52.v3d.triturus.vgis.VgPoint;
 import org.n52.v3d.triturus.core.T3dException;
 import org.n52.v3d.triturus.core.T3dNotYetImplException;
 
-/** 
- * Klasse zur Verwaltung von Vektoren im dreidimensionalen euklidischen Raum.<p>
+/**
+ * Class to hold vectors in 3-D Euclidian space.<br /><br />
+ * <i>German:</i> Klasse zur Verwaltung von Vektoren im dreidimensionalen euklidischen Raum.<br />
  * Bem.: Die Vektoren werden nicht als VGis-Geometrien behandelt. Die Metrik ist durch die Semantik der aufrufenden
- * Anwendung festzulegen.<p>
- * @author Benno Schmidt<br>
- * (c) 2003-2004, con terra GmbH & Institute for Geoinformatics<br>
+ * Anwendung festzulegen.
+ * @author Benno Schmidt
  */
 public class T3dVector
 {
     private double mX, mY, mZ;
 
-    /** Konstruktor.<p> */
+    /**
+     * Constructor
+     */
     public T3dVector(double pX, double pY, double pZ) {
         mX = pX; mY = pY; mZ = pZ;
     }
 
-    /** Konstruktor für Nullvektor.<p> */
+    /**
+     * Zero vector constructor.
+     */
     public T3dVector() {
         mX = 0.; mY = 0.; mZ = 0.;
     }
 
-    /** Konstruktor.<p> */
+    /**
+     * Constructor
+     */
     public T3dVector(T3dVector pVec) {
     	this.assign(pVec);
     }
 
-    /** Konstruktor.<p> */
+    /**
+     * Constructor
+     */
     public T3dVector(VgPoint pPnt) {
     	this.assign(pPnt);
     }
 
-	/** setzt den x-Wert des Vektors.<p> */
+	/**
+     * sets the vector's x-component.
+     */
     public void setX(double pX) { 
         mX = pX; 
     }
-    /** liefert den x-Wert des Vektors.<p> */
+
+    /**
+     * returns the vector's x-component.
+     */
     public double getX() {
         return mX;
     }
 
-	/** setzt den y-Wert des Vektors.<p> */
+    /**
+     * sets the vector's y-component.
+     */
     public void setY(double pY) { 
         mY = pY; 
     }
-    /** liefert den y-Wert der Vektors.<p> */
+
+    /**
+     * returns the vector's y-component.
+     */
     public double getY() {
         return mY;
     }
 
-    /** setzt den z-Wert des Vektors.<p> */
+    /**
+     * sets the vector's z-component.
+     */
     public void setZ(double pZ) {
         mZ = pZ;
     }
-    /** liefert den z-Wert des Vektors.<p> */
+
+    /**
+     * returns the vector's z-component.
+     */
     public double getZ() {
         return mZ;
     }
 
-    /** weist dem Objekt den Wert des Ortsvektors <tt>pPnt</tt> zu.<p> */
+    /**
+     * assigns the values of the position vector <tt>pPnt</tt> to the current vector object.
+     */
     public void assign(VgPoint pPnt) {
     	mX = pPnt.getX();
     	mY = pPnt.getY();
     	mZ = pPnt.getZ();
     }
 
-    /** weist dem Objekt den Wert des Vektors <tt>pVec</tt> zu.<p> */
+    /**
+     * assigns the values of the (direction) vector <tt>pVec</tt> to the current vector object.
+     */
     public void assign(T3dVector pVec) {
     	mX = pVec.getX();
     	mY = pVec.getY();
     	mZ = pVec.getZ();
     }
-    
-    /** weist dem Objekt den Differenzvektor <tt>pPnt2 - pPnt1</tt> zu.<p> */
+
+    /**
+     * assigns the values of the difference vector <tt>pPnt2 - pPnt1</tt> to the current vector object.
+     */
     public void assignDiff(VgPoint pPnt2, VgPoint pPnt1) {
     	mX = pPnt2.getX() - pPnt1.getX();
     	mY = pPnt2.getY() - pPnt1.getY();
     	mZ = pPnt2.getZ() - pPnt1.getZ();
     }
 
-    /** weist dem Objekt den Differenzvektor <tt>pVec2 - pVec1</tt> zu.<p> */
+    /**
+     * assigns the values of the difference vector <tt>pVec2 - pVec1</tt> to the current vector object.
+     */
     public void assignDiff(T3dVector pVec2, T3dVector pVec1) {
     	mX = pVec2.getX() - pVec1.getX();
     	mY = pVec2.getY() - pVec1.getY();
     	mZ = pVec2.getZ() - pVec1.getZ();
     }
 
-    /** weist dem Objekt den Summenvektor <tt>pPnt1 + pPnt2</tt> zu.<p> */
+    /**
+     * assigns the values of the vector sum <tt>pPnt1 + pPnt2</tt> to the current vector object.
+     */
     public void assignSum(VgPoint pPnt1, VgPoint pPnt2) {
     	mX = pPnt1.getX() + pPnt2.getX();
     	mY = pPnt1.getY() + pPnt2.getY();
     	mZ = pPnt1.getZ() + pPnt2.getZ();
     }
 
-    /** weist dem Objekt den Summenvektor <tt>pVec1 + pVec2</tt> zu.<p> */
+    /**
+     * assigns the values of the vector sum <tt>pVec1 + pVec2</tt> to the current vector object.
+     */
     public void assignSum(T3dVector pVec1, T3dVector pVec2) {
     	mX = pVec1.getX() + pVec2.getX();
     	mY = pVec1.getY() + pVec2.getY();
     	mZ = pVec1.getZ() + pVec2.getZ();
     }
 
-	/** liefert das Skalarprodukt der Vektoren <tt>this</tt> und <tt>pVec</tt>.<p> */
+	/**
+     * returns the scalar product of the vectors <tt>this</tt> and <tt>pVec</tt>.
+     */
 	public double scalarProd(T3dVector pVec) {
    		return mX*pVec.getX() + mY*pVec.getY() + mZ*pVec.getZ();   
 	}
 
-    /** weist dem Objekt das Kreuzprodukt <tt>pVec1 x pVec2</tt> zu.<p> */
+    /**
+     * assigns the cross product <tt>pVec1 x pVec2</tt> to the current vector object.
+     */
     public void assignCrossProd(T3dVector pVec1, T3dVector pVec2) {
     	mX = pVec1.getY() * pVec2.getZ() - pVec1.getZ() * pVec2.getY();
     	mY = pVec1.getZ() * pVec2.getX() - pVec1.getX() * pVec2.getZ();
     	mZ = pVec1.getX() * pVec2.getY() - pVec1.getY() * pVec2.getX();
 	}
   
-  	/** liefert den Betrag (Länge) des Vektors.<p> */
+  	/**
+     * returns the absolute value (length) of the vector.
+     */
     public double length() {
        return Math.sqrt(mX*mX + mY*mY + mZ*mZ);  
     }
     
     /** 
-     * normiert den Vektor.<p> 
-     * Nach Aufruf der Methode sind die Komponenten des Objekts so geändert, dass der 
-     * Vektor die Länge 1 besitzt; vgl. Methode <tt>this.norm()</tt>.<p>
-     * Wird die Methode für den Nullvektor aufgerufen, bleibt der Methodenaufruf ohne
-     * Wirkung.<p>
+     * normalizes the vector.<br /><br />
+     * <i>German:</i> normiert den Vektor.<br />
+     * Nach Aufruf der Methode sind die Komponenten des Objekts so ge&auml;ndert, dass der Vektor die L&auml;nge 1
+     * besitzt; vgl. Methode <tt>this.norm()</tt>.<br />
+     * Wird die Methode f&uuml;r den Nullvektor aufgerufen, bleibt der Methodenaufruf ohne Wirkung.
      * @see T3dVector#norm
      */
 	public void doNorm() {
@@ -137,8 +197,9 @@ public class T3dVector
 	}
 
 	/**
-	 * liefert einen zu dem Objekt gehörigen Vektor mit der Länge 1.<p>
-     * Wird die Methode für den Nullvektor aufgerufen, wird eine T3dException geworfen.<p>
+     * returns a vector with length 1 with same direction as <tt>this</tt>.<br /><<br />
+	 * <i>German:</i> liefert einen zu dem Objekt geh&ouml;rigen Vektor mit der L&auml;nge 1.<br />
+     * Wird die Methode f&uuml;r den Nullvektor aufgerufen, wird eine T3dException geworfen.
      * @see T3dVector#doNorm
      */
 	public T3dVector norm() throws T3dException {
@@ -148,12 +209,13 @@ public class T3dVector
 		return new T3dVector(mX/len, mY/len, mZ/len);
 	}
 
-	/** 
-	 * weist dem Objekt einen zu <tt>pVec1</tt> und <tt>pVec2</tt> orthogonalen,
-	 * normierten Vektor zu.<p> 
-	 * Bem.: Der Ergebnisvektor ist eindeutig bestimmt (Rechte-Hand-Regel: <tt>pVec1</tt>
-	 * = Daumen, <tt>pVec2</tt> = Zeigefinger, Ergebnisvektor = Daumen).<p>
-     * Kann kein Vektor berechnet werden, wird eine T3dException geworfen.<p>
+	/**
+     * assigns an orthogonal normalized vector to the current vector object.<br /><br />
+     * <i>German:</i> weist dem Objekt einen zu <tt>pVec1</tt> und <tt>pVec2</tt> orthogonalen, normierten Vektor zu.
+     * <br />
+	 * Bem.: Der Ergebnisvektor ist eindeutig bestimmt (Rechte-Hand-Regel: <tt>pVec1</tt> = Daumen, <tt>pVec2</tt> =
+     * Zeigefinger, Ergebnisvektor = Daumen).<br />
+     * Kann kein Vektor berechnet werden, wird eine T3dException geworfen.
      * @throws T3dException
      */
     public void ortho(T3dVector pVec1, T3dVector pVec2) {
@@ -162,8 +224,10 @@ public class T3dVector
 	}
 
     /**
-     * liefert einen innerhalb der xy-Ebene um den Ursprung gedrehten Vektor.<p>
-     * @param pAzimuth Drehwinkel im Bogenmaß (im Uhrzeigersinn)
+     * returns a rotated vector (rotation in xy-plane, origin as rotation center.<br /><br />
+     * <i>German:</i> liefert einen innerhalb der xy-Ebene um den Ursprung gedrehten Vektor.
+     * todo engl. JavaDoc fÃ¼r Parameter
+     * @param pAzimuth Drehwinkel im Bogenmaï¿½ (im Uhrzeigersinn)
      * @return gedrehte Bounding-Box als Polygon
      */
     public T3dVector rotateXY(double pAzimuth) {
@@ -174,8 +238,10 @@ public class T3dVector
     }
 
     /**
-     * liefert einen gegenüber der xy-Ebene um den Ursprung gedrehten Vektor.<p>
-     * @param pInclination Drehwinkel im Bogenmaß
+     * returns a rotated vector (rotation against xy-plane, origin as rotation center.<br /><br />
+     * <i>German:</i> liefert einen gegenï¿½ber der xy-Ebene um den Ursprung gedrehten Vektor.<p>
+     * todo engl. JavaDoc fÃ¼r Parameter
+     * @param pInclination Drehwinkel im Bogenmaï¿½
      * @return gedrehte Bounding-Box als Polygon
      */
     public T3dVector rotateZ(double pInclination) {
@@ -183,12 +249,14 @@ public class T3dVector
     }
 
 	/**
-	 * berechnet den durch die Ortsvektoren <tt>pVec1</tt>, <tt>this</tt> und <tt>pVec2</tt> 
-	 * festgelegten Winkel. Das aktuelle Objekt enthält den Scheitelpunkt des Winkels.<p>
-	 * Bem.: <tt>pVec1</tt>, <tt>pVec2</tt> und <tt>this</tt> müssen voneinander verschieden 
-	 * sein! Anderenfalls wird stets der Wert 0 zurückgegeben.<p>
+     * returns the angle between the position vectors <tt>pVec1</tt>, <tt>this</tt>, and <tt>pVec2</tt>.<br /><br />
+	 * <i>German:</i> berechnet den durch die Ortsvektoren <tt>pVec1</tt>, <tt>this</tt> und <tt>pVec2</tt>
+	 * festgelegten Winkel. Das aktuelle Objekt enth&auml;lt den Scheitelpunkt des Winkels.<br />
+	 * Bem.: <tt>pVec1</tt>, <tt>pVec2</tt> und <tt>this</tt> m&uuml;ssen voneinander verschieden sein! Anderenfalls
+     * wird stets der Wert 0 zur&uuml;ckgegeben.
 	 * <b>TODO: Funktion ist nmoch nicht getestet.</b>
-	 * @return Winkel im Bogenmaß (im Bereich 0 ... <tt>this.PI</tt>)
+     * todo engl. JavaDoc fÃ¼r Parameter
+	 * @return Winkel im Bogenmaï¿½ (im Bereich 0 ... <tt>this.PI</tt>)
 	 */
 	public double angle(T3dVector pVec1, T3dVector pVec2)
 	{   
