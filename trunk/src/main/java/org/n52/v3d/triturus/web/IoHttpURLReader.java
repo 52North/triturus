@@ -1,3 +1,22 @@
+/***************************************************************************************
+ * Copyright (C) 2011 by 52 North Initiative for Geospatial Open Source Software GmbH  *
+ *                                                                                     *
+ * Contact: Benno Schmidt & Martin May, 52 North Initiative for Geospatial Open Source *
+ * Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, Germany, info@52north.org *
+ *                                                                                     *
+ * This program is free software; you can redistribute and/or modify it under the      *
+ * terms of the GNU General Public License version 2 as published by the Free Software *
+ * Foundation.                                                                         *
+ *                                                                                     *
+ * This program is distributed WITHOUT ANY WARRANTY; even without the implied WARRANTY *
+ * OF MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public  *
+ * License for more details.                                                           *
+ *                                                                                     *
+ * You should have received a copy of the GNU General Public License along with this   *
+ * program (see gnu-gpl v2.txt). If not, write to the Free Software Foundation, Inc.,  *
+ * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA, or visit the Free Software *
+ * Foundation web page, http://www.fsf.org.                                            *
+ **************************************************************************************/
 package org.n52.v3d.triturus.web;
 
 import java.io.BufferedInputStream;
@@ -17,12 +36,13 @@ import org.n52.v3d.triturus.core.T3dException;
 import javax.net.ssl.HttpsURLConnection;
 
 /** 
- * Einlesen von Dokumenten über einen HTTP-Zugriff. Hierbei kann es sich z. B. um Textdateien, HTML- und
- * XML-Dateien, VRML-Dateien oder binär kodierte Bitmaps handeln.
+ * todo engl. JavaDoc
+ * Einlesen von Dokumenten ï¿½ber einen HTTP-Zugriff. Hierbei kann es sich z. B. um Textdateien, HTML- und
+ * XML-Dateien, VRML-Dateien oder binï¿½r kodierte Bitmaps handeln.
  * <p>
  * Die vorliegende Klasse unterscheidet sich onsofern von der Klasse <tt>IoURLReader</tt>, dass die Implementierung
  * statt <tt>java.net.URLConnection</tt> die Klasse <tt>java.net.HttpURLConnection</tt> nutzt, so dass sich
- * HTTP-spezifische Möglichkeiten wie z. B. die Eigenschaften </tt>proxySet</tt>, <tt>http.proxyHost</tt>,
+ * HTTP-spezifische Mï¿½glichkeiten wie z. B. die Eigenschaften </tt>proxySet</tt>, <tt>http.proxyHost</tt>,
  * <tt>http.proxyPort</tt>, <tt>http.nonProxyHosts</tt>,  etc. oder Authentifizierungsmechanismen nutzen lassen. Siehe
  * dazu Dokumentation der verwendeten Java-API.
  * <p>
@@ -35,8 +55,7 @@ import javax.net.ssl.HttpsURLConnection;
  * </pre>
  * <p>
  * @see IoURLReader
- * @author Benno Schmidt<br>
- * (c) 2003-2004, con terra GmbH & Institute for Geoinformatics<br>
+ * @author Benno Schmidt
  */
 public class IoHttpURLReader
 {
@@ -52,7 +71,7 @@ public class IoHttpURLReader
     }
 
     /**
-     * setzt den URL für den Web-Request.<p>
+     * setzt den URL fï¿½r den Web-Request.<p>
      * @param pURL URL
      */
     public void setURL(String pURL) {
@@ -60,7 +79,7 @@ public class IoHttpURLReader
     }
 
     /**
-     * liefert den für den Web-Request gesetzten URL.<p>
+     * liefert den fï¿½r den Web-Request gesetzten URL.<p>
      * @return URL
      */
     public String getURL() {
@@ -100,7 +119,7 @@ public class IoHttpURLReader
         catch (IOException e) {
              throw new T3dException("IO Error: " + e.getMessage());
         }
-        // todo: Schließen der Verbindung?
+        // todo: Schlieï¿½en der Verbindung?
     }
 
     /** 
@@ -128,7 +147,7 @@ public class IoHttpURLReader
         catch (IOException e) {
             throw new T3dException("IO Error: " + e.getMessage());
         }
-        // todo: Schließen der Verbindung?
+        // todo: Schlieï¿½en der Verbindung?
     }
 
     /**
@@ -197,7 +216,7 @@ public class IoHttpURLReader
         else
         {
             if(lDebug)
-                System.out.println("lese Binärstrom");
+                System.out.println("lese Binï¿½rstrom");
             char c = '\200';
             int i = lConn.getContentLength();
             if (i <= 0) {

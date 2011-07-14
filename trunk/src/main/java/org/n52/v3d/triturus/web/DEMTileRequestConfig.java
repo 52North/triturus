@@ -1,14 +1,33 @@
+/***************************************************************************************
+ * Copyright (C) 2011 by 52 North Initiative for Geospatial Open Source Software GmbH  *
+ *                                                                                     *
+ * Contact: Benno Schmidt & Martin May, 52 North Initiative for Geospatial Open Source *
+ * Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, Germany, info@52north.org *
+ *                                                                                     *
+ * This program is free software; you can redistribute and/or modify it under the      *
+ * terms of the GNU General Public License version 2 as published by the Free Software *
+ * Foundation.                                                                         *
+ *                                                                                     *
+ * This program is distributed WITHOUT ANY WARRANTY; even without the implied WARRANTY *
+ * OF MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public  *
+ * License for more details.                                                           *
+ *                                                                                     *
+ * You should have received a copy of the GNU General Public License along with this   *
+ * program (see gnu-gpl v2.txt). If not, write to the Free Software Foundation, Inc.,  *
+ * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA, or visit the Free Software *
+ * Foundation web page, http://www.fsf.org.                                            *
+ **************************************************************************************/
 package org.n52.v3d.triturus.web;
 
 import org.n52.v3d.triturus.vgis.*;
 
 /**
+ * todo engl. JavaDoc
  * @deprecated
  * Diese Klasse dient zur Konfiguration der Request-Parameter eines speziellen Dienstes
- * für den Kartenblatt-orientierten Zugriff auf Geländemodelle. Der zugehörige Dienst
- * lässt sich über die Klasse <tt>IoDEMTileServiceConnector</tt> ansprechen.<p>
- * (c) 2003, con terra GmbH & Institute for Geoinformatics<br>
- * @author Benno Schmidt<p><br>
+ * fï¿½r den Kartenblatt-orientierten Zugriff auf Gelï¿½ndemodelle. Der zugehï¿½rige Dienst
+ * lï¿½sst sich ï¿½ber die Klasse <tt>IoDEMTileServiceConnector</tt> ansprechen.<p>
+ * @author Benno Schmidt
  */
 public class DEMTileRequestConfig
 {
@@ -19,10 +38,10 @@ public class DEMTileRequestConfig
 
     /**
      * Konstruktor.
-     * @param pURL URL für den Service
-     * @param pTileID Bezeichner für abzufragende Kachel (z. B. Kartenblatt-Nummer)
-     * @param pDEMType "tin" für Dreiecksnetze oder "grid" für Gittermodelle
-     * @param pDEMFormat DGM-Format, z. B. "model/vrml" für VRML-Modelle
+     * @param pURL URL fï¿½r den Service
+     * @param pTileID Bezeichner fï¿½r abzufragende Kachel (z. B. Kartenblatt-Nummer)
+     * @param pDEMType "tin" fï¿½r Dreiecksnetze oder "grid" fï¿½r Gittermodelle
+     * @param pDEMFormat DGM-Format, z. B. "model/vrml" fï¿½r VRML-Modelle
      */
     public DEMTileRequestConfig( 
         String pURL, String pTileID, String pDEMType, String pDEMFormat ) 
@@ -33,25 +52,25 @@ public class DEMTileRequestConfig
     	mFormat = pDEMFormat;
     }
 
-    /** setzt den URL für den Service. */
+    /** setzt den URL fï¿½r den Service. */
     public void setBaseURL( String pURL ) {
     	mBaseURL = pURL;
     }
 
-    /** liefert den für den Service eingestellten URL. */
+    /** liefert den fï¿½r den Service eingestellten URL. */
     public String getBaseURL() {
     	return mBaseURL;
     }
 
-    /** setzt den Tile-ID für den Service (z. B. Kartenblatt-Nummer). */
+    /** setzt den Tile-ID fï¿½r den Service (z. B. Kartenblatt-Nummer). */
     public void setTileID( String pTileID ) {
     	mTileID = pTileID;
     }
    
     /**
-     * liefert den URL für den GetDEM-Request an den Service.<p>
-     *<b>Der Service unterstützt noch keine GetCapabilities-Requests.</b><p>
-     *@return vollständigen URL für den GetDEM-Request
+     * liefert den URL fï¿½r den GetDEM-Request an den Service.<p>
+     *<b>Der Service unterstï¿½tzt noch keine GetCapabilities-Requests.</b><p>
+     *@return vollstï¿½ndigen URL fï¿½r den GetDEM-Request
      */    
     public String getDEMRequestURL()
     {

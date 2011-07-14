@@ -1,3 +1,22 @@
+/***************************************************************************************
+ * Copyright (C) 2011 by 52 North Initiative for Geospatial Open Source Software GmbH  *
+ *                                                                                     *
+ * Contact: Benno Schmidt & Martin May, 52 North Initiative for Geospatial Open Source *
+ * Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, Germany, info@52north.org *
+ *                                                                                     *
+ * This program is free software; you can redistribute and/or modify it under the      *
+ * terms of the GNU General Public License version 2 as published by the Free Software *
+ * Foundation.                                                                         *
+ *                                                                                     *
+ * This program is distributed WITHOUT ANY WARRANTY; even without the implied WARRANTY *
+ * OF MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public  *
+ * License for more details.                                                           *
+ *                                                                                     *
+ * You should have received a copy of the GNU General Public License along with this   *
+ * program (see gnu-gpl v2.txt). If not, write to the Free Software Foundation, Inc.,  *
+ * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA, or visit the Free Software *
+ * Foundation web page, http://www.fsf.org.                                            *
+ **************************************************************************************/
 package org.n52.v3d.triturus.web;
 
 import org.n52.v3d.triturus.core.T3dException;
@@ -10,31 +29,31 @@ import java.util.Enumeration;
 import java.util.ArrayList;
 
 /**
- * Hilfsklasse für den Zugriff auf die Parameterwerte einer HTTP-Anfrage. Diese Klasse erweitert die Schnittstelle
+ * todo engl. JavaDoc
+ * Hilfsklasse fï¿½r den Zugriff auf die Parameterwerte einer HTTP-Anfrage. Diese Klasse erweitert die Schnittstelle
  * <tt>javax.servlet.ServletRequest</tt> um Geo-spezifische Parameter wie Punkt- und Bounding-Box-Angaben. Zudem ist
- * die Vorbelegung fehlender Parameter möglich.
+ * die Vorbelegung fehlender Parameter mï¿½glich.
  * <p>
- * Unterstützt werden die folgenden Typen:<p>
+ * Unterstï¿½tzt werden die folgenden Typen:<p>
  * <ul>
- * <li><tt>&quot;Integer&quot;</tt>: ganzzahlige Werte, Rückgabe als <tt>Integer</tt>-Objekte</li>
- * <li><tt>&quot;Double&quot;</tt>: Gleitpunktzahlen, Rückgabe als <tt>Double</tt>-Objekte</li>
- * <li><tt>&quot;Boolean&quot;</tt>: boolesche Werte, Rückgabe als <tt>Boolean</tt>-Objekte</li>
- * <li><tt>&quot;String&quot;</tt>: Zeichenketten, Rückgabe als <tt>String</tt>-Objekte</li>
- * <li><tt>&quot;VgPoint&quot;</tt>: Punkt-Objekte, Rückgabe als <tt>org.n52.v3d.triturus.vgis.VgPoint</tt>-Objekte</li>
- * <li><tt>&quot;VgEnvelope&quot;</tt>: Bounding-Box-Objekte, Rückgabe als <tt>org.n52.v3d.triturus.vgis.VgEnvelope</tt>-Objekte</li>
- * <li><tt>&quot;VgLineString&quot;</tt>: Liniengeometrien, Rückgabe als <tt>org.n52.v3d.triturus.vgis.VgLineString</tt>-Objekte</li>
+ * <li><tt>&quot;Integer&quot;</tt>: ganzzahlige Werte, Rï¿½ckgabe als <tt>Integer</tt>-Objekte</li>
+ * <li><tt>&quot;Double&quot;</tt>: Gleitpunktzahlen, Rï¿½ckgabe als <tt>Double</tt>-Objekte</li>
+ * <li><tt>&quot;Boolean&quot;</tt>: boolesche Werte, Rï¿½ckgabe als <tt>Boolean</tt>-Objekte</li>
+ * <li><tt>&quot;String&quot;</tt>: Zeichenketten, Rï¿½ckgabe als <tt>String</tt>-Objekte</li>
+ * <li><tt>&quot;VgPoint&quot;</tt>: Punkt-Objekte, Rï¿½ckgabe als <tt>org.n52.v3d.triturus.vgis.VgPoint</tt>-Objekte</li>
+ * <li><tt>&quot;VgEnvelope&quot;</tt>: Bounding-Box-Objekte, Rï¿½ckgabe als <tt>org.n52.v3d.triturus.vgis.VgEnvelope</tt>-Objekte</li>
+ * <li><tt>&quot;VgLineString&quot;</tt>: Liniengeometrien, Rï¿½ckgabe als <tt>org.n52.v3d.triturus.vgis.VgLineString</tt>-Objekte</li>
  * </ul>
  * <p>
- * Punkte, Bounding-Boxes und Liniengeometrien können dabei in Form Komma-separierter Koordinatenlisten angegeben
- * werden, z. B. <tt>&quot;CENTER=3550000,5750000,50.5&quot;</tt> für einen Punkt oder
- * <tt>&quot;BBOX=3500000,5800000,50,3600000,5900000,51&quot;</tt> für eine Bounding-Box. Die Angaben für die z-Werte
- * sind für Punkte und Bounding-Boxes optional, für Liniengeometrien ist die Angabe der z-Werte verpflichtend.
+ * Punkte, Bounding-Boxes und Liniengeometrien kï¿½nnen dabei in Form Komma-separierter Koordinatenlisten angegeben
+ * werden, z. B. <tt>&quot;CENTER=3550000,5750000,50.5&quot;</tt> fï¿½r einen Punkt oder
+ * <tt>&quot;BBOX=3500000,5800000,50,3600000,5900000,51&quot;</tt> fï¿½r eine Bounding-Box. Die Angaben fï¿½r die z-Werte
+ * sind fï¿½r Punkte und Bounding-Boxes optional, fï¿½r Liniengeometrien ist die Angabe der z-Werte verpflichtend.
  * <p>
  * @see org.n52.v3d.triturus.gisimplm.GmPoint#GmPoint(String)
  * @see org.n52.v3d.triturus.gisimplm.GmEnvelope#GmEnvelope(String)
  * @see org.n52.v3d.triturus.gisimplm.GmLineString#GmLineString(String)
- * @author Benno Schmidt<br>
- * (c) 2004, con terra GmbH & Institute for Geoinformatics<br>
+ * @author Benno Schmidt
  */
 public class HttpRequestParams
 {
@@ -52,8 +71,8 @@ public class HttpRequestParams
     }
 
     /**
-     * fügt der Parameter-Konfiguration den Parameter mit dem angegebenen Namen hinzu.<p>
-     * Bem.: Für den zugehörigen Typ wird "String" als Vorgabewert gesetzt, für den Wert ein Leerstring.<p>
+     * fï¿½gt der Parameter-Konfiguration den Parameter mit dem angegebenen Namen hinzu.<p>
+     * Bem.: Fï¿½r den zugehï¿½rigen Typ wird "String" als Vorgabewert gesetzt, fï¿½r den Wert ein Leerstring.<p>
      * @param pParam Parametername
      */
     public void addParameter(String pParam)
@@ -67,7 +86,7 @@ public class HttpRequestParams
     }
 
     /**
-     * fügt der Parameter-Konfiguration den Parameter mit dem angegebenen Namen hinzu und setzt zugleich die angegebene
+     * fï¿½gt der Parameter-Konfiguration den Parameter mit dem angegebenen Namen hinzu und setzt zugleich die angegebene
      * Typ-Information und den angegebenen Wert.<p>
      * @param pParam Parametername
      * @param pType Parametertyp
@@ -89,8 +108,8 @@ public class HttpRequestParams
     }
 
     /**
-     * prüft, ob ein gegebener Typname innerhalb seitens der vorliegenden Klasse verarbeitbar ist.<p>
-     * @param pType zu prüfender Typ
+     * prï¿½ft, ob ein gegebener Typname innerhalb seitens der vorliegenden Klasse verarbeitbar ist.<p>
+     * @param pType zu prï¿½fender Typ
      */
     public boolean isTypeImplemented(String pType)
     {
@@ -105,9 +124,9 @@ public class HttpRequestParams
     }
 
     /**
-     * setzt die Typ-Information für den angegebenen Parameter. Falls der angegebenen Typ innerhalb seitens der
+     * setzt die Typ-Information fï¿½r den angegebenen Parameter. Falls der angegebenen Typ innerhalb seitens der
      * vorliegenden Klasse nicht verarbeitbar ist, wird eine <tt>T3dException</tt> geworfen.<p>
-     * Bem.: Ist die Typinformation für einen Parameter gesetzt, wird der Parameter bei der Auswertung der HTTP-Anfrage
+     * Bem.: Ist die Typinformation fï¿½r einen Parameter gesetzt, wird der Parameter bei der Auswertung der HTTP-Anfrage
      * automatisch geparst.<p>
      * @param pParam Parametername
      * @param pType <tt>"Boolean", "Integer", "Double", "String", "VgPoint", "VgEnvelope" </tt> oder <tt>"VgLineString"</tt>
@@ -127,7 +146,7 @@ public class HttpRequestParams
     }
 
     /**
-     * liefert die Typ-Information für den angegebenen Parameter.<p>
+     * liefert die Typ-Information fï¿½r den angegebenen Parameter.<p>
      * @param pParam Parametername
      * @return <tt>"Boolean", "Integer", "Double", "String", "VgPoint", "VgEnvelope" </tt> oder <tt>"VgLineString"</tt>
      */
@@ -141,7 +160,7 @@ public class HttpRequestParams
     }
 
     /**
-     * setzt den Wert für den angegebenen Parameter. Diese Methode ist insbesondere dazu geeignet, Vorgabewerte für in
+     * setzt den Wert fï¿½r den angegebenen Parameter. Diese Methode ist insbesondere dazu geeignet, Vorgabewerte fï¿½r in
      * einer HTTP-Anfrage fehlende Parameter zu setzen.<p>
      * @param pParam Parametername
      * @param pVal Wert als Zeichenkette
@@ -157,7 +176,7 @@ public class HttpRequestParams
     }
 
     /**
-     * liefert den Wert für den angegebenen Parameter.<p>
+     * liefert den Wert fï¿½r den angegebenen Parameter.<p>
      * @param pParam Parametername
      * @return Wert entsprechend dem spezifizierten Parameter-Typ
      * @see HttpRequestParams#setType
@@ -210,13 +229,13 @@ public class HttpRequestParams
                     "(parameter " + pParam + ").");
             }
 
-            // sonst Rückgabe als String-Objekt:
+            // sonst Rï¿½ckgabe als String-Objekt:
             return val;
         }
     }
 
     /**
-     * setzt die Werte für die in einer HTTP-Anfrage angegebenen Parameter.<p>
+     * setzt die Werte fï¿½r die in einer HTTP-Anfrage angegebenen Parameter.<p>
      * @param pReq HTTP-Anfrage-Objekt
      */
     public void fetchRequestParameters(HttpServletRequest pReq)

@@ -1,13 +1,32 @@
+/***************************************************************************************
+ * Copyright (C) 2011 by 52 North Initiative for Geospatial Open Source Software GmbH  *
+ *                                                                                     *
+ * Contact: Benno Schmidt & Martin May, 52 North Initiative for Geospatial Open Source *
+ * Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, Germany, info@52north.org *
+ *                                                                                     *
+ * This program is free software; you can redistribute and/or modify it under the      *
+ * terms of the GNU General Public License version 2 as published by the Free Software *
+ * Foundation.                                                                         *
+ *                                                                                     *
+ * This program is distributed WITHOUT ANY WARRANTY; even without the implied WARRANTY *
+ * OF MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public  *
+ * License for more details.                                                           *
+ *                                                                                     *
+ * You should have received a copy of the GNU General Public License along with this   *
+ * program (see gnu-gpl v2.txt). If not, write to the Free Software Foundation, Inc.,  *
+ * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA, or visit the Free Software *
+ * Foundation web page, http://www.fsf.org.                                            *
+ **************************************************************************************/
 package org.n52.v3d.triturus.web;
 
 import org.n52.v3d.triturus.vgis.*;
 import org.n52.v3d.triturus.vgis.VgEnvelope;
 
 /**
+ * todo engl. JavaDoc
  * Diese Klasse dient zur Konfiguration der Request-Parameter des DGM-Dienstes, der durch die Applikation
  * <tt>$TERRA3D_HOME/serverapp/DEMService/DERMServlet.java</tt> realisiert ist.<p>
- * @author Benno Schmidt<br>
- * (c) 2004, con terra GmbH & Institute for Geoinformatics<br>
+ * @author Benno Schmidt
  */
 public class DEMRequestConfig
 {
@@ -19,7 +38,7 @@ public class DEMRequestConfig
 
     /**
      * Konstruktor.<p>
-     * @param pURL URL für den Dienst
+     * @param pURL URL fï¿½r den Dienst
      * @param pBBox Bounding-Box, siehe <tt>this.setBBox()</tt>.
      * @param pEPSGString raumliches Referenzsystem, siehe <tt>this.setSRS()</tt>.
      * @param pCellSize Gitterweite, siehe <tt>this.setCellSize()</tt>.
@@ -35,41 +54,41 @@ public class DEMRequestConfig
         mDEMFormat = pDEMFormat;
     }
 
-    /** setzt den URL für den Dienst. */
+    /** setzt den URL fï¿½r den Dienst. */
     public void setBaseURL(String pURL) {
         mBaseURL = pURL;
     }
 
-    /** liefert den für den Dienst eingestellten URL. */
+    /** liefert den fï¿½r den Dienst eingestellten URL. */
     public String getBaseURL() {
         return mBaseURL;
     }
 
     /**
-     * setzt die BBOX für den Request.<p>
-     * <b>Bem.: Die Handhabung von SRS wird von der vorliegenden Klasse z. Zt. noch nicht unterstützt.</b><p>
+     * setzt die BBOX fï¿½r den Request.<p>
+     * <b>Bem.: Die Handhabung von SRS wird von der vorliegenden Klasse z. Zt. noch nicht unterstï¿½tzt.</b><p>
      */
     public void setBBox(VgEnvelope pEnv) {
         mBBox = pEnv;
     }
 
-    /** liefert die für den Request eingestellte BBOX. */
+    /** liefert die fï¿½r den Request eingestellte BBOX. */
     public VgEnvelope getBBox() {
         return mBBox;
     }
 
-    /** setzt die Gitterweite für das anzufordernde Geländemodell. */
+    /** setzt die Gitterweite fï¿½r das anzufordernde Gelï¿½ndemodell. */
     public void setCellSize(double pCellSize) {
         mCellSize = pCellSize;
     }
 
-    /** liefert die für das anzufordernde Geländemodell eingestellte Gitterweite. */
+    /** liefert die fï¿½r das anzufordernde Gelï¿½ndemodell eingestellte Gitterweite. */
     public double getCellSize() {
         return mCellSize;
     }
 
     /**
-     * setzt das räumliche Referenzsystem (EPSG-Code) für den Request.<p>
+     * setzt das rï¿½umliche Referenzsystem (EPSG-Code) fï¿½r den Request.<p>
      * @param pEPSGString EPSG-Code in der Form "EPSG:<EPSG-Nr.>" oder <tt>this.SRSNone</tt>.
      * @see VgGeomObject#setSRS
      */
@@ -78,7 +97,7 @@ public class DEMRequestConfig
     }
 
     /**
-     * liefert das für den Request gesetzte räumliche Referenzsystem (EPSG-Code).<p>
+     * liefert das fï¿½r den Request gesetzte rï¿½umliche Referenzsystem (EPSG-Code).<p>
      * @return EPSG-Code in der Form "EPSG:<EPSG-Nr.>" oder <tt>this.SRSNone</tt>.
      * @see VgGeomObject#setSRS
      */
@@ -87,22 +106,22 @@ public class DEMRequestConfig
     }
 
     /**
-     * setzt das Format, in dem das Geländmodell angefordert werden soll.<p>
+     * setzt das Format, in dem das Gelï¿½ndmodell angefordert werden soll.<p>
      * @param pFormat Format-Angabe laut Dienst-Spezifikation
      */
     public void setDEMFormat(String pFormat) {
         mDEMFormat = pFormat;
     }
 
-    /** liefert das eingestellte Geländemodell-Format. */
+    /** liefert das eingestellte Gelï¿½ndemodell-Format. */
     public String getDEMFormat() {
         return mDEMFormat;
     }
 
     /**
-     * liefert den URL für den GetCapabilities-Request an den WMS.<p>
-     * <b>Die vorliegende Klasse unterstützt z. Zt. noch nicht das Auslesen der Capabilities-Antwort!</b><p>
-     * @return vollständigen URL für den GetCapabilities-Request
+     * liefert den URL fï¿½r den GetCapabilities-Request an den WMS.<p>
+     * <b>Die vorliegende Klasse unterstï¿½tzt z. Zt. noch nicht das Auslesen der Capabilities-Antwort!</b><p>
+     * @return vollstï¿½ndigen URL fï¿½r den GetCapabilities-Request
      */
     public String getCapabilitiesRequestURL()
     {
@@ -111,8 +130,8 @@ public class DEMRequestConfig
     }
 
     /**
-     * liefert den URL für den GetDEM-Request an den Dienst.<p>
-     * @return vollständigen URL für den GetDEM-Request
+     * liefert den URL fï¿½r den GetDEM-Request an den Dienst.<p>
+     * @return vollstï¿½ndigen URL fï¿½r den GetDEM-Request
      */
     public String getDEMRequestURL()
     {

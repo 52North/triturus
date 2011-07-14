@@ -1,12 +1,31 @@
+/***************************************************************************************
+ * Copyright (C) 2011 by 52 North Initiative for Geospatial Open Source Software GmbH  *
+ *                                                                                     *
+ * Contact: Benno Schmidt & Martin May, 52 North Initiative for Geospatial Open Source *
+ * Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, Germany, info@52north.org *
+ *                                                                                     *
+ * This program is free software; you can redistribute and/or modify it under the      *
+ * terms of the GNU General Public License version 2 as published by the Free Software *
+ * Foundation.                                                                         *
+ *                                                                                     *
+ * This program is distributed WITHOUT ANY WARRANTY; even without the implied WARRANTY *
+ * OF MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public  *
+ * License for more details.                                                           *
+ *                                                                                     *
+ * You should have received a copy of the GNU General Public License along with this   *
+ * program (see gnu-gpl v2.txt). If not, write to the Free Software Foundation, Inc.,  *
+ * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA, or visit the Free Software *
+ * Foundation web page, http://www.fsf.org.                                            *
+ **************************************************************************************/
 package org.n52.v3d.triturus.web;
 
 import org.n52.v3d.triturus.vgis.*;
 
 /** 
+ * todo engl. JavaDoc
  * Diese Klasse dient zur Konfiguration der Request-Parameter von Web Coverage Services (WCS).
  * <i>Bem.: Diese Klasse ist noch "under construction" (erstmal eine einfachst gehaltene Arbeitsversion).</i><p>
- * @author Torsten Heinen<br>
- * (c) 2003, con terra GmbH & Institute for Geoinformatics<br>
+ * @author Torsten Heinen
  */
 public class WCSRequestConfig
 {
@@ -25,12 +44,12 @@ public class WCSRequestConfig
 
     /**
      * Konstruktor.<p>
-     * @param pURL URL für den WCS
+     * @param pURL URL fï¿½r den WCS
      * @param pLayers Array mit abzufragenden Layern, siehe <tt>this.setLayers()</tt>.
      * @param pBBox Bounding-Box, siehe <tt>this.setBBox()</tt>.
      * @param pEPSGString raumliches Referenzsystem, siehe <tt>this.setSRS()</tt>.
      * @param pWidth Bildbreite, siehe <tt>this.setWidth()</tt>.
-     * @param pHeight Bildhöhe, siehe <tt>this.setHeight()</tt>.
+     * @param pHeight Bildhï¿½he, siehe <tt>this.setHeight()</tt>.
      * @param pImageFormat Bildformat, siehe <tt>this.setImageFormat()</tt>.
      */
     public WCSRequestConfig( 
@@ -47,15 +66,15 @@ public class WCSRequestConfig
     }
 
     /**
-     * setzt den URL für den WCS.<p>
-     * @param pURL gültige URL
+     * setzt den URL fï¿½r den WCS.<p>
+     * @param pURL gï¿½ltige URL
      */
     public void setBaseURL(String pURL) {
     	mBaseURL = pURL;
     }
 
     /**
-     * liefert den für den WCS eingestellten URL.<p>
+     * liefert den fï¿½r den WCS eingestellten URL.<p>
      * @return URL
      */
     public String getBaseURL() {
@@ -63,8 +82,8 @@ public class WCSRequestConfig
     }
 
     /** 
-     * setzt den Service-Namen für den WCS. Voreingestellt ist der Wert "WCS". Ein Aufruf dieser Methode ist nur dann
-     * nötig, falls diese Einstellung überschrieben werden soll.<p>
+     * setzt den Service-Namen fï¿½r den WCS. Voreingestellt ist der Wert "WCS". Ein Aufruf dieser Methode ist nur dann
+     * nï¿½tig, falls diese Einstellung ï¿½berschrieben werden soll.<p>
      * @param pServiceName Service-Namen
      */
     public void setServiceName(String pServiceName) {
@@ -80,8 +99,8 @@ public class WCSRequestConfig
     }
 
     /** 
-     * setzt die BBOX für den WCS-Request.<p> 
-     * <b>Bem.: Die Handhabung von SRS wird von der vorliegenden Klasse z. Zt. noch nicht unterstützt.</b>
+     * setzt die BBOX fï¿½r den WCS-Request.<p> 
+     * <b>Bem.: Die Handhabung von SRS wird von der vorliegenden Klasse z. Zt. noch nicht unterstï¿½tzt.</b>
      * @param pEnv Bounding-Box
      */
     public void setBBox(VgEnvelope pEnv) {
@@ -89,7 +108,7 @@ public class WCSRequestConfig
     }
 
     /**
-     * liefert die für den Request eingestellte BBOX.<p>
+     * liefert die fï¿½r den Request eingestellte BBOX.<p>
      * @return Bounding-Box
      */
     public VgEnvelope getBBox() {
@@ -97,7 +116,7 @@ public class WCSRequestConfig
     }
 
     /**
-     * setzt das räumliche Referenzsystem (EPSG-Code) für den Request.<p>
+     * setzt das rï¿½umliche Referenzsystem (EPSG-Code) fï¿½r den Request.<p>
      * @param pEPSGString EPSG-Code in der Form "EPSG:<EPSG-Nr.>" oder <tt>this.SRSNone</tt>.
      * @see VgGeomObject#setSRS
      */
@@ -106,7 +125,7 @@ public class WCSRequestConfig
     }
 
     /**
-     * liefert das für den Request gesetzte räumliche Referenzsystem (EPSG-Code).<p>
+     * liefert das fï¿½r den Request gesetzte rï¿½umliche Referenzsystem (EPSG-Code).<p>
      * @return EPSG-Code in der Form "EPSG:<EPSG-Nr.>" oder <tt>this.SRSNone</tt>.
      * @see VgGeomObject#setSRS
      */
@@ -115,7 +134,7 @@ public class WCSRequestConfig
     }
 
     /**
-     * setzt die Bildbreite für das anzufordernde Bild.<p>
+     * setzt die Bildbreite fï¿½r das anzufordernde Bild.<p>
      * @param pWidth Bildbreite in Pixeln
      */
     public void setImageWidth(int pWidth) {
@@ -123,7 +142,7 @@ public class WCSRequestConfig
     }
 
     /**
-     * liefert die für das anzufordernde Bild eingestellte Bildbreite.<p>
+     * liefert die fï¿½r das anzufordernde Bild eingestellte Bildbreite.<p>
      * @return Bildbreite in Pixeln.
      */
     public int getImageWidth() {
@@ -131,16 +150,16 @@ public class WCSRequestConfig
     }
 
     /**
-     * setzt die Bildhöhe für das anzufordernde Bild.<p>
-     * @param pHeight Bildhöhe in Pixeln
+     * setzt die Bildhï¿½he fï¿½r das anzufordernde Bild.<p>
+     * @param pHeight Bildhï¿½he in Pixeln
      */
     public void setImageHeight(int pHeight) {
     	mHeight = pHeight;
     }
 
     /**
-     * liefert die für das anzufordernde Bild eingestellte Bildhöhe.<p>
-     * @return Bildhöhe in Pixeln
+     * liefert die fï¿½r das anzufordernde Bild eingestellte Bildhï¿½he.<p>
+     * @return Bildhï¿½he in Pixeln
      */
     public int getImageHeight() {
     	return mHeight;
@@ -148,7 +167,7 @@ public class WCSRequestConfig
 
     /** 
      * setzt das Format, in dem die Map angefordert werden soll.<p>
-     * Es ist sicherzustellen, dass der angesprochene WCS dieses Format auch unterstützt.<p>
+     * Es ist sicherzustellen, dass der angesprochene WCS dieses Format auch unterstï¿½tzt.<p>
      * @param pFormat MIME-Typ, z. B. "image/jpeg"
      */
     public void setImageFormat(String pFormat) {
@@ -156,7 +175,7 @@ public class WCSRequestConfig
     }
 
     /**
-     * liefert das für den Request eingestellte Bildformat.<p>
+     * liefert das fï¿½r den Request eingestellte Bildformat.<p>
      * @return MIME-Typ, z. B. "image/jpeg"
      */
     public String getImageFormat() {
@@ -164,8 +183,8 @@ public class WCSRequestConfig
     }
 
     /** 
-     * setzt den Wert für die Transparenz.<p>
-     * Es ist sicherzustellen, dass der angesprochene WCS diese Einstellung auch unterstützt.<p>
+     * setzt den Wert fï¿½r die Transparenz.<p>
+     * Es ist sicherzustellen, dass der angesprochene WCS diese Einstellung auch unterstï¿½tzt.<p>
      * @param pTransparency Transparenzgrad
      */
     public void setTransparency(boolean pTransparency) {
@@ -173,7 +192,7 @@ public class WCSRequestConfig
     }
 
     /**
-     * liefert den für die Transparenz eingestellten Wert.<p>
+     * liefert den fï¿½r die Transparenz eingestellten Wert.<p>
      * @return Transparenzgrad
      */
     public boolean getTransparency() {
@@ -183,9 +202,9 @@ public class WCSRequestConfig
     /** 
      * setzt die Styles, in dem die Map angefordert werden soll. Das STYLES-Atribut wird im Map-Request nur dann
      * gesetzt, falls das Flag <tt>pUseStylesAttribute</tt> gesetzt ist. Voreingestellt ist der Wert <i>false</i>.<p>
-     * Es ist sicherzustellen, dass der angesprochene WCS die jeweilige Einstellung auch unterstützt.<p>
+     * Es ist sicherzustellen, dass der angesprochene WCS die jeweilige Einstellung auch unterstï¿½tzt.<p>
      * @param pUseStylesAttribute <i>true</i>, falls STYLES-Attribut verwendet werden soll
-     * @param pStyles Wert für STYLES-Attribut
+     * @param pStyles Wert fï¿½r STYLES-Attribut
      */
     public void setStyles(boolean pUseStylesAttribute, String pStyles) {
     	mUseStylesAttribute = pUseStylesAttribute;
@@ -193,9 +212,9 @@ public class WCSRequestConfig
     }
     
     /**
-     * liefert den URL für den GetCapabilities-Request an den WCS.<p>
-     * <b>Die vorliegende Klasse unterstützt z. Zt. noch nicht das Auslesen der Capabilities-Antwort!</b><p>
-     * @return vollständigen URL für den GetCapabilities-Request
+     * liefert den URL fï¿½r den GetCapabilities-Request an den WCS.<p>
+     * <b>Die vorliegende Klasse unterstï¿½tzt z. Zt. noch nicht das Auslesen der Capabilities-Antwort!</b><p>
+     * @return vollstï¿½ndigen URL fï¿½r den GetCapabilities-Request
      */    
     public String getCapabilitiesRequestURL()
     {
@@ -205,9 +224,9 @@ public class WCSRequestConfig
     }
 
     /**
-     * liefert den URL für den GetMap-Request an den WCS.<p>
-     * TODO resX/resY und width/height Parameter überarbeiten...
-     * @return vollständigen URL für den GetCoverage-Request
+     * liefert den URL fï¿½r den GetMap-Request an den WCS.<p>
+     * TODO resX/resY und width/height Parameter ï¿½berarbeiten...
+     * @return vollstï¿½ndigen URL fï¿½r den GetCoverage-Request
      */    
     public String getCoverageRequestURL()
     {
