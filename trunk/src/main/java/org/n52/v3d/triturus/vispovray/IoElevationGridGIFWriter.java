@@ -1,3 +1,22 @@
+/***************************************************************************************
+ * Copyright (C) 2011 by 52 North Initiative for Geospatial Open Source Software GmbH  *
+ *                                                                                     *
+ * Contact: Benno Schmidt & Martin May, 52 North Initiative for Geospatial Open Source *
+ * Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, Germany, info@52north.org *
+ *                                                                                     *
+ * This program is free software; you can redistribute and/or modify it under the      *
+ * terms of the GNU General Public License version 2 as published by the Free Software *
+ * Foundation.                                                                         *
+ *                                                                                     *
+ * This program is distributed WITHOUT ANY WARRANTY; even without the implied WARRANTY *
+ * OF MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public  *
+ * License for more details.                                                           *
+ *                                                                                     *
+ * You should have received a copy of the GNU General Public License along with this   *
+ * program (see gnu-gpl v2.txt). If not, write to the Free Software Foundation, Inc.,  *
+ * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA, or visit the Free Software *
+ * Foundation web page, http://www.fsf.org.                                            *
+ **************************************************************************************/
 package org.n52.v3d.triturus.vispovray;
 
 import org.n52.v3d.triturus.gisimplm.*;
@@ -5,19 +24,15 @@ import org.n52.v3d.triturus.t3dutil.T3dColor;
 import org.n52.v3d.triturus.core.IoObject;
 import org.n52.v3d.triturus.core.T3dException;
 import org.n52.v3d.triturus.core.T3dNotYetImplException;
+import org.n52.v3d.triturus.vispovray.gifwriter.GifEncodedRaster;
 
 import java.io.*;
 import java.awt.*;
 
-//*import ranab.img.gif.*;
-
 /**
- * Schreiben von Gitter-basiertern Höhenmodellen (Typ <tt>GmSimpleElevationGrid</tt>) in Dateien oder Ströme.<p>
- * Bem.: Die Klasse benötigt einen Patch der Bibliothek gif.jar von Rana Bhattacharyya (rana_b@yahoo.com), con terra-
- * Patch (Methode <tt>GifImage#getPalColor</tt>). Für die Verwendung dieser Bibliothek gilt die Apache Software 
- * License, Version 1.1.<p>
- * @author Benno Schmidt<br>
- * (c) 2004, con terra GmbH & Institute for Geoinformatics<br>
+ * POV-Ray-specific implementation to write a grid-based elevation models (type <tt>GmSimpleElevationGrid</tt>) to a GIF
+ * file.<br /><br />
+ * @author Benno Schmidt
  */
 public class IoElevationGridGIFWriter extends IoObject
 {
@@ -27,51 +42,53 @@ public class IoElevationGridGIFWriter extends IoObject
 
     private T3dColor mNoDataValue = new T3dColor(0,0,0);
     
-    /** 
-     * Konstruktor. Als Parameter ist der Dateiformattyp zu setzen. Wird dieser nicht unterstützt, wird später während
-     * des Schreibvorgangs eine Ausnahme geworfen.<p>
-     * Es werden z. Zt. die folgenden Formate unterstützt:<p>
+    /**
+     * constructor.<br /><br />
+     * <i>German:</i> Konstruktor. Als Parameter ist der Dateiformattyp zu setzen. Wird dieser nicht unterst&uuml;tzt,
+     * wird sp&auml;ter w&auml;hrend des Schreibvorgangs eine Ausnahme geworfen.<br />
+     * Es werden z. Zt. die folgenden Formate unterst&uuml;tzt:<br />
      * <ul>
-     * <li><i>GIFGreyScale:</i> GIF89a-Bild (Zellen-basiert mit zusätzlichen ESRI-Referenzierungsdateien als Graustufen)</li>
-     * <li><i>GIFPalOrder:</i> GIF89a-Bild (Zellen-basiert gemäß Indizes in Palette)</li>
-     * </ul><p>
-     * Bem.:<p>
-     * 1. Für height_field-Objekte in POV-Ray das Format <i>"GIFPalOrder"</i> zu verwenden.
-     * 2. Für die Verwendung in POV-Ray sollte die Gitterweite des zu schreibenden Höhenmodells in x- und y-Richtung 
-     * übereinstimmen. Anderenfalls wird während des Schreibvorgangs ein Ausnahmefehler geworfen.<p> 
-     * 3. Die Anzahl der Gitterzellen in x- und y-Richtung sollte übereinstimmen. Anderenfalls wird während des 
-     * Schreibvorgangs ein Ausnahmefehler geworfen.<p> 
-     * <i>TODO: Erweiterung auf nicht-quadratische Gitter</i><p>
-     * 4. Für nicht-belegte Gitterpunkte wird ein ausgewiesener NODATA-Wert geschrieben. Dieser lässt sich über die 
-     * Methode <tt>this.setNoDataValue()</tt> explizit setzen. Default-Wert ist die Farbe "Schwarz".<p>
+     * <li><i>GIFGreyScale:</i> GIF89a-Bild (Zellen-basiert mit zusï¿½tzlichen ESRI-Referenzierungsdateien als Graustufen)</li>
+     * <li><i>GIFPalOrder:</i> GIF89a-Bild (Zellen-basiert gem&auml;&szlig; Indizes in Palette)</li>
+     * </ul><br />
+     * Bem.:<br />
+     * 1. F&uuml;r height_field-Objekte in POV-Ray das Format <tt>&quot;GIFPalOrder&quot;</tt> zu verwenden.
+     * 2. F&uuml;r die Verwendung in POV-Ray sollte die Gitterweite des zu schreibenden H&ouml;henmodells in x- und
+     * y-Richtung &uuml;bereinstimmen. Anderenfalls wird w&auml;hrend des Schreibvorgangs ein Ausnahmefehler geworfen.
+     * <br />
+     * 3. Die Anzahl der Gitterzellen in x- und y-Richtung sollte &uuml;bereinstimmen. Anderenfalls wird w&auml;hrend
+     * des Schreibvorgangs ein Ausnahmefehler geworfen.<br />
+     * <i>TODO: Erweiterung auf nicht-quadratische Gitter</i><br />
+     * 4. F&uuml;r nicht-belegte Gitterpunkte wird ein ausgewiesener NODATA-Wert geschrieben. Dieser l&auml;sst sich
+     * &uuml;ber die Methode <tt>this.setNoDataValue()</tt> explizit setzen. Default-Wert ist die Farbe
+     * &quot;Schwarz&quot;.<br />
      * 5. Um das <tt>GmSimpleElevationGrid</tt> in anderen Formaten abzuspeichern, kann bei Bedarf die Klasse 
      * <tt>IoElevationGridWriter</tt> aus dem Paket org.n52.v3d.triturus.gisimplm genutzt werden.
-     * <p>
-     * @param pFormat Format-String, z. B. "GIFGreyScale"
+     * @param pFormat Format-string, e.g. <tt>&quot;GIFGreyScale&quot;<tt>
      */
     public IoElevationGridGIFWriter(String pFormat) {
         mLogString = this.getClass().getName();
         this.setFormatType(pFormat);
     }
 
-    /** protokolliert die durchgeführte Transformation. */
     public String log() {
         return mLogString;
     }
 
     /** 
-     * setzt den Formattyp.<p>
-     * @param pFormat Format-String, z. B. "GIFGreyScale"
+     * sets the format type.
+     * @param pFormat Format-String, z. B. <tt></tt>&quot;GIFGreyScale&quot;</tt>
      */
     public void setFormatType(String pFormat) {
         mFormat = pFormat;
     }
 
     /**
-     * schreibt ein Elevation-Grid in eine Datei. Wird der spezifizierte Formattyp nicht unterstützt, wirft die Methode
-     * eine <tt>T3dNotYetImplException</tt>.<p>
-     * @param pGrid zu schreibendes Elevation-Grid
-     * @param pFilename Pfad, unter dem die Datei abgelegt wird
+     * writes an elevation-grid to a file.<br /><br />
+     * <i>German:</i> schreibt ein Elevation-Grid in eine Datei. Wird der spezifizierte Formattyp nicht
+     * unterst&uuml;tzt, wirft die Methode eine <tt>T3dNotYetImplException</tt>.
+     * @param pGrid Elevation-grid to be written
+     * @param pFilename Target file path
      * @throws org.n52.v3d.triturus.core.T3dException
      */
     public void writeToFile(GmSimpleElevationGrid pGrid, String pFilename) throws T3dException, T3dNotYetImplException
@@ -79,13 +96,13 @@ public class IoElevationGridGIFWriter extends IoObject
         int i = 0;
         if (mFormat.equalsIgnoreCase("GIFGreyScale")) i = 1;
         if (mFormat.equalsIgnoreCase("GIFPalOrder")) i = 2;
-        // --> hier ggf. weitere Typen ergänzen...
+        // --> hier ggf. weitere Typen ergï¿½nzen...
 
         try {
             switch (i) {
                 case 1: this.writeGIFAndRefFiles(pGrid, pFilename, false); break;
                 case 2: this.writeGIFAndRefFiles(pGrid, pFilename, true); break;
-                // --> hier ggf. weitere Typen ergänzen...
+                // --> hier ggf. weitere Typen ergï¿½nzen...
 
                 default: throw new T3dException("Unsupported file format.");
             }
@@ -107,18 +124,18 @@ public class IoElevationGridGIFWriter extends IoObject
     	    throw new T3dException( "Grid requires equal cell-sizes in x- and y-direction." );
 //    	if (lGeom.getNumberOfRows() != lGeom.getNumberOfColumns())
 //            throw new T3dNotYetImplException( "Grid must be quadratic." );
-// TODO: erst mal auskommentiert -< kann im Weiteren zu Fehlern führen!
+// TODO: erst mal auskommentiert -< kann im Weiteren zu Fehlern fï¿½hren!
 
-		// TODO: Extension in Dateinamen prüfen, muss .gif sein!
+		// TODO: Extension in Dateinamen prï¿½fen, muss .gif sein!
 
-//*        GifImage img = new GifImage(lGeom.numberOfColumns(), lGeom.numberOfRows());
-        Graphics2D graphics = null; //*img.getGraphics();
+        GifEncodedRaster img = new GifEncodedRaster(lGeom.numberOfColumns(), lGeom.numberOfRows());
+        Graphics2D graphics = img.getGraphics();
 
         Color pal[] = new Color[256];
         if (pPalOrder) {
         	// Index-Farbpalette holen
             for (int i = 0; i < 256; i++) 
-;//*                pal[i] = img.getPalColor(i); // Methode muss in gif.jar ergänzt sein -> Patch verwenden!
+                pal[i] = img.getPalColor(i); // Methode muss in gif.jar ergï¿½nzt sein
         }
 
         double zMin = pGrid.minimalElevation();
@@ -128,7 +145,7 @@ public class IoElevationGridGIFWriter extends IoObject
         try {        	
             T3dColor col = new T3dColor();
         	
-            // Pixel den Höhenwerten entsprechend setzen:
+            // Pixel den Hï¿½henwerten entsprechend setzen:
             for (int i = 0; i < lGeom.numberOfRows(); i++) {
                 for (int j = 0; j < lGeom.numberOfColumns(); j++)
                 {
@@ -171,7 +188,7 @@ public class IoElevationGridGIFWriter extends IoObject
         // Bild schreiben (.gif):
         try {
             FileOutputStream fos = new FileOutputStream(pFilename);
-//*            img.encode(fos);
+            img.encode(fos);
             fos.close();
         }
         catch (FileNotFoundException e) {
@@ -220,11 +237,11 @@ public class IoElevationGridGIFWriter extends IoObject
             FileWriter lFileWrite = new FileWriter(pFilename + "z");
             BufferedWriter lDat = new BufferedWriter(lFileWrite);
 
-            lDat.write("zMin: " + pGrid.minimalElevation()); // minimaler Höhenwert
+            lDat.write("zMin: " + pGrid.minimalElevation()); // minimaler Hï¿½henwert
             lDat.newLine();
-            lDat.write("zMax: " + pGrid.maximalElevation()); // minimaler Höhenwert
+            lDat.write("zMax: " + pGrid.maximalElevation()); // minimaler Hï¿½henwert
             lDat.newLine();
-            lDat.write("zResolution: +/-" + 0.5 * dz/256.); // Genauigkeit der Höhenwerte
+            lDat.write("zResolution: +/-" + 0.5 * dz/256.); // Genauigkeit der Hï¿½henwerte
             lDat.newLine();
             lDat.write("isCompletelySet: " + pGrid.isSet()); // alle Gitterpunkte belegt?
             lDat.newLine();
