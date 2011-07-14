@@ -31,9 +31,9 @@ import javax.swing.ImageIcon;
 
 /**
  * @deprecated -> org.n52.v3d.triturus.t3dutil.operatingsystem
- * @author Torsten Heinen<p>
+ * @author Torsten Heinen
  *
- * Hier werden einige benötigte Image IO Methoden bereitgestellt.
+ * Hier werden einige benï¿½tigte Image IO Methoden bereitgestellt.
  */
 public class ImageTools {
 	
@@ -115,7 +115,7 @@ public class ImageTools {
     }
 	
 	/**
-	 * Diese Methode produziert ein BufferedImage aus den übergebenen Werten.<p>
+	 * Diese Methode produziert ein BufferedImage aus den ï¿½bergebenen Werten.<p>
 	 * Bem.: Die Generierung klappt meistens, aber nicht immer -> noch ein wenig buggy. 
 	 * 
 	 * @return BufferedImage

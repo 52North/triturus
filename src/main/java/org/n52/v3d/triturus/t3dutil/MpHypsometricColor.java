@@ -15,14 +15,13 @@ import org.n52.v3d.triturus.core.T3dException;
  * @see org.n52.v3d.triturus.t3dutil.MpSimpleHypsometricColor
  * @see org.n52.v3d.triturus.t3dutil.MpGMTHypsometricColor
  * @author Benno Schmidt
- * (c) 2004, con terra GmbH & Institute for Geoinformatics<br>
  */
 abstract public class MpHypsometricColor extends MpQuantitativeValue2Color
 {
     /**
-     * liefert die einem Höhenwert zugeordnete Farbe.<p>
-     * @param pElevation Höhenwert
-     * @return der Höhe zugewiesener Farbwert
+     * liefert die einem Hï¿½henwert zugeordnete Farbe.<p>
+     * @param pElevation Hï¿½henwert
+     * @return der Hï¿½he zugewiesener Farbwert
      */
     abstract public T3dColor transform(double pElevation);
 }

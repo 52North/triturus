@@ -6,24 +6,23 @@ import java.util.ArrayList;
 
 /**
  * Klasse zur Ermittlung hypsometrischer Farbwerte. Die einfach gehaltene Implementierung verwendet
- * voreinstellungsgemäß den klassischen Farbkeil für die Bundesrepublik Deutschland, durch den tiefe Lagen
- * dunkelgrün, mittlere Lagen gelb und hohe Lagen braun dargestellt werden. Die Stützwerte der Farbpalette können
- * über die Methode <tt>MpSimpleHypsometricColor#setPalette</tt> abgeändert werden, wobei die Farben zwischen den
- * Stützpunkten entweder im HSV-Farbraum linear interpoliert werden oder ein eintheitlicher Farbwert je definierter
- * Höhenklasse verwendet wird.<p>
+ * voreinstellungsgemï¿½ï¿½ den klassischen Farbkeil fï¿½r die Bundesrepublik Deutschland, durch den tiefe Lagen
+ * dunkelgrï¿½n, mittlere Lagen gelb und hohe Lagen braun dargestellt werden. Die Stï¿½tzwerte der Farbpalette kï¿½nnen
+ * ï¿½ber die Methode <tt>MpSimpleHypsometricColor#setPalette</tt> abgeï¿½ndert werden, wobei die Farben zwischen den
+ * Stï¿½tzpunkten entweder im HSV-Farbraum linear interpoliert werden oder ein eintheitlicher Farbwert je definierter
+ * Hï¿½henklasse verwendet wird.<p>
  * Beispiel zur Verwendung:
  * <pre>
  * double elevs[] = {70., 120., 500., 900.};
  * T3dColor cols[] = {
- *     new T3dColor(0.0f, 0.8f, 0.0f), // Grün
+ *     new T3dColor(0.0f, 0.8f, 0.0f), // Grï¿½n
  *     new T3dColor(1.0f, 1.0f, 0.5f), // Blassgelb
  *     new T3dColor(0.78f, 0.27f, 0.0f), // Braun
- *     new T3dColor(0.82f, 0.2f, 0.0f)}; // Rötlichbraun
+ *     new T3dColor(0.82f, 0.2f, 0.0f)}; // Rï¿½tlichbraun
  * colMapper.setPalette(elev, cols, true);
  * </pre>
  * @see org.n52.v3d.triturus.t3dutil.MpGMTHypsometricColor
  * @author Benno Schmidt
- * (c) 2004, con terra GmbH & Institute for Geoinformatics<br>
  */
 public class MpSimpleHypsometricColor extends MpHypsometricColor
 {
@@ -37,9 +36,9 @@ public class MpSimpleHypsometricColor extends MpHypsometricColor
     }
 
     /**
-     * liefert die einem Höhenwert zugeordnete Farbe.<p>
-     * @param pElevation Höhenwert
-     * @return der Höhe zugewiesener Farbwert
+     * liefert die einem Hï¿½henwert zugeordnete Farbe.<p>
+     * @param pElevation Hï¿½henwert
+     * @return der Hï¿½he zugewiesener Farbwert
      */
     public T3dColor transform(double pElevation) throws T3dException
     {
@@ -51,7 +50,7 @@ public class MpSimpleHypsometricColor extends MpHypsometricColor
                 if (!this.getInterpolMode())
                     return (T3dColor) lColors.get(i - 1);
                 else {
-                    // Farbe interpolieren und zurückgeben:
+                    // Farbe interpolieren und zurï¿½ckgeben:
                     double lo = ((Double) lHeights.get(i - 1)).doubleValue();
                     float factor = (float)((pElevation - lo) / (hi - lo));
                     return this.interpolateHSV((T3dColor) lColors.get(i - 1), (T3dColor) lColors.get(i), factor);
@@ -62,13 +61,13 @@ public class MpSimpleHypsometricColor extends MpHypsometricColor
     }
 
     /**
-     * setzt eine Palette für die hypsometrischen Einfärbung. Die Höhe <i>pElevations[i]</i> wird dabei auf die
-     * Farbe <i>pColors[i]</i> abgebildet. Abhängig vom angegebenen Modus wird zwischen den Farben im HSV-Farbraum
+     * setzt eine Palette fï¿½r die hypsometrischen Einfï¿½rbung. Die Hï¿½he <i>pElevations[i]</i> wird dabei auf die
+     * Farbe <i>pColors[i]</i> abgebildet. Abhï¿½ngig vom angegebenen Modus wird zwischen den Farben im HSV-Farbraum
      * linear interpoliert oder der gesamten Klasse <i>pElevations[i] &lt; h &lt;= pElevations[i + 1]</tt> einheitlich
      * der Farbwert <i>pColors[i]><tt> zugeordnet.<p>
-     * @param pElevations Feld mit Höhenwerten
-     * @param pColors Feld mit zugehörigen Farbwerten
-     * @param pInterpolMode <i>true</i> für Interpolation im HSV-Farbraum, <i>false</i> für einheitliche Klassen.
+     * @param pElevations Feld mit Hï¿½henwerten
+     * @param pColors Feld mit zugehï¿½rigen Farbwerten
+     * @param pInterpolMode <i>true</i> fï¿½r Interpolation im HSV-Farbraum, <i>false</i> fï¿½r einheitliche Klassen.
      */
     public void setPalette(double[] pElevations, T3dColor[] pColors, boolean pInterpolMode)
     {
@@ -99,11 +98,11 @@ public class MpSimpleHypsometricColor extends MpHypsometricColor
     {
         double elevs[] = {-20., 0., 400., 1500., 3000.};
         T3dColor cols[] = {
-            new T3dColor(0.0f, 0.4f, 0.0f), // Dunkelgrün
-            new T3dColor(0.0f, 0.8f, 0.0f), // Grün
+            new T3dColor(0.0f, 0.4f, 0.0f), // Dunkelgrï¿½n
+            new T3dColor(0.0f, 0.8f, 0.0f), // Grï¿½n
             new T3dColor(1.0f, 1.0f, 0.5f), // Blassgelb
             new T3dColor(0.78f, 0.27f, 0.0f), // Braun
-            new T3dColor(0.82f, 0.2f, 0.0f)}; // Rötlichbraun
+            new T3dColor(0.82f, 0.2f, 0.0f)}; // Rï¿½tlichbraun
 
         this.setPalette(elevs, cols, true);
     }

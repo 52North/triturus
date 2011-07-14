@@ -3,11 +3,10 @@ package org.n52.v3d.triturus.t3dutil;
 import org.n52.v3d.triturus.vgis.VgPoint;
 
 /**
- * Klasse zur Verwaltung von Instanzen kartografischer 3D-Symbole. Für die Instanziierung wird eine Symbol-Definition
- * benötigt.<p>
+ * Klasse zur Verwaltung von Instanzen kartografischer 3D-Symbole. Fï¿½r die Instanziierung wird eine Symbol-Definition
+ * benï¿½tigt.<p>
  * @see T3dSymbolDef
- * @author Benno Schmidt<br>
- * (c) 2004, con terra GmbH & Institute for Geoinformatics<br>
+ * @author Benno Schmidt
  */
 public class T3dSymbolInstance
 {
@@ -21,7 +20,7 @@ public class T3dSymbolInstance
 	/**
 	 * Konstruktor.<p>
 	 * @param pSymbol Symbol-Definition
-	 * @param pPos georefenzierter Einfügepunkt
+	 * @param pPos georefenzierter Einfï¿½gepunkt
 	 * @see T3dSymbolInstance#setSymbol
 	 * @see T3dSymbolInstance#setPosition
 	 */
@@ -47,45 +46,45 @@ public class T3dSymbolInstance
 	} 		
 
 	/** 
-	 * setzt die Position, an der das Symbol in die Szene eingefügt werden soll.<p>
-	 * @param pPos georefenzierter Einfügepunkt
+	 * setzt die Position, an der das Symbol in die Szene eingefï¿½gt werden soll.<p>
+	 * @param pPos georefenzierter Einfï¿½gepunkt
 	 */
 	public void setPosition(VgPoint pPos) {
 		mPos = pPos;
 	} 		
 	
 	/** 
-	 * liefert die Position, an der Symbol eingefügt werden soll.<p>
-	 * @return georefenzierter Einfügepunkt
+	 * liefert die Position, an der Symbol eingefï¿½gt werden soll.<p>
+	 * @return georefenzierter Einfï¿½gepunkt
 	 */
 	public VgPoint getPosition() {
 		return mPos;
 	} 		
 
 	/** 
-	 * setzt die Symbolgröße. Voreinstellungsgemäß ist der Wert 1 gesetzt.<p>
-	 * @param pScale Symbolgröße
+	 * setzt die Symbolgrï¿½ï¿½e. Voreinstellungsgemï¿½ï¿½ ist der Wert 1 gesetzt.<p>
+	 * @param pScale Symbolgrï¿½ï¿½e
 	 */
 	public void setScale(double pScale) {
 		mScale = pScale;
 	} 		
 	
 	/** 
-	 * liefert die Symbolgröße.<p>
-	 * @return Symbolgröße
+	 * liefert die Symbolgrï¿½ï¿½e.<p>
+	 * @return Symbolgrï¿½ï¿½e
 	 */
 	public double getScale() {
 		return mScale;
 	} 		
 
 	/** 
-	 * setzt den Drehwinkel in der xy-Ebene, unter dem das Symbol eingefügt werden soll. Voreinstellungsgemäß ist 
+	 * setzt den Drehwinkel in der xy-Ebene, unter dem das Symbol eingefï¿½gt werden soll. Voreinstellungsgemï¿½ï¿½ ist 
 	 * der Wert 0 gesetzt.<p>
-	 * Der Winkel ist entgegen dem Uhrzeigersinn im Bogenmaß anzugeben ("mathematische Angabe"). Ein Winkel von 0 
-	 * entspricht dabei der x-Richtung des zugrunde liegenden räumlichen Bezugssystems (also der östlichen Richtung 
-	 * bei Verwendung des Gauß-Krüger-Systems). Die positive y-Richtung entspricht einem Winkel von PI/2 (nördliche
-	 * Richtung in Gauß-Krüger-System).<p>
-	 * @param pAngleXY Drehwinkel im Bogenmaß
+	 * Der Winkel ist entgegen dem Uhrzeigersinn im Bogenmaï¿½ anzugeben ("mathematische Angabe"). Ein Winkel von 0 
+	 * entspricht dabei der x-Richtung des zugrunde liegenden rï¿½umlichen Bezugssystems (also der ï¿½stlichen Richtung 
+	 * bei Verwendung des Gauï¿½-Krï¿½ger-Systems). Die positive y-Richtung entspricht einem Winkel von PI/2 (nï¿½rdliche
+	 * Richtung in Gauï¿½-Krï¿½ger-System).<p>
+	 * @param pAngleXY Drehwinkel im Bogenmaï¿½
 	 * @see org.n52.v3d.triturus.vgis.VgGeomObject
 	 */
 	public void setAngleXY(double pAngleXY) {
@@ -94,32 +93,32 @@ public class T3dSymbolInstance
 	
 	/** 
 	 * liefert den gesetzten Drehwinkel in der xy-Ebene.<p>
-	 * @return Drehwinkel im Bogenmaß
+	 * @return Drehwinkel im Bogenmaï¿½
 	 */
 	public double getAngleXY() {
 		return mAngleXY;
 	} 		
 
 	/** 
-	 * setzt den Drehwinkel gegenüber der z-Achse, unter dem das Symbol eingefügt werden soll. Voreinstellungsgemäß 
+	 * setzt den Drehwinkel gegenï¿½ber der z-Achse, unter dem das Symbol eingefï¿½gt werden soll. Voreinstellungsgemï¿½ï¿½ 
 	 * ist der Wert 0 gesetzt.<p>
-	 * @param pAngleZ Drehwinkel im Bogenmaß
+	 * @param pAngleZ Drehwinkel im Bogenmaï¿½
 	 */
 	public void setAngleZ(double pAngleZ) {
 		mAngleZ = pAngleZ;
 	} 		
 	
 	/** 
-	 * liefert den gesetzten Drehwinkel gegenüber der z-Achse.<p>
-	 * @return Drehwinkel im Bogenmaß
+	 * liefert den gesetzten Drehwinkel gegenï¿½ber der z-Achse.<p>
+	 * @return Drehwinkel im Bogenmaï¿½
 	 */
 	public double getAngleZ() {
 		return mAngleZ;
 	} 		
 
 	/** 
-	 * setzt die Symbolfarbe. Voreinstellungsgemäß ist keine Farbangabe gesetzt.<p>
-	 * Bem.: Diese Angabe wird nur für spezielle Symbol-Definitionen berücksichtigt.<p>
+	 * setzt die Symbolfarbe. Voreinstellungsgemï¿½ï¿½ ist keine Farbangabe gesetzt.<p>
+	 * Bem.: Diese Angabe wird nur fï¿½r spezielle Symbol-Definitionen berï¿½cksichtigt.<p>
 	 * @param pColor Farbangabe
 	 */
 	public void setColor(T3dColor pColor) {

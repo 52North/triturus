@@ -1,13 +1,30 @@
+/***************************************************************************************
+ * Copyright (C) 2011 by 52 North Initiative for Geospatial Open Source Software GmbH  *
+ *                                                                                     *
+ * Contact: Benno Schmidt & Martin May, 52 North Initiative for Geospatial Open Source *
+ * Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, Germany, info@52north.org *
+ *                                                                                     *
+ * This program is free software; you can redistribute and/or modify it under the      *
+ * terms of the GNU General Public License version 2 as published by the Free Software *
+ * Foundation.                                                                         *
+ *                                                                                     *
+ * This program is distributed WITHOUT ANY WARRANTY; even without the implied WARRANTY *
+ * OF MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public  *
+ * License for more details.                                                           *
+ *                                                                                     *
+ * You should have received a copy of the GNU General Public License along with this   *
+ * program (see gnu-gpl v2.txt). If not, write to the Free Software Foundation, Inc.,  *
+ * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA, or visit the Free Software *
+ * Foundation web page, http://www.fsf.org.                                            *
+ **************************************************************************************/
 package org.n52.v3d.triturus.t3dutil;
 
 import org.n52.v3d.triturus.core.T3dException;
 import org.n52.v3d.triturus.core.T3dNotYetImplException;
 
 /**
- * Klasse zur Verwaltung einer Farbinformation.
- * <p>
- * @author Benno Schmidt, Torsten Heinen<br>
- * (c) 2003-2004, con terra GmbH & Institute for Geoinformatics<br>
+ * Class to manage color-information.
+ * @author Benno Schmidt, Torsten Heinen
  */
 public class T3dColor
 {
@@ -15,21 +32,21 @@ public class T3dColor
     private int mColMod = 1; // 1 = RGB, 2 = HSV
     
     /**
-     * Konstruktor für eine Farbangabe im RGB-Modell.<p>
-     * @param pRed Rot-Anteil als Wert zwischen 0 und 1
-     * @param pGreen Grün-Anteil als Wert zwischen 0 und 1
-     * @param pBlue Blau-Anteil als Wert zwischen 0 und 1
+     * Constructor for a color specification referring to the RGB-model.
+     * @param pRed Red-portion as value between 0 and 1
+     * @param pGreen Green-portion as value between 0 and 1
+     * @param pBlue Blue-portion as value between 0 and 1
      */
     public T3dColor(float pRed, float pGreen, float pBlue) {
     	this(pRed, pGreen, pBlue, 1.f);
     }
 
     /** 
-     * Konstruktor für eine Farbangabe im RGB-Modell mit Alpha-Wert.<p>
-     * @param pRed Rot-Anteil als Wert zwischen 0 und 1
-     * @param pGreen Grün-Anteil als Wert zwischen 0 und 1
-     * @param pBlue Blau-Anteil als Wert zwischen 0 und 1
-     * @param pAlpha Alpha-Wert zwischen 0 und 1
+     * Constructor for a color specification referring to the RGB-model with an additional alpha-value.
+     * @param pRed Red-portion as value between 0 and 1
+     * @param pGreen Green-portion as value between 0 and 1
+     * @param pBlue Blue-portion as value between 0 and 1
+     * @param pAlpha Alpha-value as value between 0 and 1
      */
     public T3dColor(float pRed, float pGreen, float pBlue, float pAlpha) {
     	mRed = pRed;
@@ -39,20 +56,21 @@ public class T3dColor
     }
 
     /** 
-     * Konstruktor. Der aktuelle Wert wird zunächst auf &quot;Weiß&quot; gesetzt.<p>
+     * Constructor. The current color will be set to &quot;white&quot;.
      */
     public T3dColor() {
     	this(1.f, 1.f, 1.f, 1.f);
     }
 
     /**
-     * Konstruktor für eine Farbe im angegebenen Farbmodell. Die Angaben müssen jeweils auf den Wertebereich 0...1
+     * todo engl. javaDoc
+     * Konstruktor fï¿½r eine Farbe im angegebenen Farbmodell. Die Angaben mï¿½ssen jeweils auf den Wertebereich 0...1
      * bezogen sein.<p>
      * <b>Methode ist noch nicht getestet!</b><p>
      * @param pColorSystem "RGB" oder "HSV"
-     * @param pVal1 Rot-Wert für Farbmodell "RGB", Hue-Wert (Farbton) für "HSV"
-     * @param pVal2 Grün-Wert für Farbmodell "RGB", Sättigungs-Wert für "HSV"
-     * @param pVal3 Blau-Wert für Farbmodell "RGB", V-Wert für "HSV"
+     * @param pVal1 Rot-Wert fï¿½r Farbmodell "RGB", Hue-Wert (Farbton) fï¿½r "HSV"
+     * @param pVal2 Grï¿½n-Wert fï¿½r Farbmodell "RGB", Sï¿½ttigungs-Wert fï¿½r "HSV"
+     * @param pVal3 Blau-Wert fï¿½r Farbmodell "RGB", V-Wert fï¿½r "HSV"
      */
     public T3dColor(String pColorSystem, float pVal1, float pVal2, float pVal3) 
     {
@@ -60,13 +78,14 @@ public class T3dColor
     }
 
     /**
-     * Konstruktor für eine Farbe im angegebenen Farbmodell. Mit Ausnahme des Hue-Wertes müssen die Angaben jeweils auf
-     * den Wertebereich 0...1 bezogen sein. Der Hue-Wert ist im Bogenmaß anzugeben (0...2*pi).<p>
+     * todo engl. javaDoc
+     * Konstruktor fï¿½r eine Farbe im angegebenen Farbmodell. Mit Ausnahme des Hue-Wertes mï¿½ssen die Angaben jeweils auf
+     * den Wertebereich 0...1 bezogen sein. Der Hue-Wert ist im Bogenmaï¿½ anzugeben (0...2*pi).<p>
      * <b>Methode ist noch nicht getestet!</b><p>
      * @param pColorSystem "RGB" oder "HSV"
-     * @param pVal1 Rot-Wert für Farbmodell "RGB", Hue-Wert (Farbton) für "HSV"
-     * @param pVal2 Grün-Wert für Farbmodell "RGB", Sättigungs-Wert für "HSV"
-     * @param pVal3 Blau-Wert für Farbmodell "RGB", V-Wert für "HSV"
+     * @param pVal1 Rot-Wert fï¿½r Farbmodell "RGB", Hue-Wert (Farbton) fï¿½r "HSV"
+     * @param pVal2 Grï¿½n-Wert fï¿½r Farbmodell "RGB", Sï¿½ttigungs-Wert fï¿½r "HSV"
+     * @param pVal3 Blau-Wert fï¿½r Farbmodell "RGB", V-Wert fï¿½r "HSV"
      * @param pAlpha Alpha-Wert
      */
     public T3dColor(String pColorSystem, float pVal1, float pVal2, float pVal3, float pAlpha) 
@@ -107,6 +126,7 @@ public class T3dColor
     }
 
     /**      
+     * todo engl. javaDoc
      * setzt Rot-Anteil der Farbe bezogen auf RGB-Farbmodell.<p>
      * @param pVal Rot-Wert zwischen 0 und 1
      */
@@ -115,14 +135,16 @@ public class T3dColor
     }
 
     /**      
-     * setzt Grün-Anteil der Farbe bezogen auf RGB-Farbmodell.<p>
-     * @param pVal Grün-Wert zwischen 0 und 1
+     * todo engl. javaDoc
+     * setzt Grï¿½n-Anteil der Farbe bezogen auf RGB-Farbmodell.<p>
+     * @param pVal Grï¿½n-Wert zwischen 0 und 1
      */
     public void setGreen(float pVal) {
         mGreen = pVal;
     }
 
     /**      
+     * todo engl. javaDoc
      * setzt Blau-Anteil der Farbe bezogen auf RGB-Farbmodell.<p>
      * @param pVal Blau-Wert zwischen 0 und 1
      */
@@ -131,6 +153,7 @@ public class T3dColor
     }
    
     /**      
+     * todo engl. javaDoc
      * liefert Rot-Anteil der Farbe bezogen auf RGB-Farbmodell.<p>
      * @return Rot-Wert zwischen 0 und 1
      */
@@ -139,14 +162,16 @@ public class T3dColor
     }
 
     /**      
-     * liefert Grün-Anteil der Farbe bezogen auf RGB-Farbmodell.<p>
-     * @return Grün-Wert zwischen 0 und 1
+     * todo engl. javaDoc
+     * liefert Grï¿½n-Anteil der Farbe bezogen auf RGB-Farbmodell.<p>
+     * @return Grï¿½n-Wert zwischen 0 und 1
      */
     public float getGreen() {
         return mGreen;
     }
 
     /**      
+     * todo engl. javaDoc
      * liefert Blau-Anteil der Farbe bezogen auf RGB-Farbmodell.<p>
      * @return Blau-Wert zwischen 0 und 1
      */
@@ -155,23 +180,26 @@ public class T3dColor
     }
 
     /** 
-     * setzt Opazität/Transparenz.<p> 
-     * @param pVal 1.0 für Transparenz = 0% (voll-opak), 0.0 für Transparenz = 100%
+     * todo engl. javaDoc
+     * setzt Opazitï¿½t/Transparenz.<p>
+     * @param pVal 1.0 fï¿½r Transparenz = 0% (voll-opak), 0.0 fï¿½r Transparenz = 100%
      */
     public void setAlpha(float pVal) {
         mAlpha = pVal;
     }
  
     /** 
-     * liefert Opazität/Transparenz.<p>
-     * @return 1.0 für Transparenz = 0% (voll-opak), 0.0 für Transparenz = 100%
+     * todo engl. javaDoc
+     * liefert Opazitï¿½t/Transparenz.<p>
+     * @return 1.0 fï¿½r Transparenz = 0% (voll-opak), 0.0 fï¿½r Transparenz = 100%
      */
     public float getAlpha() {
         return mAlpha;
     }
 
     /**      
-     * setzt Rot-, Grün- und Blau-Anteil der Farbe bezogen auf RGB-Farbmodell.<p>
+     * todo engl. javaDoc
+     * setzt Rot-, Grï¿½n- und Blau-Anteil der Farbe bezogen auf RGB-Farbmodell.<p>
      * @param pRed Rot-Wert zwischen 0 und 1
      * @param pGreen Rot-Wert zwischen 0 und 1
      * @param pBlue Rot-Wert zwischen 0 und 1
@@ -183,11 +211,12 @@ public class T3dColor
     }
 
     /**      
-     * setzt Rot-, Grün- und Blau-Anteil der Farbe bezogen auf RGB-Farbmodell und zusätzlich einen Alpha-Wert.<p>
+     * todo engl. javaDoc
+     * setzt Rot-, Grï¿½n- und Blau-Anteil der Farbe bezogen auf RGB-Farbmodell und zusï¿½tzlich einen Alpha-Wert.<p>
      * @param pRed Rot-Wert zwischen 0 und 1
      * @param pGreen Rot-Wert zwischen 0 und 1
      * @param pBlue Rot-Wert zwischen 0 und 1
-     * @param pAlpha 1.0 für Transparenz = 0 % (voll-opak), 0.0 für Transparenz = 100 %
+     * @param pAlpha 1.0 fï¿½r Transparenz = 0 % (voll-opak), 0.0 fï¿½r Transparenz = 100 %
      */
     public void setRGBA(float pRed, float pGreen, float pBlue, float pAlpha) {
     	this.setRGB(pRed, pGreen, pBlue);
@@ -195,16 +224,17 @@ public class T3dColor
     }
 
     /**      
+     * todo engl. javaDoc
      * liefert Hue-Wert (Farbton) bezogen auf HSV-Farbmodell.<p>
-     * Bem.: Für Grautöne (einschl. Schwarz und Weiß) ist der Sättigungswert 0 und der Hue-Wert undefiniert.<p>
-     * @return Hue-Wert im Bogenmaß (0...2*pi)
+     * Bem.: Fï¿½r Grautï¿½ne (einschl. Schwarz und Weiï¿½) ist der Sï¿½ttigungswert 0 und der Hue-Wert undefiniert.<p>
+     * @return Hue-Wert im Bogenmaï¿½ (0...2*pi)
      */
     public float getHue() 
     {
         float min = this.min(mRed, mGreen, mBlue);
         float max = this.max(mRed, mGreen, mBlue);
         float delta = max - min;
-        if (delta <= 0.) // delta = 0 => Sättigung 0, H undefiniert
+        if (delta <= 0.) // delta = 0 => Sï¿½ttigung 0, H undefiniert
             return 0.f;
         float H;
         if (mRed == max)
@@ -214,16 +244,17 @@ public class T3dColor
         else
             H = 4.f + (mRed - mGreen) / delta; // zwischen Magenta und Cyan
         float sixth = (float) (Math.PI / 3.);
-        H *= sixth; // Bogenmaß
+        H *= sixth; // Bogenmaï¿½
         if (H < 0.f)
             H += 6. * sixth;
         return H;
     }
 
     /**      
-     * liefert Sättigungswert bezogen auf HSV-Farbmodell.<p>
+     * todo engl. javaDoc
+     * liefert Sï¿½ttigungswert bezogen auf HSV-Farbmodell.<p>
      * <b>Methode ist noch nicht getestet!</b><p>
-     * @return Sättigungswert zwischen 0 und 1
+     * @return Sï¿½ttigungswert zwischen 0 und 1
      */
     public float getSaturation() 
     {
@@ -232,11 +263,12 @@ public class T3dColor
         float delta = max - min;
         if (max != 0.f)
             return (delta / max);
-        // else: r = g = b = 0 => Sättigung = 0
+        // else: r = g = b = 0 => Sï¿½ttigung = 0
         return 0.f;
     }
 
     /**      
+     * todo engl. javaDoc
      * liefert V-Wert bezogen auf HSV-Farbmodell.<p>
      * <b>Methode ist noch nicht getestet!</b><p>
      * @return V-Wert zwischen 0 und 1
@@ -247,9 +279,10 @@ public class T3dColor
     }
 
     /**
+     * todo engl. javaDoc
      * setzt die Farbe durch Angabe eines hexadezimal codiertes Wertes im Format <tt>0xRRGGBB</tt>. <tt>RR</tt>,
      * <tt>GG</tt> und <tt>BB</tt> liegen dabei jeweils im Bereich <tt>00 ... FF</tt>.<p>
-     * Bem.: Dieses Format wird u. a. im OGC/ISO-Umfeld häufig verwendet (z. B. WMS- und WTS-Spezifikation).<p>
+     * Bem.: Dieses Format wird u. a. im OGC/ISO-Umfeld hï¿½ufig verwendet (z. B. WMS- und WTS-Spezifikation).<p>
      * @param pHexVal hexadezimal codierte Farbangabe
      */
     public void setHexEncodedValue(String pHexVal) {
@@ -272,8 +305,9 @@ public class T3dColor
     }
 
     /**
+     * todo engl. javaDoc
      * liefert den Farbwert in hexadezimaler Codierung.<p>
-     * Bem.: Der Alpha-Wert wird hierbei nicht berücksichtigt.<p>
+     * Bem.: Der Alpha-Wert wird hierbei nicht berï¿½cksichtigt.<p>
      * @return hexadezimal codierte Farbangabe
      */
     public String getHexEncodedValue() {
@@ -281,6 +315,7 @@ public class T3dColor
     }
 
     /**
+     * todo engl. javaDoc
      * liefert Rot-Anteil der Farbe bezogen auf RGB-Farbmodell als ganzzahligen Wert im Bereich 0..255.<p>
      * @return gerundeter Rot-Wert zwischen 0 und 255
      */
@@ -294,8 +329,9 @@ public class T3dColor
     }
 
     /**      
-     * liefert Grün-Anteil der Farbe bezogen auf RGB-Farbmodell als ganzzahligen Wert im Bereich 0..255.<p>
-     * @return gerundeter Grün-Wert zwischen 0 und 255
+     * todo engl. javaDoc
+     * liefert Grï¿½n-Anteil der Farbe bezogen auf RGB-Farbmodell als ganzzahligen Wert im Bereich 0..255.<p>
+     * @return gerundeter Grï¿½n-Wert zwischen 0 und 255
      */
     public int getGreen256() 
     {
@@ -307,6 +343,7 @@ public class T3dColor
     }
 
     /**      
+     * todo engl. javaDoc
      * liefert Blau-Anteil der Farbe bezogen auf RGB-Farbmodell als ganzzahligen Wert im Bereich 0..255.<p>
      * @return gerundeter Blau-Wert zwischen 0 und 255
      */
