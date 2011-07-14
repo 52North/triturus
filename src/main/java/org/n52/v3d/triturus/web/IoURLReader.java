@@ -1,5 +1,24 @@
 package org.n52.v3d.triturus.web;
 
+/***************************************************************************************
+ * Copyright (C) 2011 by 52 North Initiative for Geospatial Open Source Software GmbH  *
+ *                                                                                     *
+ * Contact: Benno Schmidt & Martin May, 52 North Initiative for Geospatial Open Source *
+ * Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, Germany, info@52north.org *
+ *                                                                                     *
+ * This program is free software; you can redistribute and/or modify it under the      *
+ * terms of the GNU General Public License version 2 as published by the Free Software *
+ * Foundation.                                                                         *
+ *                                                                                     *
+ * This program is distributed WITHOUT ANY WARRANTY; even without the implied WARRANTY *
+ * OF MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public  *
+ * License for more details.                                                           *
+ *                                                                                     *
+ * You should have received a copy of the GNU General Public License along with this   *
+ * program (see gnu-gpl v2.txt). If not, write to the Free Software Foundation, Inc.,  *
+ * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA, or visit the Free Software *
+ * Foundation web page, http://www.fsf.org.                                            *
+ **************************************************************************************/
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -18,14 +37,14 @@ import java.net.URLConnection;
 import org.n52.v3d.triturus.core.T3dException;
 
 /** 
+ * todo engl. JavaDoc
  * Einlesen von Dokumenten &uuml;ber einen Web-Zugriff. Hierbei kann es sich z. B. um Textdateien, HTML- und
  * XML-Dateien, VRML-Dateien oder bin&auml;r kodierte Bitmaps handeln.
  * <p>
- * Bem.: In vielen Fällen kann die Verwendung der Klasse <tt>org.n52.v3d.triturus.web.IoHttpURLReader</tt> vorteilhaft sein.
+ * Bem.: In vielen Fï¿½llen kann die Verwendung der Klasse <tt>org.n52.v3d.triturus.web.IoHttpURLReader</tt> vorteilhaft sein.
  * <p>
  * @see IoHttpURLReader
- * @author Benno Schmidt, Martin May<br>
- * (c) 2003-2004, con terra GmbH & Institute for Geoinformatics<br>
+ * @author Benno Schmidt, Martin May
  */
 public class IoURLReader
 {
@@ -328,7 +347,7 @@ public class IoURLReader
         }
         else
         {
-            if (lDebug) System.out.println("lese Binärstrom");
+            if (lDebug) System.out.println("lese Binï¿½rstrom");
 
             char c = '\200';
             int i = lConn.getContentLength();
