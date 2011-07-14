@@ -1,3 +1,22 @@
+/***************************************************************************************
+ * Copyright (C) 2011 by 52 North Initiative for Geospatial Open Source Software GmbH  *
+ *                                                                                     *
+ * Contact: Benno Schmidt & Martin May, 52 North Initiative for Geospatial Open Source *
+ * Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, Germany, info@52north.org *
+ *                                                                                     *
+ * This program is free software; you can redistribute and/or modify it under the      *
+ * terms of the GNU General Public License version 2 as published by the Free Software *
+ * Foundation.                                                                         *
+ *                                                                                     *
+ * This program is distributed WITHOUT ANY WARRANTY; even without the implied WARRANTY *
+ * OF MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public  *
+ * License for more details.                                                           *
+ *                                                                                     *
+ * You should have received a copy of the GNU General Public License along with this   *
+ * program (see gnu-gpl v2.txt). If not, write to the Free Software Foundation, Inc.,  *
+ * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA, or visit the Free Software *
+ * Foundation web page, http://www.fsf.org.                                            *
+ **************************************************************************************/
 package org.n52.v3d.triturus.vispovray;
 
 import org.n52.v3d.triturus.vscene.*;
@@ -16,16 +35,17 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 /**
- * Spezifikation für eine POV-Ray-Szenenbeschreibung. Unterstützt wird das Rendering für die POV-Ray-Engine in den
- * Versionen 3.5 und 3.6.<p>
+ * Specification of a POV-Ray scene description.<br />
+ * Note: We are sorry, this class is documented in German language only :-(<br /><br />
+ * <i>German:</i> Spezifikation f&uuml;r eine POV-Ray-Szenenbeschreibung. Unterst&uuml;tzt wird das Rendering f&uuml;r
+ * die POV-Ray-Engine in denVersionen 3.5 und 3.6.<br />
  * Bem.: Bislang wurden nur Windows und Linux-Implementierungen der POV-Ray-Engine getestet (siehe dazu
- * Installationshandbuch des sdi.suite terrainServers).<p>
- * @author Benno Schmidt<br>
- * (c) 2004-2005, con terra GmbH<br>
+ * Installationshandbuch des 52N terrainServers).
+ * @author Benno Schmidt
  */
 public class PovrayScene extends VsSimpleScene
 {
-    private boolean mLocalDebug = false; // kann für Debug-Zwecke gesetzt werden
+    private boolean mLocalDebug = false; // kann fï¿½r Debug-Zwecke gesetzt werden
 
 	private String mPovrayPath;
     private String mPovrayExec = "bin/pvengine.exe" /* Windows-Vorgabe */;
@@ -48,8 +68,8 @@ public class PovrayScene extends VsSimpleScene
     private boolean mImmediateTermination = false;
 
 	/**
-	 * generiert die zu den gesetzten Werten gehörige Szenen-Beschreibung für POV-Ray. Das Resultat ist eine
-	 * Szenenbeschreibung in der "POV-Ray Scene Language".<p>
+	 * generiert die zu den gesetzten Werten geh&ouml;rige Szenen-Beschreibung f&uuml;r POV-Ray. Das Resultat ist eine
+	 * Szenenbeschreibung in der "POV-Ray Scene Language".
 	 * @return Szenen-Beschreibung als <tt>ArrayList</tt> mit Strings
 	 */
 	public Object generateScene()
@@ -59,11 +79,11 @@ public class PovrayScene extends VsSimpleScene
 	}
 
 	/**
-	 * ruft POV-Ray auf und führt das Rendering durch. Der Pfad der POV-Ray-Installation ist zuvor über die
-	 * Methode <tt>setPovrayInstallationPath</tt> zu setzen.<p>
-	 * Falls die POV-Ray-Rendering-Engine nicht ausführbar ist oder die gesetzte Timeout-Zeit überschritten wird,
-     * wird eine <tt>T3dException</tt> geworfen.<p>
-	 * Bem.: Die Methode <tt>this.generateScene()</tt> ist vor dem Rendering nicht explizit aufzurufen.<p>
+	 * ruft POV-Ray auf und fï¿½hrt das Rendering durch. Der Pfad der POV-Ray-Installation ist zuvor &uuml;ber die
+	 * Methode <tt>setPovrayInstallationPath</tt> zu setzen.<br />
+	 * Falls die POV-Ray-Rendering-Engine nicht ausf&uuml;hrbar ist oder die gesetzte Timeout-Zeit &uuml;berschritten
+     * wird, wird eine <tt>T3dException</tt> geworfen.<br />
+	 * Bem.: Die Methode <tt>this.generateScene()</tt> ist vor dem Rendering nicht explizit aufzurufen.
 	 * @throws T3dException
      * @see this#setRendererTimeout(long)
      */
@@ -75,10 +95,10 @@ public class PovrayScene extends VsSimpleScene
 	}
 
     /**
-     * ruft POV-Ray auf und führt das Rendering durch. Im Gegensatz zur Methode PovrayScene#render wird das GIF-kodierte
-     * Höhenmodell nicht generiert, sondern aus der angegebenen Datei gelesen.<p>
-     * Bem.: Siehe auch Hinweise zu PovrayScene#render.<p>
-     * @param pFilename Dateiname (mit Extension ".gif")
+     * ruft POV-Ray auf und f&uuml;hrt das Rendering durch. Im Gegensatz zur Methode PovrayScene#render wird das
+     * GIF-kodierte H&ouml;henmodell nicht generiert, sondern aus der angegebenen Datei gelesen.<br />
+     * Bem.: Siehe auch Hinweise zu PovrayScene#render.
+     * @param pFilename Dateiname (mit Extension <tt>&quot;.gif&quot;</tt>)
      * @throws T3dException
      * @see this#render()
      */
@@ -110,11 +130,11 @@ public class PovrayScene extends VsSimpleScene
         else
             cmd = cmd + " " + lBatFile;
 
-        boolean lDirectExec = false; // für UNIX-Plattform erstmal nur Setzung 'false' unterstützt
+        boolean lDirectExec = false; // fï¿½r UNIX-Plattform erstmal nur Setzung 'false' unterstï¿½tzt
 
         try {
             if (lDirectExec) {
-                // einfache Lösung: Prozess instanziieren und auf Beendigung warten.
+                // einfache Lï¿½sung: Prozess instanziieren und auf Beendigung warten.
                 // Nachteil: Gefahr nicht-terminierenderer Prozesse, dadurch Renderer-Instanz "verbraucht"!
                 Process p; // p ist global deklariert
                 if (mLocalDebug)
@@ -123,9 +143,9 @@ public class PovrayScene extends VsSimpleScene
                 p.waitFor(); // warten, bis Prozess beendet!
             }
             else {
-                // Alternativlösung: Prozess als kontrollierten Thread intanzieren und auf Terminierung prüfen;
+                // Alternativlï¿½sung: Prozess als kontrollierten Thread intanzieren und auf Terminierung prï¿½fen;
                 // Die Time-out-Zeit ergibt sich zu lMaxIntervalChecks * lChkInterval (z. B. 40 x 500 ms = 20 s).
-                // Nachteil: Rechenzeit durchschnittl. um 0.5 * lChkInterval höher.
+                // Nachteil: Rechenzeit durchschnittl. um 0.5 * lChkInterval hï¿½her.
 
                 CmdShellProcess p = null;
                 if (mPovrayWin)
@@ -155,7 +175,7 @@ public class PovrayScene extends VsSimpleScene
                 }
                 if (! p.hasTerminated() && (ct >= lMaxIntervalChecks)) {
                     p.interrupt();
-                    // Prozess ist möglicherweise noch aktiv -> ggf. über Prozess-ID des Betriebssystems zu beenden!
+                    // Prozess ist mï¿½glicherweise noch aktiv -> ggf. ï¿½ber Prozess-ID des Betriebssystems zu beenden!
                 }
             }
         }
@@ -171,18 +191,20 @@ public class PovrayScene extends VsSimpleScene
     }
 
 	/**
-	 * setzt den Pfad, unter dem POV-Ray installiert ist.<p>
-	 * Bsp.: <tt>this.setPovrayInstallationPath("C:/Programme/Povray");</tt><p>
-	 * @param pPath vollständige Pfadangabe (ohne Name des Executables)
+	 * setzt den Pfad, unter dem POV-Ray installiert ist.<br />
+	 * Bsp.: <tt>this.setPovrayInstallationPath("C:/Programme/Povray");</tt>
+	 * @param pPath vollst&auml;ndige Pfadangabe (ohne Name des Executables)
 	 */
 	public void setPovrayInstallationPath(String pPath) {
 		mPovrayPath = pPath;
 	}
 
     /**
-     * legt die auszuführende Datei (&quot;Executable&quot;) innerhalb des POV-Ray-Installationsverzeichnisses fest.<p>
-     * Bsp.: <tt>this.setPovrayExecutable("bin/pvengine.exe");</tt><p>
-     * Voreinstellungsgemäß ist das in den Windows-Installationen verwendete Executable "bin/pvengine.exe" gesetzt.<p>
+     * legt die auszuf&uuml;hrende Datei (&quot;Executable&quot;) innerhalb des POV-Ray-Installationsverzeichnisses
+     * fest.<br />
+     * Bsp.: <tt>this.setPovrayExecutable("bin/pvengine.exe");</tt><br />
+     * Voreinstellungsge&auml;&szlig; ist das in den Windows-Installationen verwendete Executable "bin/pvengine.exe"
+     * gesetzt.
      * @param pExec relative Pfadangabe innerhalb des POV-Ray-Installationsverzeichnisses
      * @see org.n52.v3d.triturus.vispovray.PovrayScene#setPovrayInstallationPath(java.lang.String)
      */
@@ -191,17 +213,17 @@ public class PovrayScene extends VsSimpleScene
     }
 
     /**
-     * legt fest, ob POV-Ray unter Windows oder auf einem UNIX-System (z. B. LINUX) ausgeführt wird.<p>
-     * Voreinstellungsgemäß ist die Windows-Plattform gesetzt.<p>
-     * @param pVal <i>false</i> für UNIX-Plattform
+     * legt fest, ob POV-Ray unter Windows oder auf einem UNIX-System (z. B. LINUX) ausgef&uuml;hrt wird.<br />
+     * Voreinstellungsgem&auml;&szlig; ist die Windows-Plattform gesetzt.
+     * @param pVal <i>false</i> f&uuml;r UNIX-Plattform
      */
     public void setPovrayWin(boolean pVal) {
         mPovrayWin = pVal;
     }
 
 	/**
-	 * setzt den Pfad des Arbeitsverzeichnisses, aus dem heraus der Aufruf von POV-Ray erfolgen soll.<p>
-	 * Bsp.: <tt>this.setWorkingDirectory(".");</tt><p>
+	 * setzt den Pfad des Arbeitsverzeichnisses, aus dem heraus der Aufruf von POV-Ray erfolgen soll.<br />
+	 * Bsp.: <tt>this.setWorkingDirectory(".");</tt>
 	 * @param pPath Verzeichnisname
 	 */
 	public void setWorkingDirectory(String pPath) {
@@ -209,7 +231,7 @@ public class PovrayScene extends VsSimpleScene
 	}
 
     /**
-     * liefert den für das Arbeitsverzeichnisses gesetzten Pfad.<p>
+     * liefert den f&uuml;r das Arbeitsverzeichnisses gesetzten Pfad.
      * @return pPath Verzeichnisname
      * @see PovrayScene#setWorkingDirectory
      */
@@ -218,14 +240,13 @@ public class PovrayScene extends VsSimpleScene
     }
 
     /**
-     * setzt den Namensrumpf der generierten Temporärdateien. Um das Bild rendern zu können, werden im Verzeichnis
-     * <tt>this.getWorkingDirectory()</tt> stets die drei folgenden Temporärdateien generiert: Temporärdatei für das
-     * Höhenmodell (GIF), POV-Ray-Szenenbeschreibung (.pov-Datei), Batch-Datei für POV-Ray-Start (.bat-Datei).
-     * <p>
-     * Voreinstellungsagemäß ist der Namensrumpf "tmp" gesetzt. Werden simultan im gleichen Verzeichnis mehrere
-     * POV-Ray-Prozesse durchgeführt (z. B. bei Verwendung innerhalb eines Servlets), ist dafür zu sorgen, dass der
-     * gesetzte Namensrumpf eindeutig ist!
-     * <p>
+     * setzt den Namensrumpf der generierten Temporï¿½rdateien. Um das Bild rendern zu k&ouml;nnen, werden im Verzeichnis
+     * <tt>this.getWorkingDirectory()</tt> stets die drei folgenden Tempor&auml;rdateien generiert: Tempor&auml;rdatei
+     * f&uuml;r das H&ouml;henmodell (GIF), POV-Ray-Szenenbeschreibung (.pov-Datei), Batch-Datei f&uuml;r POV-Ray-Start
+     * (.bat-Datei).<br />
+     * Voreinstellungsagem&auml;&szlig; ist der Namensrumpf "tmp" gesetzt. Werden simultan im gleichen Verzeichnis
+     * mehrere POV-Ray-Prozesse durchgef&uuml;hrt (z. B. bei Verwendung innerhalb eines Servlets), ist daf&uuml;r zu
+     * sorgen, dass der gesetzte Namensrumpf eindeutig ist!
      * @param pName Namensrumpf
      */
     public void setTempName(String pName) {
@@ -233,7 +254,7 @@ public class PovrayScene extends VsSimpleScene
     }
 
     /**
-     * liefert den für die Temporärdateien gesetzten Namensrumpf.<p>
+     * liefert den f&uuml;r die Tempor&auml;rdateien gesetzten Namensrumpf.
      * @return Namensrumpf
      * @see PovrayScene#setTempName
      */
@@ -242,8 +263,8 @@ public class PovrayScene extends VsSimpleScene
     }
 
 	/**
-	 * setzt den Namen der ausführbaren Shell.<p>
-	 * Bsp.: <tt>this.setShellCommand("cmd.exe");</tt><p>
+	 * setzt den Namen der ausf&uuml;hrbaren Shell.<br />
+	 * Bsp.: <tt>this.setShellCommand("cmd.exe");</tt>
 	 * @param pApp Name der Shell, z. B. "cmd.exe" oder "command.com"
 	 */
 	public void setShellCommand(String pApp) {
@@ -251,8 +272,8 @@ public class PovrayScene extends VsSimpleScene
 	}
 
     /**
-     * setzt Aufrufparameter für die auszuführbarende Shell.<p>
-     * Bsp.: <tt>this.setShellCommandParams("/E:1900 /C");</tt><p>
+     * setzt Aufrufparameter f&uuml;r die auszuf&uuml;hrbare Shell.<br />
+     * Bsp.: <tt>this.setShellCommandParams("/E:1900 /C");</tt>
      * @param pParams Aufrufparameter
      */
     public void setShellCommandParams(String pParams) {
@@ -260,10 +281,10 @@ public class PovrayScene extends VsSimpleScene
     }
 
     /**
-     * legt fest, ob die Angabe der auszuführenden POV-Ray-Batch-Datei in Anführungszeichen gesetzt wird (unter
-     * Windows sinnvoll). Voreinstellungsgemäß ist der Wert  <i>true</i> gesetzt (z. B. unter UNIX-Systemen nicht
-     * verwendbar!).<p>
-     * @param pVal <i>true</i>, falls &quot;doppeltes&quot; Anführungszeichen verwendet werden soll
+     * legt fest, ob die Angabe der auszuf&uuml;hrenden POV-Ray-Batch-Datei in Anf&uuml;hrungszeichen gesetzt wird
+     * (unter Windows sinnvoll). Voreinstellungsgem&auml;&szlig; ist der Wert <i>true</i> gesetzt (z. B. unter
+     * UNIX-Systemen nicht verwendbar!).
+     * @param pVal <i>true</i>, falls &quot;doppeltes&quot; Anf&uuml;hrungszeichen verwendet werden soll
      */
     public void setShellCommandQuot(boolean pVal) {
         mShellCommandQuot = pVal;
@@ -297,7 +318,7 @@ public class PovrayScene extends VsSimpleScene
     	mSceneDescription = new ArrayList(); // ggf. anzupassen!
 
     	mSceneDescription.add("// Persistence Of Vision Ray Tracer Scene Description File");
-    	mSceneDescription.add("// This file was generated automatically by the Münsterian Triturus framework!");
+    	mSceneDescription.add("// This file was generated automatically by the Mï¿½nsterian Triturus framework!");
     	mSceneDescription.add("#version 3.5;");
     	mSceneDescription.add("global_settings {");
     	mSceneDescription.add("  assumed_gamma 1");
@@ -337,7 +358,7 @@ public class PovrayScene extends VsSimpleScene
     	mSceneDescription.add("}");
     	mSceneDescription.add("light_source {");
     	mSceneDescription.add("  <" + cx + ", " + cz + ", " + cy + ">"); // Punktlicht in Kameraposition
-    	mSceneDescription.add("  color rgb <1.0, 1.0, 1.0>*" + mLightIntensity); // helles weißes Licht
+    	mSceneDescription.add("  color rgb <1.0, 1.0, 1.0>*" + mLightIntensity); // helles weiï¿½es Licht
     	mSceneDescription.add("}");
         mSceneDescription.add("background { color rgb <"
             + this.getBackgroundColor().getRed() + ","
@@ -372,9 +393,9 @@ public class PovrayScene extends VsSimpleScene
     	    mSceneDescription.add("    texture { T_Terrain }");
         else
             mSceneDescription.add("    pigment { color rgb <0.2,0.7,0.2> }");
-            // TODO: Farbe evtl. von außen konfigurierbar machen
+            // TODO: Farbe evtl. von auï¿½en konfigurierbar machen
 
-        // height_field wird für x, y und z auf Bereich 0..1 abgebildet; daher ist inverse Transf. nachzuschalten:
+        // height_field wird fï¿½r x, y und z auf Bereich 0..1 abgebildet; daher ist inverse Transf. nachzuschalten:
         double sx = 1., sy = 1.;
         double tx = 0., ty = 0.;
         if (this.getAspect() > 1.) {
@@ -386,7 +407,7 @@ public class PovrayScene extends VsSimpleScene
             ty = 0.5 * (1. - sy);
         }
         double sz = 256./220. * (this.normZMax() - this.normZMin()) * 0.5 * this.getDefaultExaggeration();
-        // todo: 256./220.-Problem dokumentieren (durchgängig!) -> bs
+        // todo: 256./220.-Problem dokumentieren (durchgï¿½ngig!) -> bs
         double tz = this.normZMin() * 0.5 * this.getDefaultExaggeration();
     	mSceneDescription.add("    scale <" + sx + ", " + sz + ", " + sy + ">");
         mSceneDescription.add("    translate <" + tx + ", " + tz + ", " + ty + ">");
@@ -497,7 +518,7 @@ public class PovrayScene extends VsSimpleScene
 
     private String writeBatFile(String pFilename)
     {
-        String cmd = ""; // Inhalt der Batch-Datei (entspr. Rückgabe-Ergebnis)
+        String cmd = ""; // Inhalt der Batch-Datei (entspr. Rï¿½ckgabe-Ergebnis)
 
         String executable = mPovrayPath + mPovrayExec;
 
@@ -550,27 +571,27 @@ public class PovrayScene extends VsSimpleScene
     }
 
     /**
-     * setzt den Modus für die geglättete Relief-Darstellung auf den angegebenen Wert. Voreinstellungsgemäß ist dieser
-     * Modus gesetzt.<p>
-     * @param pVal <i>true</i>, für eine geglättete Relief-Darstellung, sonst <i>false</i>.
+     * setzt den Modus f&uuml;r die gegl&auml;ttete Relief-Darstellung auf den angegebenen Wert.
+     * Voreinstellungsgem&auml;&szlig; ist dieser Modus gesetzt.
+     * @param pVal <i>true</i>, f&uuml;r eine gegl&auml;ttete Relief-Darstellung, sonst <i>false</i>.
      */
     public void setReliefSmoothingMode(boolean pVal) {
         mSmoothRelief = pVal;
     }
 
     /**
-     * liefert den gesetzten Modus für die Glättung der Relief-Darstellung.<p>
-     * @return <i>true</i>, falls der Glättungsmodus gesetzt ist, sonst <i>false</i>.
+     * liefert den gesetzten Modus f&uuml;r die Gl&auml;ttung der Relief-Darstellung.
+     * @return <i>true</i>, falls der Gl&auml;ttungsmodus gesetzt ist, sonst <i>false</i>.
      */
     public boolean getReliefSmoothingMode() {
         return mSmoothRelief;
     }
 
     /**
-     * setzt das Bildformat für die POV-Ray-Rendering-Engine. Detaillierte Information zu den Formaten ist der
-     * POV-Ray-Dokumentation zu entnehmen.<p>
-     * Bem.: Die Einstellung "SYS" setzt das System-spezifische Format; unter Windows ist dies "BMP".<p>
-     * @param pImageFormat "RLE-TGA", "PNG", "PPM", "SYS", "TGA" oder Leerstring für POV-Ray-Default
+     * setzt das Bildformat f&uuml;r die POV-Ray-Rendering-Engine. Detaillierte Information zu den Formaten ist der
+     * POV-Ray-Dokumentation zu entnehmen.<br />
+     * Bem.: Die Einstellung "SYS" setzt das System-spezifische Format; unter Windows ist dies "BMP".
+     * @param pImageFormat "RLE-TGA", "PNG", "PPM", "SYS", "TGA" oder Leerstring f&uuml;r POV-Ray-Default
      * @see PovrayScene#setImageFormat
      */
     public void setPovrayImageFormat(String pImageFormat) {
@@ -578,8 +599,8 @@ public class PovrayScene extends VsSimpleScene
     }
 
     /**
-     * liefert das für die POV-Ray-Rendering-Engine eingestellte Bildformat.<p>
-     * @return Kürzel für das eingestellte Bildformat
+     * liefert das f&uuml;r die POV-Ray-Rendering-Engine eingestellte Bildformat.
+     * @return K&uuml;rzel f&uuml;r das eingestellte Bildformat
      * @see PovrayScene#setPovrayImageFormat
      */
     public String getPovrayImageFormat() {
@@ -587,10 +608,10 @@ public class PovrayScene extends VsSimpleScene
     }
 
     /**
-     * setzt das Bildformat für die POV-Ray-Rendering-Engine entsprechend dem angegebenen MIME-Typ. Falls für das
-     * angegebene Format keine Unterstützung vorhanden ist, wird eine <tt>T3dException</tt> geworfen.<p>
-     * Bem.: Bezüglich der Unterstützung des BMP-Formats sind die Hinweise unter PovrayScene#setPovrayImageFormat zu
-     * beachten!<p>
+     * setzt das Bildformat f&uuml;r die POV-Ray-Rendering-Engine entsprechend dem angegebenen MIME-Typ. Falls f&uuml;r
+     * das angegebene Format keine Unterstï¿½tzung vorhanden ist, wird eine <tt>T3dException</tt> geworfen.<br />
+     * Bem.: Bez&uuml;glich der Unterst&uuml;tzung des BMP-Formats sind die Hinweise unter
+     * PovrayScene#setPovrayImageFormat zu beachten!
      * @param pMimeType MIME-Typ, z. B. "image/png"
      * @throws T3dException
      * @see PovrayScene#setPovrayImageFormat
@@ -632,15 +653,15 @@ public class PovrayScene extends VsSimpleScene
     }
 
     /**
-     * liefert den MIME-Typ des konfigurierten Formats für die Bildausgabe.<p>
-     * Bem.: Bezüglich der Unterstützung des BMP-Formats sind die Hinweise unter PovrayScene#setPovrayImageFormat zu
-     * beachten!<p>
+     * liefert den MIME-Typ des konfigurierten Formats f&uuml;r die Bildausgabe.<br />
+     * Bem.: Bez&uuml;glich der Unterst&uuml;tzung des BMP-Formats sind die Hinweise unter
+     * PovrayScene#setPovrayImageFormat zu beachten!
      * @return MIME-Typ oder "", falls unbekannt
      */
     public String getImageFormat()
     {
         // Bem.: Dieser Methode nicht unter Verwendung von org.n52.v3d.terra3d.web.MimeTypeHelper implementieren, um keine
-        // Abhängigkeiten zwischen Java-Paketen zu schaffen!
+        // Abhï¿½ngigkeiten zwischen Java-Paketen zu schaffen!
 
         if (mImageFormat.equalsIgnoreCase("PNG"))
             return "image/png";
@@ -656,8 +677,8 @@ public class PovrayScene extends VsSimpleScene
     }
 
     /**
-     * setzt die Bildbreite für die POV-Ray-Rendering-Engine.<p>
-     * Bem.: Voreingestellt ist der Wert 640.<p>
+     * setzt die Bildbreite f&uuml;r die POV-Ray-Rendering-Engine.<br />
+     * Bem.: Voreingestellt ist der Wert 640.
      * @param pWidth Bildbreite in Pixeln
      */
     public void setImageWidth(int pWidth) {
@@ -665,7 +686,7 @@ public class PovrayScene extends VsSimpleScene
     }
 
     /**
-     * liefert die für die POV-Ray-Rendering-Engine eingestellte Bildbreite.<p>
+     * liefert die f&uuml;r die POV-Ray-Rendering-Engine eingestellte Bildbreite.
      * @return Bildbreite in Pixeln
      */
     public int getImageWidth() {
@@ -673,27 +694,27 @@ public class PovrayScene extends VsSimpleScene
     }
 
     /**
-     * setzt die Bildhöhe für die POV-Ray-Rendering-Engine.<p>
-     * Bem.: Voreingestellt ist der Wert 480.<p>
-     * @param pHeight Bildhöhe in Pixeln
+     * setzt die Bildh&ouml;he f&uuml;r die POV-Ray-Rendering-Engine.<br />
+     * Bem.: Voreingestellt ist der Wert 480.
+     * @param pHeight Bildh&ouml;he in Pixeln
      */
     public void setImageHeight(int pHeight) {
         mImageHeight = pHeight;
     }
 
     /**
-     * liefert die für die POV-Ray-Rendering-Engine eingestellte Bildhöhe.<p>
-     * @return Bildhöhe in Pixeln
+     * liefert die f&uuml;r die POV-Ray-Rendering-Engine eingestellte Bildh&ouml;he.<p>
+     * @return Bildh&ouml;he in Pixeln
      */
     public int getImageHeight() {
         return mImageHeight;
     }
 
     /**
-     * setzt die Bildhöhe und -breite für die POV-Ray-Rendering-Engine.<p>
-     * Bem.: Voreingestellt ist eine Bildgröße von 640x480 Pixeln.<p>
+     * setzt die Bildh&ouml;he und -breite f&uuml;r die POV-Ray-Rendering-Engine.<br />
+     * Bem.: Voreingestellt ist eine Bildgr&ouml;&szlig;e von 640x480 Pixeln.
      * @param pWidth Bildbreite in Pixeln
-     * @param pHeight Bildhöhe in Pixeln
+     * @param pHeight Bildhï¿½he in Pixeln
      */
     public void setImageSize(int pWidth, int pHeight) {
         this.setImageHeight(pHeight);
@@ -701,7 +722,7 @@ public class PovrayScene extends VsSimpleScene
     }
 
     /**
-     * setzt den Quality-Parameter für die POV-Ray-Engine. Voreingestellt ist der Wert 9.<p>
+     * setzt den Quality-Parameter f&uuml;r die POV-Ray-Engine. Voreingestellt ist der Wert 9.
      * @param pQuality Wert zwischen 0 und 9
      */
     public void setQuality(short pQuality) {
@@ -709,16 +730,16 @@ public class PovrayScene extends VsSimpleScene
     }
 
     /**
-     * liefert den für die POV-Ray-Engine eingestellten Quality-Parameter.<p>
-     * @return Qualitätsangabe
+     * liefert den f&uuml;r die POV-Ray-Engine eingestellten Quality-Parameter.
+     * @return Qualit&auml;tsangabe
      */
     public short getQuality() {
         return mQuality;
     }
 
     /**
-     * setzt die Lichtintensität für die POV-Ray-Szene. Voreingestellt ist der Wert 2.<p>
-     * Bem.: In der vorliegenden Implementierung ist die Lichtquelle stets an der Kameraposition positioniert.<p>
+     * setzt die Lichtintensit&auml;t f&uuml;r die POV-Ray-Szene. Voreingestellt ist der Wert 2.<br />
+     * Bem.: In der vorliegenden Implementierung ist die Lichtquelle stets an der Kameraposition positioniert.
      * @param pLightIntensity Wert > 0
      */
     public void setLightIntensity(double pLightIntensity) {
@@ -726,7 +747,7 @@ public class PovrayScene extends VsSimpleScene
     }
 
     /**
-     * liefert die eingestellte Lichtintensität.<p>
+     * liefert die eingestellte Lichtintensit&auml;t.
      * @return Wert > 0
      */
     public double getLightIntensity() {
@@ -734,8 +755,8 @@ public class PovrayScene extends VsSimpleScene
     }
 
     /**
-     * setzt den Display-Parameter für die POV-Ray-Engine. Voreingestellt ist der (für Debug-Zwecke sinnvolle) Wert
-     * <i>true</i>.<p>
+     * setzt den Display-Parameter f&uuml;r die POV-Ray-Engine. Voreingestellt ist der (f&uuml;r Debug-Zwecke sinnvolle)
+     * Wert <i>true</i>.
      * @param pFlag <i>true</i>, um Rendering-Fenster anzuzeigen, sonst <i>false</i>
      */
     public void setDisplayVisible(boolean pFlag) {
@@ -743,7 +764,7 @@ public class PovrayScene extends VsSimpleScene
     }
 
     /**
-     * liefert den für POV-Ray-Engine eingestellten Display-Parameter.<p>
+     * liefert den f&uuml;r POV-Ray-Engine eingestellten Display-Parameter.
      * @return <i>true</i>, falls Rendering-Fenster angezeigt wird, sonst <i>false</i>
      */
     public boolean isDisplayVisible() {
@@ -751,22 +772,22 @@ public class PovrayScene extends VsSimpleScene
     }
 
     /**
-     * liefert den Dateinamen des benötigten GIF-kodierten Höhenmodells.<p>
+     * liefert den Dateinamen des ben&ouml;tigten GIF-kodierten H&ouml;henmodells.
      * @return Dateiname (inkl. Pfad und Extension ".gif")
      */
     public String getGifEncodedDEM() {
         return mGifEncodedDEM;
     }
 
-    // Private Helfer für Sockel-Generierung:
+    // Private Helfer fï¿½r Sockel-Generierung:
 
-    // # Vertizes für mesh2-Objekt
+    // # Vertizes fï¿½r mesh2-Objekt
     private int getNumberOfVerticesPedestal()
     {
         return 4 * (this.getTerrain().numberOfRows() + this.getTerrain().numberOfColumns() - 2);
     }
 
-    // Liste der Vertizes für mesh2-Objekt
+    // Liste der Vertizes fï¿½r mesh2-Objekt
     private Collection getVertexListPedestal()
     {
         ArrayList list = new ArrayList();
@@ -805,7 +826,7 @@ public class PovrayScene extends VsSimpleScene
         return list;
     }
 
-    // String für Vertex-Angaben der Punkte am Modellrand (variable Höhe pt1.getZ() und Bezugshöhe pt0.getZ()):
+    // String fï¿½r Vertex-Angaben der Punkte am Modellrand (variable Hï¿½he pt1.getZ() und Bezugshï¿½he pt0.getZ()):
     private String vertexHelperPedestal(VgPoint pt1, VgPoint pt0) {
         T3dVector v1 = this.norm(pt1);
         T3dVector w1 = new T3dVector(0.5 * (v1.getX() + 1.), v1.getZ() * 0.5 * this.getDefaultExaggeration(), 0.5 * (v1.getY() + 1.));
@@ -814,13 +835,13 @@ public class PovrayScene extends VsSimpleScene
         return "    <" + w1.getX() + "," + w1.getY() + "," + w1.getZ() + ">, <" + w0.getX() + "," + w0.getY() + "," + w0.getZ() + ">, ";
     }
 
-    // # Faces für mesh2-Objekt
+    // # Faces fï¿½r mesh2-Objekt
     private int getNumberOfFacesPedestal()
     {
         return 4 * (this.getTerrain().numberOfRows() + this.getTerrain().numberOfColumns() - 2);
     }
 
-    // Liste der Faces für mesh2-Objekt
+    // Liste der Faces fï¿½r mesh2-Objekt
     private Collection getFaceListPedestal()
     {
         ArrayList list = new ArrayList();
@@ -836,9 +857,9 @@ public class PovrayScene extends VsSimpleScene
     }
 
     /**
-     * setzt die Timeout-Zeit für den Aufruf der POV-Ray-Rendering-Engine. Falls diese Zeit in den Methoden
-     * <tt>this.render()</tt> oder <tt>this.renderCachedDEM()</tt> überschritten wird, wird der Rendering-Vorgang
-     * abgebrochen und liefert eine <tt>T3dException</tt>. Voreingestellt ist der Wert 20000 (entspr. 20 msec).<p>
+     * setzt die Timeout-Zeit f&uuml;r den Aufruf der POV-Ray-Rendering-Engine. Falls diese Zeit in den Methoden
+     * <tt>this.render()</tt> oder <tt>this.renderCachedDEM()</tt> &uuml;berschritten wird, wird der Rendering-Vorgang
+     * abgebrochen und liefert eine <tt>T3dException</tt>. Voreingestellt ist der Wert 20000 (entspr. 20 msec).
      * @param pVal Zeit in Millisekunden
      * @see T3dException
      */
@@ -848,11 +869,11 @@ public class PovrayScene extends VsSimpleScene
 
     /**
      * @deprecated
-     * deaktiviert die <tt>Process#waitFor</tt>-Anweisung in der <tt>run()</tt>-Methode der für die Realisierung
+     * deaktiviert die <tt>Process#waitFor</tt>-Anweisung in der <tt>run()</tt>-Methode der f&uuml;r die Realisierung
      * genutzten Klasse <tt>CmdShellProcess</tt>, falls als Argument der Wert <i>true</i> angegeben wird. Dieser
-     * Schalter ist nur in Ausnahmefällen zu setzen (z. B. für spezielle UNIX-Systeme). Für die Windows-Plattform
-     * sollte dieser Befehl <b>nicht</b> verwendet werden.<p>
-     * @param pFlag <i>true</i> zur waitFor()-Deaktivierung (voreinstellungsgemäß ist <i>false</i> gesetzt)
+     * Schalter ist nur in Ausnahmef&auml;llen zu setzen (z. B. f&uuml;r spezielle UNIX-Systeme). F&uuml;r die
+     * Windows-Plattform sollte dieser Befehl <b>nicht</b> verwendet werden.
+     * @param pFlag <i>true</i> zur waitFor()-Deaktivierung (voreinstellungsgem&auml;&szlig; ist <i>false</i> gesetzt)
      * @see org.n52.v3d.triturus.t3dutil.operatingsystem.CmdShellProcess
      */
     public void setImmediateTermination(boolean pFlag) {
@@ -860,7 +881,7 @@ public class PovrayScene extends VsSimpleScene
     }
 
     /**
-     * setzt des Modus für die Konsolen-Ausgabe von Kontrollausgaben.<p>
+     * setzt des Modus f&uuml;r die Konsolen-Ausgabe von Kontrollausgaben.
      * @param pVal <i>true</i>, falls Ausgabe erfolgen soll, sonst <i>false</i> (Voreinstellung)
      */
     public void setLocalDebug(boolean pVal) {
