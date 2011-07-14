@@ -1,3 +1,22 @@
+/***************************************************************************************
+ * Copyright (C) 2011 by 52 North Initiative for Geospatial Open Source Software GmbH  *
+ *                                                                                     *
+ * Contact: Benno Schmidt & Martin May, 52 North Initiative for Geospatial Open Source *
+ * Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, Germany, info@52north.org *
+ *                                                                                     *
+ * This program is free software; you can redistribute and/or modify it under the      *
+ * terms of the GNU General Public License version 2 as published by the Free Software *
+ * Foundation.                                                                         *
+ *                                                                                     *
+ * This program is distributed WITHOUT ANY WARRANTY; even without the implied WARRANTY *
+ * OF MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public  *
+ * License for more details.                                                           *
+ *                                                                                     *
+ * You should have received a copy of the GNU General Public License along with this   *
+ * program (see gnu-gpl v2.txt). If not, write to the Free Software Foundation, Inc.,  *
+ * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA, or visit the Free Software *
+ * Foundation web page, http://www.fsf.org.                                            *
+ **************************************************************************************/
 package org.n52.v3d.triturus.vscene;
 
 import org.n52.v3d.triturus.vgis.*;
@@ -8,37 +27,37 @@ import org.n52.v3d.triturus.t3dutil.T3dColor;
 import java.lang.Math;
 
 /**
- * Spezifikation für eine einfache Szene, die ein Gitter-basiertes Geländemodell, eine zugehörige Drape-Datei sowie
- * Ansichtspunkte und Lichtquellen enthält.
+ * todo engl. JavaDoc
+ * Spezifikation fï¿½r eine einfache Szene, die ein Gitter-basiertes Gelï¿½ndemodell, eine zugehï¿½rige Drape-Datei sowie
+ * Ansichtspunkte und Lichtquellen enthï¿½lt.
  * <p>
- * <tt>VsSimpleScene</tt>-Beschreibungen eignen sich insbesondere für einfache Szenen, in denen nur ein einziges
- * Geländemodell visualisiert wird. Aus der räumlichen Ausdehnung des darzustellenden Geländemodells lässt sich ein
- * <i>normierter Raumausschnitt</i> ableiten, der alle Visualisierungsobjekte enthält:
+ * <tt>VsSimpleScene</tt>-Beschreibungen eignen sich insbesondere fï¿½r einfache Szenen, in denen nur ein einziges
+ * Gelï¿½ndemodell visualisiert wird. Aus der rï¿½umlichen Ausdehnung des darzustellenden Gelï¿½ndemodells lï¿½sst sich ein
+ * <i>normierter Raumausschnitt</i> ableiten, der alle Visualisierungsobjekte enthï¿½lt:
  * <ul>
  * <li>In der xy-Ebene ist dies eine Teilmenge der Bereichs -1 &lt;= x' &lt;= +1, -1 &lt;= y' &lt;= +1, wobei die
- * normierten Koordinaten mit einem Strich (') kenntlich gemacht sind. Für quadratische Geländemodelle wird dieser
- * Raumausschnitt voll eingenommen; für Geländemodelle, deren Ausdehnung in x- und y-Richtung unterschiedlich ist, wird
- * entweder für x' oder für y' (exklusive "Oder"-Verknüpfung) nur ein Teilbereich eingenommen. Der Mittelpunkt des
- * Geländemodells liegt in jedem Fall an der Position (x', y') = (0, 0).</li>
- * <li>Die Ausdehnung in z'-Richtung ergibt in der Art und Weise aus den Höhenwerten, als dass der vertikale
- * Höhenmaßstab und der horizontale Maßstab korrespondieren. Insbesondere wird hierbei kein (!) Überhöhungsfaktor
- * berücksichtigt.</li>
+ * normierten Koordinaten mit einem Strich (') kenntlich gemacht sind. Fï¿½r quadratische Gelï¿½ndemodelle wird dieser
+ * Raumausschnitt voll eingenommen; fï¿½r Gelï¿½ndemodelle, deren Ausdehnung in x- und y-Richtung unterschiedlich ist, wird
+ * entweder fï¿½r x' oder fï¿½r y' (exklusive "Oder"-Verknï¿½pfung) nur ein Teilbereich eingenommen. Der Mittelpunkt des
+ * Gelï¿½ndemodells liegt in jedem Fall an der Position (x', y') = (0, 0).</li>
+ * <li>Die Ausdehnung in z'-Richtung ergibt in der Art und Weise aus den Hï¿½henwerten, als dass der vertikale
+ * Hï¿½henmaï¿½stab und der horizontale Maï¿½stab korrespondieren. Insbesondere wird hierbei kein (!) ï¿½berhï¿½hungsfaktor
+ * berï¿½cksichtigt.</li>
  * <p>
  * In <tt>VsSimpleScene</tt>-Szenen lassen sich Ansichtspunkte und Lichtquellen mit Hilfe der Methode <tt>denorm()</tt>
  * bezogen auf eine normierte Bounding-Box angeben. Ansichtspunkte und Lichtquellenparameter sind dabei <i>invariant
- * gegenüber der Überhöhung.</i>
+ * gegenï¿½ber der ï¿½berhï¿½hung.</i>
  * <p>
- * @author Benno Schmidt<br>
- * (c) 2004, con terra GmbH & Institute for Geoinformatics<br>
+ * @author Benno Schmidt
  */
 abstract public class VsSimpleScene extends VsScene
 {
 	private VgElevationGrid mTerrain = null;
 	private String mDrape = null;
 
-	private double mScale; // Skalierung für Normierung von Geo-Koordinaten
-	private T3dVector mOffset = new T3dVector(); // Translation für Normierung von Geo-Koordinaten
-    private double mAspect; // Verhältnis y-Ausdehnung : x-Ausdehnung
+	private double mScale; // Skalierung fï¿½r Normierung von Geo-Koordinaten
+	private T3dVector mOffset = new T3dVector(); // Translation fï¿½r Normierung von Geo-Koordinaten
+    private double mAspect; // Verhï¿½ltnis y-Ausdehnung : x-Ausdehnung
 
     private T3dColor mBackgroundColor = new T3dColor(0.f,0.f,0.f);
 
@@ -47,11 +66,11 @@ abstract public class VsSimpleScene extends VsScene
     private T3dColor mPedestalColor = new T3dColor(0.5f,0.5f,0.5f);
 
 	/**
-	 * setzt das Geländemodell, das als Relief ("Terrain") dargestellt werden soll.<p>
-	 * Einer <tt>VsSimpleScene</tt> kann nur genau ein Geländemodell zugeordnet sein.<p>
-	 * Bem.: Bei dem Geländemodell muss es sich um ein Gitter-basiertes Modell handeln; TINs z. B. werden von einer
-     * <tt>VsSimpleScene</tt> nicht unterstützt. -> todo: bei Bedarf entsprechende <tt>VsScene</tt>-Spezialisierung bereitstellen.
-	 * @param pTerrain Geländemodell
+	 * setzt das Gelï¿½ndemodell, das als Relief ("Terrain") dargestellt werden soll.<p>
+	 * Einer <tt>VsSimpleScene</tt> kann nur genau ein Gelï¿½ndemodell zugeordnet sein.<p>
+	 * Bem.: Bei dem Gelï¿½ndemodell muss es sich um ein Gitter-basiertes Modell handeln; TINs z. B. werden von einer
+     * <tt>VsSimpleScene</tt> nicht unterstï¿½tzt. -> todo: bei Bedarf entsprechende <tt>VsScene</tt>-Spezialisierung bereitstellen.
+	 * @param pTerrain Gelï¿½ndemodell
 	 */
 	public void setTerrain(VgElevationGrid pTerrain) {
 		mTerrain = pTerrain;
@@ -59,8 +78,8 @@ abstract public class VsSimpleScene extends VsScene
 	}
 
 	/**
-	 * liefert das Geländemodell, das als Relief ("Terrain") dargestellt werden soll.<p>
-	 * @return Geländemodell
+	 * liefert das Gelï¿½ndemodell, das als Relief ("Terrain") dargestellt werden soll.<p>
+	 * @return Gelï¿½ndemodell
 	 */
 	public VgElevationGrid getTerrain() {
 		return mTerrain;
@@ -69,9 +88,9 @@ abstract public class VsSimpleScene extends VsScene
 	/**
 	 * setzt die Textur, die auf das Relief ("Terrain") projiziert werden soll.<p>
 	 * Einer <tt>VsSimpleGeoScene</tt> kann nur genau eine Drape-Textur zugeordnet sein. Seitens der aufrufenden
-	 * Anwendung ist dafür zu sorgen, dass diese Textur georeferenziert ist. Soll keine Drape-Textur verwendet
+	 * Anwendung ist dafï¿½r zu sorgen, dass diese Textur georeferenziert ist. Soll keine Drape-Textur verwendet
 	 * werden, kann der Wert <i>null</i> als Parameter angegeben werden.<p>
-	 * @param pImageFile Bilddatei mit vollständiger Pfadangabe oder <i>null</i>
+	 * @param pImageFile Bilddatei mit vollstï¿½ndiger Pfadangabe oder <i>null</i>
 	 */
 	public void setDrape(String pImageFile) {
 		mDrape = pImageFile;
@@ -79,16 +98,16 @@ abstract public class VsSimpleScene extends VsScene
 
 	/**
 	 * liefert die Textur, die auf das Relief ("Terrain") projiziert werden soll.<p>
-	 * @return Bilddatei mit vollständiger Pfadangabe oder <i>null</i>
+	 * @return Bilddatei mit vollstï¿½ndiger Pfadangabe oder <i>null</i>
 	 */
 	public String getDrape() {
 		return mDrape;
 	}
 
 	/**
-	 * liefert den zu einer im räumlichen Referenzsystem vorliegenden Position gehörigen Punkt im normierten
-	 * Koordinatensystem der <tt>VsSimpleScene</tt>. Für die x'- und y'-Koordinate des Ergebnisses gilt stets
-	 * -1 &lt;= x' &lt; +1, -1 &lt;= y' &lt; +1, insofern der Punkt innerhalb der Bounding-Box des Geländemodells
+	 * liefert den zu einer im rï¿½umlichen Referenzsystem vorliegenden Position gehï¿½rigen Punkt im normierten
+	 * Koordinatensystem der <tt>VsSimpleScene</tt>. Fï¿½r die x'- und y'-Koordinate des Ergebnisses gilt stets
+	 * -1 &lt;= x' &lt; +1, -1 &lt;= y' &lt; +1, insofern der Punkt innerhalb der Bounding-Box des Gelï¿½ndemodells
 	 * liegt.<p>
 	 * @param pGeoPos georeferenzierter Punkt
 	 * @return Punkt im normierten Koordinatenraum der <tt>VsSimpleScene</tt>
@@ -104,7 +123,7 @@ abstract public class VsSimpleScene extends VsScene
 
 	/**
 	 * liefert den zu einem im nomierten Koordinatensystem der <tt>VsSimpleScene</tt> vorliegenden Position
-	 * gehörigen Punkt im räumlichen Referenzsystem der Szene.<p>
+	 * gehï¿½rigen Punkt im rï¿½umlichen Referenzsystem der Szene.<p>
 	 * @param pNormPos georeferenzierter Punkt
 	 * @return Punkt im normierten Koordinatenraum der <tt>VsSimpleScene</tt>
 	 * @see VsSimpleScene#norm
@@ -142,8 +161,8 @@ abstract public class VsSimpleScene extends VsScene
 	}
 
 	/**
-	 * liefert den Skalierungsfaktor für die Normierung von Geo-Koordinaten innerhalb der <tt>VsSimpleScene</tt>.<p>
-	 * Bem.: Für die Normierung wird erst die Skalierung <tt>this.getScale()</tt>, dann die Translation
+	 * liefert den Skalierungsfaktor fï¿½r die Normierung von Geo-Koordinaten innerhalb der <tt>VsSimpleScene</tt>.<p>
+	 * Bem.: Fï¿½r die Normierung wird erst die Skalierung <tt>this.getScale()</tt>, dann die Translation
 	 * <tt>this.getOffset()</tt> auf die Geo-Koordinaten angewendet.<p>
 	 * @return Normierungsfaktor
 	 * @see VsSimpleScene#getOffset
@@ -153,17 +172,17 @@ abstract public class VsSimpleScene extends VsScene
 	}
 
     /**
-     * liefert das Seitenverhältnis der y-Ausdehnung zur x-Audehnung des Geländemodells.<p>
-     * @return Seitenverhältnis
+     * liefert das Seitenverhï¿½ltnis der y-Ausdehnung zur x-Audehnung des Gelï¿½ndemodells.<p>
+     * @return Seitenverhï¿½ltnis
      */
     public double getAspect() {
         return mAspect;
     }
 
 	/**
-	 * liefert den Translationsvektor für die Normierung von Geo-Koordinaten innerhalb der
+	 * liefert den Translationsvektor fï¿½r die Normierung von Geo-Koordinaten innerhalb der
 	 * <tt>VsSimpleScene</tt>.<p>
-	 * Bem.: Für die Normierung wird erst die Skalierung <tt>this.getScale()</tt>, dann die Translation
+	 * Bem.: Fï¿½r die Normierung wird erst die Skalierung <tt>this.getScale()</tt>, dann die Translation
 	 * <tt>this.getOffset()</tt> auf die Geo-Koordinaten angewendet.<p>
 	 * @return Translation
 	 * @see VsSimpleScene#getScale
@@ -173,25 +192,25 @@ abstract public class VsSimpleScene extends VsScene
 	}
 
 	/**
-	 * liefert den minimalen z-Wert des Geländemodells <tt>this.getTerrain</tt> bezogen auf das System der
+	 * liefert den minimalen z-Wert des Gelï¿½ndemodells <tt>this.getTerrain</tt> bezogen auf das System der
 	 * normierten Koordinaten.<p>
-	 * @return nomierte z-Koordinate für die minimale Geländehöhe der <tt>VsSimpleScene</tt>
+	 * @return nomierte z-Koordinate fï¿½r die minimale Gelï¿½ndehï¿½he der <tt>VsSimpleScene</tt>
 	 */
 	public double normZMin() {
 		return mTerrain.minimalElevation() * mScale;
 	}
 
 	/**
-	 * liefert den maximalen z-Wert des Geländemodells <tt>this.getTerrain</tt> bezogen auf das System der
+	 * liefert den maximalen z-Wert des Gelï¿½ndemodells <tt>this.getTerrain</tt> bezogen auf das System der
 	 * normierten Koordinaten.<p>
-	 * @return nomierte z-Koordinate für die maximale Geländehöhe der <tt>VsSimpleScene</tt>
+	 * @return nomierte z-Koordinate fï¿½r die maximale Gelï¿½ndehï¿½he der <tt>VsSimpleScene</tt>
 	 */
 	public double normZMax() {
 		return mTerrain.maximalElevation() * mScale;
 	}
 
     /**
-     * setzt die Hintergrundfarbe der POV-Ray-Szene. Voreinstellungsgemäß ist ein schwarzer Hintergrund gesetzt.<p>
+     * setzt die Hintergrundfarbe der POV-Ray-Szene. Voreinstellungsgemï¿½ï¿½ ist ein schwarzer Hintergrund gesetzt.<p>
      * @param pColor Hintergrundfarbe
      */
     public void setBackgroundColor(T3dColor pColor) {
@@ -207,8 +226,8 @@ abstract public class VsSimpleScene extends VsScene
     }
     
 	/**
-	 * steuert, ob die zur dem Geländemodell gehörige Bounding-Box als Shape zur Szene hinzugefügt wird.<p>
-	 * @param pDrawBBox <i>true</i>, um der Szene Bounding-Box-Shape hinzuzufügen
+	 * steuert, ob die zur dem Gelï¿½ndemodell gehï¿½rige Bounding-Box als Shape zur Szene hinzugefï¿½gt wird.<p>
+	 * @param pDrawBBox <i>true</i>, um der Szene Bounding-Box-Shape hinzuzufï¿½gen
 	 */
 	public void drawBBoxShape(boolean pDrawBBox) {
 		mDrawBBox = pDrawBBox;
@@ -219,9 +238,9 @@ abstract public class VsSimpleScene extends VsScene
 	}
 
     /**
-     * steuert, ob ein zum Geländemodell gehöriger Sockel generiert und zur Szene hinzugefügt wird.<p>
-     * Bem.: Dieser Modus wird (noch?) nicht von allen Visualisierungsumgebungen unterstützt.<p>
-     * @param pDrawPedestal <i>true</i>, um der Szene Geländemodell-Sockel hinzuzufügen
+     * steuert, ob ein zum Gelï¿½ndemodell gehï¿½riger Sockel generiert und zur Szene hinzugefï¿½gt wird.<p>
+     * Bem.: Dieser Modus wird (noch?) nicht von allen Visualisierungsumgebungen unterstï¿½tzt.<p>
+     * @param pDrawPedestal <i>true</i>, um der Szene Gelï¿½ndemodell-Sockel hinzuzufï¿½gen
      */
     public void drawTerrainPedestal(boolean pDrawPedestal) {
         mDrawPedestal = pDrawPedestal;
@@ -232,7 +251,7 @@ abstract public class VsSimpleScene extends VsScene
 	}
 
     /**
-     * setzt die Farbe für den Geländemodell-Sockel. Voreinstellungsgemäß ist die Farbe Grau (50 %) gesetzt.<p>
+     * setzt die Farbe fï¿½r den Gelï¿½ndemodell-Sockel. Voreinstellungsgemï¿½ï¿½ ist die Farbe Grau (50 %) gesetzt.<p>
      * @param pColor Sockelfarbe
      */
     public void setPedestalColor(T3dColor pColor) {

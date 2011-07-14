@@ -1,30 +1,49 @@
+/***************************************************************************************
+ * Copyright (C) 2011 by 52 North Initiative for Geospatial Open Source Software GmbH  *
+ *                                                                                     *
+ * Contact: Benno Schmidt & Martin May, 52 North Initiative for Geospatial Open Source *
+ * Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, Germany, info@52north.org *
+ *                                                                                     *
+ * This program is free software; you can redistribute and/or modify it under the      *
+ * terms of the GNU General Public License version 2 as published by the Free Software *
+ * Foundation.                                                                         *
+ *                                                                                     *
+ * This program is distributed WITHOUT ANY WARRANTY; even without the implied WARRANTY *
+ * OF MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public  *
+ * License for more details.                                                           *
+ *                                                                                     *
+ * You should have received a copy of the GNU General Public License along with this   *
+ * program (see gnu-gpl v2.txt). If not, write to the Free Software Foundation, Inc.,  *
+ * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA, or visit the Free Software *
+ * Foundation web page, http://www.fsf.org.                                            *
+ **************************************************************************************/
 package org.n52.v3d.triturus.vscene;
 
 import org.n52.v3d.triturus.core.T3dException;
 import java.util.ArrayList;
 
 /**
- * Allgemeine Basisklasse für Kamera-Definitionen. Die Klasse dient innerhalb des Rahmenwerks dazu, 
- * Kameras unabhängig von der konkret eingesetzten Rendering-/Visualisierungsumgebung spezifizieren
- * zu können.
+ * todo engl. JavaDoc
+ * Allgemeine Basisklasse fï¿½r Kamera-Definitionen. Die Klasse dient innerhalb des Rahmenwerks dazu,
+ * Kameras unabhï¿½ngig von der konkret eingesetzten Rendering-/Visualisierungsumgebung spezifizieren
+ * zu kï¿½nnen.
  * <p>
- * In 3D-Anwendungen wird häufig ein vereinfachtes Modell der "synthetischen Kamera" verwendet. Die vorliegende 
- * Klasse wurde mit Blick auf die Belange der Geovisualisierung unter Wahrung der konzeptuellen Konformität an 
- * dieses Modell angepasst. Die Kamera-Parameter werden sich in den meisten Fällen innerhalb der konkret 
- * genutzten Rendering-Umgebungen (z. B. Java 3D oder VRML) umsetzen lassen. Nicht allgemeingültige Kamera-Parameter, 
- * die z. B. nur von speziellen Renderern unterstützt werden, sollten in Form von Spezialisierungen der Klasse 
+ * In 3D-Anwendungen wird hï¿½ufig ein vereinfachtes Modell der "synthetischen Kamera" verwendet. Die vorliegende 
+ * Klasse wurde mit Blick auf die Belange der Geovisualisierung unter Wahrung der konzeptuellen Konformitï¿½t an 
+ * dieses Modell angepasst. Die Kamera-Parameter werden sich in den meisten Fï¿½llen innerhalb der konkret 
+ * genutzten Rendering-Umgebungen (z. B. Java 3D oder VRML) umsetzen lassen. Nicht allgemeingï¿½ltige Kamera-Parameter, 
+ * die z. B. nur von speziellen Renderern unterstï¿½tzt werden, sollten in Form von Spezialisierungen der Klasse 
  * <tt>VsCamera</tt> Eingang in das vorliegende Rahmenwerk finden.
  * <p>
- * Bem.: Die Positionen sind in Geo-Koordinaten anzugeben. Häufig stellt die Verwendung relativer Koordinaten, 
- * die auf die Bounding-Box des Szeneninhalts (d. h. die räumliche Ausdehnung aller "Shapes" in einer Szene) 
- * bezogen sind, eine wesentliche Arbeitserleichterung dar. Für Geo-Anwendungen ist dies allerdings nicht 
- * unproblematisch, da sich diese Bounding-Box zur Programmlaufzeit dynamisch ändern kann. Um dennoch relative 
- * Koordinaten verwenden zu können, lassen sich z. B. die jeweilige Szenen-Semantik berücksichtigende Methoden 
+ * Bem.: Die Positionen sind in Geo-Koordinaten anzugeben. Hï¿½ufig stellt die Verwendung relativer Koordinaten, 
+ * die auf die Bounding-Box des Szeneninhalts (d. h. die rï¿½umliche Ausdehnung aller "Shapes" in einer Szene) 
+ * bezogen sind, eine wesentliche Arbeitserleichterung dar. Fï¿½r Geo-Anwendungen ist dies allerdings nicht 
+ * unproblematisch, da sich diese Bounding-Box zur Programmlaufzeit dynamisch ï¿½ndern kann. Um dennoch relative 
+ * Koordinaten verwenden zu kï¿½nnen, lassen sich z. B. die jeweilige Szenen-Semantik berï¿½cksichtigende Methoden 
  * spezieller Szenen-Implementierungen nutzen; siehe z. B. Transformationsmethoden in der Klasse 
  * <tt>VsSimpleScene</tt>.
  * <p>
- * @author Benno Schmidt<br>
- * (c) 2004, con terra GmbH & Institute for Geoinformatics<br>
+ * @author Benno Schmidt
  */
 public class VsCamera
 {
@@ -32,17 +51,17 @@ public class VsCamera
 	private int mCurrentViewpoint = -1;
 
     private String mProjectionType = PerspectiveView;
-    /** Konstante für perspektivische Projektion. */
+    /** Konstante fï¿½r perspektivische Projektion. */
 	public static final String PerspectiveView = "PerspectiveView";
-    /** Konstante für orthographische Projektion. */
+    /** Konstante fï¿½r orthographische Projektion. */
 	public static final String OrthographicView = "OrthographicView";
 
 	private double mFovy = 60.;
 	
 	/**
-	 * fügt der Kamera einen Ansichtspunkt hinzu.<p>
-	 * Einer <tt>VsCamera</tt> können mehrere Ansichtspunkte hinzugefügt werden. Voreinstellungsgemäß wird
-	 * der erste der Kamera hinzugefügte Ansichtspunkt beim Start der Visualisierung gesetzt.<p>
+	 * fï¿½gt der Kamera einen Ansichtspunkt hinzu.<p>
+	 * Einer <tt>VsCamera</tt> kï¿½nnen mehrere Ansichtspunkte hinzugefï¿½gt werden. Voreinstellungsgemï¿½ï¿½ wird
+	 * der erste der Kamera hinzugefï¿½gte Ansichtspunkt beim Start der Visualisierung gesetzt.<p>
 	 * @param pViewpoint Ansichtspunkt-Definition
 	 * @see VsCamera#setCurrentViewpoint
 	 */
@@ -56,8 +75,8 @@ public class VsCamera
 	}
 
 	/**
-	 * liefert den i-ten für die Kamera definierten Ansichtspunkt.<p>
-	 * Für i ist die Beziehung 0 &lt;= i &lt; <tt>this.numberOfViewpoints()</tt> einzuhalten.<p>
+	 * liefert den i-ten fï¿½r die Kamera definierten Ansichtspunkt.<p>
+	 * Fï¿½r i ist die Beziehung 0 &lt;= i &lt; <tt>this.numberOfViewpoints()</tt> einzuhalten.<p>
 	 * @param i
 	 * @return Ansichtspunkt-Definition
 	 * @throws T3dException
@@ -74,7 +93,7 @@ public class VsCamera
 	}
 
 	/**
-	 * liefert die Anzahl der für die Kamera definierten Ansichtspunkte.<p>
+	 * liefert die Anzahl der fï¿½r die Kamera definierten Ansichtspunkte.<p>
 	 * @return Anzahl &gt;= 0
 	 */
 	public int numberOfViewpoints() {
@@ -86,7 +105,7 @@ public class VsCamera
 	
 	/**
 	 * setzt den aktuellen Ansichtspunkt.<p>
-	 * Für i ist die Beziehung 0 &lt;= i &lt; <tt>this.numberOfViewpoints()</tt> einzuhalten.<p>
+	 * Fï¿½r i ist die Beziehung 0 &lt;= i &lt; <tt>this.numberOfViewpoints()</tt> einzuhalten.<p>
 	 * @param i Index des aktuell gesetzten Ansichtspunktes
 	 * @throws T3dException
 	 */
@@ -111,13 +130,13 @@ public class VsCamera
 	}
 
     /**
-     * setzt den für die Kamera eingestellten Projektionstyp. Mögliche Projektionen sind die perspektivische oder
+     * setzt den fï¿½r die Kamera eingestellten Projektionstyp. Mï¿½gliche Projektionen sind die perspektivische oder
      * orthographische Darstellung. Voreingestellt ist die perspektive Projektion.
      * <p>
      * Bem.: Der Typ <tt>this.PerspectiveView</tt> sollte von <b>allen</b> <tt>VsScene</tt>-Implementierungen
-     * unterstützt werden. Falls der Typ <tt>this.PerspectiveView</tt> nicht unterstützt wird, sollte seitens der
-     * jeweiligen <tt>VsScene</tt>-Implementierung (z. B. während des Renderns) eine <tt>T3dNotYetImplException</tt>
-     * geworfen werden. Weitere Projektionstypen sind denkbar (siehe z. B. in POV-Ray unterstützte Typen.
+     * unterstï¿½tzt werden. Falls der Typ <tt>this.PerspectiveView</tt> nicht unterstï¿½tzt wird, sollte seitens der
+     * jeweiligen <tt>VsScene</tt>-Implementierung (z. B. wï¿½hrend des Renderns) eine <tt>T3dNotYetImplException</tt>
+     * geworfen werden. Weitere Projektionstypen sind denkbar (siehe z. B. in POV-Ray unterstï¿½tzte Typen.
      * <p>
      * @param pProjectionType Projektionstyp, z. B. <tt>this.PerspectiveView</tt>
      * @see VsScene#generateScene
@@ -128,7 +147,7 @@ public class VsCamera
     }
 
     /**
-     * liefert den für die Kamera eingestellten Projektionstyp.<p>
+     * liefert den fï¿½r die Kamera eingestellten Projektionstyp.<p>
      * @return Projektionstyp, z. B. <tt>this.PerspectiveView</tt>
      * @see VsCamera#setProjection
      */
@@ -137,12 +156,12 @@ public class VsCamera
     }
 
 	/**
-	 * setzt den "Blickwinkel" ("field of view") für die Kamera. Voreingestellt ist ein Wert von 60 Grad.
+	 * setzt den "Blickwinkel" ("field of view") fï¿½r die Kamera. Voreingestellt ist ein Wert von 60 Grad.
 	 * <p>
-	 * Bem.: Die Änderung dieser Einstellung beeinflusst zumeist verschiedene mathematische Eigenschaften 
+	 * Bem.: Die ï¿½nderung dieser Einstellung beeinflusst zumeist verschiedene mathematische Eigenschaften 
 	 * der Ansicht! So kann z. B. die Neuberechnung des Betrachterabstandes vom Dargestellten notwendig
-	 * werden. Falls für die Kamera eine orthographische Ansicht eingestellt ist, wird dieser Wert nicht
-     * berücksichtigt.<p>
+	 * werden. Falls fï¿½r die Kamera eine orthographische Ansicht eingestellt ist, wird dieser Wert nicht
+     * berï¿½cksichtigt.<p>
 	 * <p>
 	 * @param pAngle Winkelangabe in Altgrad
 	 */
@@ -151,7 +170,7 @@ public class VsCamera
 	}
 	
 	/**
-	 * liefert den für die Kamera eingestellten "Blickwinkel" ("field of view").<p>
+	 * liefert den fï¿½r die Kamera eingestellten "Blickwinkel" ("field of view").<p>
 	 * @return Winkelangabe in Altgrad
 	 */
 	public double getFovy() {

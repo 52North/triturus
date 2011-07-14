@@ -1,23 +1,42 @@
+/***************************************************************************************
+ * Copyright (C) 2011 by 52 North Initiative for Geospatial Open Source Software GmbH  *
+ *                                                                                     *
+ * Contact: Benno Schmidt & Martin May, 52 North Initiative for Geospatial Open Source *
+ * Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, Germany, info@52north.org *
+ *                                                                                     *
+ * This program is free software; you can redistribute and/or modify it under the      *
+ * terms of the GNU General Public License version 2 as published by the Free Software *
+ * Foundation.                                                                         *
+ *                                                                                     *
+ * This program is distributed WITHOUT ANY WARRANTY; even without the implied WARRANTY *
+ * OF MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public  *
+ * License for more details.                                                           *
+ *                                                                                     *
+ * You should have received a copy of the GNU General Public License along with this   *
+ * program (see gnu-gpl v2.txt). If not, write to the Free Software Foundation, Inc.,  *
+ * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA, or visit the Free Software *
+ * Foundation web page, http://www.fsf.org.                                            *
+ **************************************************************************************/
 package org.n52.v3d.triturus.vscene;
 
 import org.n52.v3d.triturus.vgis.VgPoint;
 import org.n52.v3d.triturus.t3dutil.T3dVector;
 
 /**
- * Allgemeine Basisklasse für Ansichtspunkt-Definitionen. Die Klasse dient innerhalb des Rahmenwerks dazu, 
- * Ansichtspunkte unabhängig von der konkret eingesetzten Rendering-/Visualisierungsumgebung spezifizieren
- * zu können.
+ * todo engl. JavaDoc
+ * Allgemeine Basisklasse fï¿½r Ansichtspunkt-Definitionen. Die Klasse dient innerhalb des Rahmenwerks dazu, 
+ * Ansichtspunkte unabhï¿½ngig von der konkret eingesetzten Rendering-/Visualisierungsumgebung spezifizieren
+ * zu kï¿½nnen.
  * <p>
- * Bem.: Die Positionen sind in Geo-Koordinaten anzugeben. Häufig stellt die Verwendung relativer Koordinaten, 
- * die auf die Bounding-Box des Szeneninhalts (d. h. die räumliche Ausdehnung aller "Shapes" in einer Szene) 
- * bezogen sind, eine wesentliche Arbeitserleichterung dar. Für Geo-Anwendungen ist dies allerdings nicht 
- * unproblematisch, da sich diese Bounding-Box zur Programmlaufzeit dynamisch ändern kann. Um dennoch relative 
- * Koordinaten verwenden zu können, lassen sich z. B. die jeweilige Szenen-Semantik berücksichtigende Methoden 
+ * Bem.: Die Positionen sind in Geo-Koordinaten anzugeben. Hï¿½ufig stellt die Verwendung relativer Koordinaten, 
+ * die auf die Bounding-Box des Szeneninhalts (d. h. die rï¿½umliche Ausdehnung aller "Shapes" in einer Szene) 
+ * bezogen sind, eine wesentliche Arbeitserleichterung dar. Fï¿½r Geo-Anwendungen ist dies allerdings nicht 
+ * unproblematisch, da sich diese Bounding-Box zur Programmlaufzeit dynamisch ï¿½ndern kann. Um dennoch relative 
+ * Koordinaten verwenden zu kï¿½nnen, lassen sich z. B. die jeweilige Szenen-Semantik berï¿½cksichtigende Methoden 
  * spezieller Szenen-Implementierungen nutzen; siehe z. B. Transformationsmethoden in der Klasse 
  * <tt>VsSimpleScene</tt>.
  * <p>
- * @author Benno Schmidt<br>
- * (c) 2004, con terra GmbH & Institute for Geoinformatics<br>
+ * @author Benno Schmidt
  */
 public class VsViewpoint
 {
@@ -60,19 +79,19 @@ public class VsViewpoint
 	}
 
 	/**
-	 * setzt den Up-Vektor für den Ansichtspunkt. x- und y- Koordinate des Vektors beziehen sich auf die 
-	 * Koordinatenachsen des räumlichen Bezugssystems, in dem Betrachterposition und Fokuspunkt angegeben sind.
+	 * setzt den Up-Vektor fï¿½r den Ansichtspunkt. x- und y- Koordinate des Vektors beziehen sich auf die 
+	 * Koordinatenachsen des rï¿½umlichen Bezugssystems, in dem Betrachterposition und Fokuspunkt angegeben sind.
 	 * Die z-Koordinate bezieht sich auf die vertikale Orientierung. Voreingestellt ist der Wert (0,0,1), d. h.
-	 * die Kamera ist gegenüber der Horizontalen nicht gedreht.<p>
-	 * @param pLookUp Vektor bezogen auf die georäumlichen Kordinatenachsen
+	 * die Kamera ist gegenï¿½ber der Horizontalen nicht gedreht.<p>
+	 * @param pLookUp Vektor bezogen auf die georï¿½umlichen Kordinatenachsen
 	 */
 	public void setLookUp(T3dVector pLookUp) {
 		mLookUp = pLookUp;
 	}
 
 	/**
-	 * liefert den Up-Vektor für den Ansichtspunkt.<p>
-	 * @return Vektor bezogen auf die georäumlichen Kordinatenachsen
+	 * liefert den Up-Vektor fï¿½r den Ansichtspunkt.<p>
+	 * @return Vektor bezogen auf die georï¿½umlichen Kordinatenachsen
 	 * @see VsViewpoint#setLookUp
 	 */
 	public T3dVector getLookUp() {
