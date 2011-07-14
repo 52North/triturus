@@ -1,16 +1,35 @@
+/***************************************************************************************
+ * Copyright (C) 2011 by 52 North Initiative for Geospatial Open Source Software GmbH  *
+ *                                                                                     *
+ * Contact: Benno Schmidt & Martin May, 52 North Initiative for Geospatial Open Source *
+ * Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, Germany, info@52north.org *
+ *                                                                                     *
+ * This program is free software; you can redistribute and/or modify it under the      *
+ * terms of the GNU General Public License version 2 as published by the Free Software *
+ * Foundation.                                                                         *
+ *                                                                                     *
+ * This program is distributed WITHOUT ANY WARRANTY; even without the implied WARRANTY *
+ * OF MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public  *
+ * License for more details.                                                           *
+ *                                                                                     *
+ * You should have received a copy of the GNU General Public License along with this   *
+ * program (see gnu-gpl v2.txt). If not, write to the Free Software Foundation, Inc.,  *
+ * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA, or visit the Free Software *
+ * Foundation web page, http://www.fsf.org.                                            *
+ **************************************************************************************/
 package org.n52.v3d.triturus.vscene;
 
 import org.n52.v3d.triturus.core.T3dException;
 import java.util.ArrayList;
 
 /**
- * Abstrakte Basisklasse für allgemeine Szenenbeschreibungen für 3D-Geovisualisierungen. Die Klasse dient 
+ * todo engl. JavaDoc
+ * Abstrakte Basisklasse fï¿½r allgemeine Szenenbeschreibungen fï¿½r 3D-Geovisualisierungen. Die Klasse dient 
  * innerhalb des Rahmenwerks zur Abstraktion von der konkret eingesetzten Rendering-/Visualisierungsumgebung.
  * <p>
- * <i>TODO: Konkrete Implementierungen könnten z. B. generische Szenengraphen, konkrete Szenengraphen für
+ * <i>TODO: Konkrete Implementierungen kï¿½nnten z. B. generische Szenengraphen, konkrete Szenengraphen fï¿½r
  * Java 3D, Xith3D, VRML, GeoVRML, X3D, AVS-Netzwerke, POV-Ray-Szenenbeschreibungen oder sonstwas realisieren...</i>
- * @author Benno Schmidt<br>
- * (c) 2004, con terra GmbH & Institute for Geoinformatics<br>
+ * @author Benno Schmidt
  */
 abstract public class VsScene
 {
@@ -22,7 +41,7 @@ abstract public class VsScene
 	private ArrayList mLights = null;
 	
 	/**
-	 * setzt die Voreinstellung für die Überhöhung (vertikaler Höhenmaßstab) der Szene. Voreingestellt ist der
+	 * setzt die Voreinstellung fï¿½r die ï¿½berhï¿½hung (vertikaler Hï¿½henmaï¿½stab) der Szene. Voreingestellt ist der
 	 * Wert 1.0.<p>
 	 * @param pExaggeration z-Faktor
 	 */	
@@ -31,7 +50,7 @@ abstract public class VsScene
 	}
 
 	/**
-	 * liefert den für die Überhöhung (vertikaler Höhenmaßstab) voreingestellten Wert.<p>
+	 * liefert den fï¿½r die ï¿½berhï¿½hung (vertikaler Hï¿½henmaï¿½stab) voreingestellten Wert.<p>
 	 * @return z-Faktor
 	 */	
 	public double getDefaultExaggeration() {
@@ -39,9 +58,9 @@ abstract public class VsScene
 	}
 
 	/**
-	 * fügt der Szene einen Kamera hinzu.<p>
-	 * Einer <tt>VsScene</tt> können mehrere Kameras hinzugefügt werden. Voreinstellungsgemäß wird
-	 * die erste der Szene hinzugefügte Kamera beim Start der Visualisierung gesetzt.<p>
+	 * fï¿½gt der Szene einen Kamera hinzu.<p>
+	 * Einer <tt>VsScene</tt> kï¿½nnen mehrere Kameras hinzugefï¿½gt werden. Voreinstellungsgemï¿½ï¿½ wird
+	 * die erste der Szene hinzugefï¿½gte Kamera beim Start der Visualisierung gesetzt.<p>
 	 * @param pCamera Kamera-Definition
 	 * @see VsScene#setCurrentCamera
 	 */
@@ -55,8 +74,8 @@ abstract public class VsScene
 	}
 
 	/**
-	 * liefert die i-te für die Szene definierten Kamera.<p>
-	 * Für i ist die Beziehung 0 &lt;= i &lt; <tt>this.numberOfCameras()</tt> einzuhalten.<p>
+	 * liefert die i-te fï¿½r die Szene definierten Kamera.<p>
+	 * Fï¿½r i ist die Beziehung 0 &lt;= i &lt; <tt>this.numberOfCameras()</tt> einzuhalten.<p>
 	 * @param i
 	 * @return Kamera-Definition
 	 * @throws T3dException
@@ -73,7 +92,7 @@ abstract public class VsScene
 	}
 
 	/**
-	 * liefert die Anzahl der für die Kamera definierten Kameras.<p>
+	 * liefert die Anzahl der fï¿½r die Kamera definierten Kameras.<p>
 	 * @return Anzahl &gt;= 0
 	 */
 	public int numberOfCameras() {
@@ -85,7 +104,7 @@ abstract public class VsScene
 	
 	/**
 	 * setzt die aktuelle Kamera.<p>
-	 * Für i ist die Beziehung 0 &lt;= i &lt; <tt>this.numberOfCameras()</tt> einzuhalten.<p>
+	 * Fï¿½r i ist die Beziehung 0 &lt;= i &lt; <tt>this.numberOfCameras()</tt> einzuhalten.<p>
 	 * @param i Index der aktuell gesetzten Kamera
 	 * @throws T3dException
 	 */
@@ -110,7 +129,7 @@ abstract public class VsScene
 	}
 
 	/**
-	 * liefert den aktuell gesetzten Ansichtspunkt für die Szene. Dieser Ansichtspunkt entspricht dem
+	 * liefert den aktuell gesetzten Ansichtspunkt fï¿½r die Szene. Dieser Ansichtspunkt entspricht dem
 	 * aktuellen Ansichtspunkt der aktuell gesetzten Kamera.<p>
 	 * @return Ansichtspunkt 
 	 * @throws T3dException
@@ -133,8 +152,8 @@ abstract public class VsScene
     }
 
 	/**
-	 * fügt der Szene eine Lichtquelle hinzu.<p>
-	 * Einer <tt>VsScene</tt> können mehrere Lichtquellen hinzugefügt werden.<p>
+	 * fï¿½gt der Szene eine Lichtquelle hinzu.<p>
+	 * Einer <tt>VsScene</tt> kï¿½nnen mehrere Lichtquellen hinzugefï¿½gt werden.<p>
 	 * @param pLight Lichtquellen-Definition
 	 */
 	public void addLightSource(VsLightSource pLight) 
@@ -145,8 +164,8 @@ abstract public class VsScene
 	}
 
 	/**
-	 * liefert die i-ten für die Szene definierte Lichtquelle.<p>
-	 * Für i ist die Beziehung 0 &lt;= i &lt; <tt>this.numberOfLightSources()</tt> einzuhalten.<p>
+	 * liefert die i-ten fï¿½r die Szene definierte Lichtquelle.<p>
+	 * Fï¿½r i ist die Beziehung 0 &lt;= i &lt; <tt>this.numberOfLightSources()</tt> einzuhalten.<p>
 	 * @param i
 	 * @return Lichtquellen-Definition 
 	 * @throws T3dException
@@ -163,7 +182,7 @@ abstract public class VsScene
 	}
 
 	/**
-	 * liefert die Anzahl der für die Szene definierten Lichtquellen.<p>
+	 * liefert die Anzahl der fï¿½r die Szene definierten Lichtquellen.<p>
 	 * @return Anzahl &gt;= 0
 	 */
 	public int numberOfLightSources() {
@@ -183,7 +202,7 @@ abstract public class VsScene
     }
 
 	/**
-	 * generiert die zu den gesetzten Werten gehörige Szenen-Beschreibung. Bei dem Resultat des Methodenaufrufs kann
+	 * generiert die zu den gesetzten Werten gehï¿½rige Szenen-Beschreibung. Bei dem Resultat des Methodenaufrufs kann
 	 * es sich z. B. um eine (nicht notwendigerweise Szenengraph-basierte) Szenenbeschreibungsdatei oder ein
 	 * Szenengraph-Objekt handeln.<p>
 	 * Bem.: Diese Methode ist durch die konkreten <tt>VsScene</tt>-Realisierungen zu implementieren.<p>
