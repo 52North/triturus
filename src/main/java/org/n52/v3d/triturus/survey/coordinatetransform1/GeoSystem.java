@@ -17,63 +17,86 @@
  * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA, or visit the Free Software *
  * Foundation web page, http://www.fsf.org.                                            *
  **************************************************************************************/
-package org.n52.v3d.triturus.survey.conterra;
+package org.n52.v3d.triturus.survey.coordinatetransform1;
 
 /**
  * @author Udo Einspanier
  */
-public class GaussKrueger extends TransverseMercator {
+public class GeoSystem {
 
     // static attributes...
 
+    public static final int PROJECTIONTYPE_GEOCENTRIC = 0;
+
+    public static final int PROJECTIONTYPE_CARTESIAN = 1;
+
+    public static final int PROJECTIONTYPE_ELLIPSIODAL = 2;
+
+    public final static GeoSystem GEOSYSTEM_WGS84 = new GeoSystem(new Ellipsoid(6378137.0d, 6356752.3142d, "WGS 84"),
+            WGS84Datum.WGS84_DATUM, null /*new Projection()*/, GeoSystem.PROJECTIONTYPE_ELLIPSIODAL);
 
     // public attributes
 
 
     // private attributes
 
-    private int strip;
-    private int stripWidth;     //3� BRD (6� in DDR)
+    private Ellipsoid ellipsoid;
+
+    private Datum datum;
+
+    private Projection projection;
+
+    private int projectionType;
 
     // static methods
 
 
     // constructors
 
-    public GaussKrueger() {
-        this(3, 3);
+    public GeoSystem() {
+        this (null, null, null, PROJECTIONTYPE_ELLIPSIODAL);
     }
 
-    public GaussKrueger(int strip, int stripWidth) {
-        this.strip = strip;
-        this.stripWidth = stripWidth;
-        init();
-    }
-
-    public GaussKrueger(int strip, int stripWidth, String name) {
-        this(strip, stripWidth);
-        setName(name);
+    public GeoSystem(Ellipsoid ellipsoid, Datum datum, Projection projection, int projectionType) {
+        setEllipsoid(ellipsoid);
+        setDatum(datum);
+        setProjection(projection);
+        this.projectionType = projectionType;
     }
 
     // public methods
-
-    public int getStripZone() {
-        return strip;
+    public Ellipsoid getEllipsoid() {
+        return ellipsoid;
     }
 
-    private void init() {
-        factor = 1.0d;
-        northing = 0.0d;
-        if (stripWidth == 6) {	//Ostdeutschland
-            //1-er Streifen geht von 0� bis 6� mit Zentralmeridian 3�
-            centralmeridian = strip * stripWidth - 3.0;
+    public void setEllipsoid(Ellipsoid ellipsoid) {
+        this.ellipsoid = ellipsoid;
+        if (projection != null) {
+            projection.initEllipsoid(ellipsoid);
         }
-        else {
-            //1-er Streifen geht von 1,5� bis 4,5� mit Zentralmeridian 3�
-            centralmeridian = strip * stripWidth;
-        }
-
-        nulllat = 0.0d;
-        easting = strip * 1000000.0d + 500000.0d;
     }
+
+    public Datum getDatum() {
+        return datum;
+    }
+
+    public void setDatum(Datum datum) {
+        this.datum = datum;
+    }
+
+    public Projection getProjection() {
+        return projection;
+    }
+
+    public void setProjection(Projection projection) {
+        this.projection = projection;
+        if (projection != null) {
+            projection.initEllipsoid(ellipsoid);
+        }
+    }
+
+    public int getProjectionType() {
+        return projectionType;
+    }
+
 }

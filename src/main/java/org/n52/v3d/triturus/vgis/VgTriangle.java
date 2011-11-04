@@ -90,7 +90,7 @@ abstract public class VgTriangle extends VgGeomObject2d
      * liegt.<p>
 	 * Bem.: Die z-Koordinate von <tt>pt</tt> kann auf einen Dummy-Wert gesetzt sein.
      * @param pt
-     * @return
+     * @return z-value
 	 * @see VgTriangle#isInsideXY
 	 */
 	public double interpolateZ(VgPoint pt) 
@@ -139,7 +139,7 @@ abstract public class VgTriangle extends VgGeomObject2d
 	 * <b>TODO: Methode ist noch nicht getestet (von C++ portiert...)</b>
      * @param pt
      * @param pEdge
-     * @return
+     * @return <i>true</i>, if <tt>pt</tt> lies inside the triangle, else <i>false</i>
 	 */
 	public boolean isInsideXY(VgPoint pt, boolean pEdge)
     {

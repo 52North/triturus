@@ -57,7 +57,7 @@ public class ImageTools
      * konvertiert ein awt.Image in ein BufferedImage
      *
      * @param image
-     * @return
+     * @return Buffered image object
      */
     public static BufferedImage toBufferedImage(Image image) {
         if (image instanceof BufferedImage) {
@@ -185,7 +185,7 @@ public class ImageTools
      * @param j
      * @param b
      * @param buffer
-     * @return
+     * @return Buffered image object
      */
     public static BufferedImage createBufferedImage(int i, int j, boolean b, ByteBuffer buffer) {
         return createBufferedImage(i, j, b, buffer.array());
@@ -199,7 +199,7 @@ public class ImageTools
     /**
      * todo: Javadoc
      * @param imageLocation
-     * @return
+     * @return Buffered image object
      */
     public static final BufferedImage loadImage(String imageLocation)
     {

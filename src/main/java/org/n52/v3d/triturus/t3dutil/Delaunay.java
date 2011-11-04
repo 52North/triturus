@@ -25,7 +25,7 @@ package org.n52.v3d.triturus.t3dutil;
   * to inspection.
   * </ul>
   *
-  * @see Ruppert
+  * @author Ruppert
   */
 public class Delaunay implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
@@ -204,11 +204,11 @@ public class Delaunay implements java.io.Serializable {
 			addPoint(p[c], p[c + 1]);
 	}
 
-	/**
-		 * The core method of this class: A point <code>x,y</code> is inserted.
-		 * The point <b>must lie inside</b> the given triangulation.
-		 * @param x,y are the point's coordinates
-		 */
+    /**
+     * The core method of this class: A point <code>x,y</code> is inserted.
+     * The point <b>must lie inside</b> the given triangulation.
+     * @param x,y are the point's coordinates
+     */
 	public void addPoint(final double x, final double y) {
 		final int f = findTriangle(x, y);
 

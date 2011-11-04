@@ -17,61 +17,63 @@
  * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA, or visit the Free Software *
  * Foundation web page, http://www.fsf.org.                                            *
  **************************************************************************************/
-package org.n52.v3d.triturus.survey.conterra;
+package org.n52.v3d.triturus.survey.coordinatetransform1;
+
+import org.n52.v3d.triturus.core.T3dException;
 
 /**
  * @author Udo Einspanier
  */
-public class GeoSysUtil {
+public abstract class CsCodes {
+    public final static String AUTHORITY_EPSG = "epsg";
 
-    // static attributes...
+    public final static String AUTHORITY_SEP = ":";
 
-    public final static double DEG2RAD = Math.PI / 180.0d;
+    public final static int EPSG_UNKNOWN = -1;
 
-    public final static double RAD2DEG = 180.0d / Math.PI;
+    public final static int EPSG_GCS_WGS84 = 4326;
+    public final static int EPSG_PCS_UTM32 = 32632;
+    public final static int EPSG_PCS_DHDN_GK1 = 31465;
+    public final static int EPSG_PCS_DHDN_GK2 = 31466;
+    public final static int EPSG_PCS_DHDN_GK3 = 31467;
+    public final static int EPSG_PCS_DHDN_GK4 = 31468;
+    public final static int EPSG_PCS_DHDN_GK5 = 31469;
 
-    public final static double PI2 = 2.0d * Math.PI;
-    
-    // public attributes
+    public final static String createId(int code) {
+        return createId(AUTHORITY_EPSG, code);
+    }
 
+    public final static String createId(String authority, int code) {
+        return authority + AUTHORITY_SEP + code;
+    }
 
-    // private attributes
-
-
-    // static methods
-
-    public final static double[] check3DCoord(double[] coord) {
-        if ((coord == null) || (coord.length != 3)) {
-            coord = new double[3];
+    public final static String extractAuthority(String srsId) {
+        if (srsId == null) {
+            return null;
         }
-        return coord;
-    }
-
-    public final static double[] return3DCoord(double x, double y, double z, double[] out) {
-        out = check3DCoord(out);
-        out[0] = x;
-        out[1] = y;
-        out[2] = z;
-        return out;
-    }
-
-    public final static double[] check2DCoord(double[] coord) {
-        if ((coord == null) || (coord.length != 2)) {
-            coord = new double[2];
+        int pos = srsId.indexOf(AUTHORITY_SEP);
+        if (pos < 0) {
+            return srsId;
         }
-        return coord;
+        return srsId.substring(0, pos);
     }
 
-    public final static double[] return2DCoord(double x, double y, double[] out) {
-        out = check2DCoord(out);
-        out[0] = x;
-        out[1] = y;
-        return out;
+    public final static int extractCode(String srsId) {
+        if (srsId == null) {
+            return EPSG_UNKNOWN;
+        }
+        int pos = srsId.indexOf(AUTHORITY_SEP);
+        if (pos > -1) {
+            srsId = srsId.substring(pos + 1);
+        }
+        int code = EPSG_UNKNOWN;
+        try {
+            code = Integer.parseInt(srsId);
+        }
+        catch (Exception x) {
+            throw new T3dException("Error extracting SRS code");
+        }
+        return code;
     }
-
-    // constructors
-
-
-    // public methods
 
 }

@@ -54,7 +54,7 @@ abstract public class IoAbstractWriter extends IoObject
      * sets the number of decimal places (after decimal point) for x- and y-coordinates to be written.<br /><br />
      * <i>German:</i> setzt die Anzahl der f&uuml;r x- und y-Koordinaten zu schreibenden Nachkommastellen.
      * Voreinstellungsgem&auml;&szlig; ist der Wert 2 gesetzt.
-     * @@param pPrec Number of decimal places (after decimal point)
+     * @param pPrec Number of decimal places (after decimal point)
      */
     public void setPrecisionXY(int pPrec) {
         if (pPrec < 0)

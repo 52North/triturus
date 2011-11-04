@@ -17,86 +17,61 @@
  * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA, or visit the Free Software *
  * Foundation web page, http://www.fsf.org.                                            *
  **************************************************************************************/
-package org.n52.v3d.triturus.survey.conterra;
+package org.n52.v3d.triturus.survey.coordinatetransform1;
 
 /**
  * @author Udo Einspanier
  */
-public class GeoSystem {
+public class GeoSysUtil {
 
     // static attributes...
 
-    public static final int PROJECTIONTYPE_GEOCENTRIC = 0;
+    public final static double DEG2RAD = Math.PI / 180.0d;
 
-    public static final int PROJECTIONTYPE_CARTESIAN = 1;
+    public final static double RAD2DEG = 180.0d / Math.PI;
 
-    public static final int PROJECTIONTYPE_ELLIPSIODAL = 2;
-
-    public final static GeoSystem GEOSYSTEM_WGS84 = new GeoSystem(new Ellipsoid(6378137.0d, 6356752.3142d, "WGS 84"),
-            WGS84Datum.WGS84_DATUM, null /*new Projection()*/, GeoSystem.PROJECTIONTYPE_ELLIPSIODAL);
-
+    public final static double PI2 = 2.0d * Math.PI;
+    
     // public attributes
 
 
     // private attributes
 
-    private Ellipsoid ellipsoid;
-
-    private Datum datum;
-
-    private Projection projection;
-
-    private int projectionType;
 
     // static methods
 
+    public final static double[] check3DCoord(double[] coord) {
+        if ((coord == null) || (coord.length != 3)) {
+            coord = new double[3];
+        }
+        return coord;
+    }
+
+    public final static double[] return3DCoord(double x, double y, double z, double[] out) {
+        out = check3DCoord(out);
+        out[0] = x;
+        out[1] = y;
+        out[2] = z;
+        return out;
+    }
+
+    public final static double[] check2DCoord(double[] coord) {
+        if ((coord == null) || (coord.length != 2)) {
+            coord = new double[2];
+        }
+        return coord;
+    }
+
+    public final static double[] return2DCoord(double x, double y, double[] out) {
+        out = check2DCoord(out);
+        out[0] = x;
+        out[1] = y;
+        return out;
+    }
 
     // constructors
 
-    public GeoSystem() {
-        this (null, null, null, PROJECTIONTYPE_ELLIPSIODAL);
-    }
-
-    public GeoSystem(Ellipsoid ellipsoid, Datum datum, Projection projection, int projectionType) {
-        setEllipsoid(ellipsoid);
-        setDatum(datum);
-        setProjection(projection);
-        this.projectionType = projectionType;
-    }
 
     // public methods
-    public Ellipsoid getEllipsoid() {
-        return ellipsoid;
-    }
-
-    public void setEllipsoid(Ellipsoid ellipsoid) {
-        this.ellipsoid = ellipsoid;
-        if (projection != null) {
-            projection.initEllipsoid(ellipsoid);
-        }
-    }
-
-    public Datum getDatum() {
-        return datum;
-    }
-
-    public void setDatum(Datum datum) {
-        this.datum = datum;
-    }
-
-    public Projection getProjection() {
-        return projection;
-    }
-
-    public void setProjection(Projection projection) {
-        this.projection = projection;
-        if (projection != null) {
-            projection.initEllipsoid(ellipsoid);
-        }
-    }
-
-    public int getProjectionType() {
-        return projectionType;
-    }
 
 }

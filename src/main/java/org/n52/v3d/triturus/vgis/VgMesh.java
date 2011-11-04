@@ -28,7 +28,6 @@ import org.n52.v3d.triturus.core.T3dException;
  * @author
  * @see org.n52.v3d.triturus.vgis.VgLineSegmentTopology
  */
-
 abstract public class VgMesh
 	extends VgGeomObject {
 

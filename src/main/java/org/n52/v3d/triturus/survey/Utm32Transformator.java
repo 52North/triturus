@@ -23,9 +23,9 @@ import org.n52.v3d.triturus.vgis.VgPoint;
 import org.n52.v3d.triturus.vgis.T3dSRSException;
 import org.n52.v3d.triturus.vgis.VgGeomObject;
 import org.n52.v3d.triturus.core.T3dException;
-import org.n52.v3d.triturus.survey.conterra.CoordinateTransformFactory;
-import org.n52.v3d.triturus.survey.conterra.CoordinateTransform;
-import org.n52.v3d.triturus.survey.conterra.GeographicTransformException;
+import org.n52.v3d.triturus.survey.coordinatetransform1.CoordinateTransformFactory;
+import org.n52.v3d.triturus.survey.coordinatetransform1.CoordinateTransform;
+import org.n52.v3d.triturus.survey.coordinatetransform1.GeographicTransformException;
 
 import java.lang.Double;
 

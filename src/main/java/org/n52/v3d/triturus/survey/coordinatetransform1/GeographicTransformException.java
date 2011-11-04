@@ -17,17 +17,41 @@
  * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA, or visit the Free Software *
  * Foundation web page, http://www.fsf.org.                                            *
  **************************************************************************************/
-package org.n52.v3d.triturus.survey.conterra;
+package org.n52.v3d.triturus.survey.coordinatetransform1;
 
 /**
  * @author Udo Einspanier
  */
-public interface Datum {
+public class GeographicTransformException extends Exception {
+
     // static attributes...
 
-    public final static Datum WGS84_DATUM_SHIFT = new WGS84Datum();
 
-    double[] fromWGS84(Ellipsoid ellipsoid, double x, double y, double z, double[] out) throws GeographicTransformException;
-    double[] toWGS84(Ellipsoid ellipsoid, double x, double y, double z, double[] out) throws GeographicTransformException;
-    String getName();
+    // public attributes
+
+
+    // private attributes
+
+
+    // static methods
+
+
+    // constructors
+
+    public GeographicTransformException() {
+    }
+
+    public GeographicTransformException(Throwable throwable) {
+        super(throwable);
+    }
+
+    public GeographicTransformException(String s, Throwable throwable) {
+        super(s, throwable);
+    }
+
+    public GeographicTransformException(String s) {
+        super(s);
+    }
+    // public methods
+
 }

@@ -34,7 +34,7 @@ import java.net.MalformedURLException;
  * Fehlernummer, ein Komma und ein einzeiliger Fehlermeldungstext angegeben sind.<br />
  * Bem.: Die Nutzung der auf Grundlage der ID &uuml;bersetzten Fehlermeldungstexte obliegt der Applikation;
  * Rahmenwerk-intern werden die angegebenen Fehlermeldungen verwendet. Zur Nutzung siehe z. B. Anwendung
- * <tt>org.n52.v3d.conterra.suite.terrainservice.povraywts.WebTerrainServlet</tt>. Weitere Hinweise k&ouml;nnen dem
+ * <tt>org.n52.v3d.coordinatetransform1.suite.terrainservice.povraywts.WebTerrainServlet</tt>. Weitere Hinweise k&ouml;nnen dem
  * Installationshandbuch des 52N terrainServers entnommen werden.<p>
  * @see T3dException
  * @author Benno Schmidt

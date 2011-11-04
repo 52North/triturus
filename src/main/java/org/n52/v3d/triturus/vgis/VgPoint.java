@@ -193,7 +193,7 @@ abstract public class VgPoint extends VgGeomObject0d implements Comparable
 	
 	/**
 	 * @deprecated
-     * @author Martin May
+     * // @author Martin May
 	 */
 	public boolean equals(Object pt) 
 	{

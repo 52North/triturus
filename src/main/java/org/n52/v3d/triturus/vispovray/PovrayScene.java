@@ -85,7 +85,7 @@ public class PovrayScene extends VsSimpleScene
      * wird, wird eine <tt>T3dException</tt> geworfen.<br />
 	 * Bem.: Die Methode <tt>this.generateScene()</tt> ist vor dem Rendering nicht explizit aufzurufen.
 	 * @throws T3dException
-     * @see this#setRendererTimeout(long)
+     * @see PovrayScene#setRendererTimeout(long)
      */
 	public void render()
 	{
@@ -100,7 +100,7 @@ public class PovrayScene extends VsSimpleScene
      * Bem.: Siehe auch Hinweise zu PovrayScene#render.
      * @param pFilename Dateiname (mit Extension <tt>&quot;.gif&quot;</tt>)
      * @throws T3dException
-     * @see this#render()
+     * @see PovrayScene#render()
      */
     public void renderCachedDEM(String pFilename)
     {

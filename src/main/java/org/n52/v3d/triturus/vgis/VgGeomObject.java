@@ -57,7 +57,7 @@ abstract public class VgGeomObject
 
     /**
      * @deprecated
-     * @see this#SRSLatLonWgs84
+     * @see VgGeomObject#SRSLatLonWgs84
      */
     public static final String SRSLatLon = "EPSG:4326";
 

@@ -75,7 +75,7 @@ public class FltPointSet2ElevationGrid extends T3dProcFilter
      * dieses Konstruktors wird das "N�chster-Nachbar"-Verfahren angewendet.
      * @param pGeom the target-grid's geometry
      * @param pRadius Search-radius (referring to the set coordinate reference system)
-     * @see this#cNearestNeighbor
+     * @see FltPointSet2ElevationGrid#cNearestNeighbor
      */
     public FltPointSet2ElevationGrid(GmSimple2dGridGeometry pGeom, double pRadius) 
     {
