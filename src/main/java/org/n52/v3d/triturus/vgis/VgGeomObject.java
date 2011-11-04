@@ -188,7 +188,7 @@ abstract public class VgGeomObject
 	abstract public VgEnvelope envelope();
 
 	/**
-     * returns the object's footprint geometry (projection to the x-y plane).<br /><br />
+     * returns the object's footprint geometry (projection to the x-y-plane).<br /><br />
 	 * <i>German:</i> liefert das Objekt, das sich durch Projektion der Geometrie auf die xy-Ebene ergibt.<p>
 	 * F&uuml;r Objekte mit einer r&auml;umlichen Dimension bis 2 ist die Dimension dieses &quot;Footprints&quot; gleich
      * der des Objekts, f&uuml;r das die Methode aufgerufen wird. F&uuml;r Objekte mit dreidimensionalen Geometrien

@@ -44,7 +44,7 @@ public class FltElevationGrid2PointSet extends T3dProcFilter
     }
 
     /**
-     * sets an envelope as süpatial filter.<br /><br />
+     * sets an envelope as spatial filter.<br /><br />
      * <i>German:</i> setzt einen Envelope als r�umlichen Filter. Falls der Filter ungleich <i>null</i> ist, werden
      * innerhalb der <tt>transform</tt>-Operation nur diejenigen Punkte ber�cksichtigt, die innerhalb der gegebenen
      * Bounding-Box liegen. Hierbei werden nur die x- und y-Koordinaten des Envelopes ber&uuml;cksichtigt!<br />

@@ -35,11 +35,13 @@ abstract public class VgEquidistGrid extends VgGeomObject
 {
     /**
      * returns the grid's number of rows (first grid axis).
+     * @return Number of rows
      */
 	abstract public int numberOfRows();
 
     /**
      * returns the grid's number of columns (second grid axis).
+     * @return Number of columns
      */
 	abstract public int numberOfColumns();
 
@@ -49,7 +51,8 @@ abstract public class VgEquidistGrid extends VgGeomObject
 	abstract public T3dVector getDirectionColumns();
 
     /**
-     * returns the direction vector of the grid's second  axis (column direction).
+     * returns the direction vector of the grid's second axis (column direction).
+     * @return Direction vector
      */
 	abstract public T3dVector getDirectionRows();
 

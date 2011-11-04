@@ -27,7 +27,7 @@ package org.n52.v3d.triturus.core;
  * Visualisierungs-Pipeline.
  * @see T3dProcFilter
  * @see T3dProcMapper
- * @author Benno Schmidt<br>
+ * @author Benno Schmidt
  */
 abstract public class IoObject 
 {

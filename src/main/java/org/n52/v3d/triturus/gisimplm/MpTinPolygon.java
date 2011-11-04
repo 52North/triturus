@@ -26,9 +26,8 @@ import org.n52.v3d.triturus.core.T3dProcMapper;
 /**
  * @deprecated
  * todo: Diese Sachen sollten in die Klasse FltTINPolygonAssembler wandern!
- * Mapper Klasse zur Verschneidung eines TINs mit einem Polygon.<p>
- * @author Martin May, Ilja Abramovic<p>
- * (c) 2003, Institute for Geoinformatics<br>
+ * Mapper Klasse zur Verschneidung eines TINs mit einem Polygon.
+ * @author Martin May, Ilja Abramovic
  */
 public class MpTinPolygon extends T3dProcMapper
 {
@@ -63,7 +62,7 @@ public class MpTinPolygon extends T3dProcMapper
 	}
 
 	/**
-	 * Liefert ein Array mit Indizien der Vertices, die im Polygon liegen.<p>
+	 * Liefert ein Array mit Indizien der Vertices, die im Polygon liegen.
 	 * @return  ^^^^^^^^
 	 */
 	private int[] verticesInPolygonIndices() {
@@ -100,8 +99,8 @@ public class MpTinPolygon extends T3dProcMapper
 	}
 
 	/**
-	 * Liefert ein Vector mit Indizien der Vertices, die die Kanten bilden, die den Polygon schneiden. Ein Element im
-     * Vector ist ein zweielementiges <i>int</i> Array.<p>
+	 * liefert ein Vector mit Indizien der Vertices, die die Kanten bilden, die den Polygon schneiden. Ein Element im
+     * Vector ist ein zweielementiges <i>int</i> Array.
 	 * @param vertInPol Array mit Indizien der Vertices, die im Polygon liegen.
 	 * @return
 	 */

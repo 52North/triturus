@@ -32,7 +32,6 @@ import java.util.ArrayList;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-
 /**
  * Tile identifier locator.<br /><br />
  * <i>German: </i>Klasse zur Ermittlung allgemeiner Kachelnummern ("Blattnummern"). Den Kacheln liegen stets Linien
