@@ -50,7 +50,7 @@ public class IoImageLoader extends IoObject {
 	/**
      * loads an image fro a given file.
 	 * @param location Ort der Daten, kann eine URL (file:// oder http://) oder ein relativer Dateiname sein (wenn Pfad �ber Konstruktor gesetzt).
-	 * @return
+	 * @return Buffered image object
 	 * @throws T3dException
 	 */
     // todo engl. JavaDoc für Parameter

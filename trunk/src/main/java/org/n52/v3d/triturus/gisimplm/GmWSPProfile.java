@@ -733,8 +733,8 @@ public class GmWSPProfile {
 
 
 	/**
-	 * @param Transformation to Gau&szlig;-Kr&uuml;ger Streifen 3
-	 * @return
+     * Transformation to Gau&szlig;-Kr&uuml;ger Streifen 3
+	 * @param dreierStreifen
 	 */
 	public void dreierStreifen(boolean dreierStreifen) {
 		double[] convertedPoint = new double[2];

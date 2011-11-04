@@ -17,7 +17,7 @@
  * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA, or visit the Free Software *
  * Foundation web page, http://www.fsf.org.                                            *
  **************************************************************************************/
-package org.n52.v3d.triturus.survey.conterra;
+package org.n52.v3d.triturus.survey.coordinatetransform1;
 
 /**
  * Transforms coordinates from one Coordinate Reference System to another.

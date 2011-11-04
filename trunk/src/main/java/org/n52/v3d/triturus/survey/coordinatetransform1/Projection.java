@@ -17,57 +17,20 @@
  * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA, or visit the Free Software *
  * Foundation web page, http://www.fsf.org.                                            *
  **************************************************************************************/
-package org.n52.v3d.triturus.survey.conterra;
+package org.n52.v3d.triturus.survey.coordinatetransform1;
 
 /**
  * @author Udo Einspanier
  */
-public class UTM extends TransverseMercator {
+public interface Projection {
 
-    // static attributes...
+    public void initEllipsoid(Ellipsoid ellipsoid);
 
+    //konvertiert ellipsoidische Koordinaten in kartesische Ebenenkoordinaten
+    double[] ellToCart(double x, double y, double[] out) throws GeographicTransformException;
 
-    // public attributes
+    //konvertiert kartesische Ebenenkoordinaten in ellipsoidische Koordinaten
+    double[] cartToEll(double x, double y, double[] out);
 
-
-    // private attributes
-
-    private int zone;
-
-    // static methods
-
-
-    // constructors
-
-    public UTM() {
-        this(1);
-    }
-
-    public UTM(int zone) {
-        setZone(zone);
-    }
-
-    public UTM(int zone, String name) {
-        this(zone);
-        setName(name);
-    }
-    // public methods
-
-    public int getZone() {
-        return zone;
-    }
-
-    public void setZone(int zone) {
-        this.zone = zone;
-
-        //6� strip width
-        //177� West is Centralmeridian of Zone 1 (180W - 174W)
-        centralmeridian = (zone - 1) * 6.0d - 177.0d;
-        nulllat = 0.0d;
-        factor = 0.9996d;
-        northing = 0.0d;
-        //easting = 500000.0l;
-        easting = zone * 1000000.0d + 500000.0d;
-    }
-
+    String getName();
 }

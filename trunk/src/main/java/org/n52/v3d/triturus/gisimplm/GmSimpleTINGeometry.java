@@ -86,7 +86,6 @@ public class GmSimpleTINGeometry extends VgIndexedTIN
      * 0 &lt;<= i &lt; <tt>this.numberOfPoints()</tt> einzuhalten; anderenfalls wird eine <tt>T3dException</tt>
      * geworfen.
      * @param i Point index
-     * @return Vertex object
 	 */
 	public void setPoint(int i, VgPoint pPnt) throws T3dException {
 		try {
@@ -120,7 +119,6 @@ public class GmSimpleTINGeometry extends VgIndexedTIN
      * <tt>pPntIdx1</tt>, <tt></tt>pPntIdx2</tt> und <tt>pPntIdx3</tt> bestehend. Es ist stets die Bedingung
      * 0 &lt;<= i &lt; <tt>this.numberOfTriangles()</tt> einzuhalten; anderenfalls wird eine <tt>T3dException</tt>
      * geworfen.
-     * @return Triangle object
 	 */
     public void setTriangle(int i, int pPntIdx1, int pPntIdx2, int pPntIdx3)
 		throws T3dException {
