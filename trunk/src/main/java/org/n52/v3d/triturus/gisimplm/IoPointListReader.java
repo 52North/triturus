@@ -28,11 +28,11 @@ import org.n52.v3d.triturus.vgis.VgPoint;
 import java.io.*;
 import java.util.ArrayList;
 
-/** 
- * Einlesen von Punktdateien. In den Punktdateien stehen zeilenweise x-, y- und z-Koordinaten durch Leerzeichen
- * voneinander getrennt.<p>
- * @author Benno Schmidt<br>
- * (c) 2003, con terra GmbH & Institute for Geoinformatics<br>
+/**
+ * Import of files that contain point coordinates (special simple ASCII format)<br /><br />
+ *  <i>German:</i> Einlesen von Punktdateien. In den Punktdateien stehen zeilenweise x-, y- und z-Koordinaten durch
+ * Leerzeichen voneinander getrennt.
+ * @author Benno Schmidt
  */
 public class IoPointListReader extends IoObject
 {

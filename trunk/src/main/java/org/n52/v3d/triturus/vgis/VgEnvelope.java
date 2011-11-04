@@ -33,61 +33,61 @@ package org.n52.v3d.triturus.vgis;
 abstract public class VgEnvelope extends VgGeomObject3d 
 {
 	/**
-     * sets the bounding-box's mimimal x-coordinate.
-     * @param pX x-coordinate refering to the set spatial reference system
+     * sets the bounding-box's minimal x-coordinate.
+     * @param pX x-coordinate referring to the set spatial reference system
      */
 	abstract public void setXMin(double pX);
 
     /**
-     * gets the bounding-box's mimimal x-coordinate.
-     * @return x-coordinate refering to the set spatial reference system
+     * gets the bounding-box's minimal x-coordinate.
+     * @return x-coordinate referring to the set spatial reference system
      */
 	abstract public double getXMin();
 
     /**
      * sets the bounding-box's maximal x-coordinate.
-     * @param pX x-coordinate refering to the set spatial reference system
+     * @param pX x-coordinate referring to the set spatial reference system
      */
 	abstract public void setXMax(double pX);
 
     /**
      * gets the bounding-box's maximal x-coordinate.
-     * @return x-coordinate refering to the set spatial reference system
+     * @return x-coordinate referring to the set spatial reference system
      */
 	abstract public double getXMax();
 
     /**
-     * sets the bounding-box's mimimal y-coordinate.
-     * @param pY y-coordinate refering to the set spatial reference system
+     * sets the bounding-box's minimal y-coordinate.
+     * @param pY y-coordinate referring to the set spatial reference system
      */
 	abstract public void setYMin(double pY);
 
     /**
-     * gets the bounding-box's mimimal y-coordinate.
-     * @return y-coordinate refering to the set spatial reference system
+     * gets the bounding-box's minimal y-coordinate.
+     * @return y-coordinate referring to the set spatial reference system
      */
 	abstract public double getYMin();
 
     /**
      * sets the bounding-box's maximal y-coordinate.
-     * @param pY y-coordinate refering to the set spatial reference system
+     * @param pY y-coordinate referring to the set spatial reference system
      */
 	abstract public void setYMax(double pY);
 
     /**
      * gets the bounding-box's maximal y-coordinate.
-     * @return y-coordinate refering to the set spatial reference system
+     * @return y-coordinate referring to the set spatial reference system
      */
 	abstract public double getYMax();
 
     /**
-     * sets the bounding-box's mimimal z-coordinate.
+     * sets the bounding-box's minimal z-coordinate.
      * @param pZ z-coordinate
      */
 	abstract public void setZMin(double pZ);
 
     /**
-     * gets the bounding-box's mimimal z-coordinate.
+     * gets the bounding-box's minimal z-coordinate.
      * @return z-coordinate
      */
 	abstract public double getZMin();

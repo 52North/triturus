@@ -78,8 +78,7 @@ public class FltElevationGrid2Profile extends T3dProcFilter
     	VgLineSegment seg = null;
     	double iFromFp, jFromFp, iToFp, jToFp;
     	int iFrom, jFrom, iTo, jTo;
-        double jj1, jj2, z1, z2;
-            	
+
         double t = 0.;
         for (int k = 0; k < pDefLine.numberOfVertices() - 1; k++) 
         {    
@@ -100,8 +99,8 @@ public class FltElevationGrid2Profile extends T3dProcFilter
             if (jToFp > (double)(nx - 1)) jToFp = (double)(nx - 1);
             if (iToFp < 0.) iToFp = 0.;
             if (iToFp > (double)(ny - 1)) iToFp = (double)(ny - 1);
-            if (jFromFp > jToFp) { double x = jFromFp; jFromFp = jToFp; jToFp = x; }; // swap
-            if (iFromFp > iToFp) { double x = iFromFp; iFromFp = iToFp; iToFp = x; }; 
+            if (jFromFp > jToFp) { double x = jFromFp; jFromFp = jToFp; jToFp = x; } // swap
+            if (iFromFp > iToFp) { double x = iFromFp; iFromFp = iToFp; iToFp = x; }
             jFrom = (int) Math.round(Math.ceil(jFromFp));
             iFrom = (int) Math.round(Math.ceil(iFromFp));
             jTo = (int) Math.round(Math.floor(jToFp));
@@ -216,9 +215,8 @@ public class FltElevationGrid2Profile extends T3dProcFilter
         int iu = il + 1;      
         double jrem = jFp - (double)jl; // Nachkommaanteil von jFp 
         double irem = iFp - (double)il;
-        if (jr >= nx && jrem < 0.000001) { jr--; jl--; } // Sonderfall oberer Gitterrand ber�cksichtigen
-        if (iu >= ny && irem < 0.000001) { iu--; il--; }
-        // todo: Stimmen die letzten beiden Zeilen so??
+        if (jr >= nx - 1 && jrem < 0.000001) { jr--; jl--; } // Sonderfall oberer Gitterrand ber�cksichtigen
+        if (iu >= ny - 1 && irem < 0.000001) { iu--; il--; }
 
         // Pr�fen, ob Gitterzelle belegt ist:
         if (!(this.grdIsSet(il, jl) && this.grdIsSet(iu, jl) && this.grdIsSet(il, jr) && this.grdIsSet(iu, jr)))

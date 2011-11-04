@@ -46,7 +46,6 @@ abstract public class VgAttrFeature extends VgFeature
      * thrown.
 	 * @param pAttrName Name of the queried attribute
 	 * @return Object of type of the queried attribute
-	 * @throws T3dException
 	 */
 	abstract public Object getAttributeValue(String pAttrName);
 
@@ -64,7 +63,6 @@ abstract public class VgAttrFeature extends VgFeature
      * thrown.
 	 * @param pAttrName Attribute name
 	 * @return Attribute type as Java class-name
-	 * @throws T3dException
 	 */
 	abstract public String getAttributeType(String pAttrName);
 }

@@ -87,7 +87,7 @@ public class GmPlane extends VgPlane
 
 	public VgPoint getAnchor()
 	{
-		VgPoint ret = null;
+		VgPoint ret;
 		ret = new GmPoint(0., 0., 0.);
 		ret.setSRS(this.getSRS());
 		if (mC != 0.) {

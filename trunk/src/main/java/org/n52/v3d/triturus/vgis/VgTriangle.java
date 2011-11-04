@@ -30,6 +30,9 @@ abstract public class VgTriangle extends VgGeomObject2d
 {
 	/** 
 	 * sets the triangle's corner-points.
+     * @param pCorner1 first corner point
+     * @param pCorner2 second corner point
+     * @param pCorner3 third corner point
 	 */
 	abstract public void setCornerPoints(VgPoint pCorner1, VgPoint pCorner2, VgPoint pCorner3);
 
