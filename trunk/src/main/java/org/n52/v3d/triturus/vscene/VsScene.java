@@ -24,10 +24,10 @@ import java.util.ArrayList;
 
 /**
  * todo engl. JavaDoc
- * Abstrakte Basisklasse f�r allgemeine Szenenbeschreibungen f�r 3D-Geovisualisierungen. Die Klasse dient 
+ * Abstrakte Basisklasse f&uuml;r allgemeine Szenenbeschreibungen f&uuml;r 3D-Geovisualisierungen. Die Klasse dient
  * innerhalb des Rahmenwerks zur Abstraktion von der konkret eingesetzten Rendering-/Visualisierungsumgebung.
  * <p>
- * <i>TODO: Konkrete Implementierungen k�nnten z. B. generische Szenengraphen, konkrete Szenengraphen f�r
+ * <i>TODO: Konkrete Implementierungen k&ouml;nnten z. B. generische Szenengraphen, konkrete Szenengraphen f&uuml;r
  * Java 3D, Xith3D, VRML, GeoVRML, X3D, AVS-Netzwerke, POV-Ray-Szenenbeschreibungen oder sonstwas realisieren...</i>
  * @author Benno Schmidt
  */
@@ -41,8 +41,8 @@ abstract public class VsScene
 	private ArrayList mLights = null;
 	
 	/**
-	 * setzt die Voreinstellung f�r die �berh�hung (vertikaler H�henma�stab) der Szene. Voreingestellt ist der
-	 * Wert 1.0.<p>
+	 * setzt die Voreinstellung f&uuml;r die &Uuml;berh&ouml;hung (vertikaler H&ouml;henma&szlig;stab) der Szene.
+     * Voreingestellt ist der Wert 1.0.
 	 * @param pExaggeration z-Faktor
 	 */	
 	public void setDefaultExaggeration(double pExaggeration) {
@@ -50,7 +50,7 @@ abstract public class VsScene
 	}
 
 	/**
-	 * liefert den f�r die �berh�hung (vertikaler H�henma�stab) voreingestellten Wert.<p>
+	 * liefert den f&uuml;r die &Uuml;berh&ouml;hung (vertikaler H&ouml;henma&szlig;stab) voreingestellten Wert.
 	 * @return z-Faktor
 	 */	
 	public double getDefaultExaggeration() {
@@ -59,8 +59,8 @@ abstract public class VsScene
 
 	/**
 	 * f�gt der Szene einen Kamera hinzu.<p>
-	 * Einer <tt>VsScene</tt> k�nnen mehrere Kameras hinzugef�gt werden. Voreinstellungsgem�� wird
-	 * die erste der Szene hinzugef�gte Kamera beim Start der Visualisierung gesetzt.<p>
+	 * Einer <tt>VsScene</tt> k&ouml;nnen mehrere Kameras hinzugef&uuml;gt werden. Voreinstellungsgem&auml;&zzlig; wird
+	 * die erste der Szene hinzugef&uuml;gte Kamera beim Start der Visualisierung gesetzt.
 	 * @param pCamera Kamera-Definition
 	 * @see VsScene#setCurrentCamera
 	 */
@@ -74,8 +74,8 @@ abstract public class VsScene
 	}
 
 	/**
-	 * liefert die i-te f�r die Szene definierten Kamera.<p>
-	 * F�r i ist die Beziehung 0 &lt;= i &lt; <tt>this.numberOfCameras()</tt> einzuhalten.<p>
+	 * liefert die i-te f&uuml;r die Szene definierten Kamera.<p>
+	 * F&uuml;r i ist die Beziehung 0 &lt;= i &lt; <tt>this.numberOfCameras()</tt> einzuhalten.
 	 * @param i
 	 * @return Kamera-Definition
 	 * @throws T3dException
@@ -92,7 +92,7 @@ abstract public class VsScene
 	}
 
 	/**
-	 * liefert die Anzahl der f�r die Kamera definierten Kameras.<p>
+	 * liefert die Anzahl der f&uuml;r die Kamera definierten Kameras.
 	 * @return Anzahl &gt;= 0
 	 */
 	public int numberOfCameras() {
@@ -104,7 +104,7 @@ abstract public class VsScene
 	
 	/**
 	 * setzt die aktuelle Kamera.<p>
-	 * F�r i ist die Beziehung 0 &lt;= i &lt; <tt>this.numberOfCameras()</tt> einzuhalten.<p>
+	 * F&uuml;r i ist die Beziehung 0 &lt;= i &lt; <tt>this.numberOfCameras()</tt> einzuhalten.
 	 * @param i Index der aktuell gesetzten Kamera
 	 * @throws T3dException
 	 */
@@ -116,7 +116,7 @@ abstract public class VsScene
 	}
 
 	/**
-	 * liefert die aktuell gesetzte Kamera.<p>
+	 * liefert die aktuell gesetzte Kamera.
 	 * @return Kamera
 	 * @throws T3dException
 	 */
@@ -129,8 +129,8 @@ abstract public class VsScene
 	}
 
 	/**
-	 * liefert den aktuell gesetzten Ansichtspunkt f�r die Szene. Dieser Ansichtspunkt entspricht dem
-	 * aktuellen Ansichtspunkt der aktuell gesetzten Kamera.<p>
+	 * liefert den aktuell gesetzten Ansichtspunkt f&uuml;r die Szene. Dieser Ansichtspunkt entspricht dem
+	 * aktuellen Ansichtspunkt der aktuell gesetzten Kamera.
 	 * @return Ansichtspunkt 
 	 * @throws T3dException
 	 */
@@ -143,7 +143,7 @@ abstract public class VsScene
 	}
 
     /**
-     * entfernt alle Kameras aus der Szene.<p>
+     * entfernt alle Kameras aus der Szene.
      */
     public void removeCameras()
     {
@@ -152,8 +152,8 @@ abstract public class VsScene
     }
 
 	/**
-	 * f�gt der Szene eine Lichtquelle hinzu.<p>
-	 * Einer <tt>VsScene</tt> k�nnen mehrere Lichtquellen hinzugef�gt werden.<p>
+	 * f&uuml;gt der Szene eine Lichtquelle hinzu.<p>
+	 * Einer <tt>VsScene</tt> k&ouml;nnen mehrere Lichtquellen hinzugef&uuml;gt werden.
 	 * @param pLight Lichtquellen-Definition
 	 */
 	public void addLightSource(VsLightSource pLight) 
@@ -164,8 +164,8 @@ abstract public class VsScene
 	}
 
 	/**
-	 * liefert die i-ten f�r die Szene definierte Lichtquelle.<p>
-	 * F�r i ist die Beziehung 0 &lt;= i &lt; <tt>this.numberOfLightSources()</tt> einzuhalten.<p>
+	 * liefert die i-ten f&uuml;r die Szene definierte Lichtquelle.<p>
+	 * F&uuml;r i ist die Beziehung 0 &lt;= i &lt; <tt>this.numberOfLightSources()</tt> einzuhalten.
 	 * @param i
 	 * @return Lichtquellen-Definition 
 	 * @throws T3dException
@@ -182,7 +182,7 @@ abstract public class VsScene
 	}
 
 	/**
-	 * liefert die Anzahl der f�r die Szene definierten Lichtquellen.<p>
+	 * liefert die Anzahl der f&uuml;r die Szene definierten Lichtquellen.
 	 * @return Anzahl &gt;= 0
 	 */
 	public int numberOfLightSources() {
@@ -193,7 +193,7 @@ abstract public class VsScene
 	}
 
     /**
-     * entfernt alle Lichtquellen aus der Szene.<p>
+     * entfernt alle Lichtquellen aus der Szene.
      */
     public void removeLightSources()
     {
@@ -202,10 +202,10 @@ abstract public class VsScene
     }
 
 	/**
-	 * generiert die zu den gesetzten Werten geh�rige Szenen-Beschreibung. Bei dem Resultat des Methodenaufrufs kann
-	 * es sich z. B. um eine (nicht notwendigerweise Szenengraph-basierte) Szenenbeschreibungsdatei oder ein
+	 * generiert die zu den gesetzten Werten geh&ouml;rige Szenen-Beschreibung. Bei dem Resultat des Methodenaufrufs
+     * kann es sich z. B. um eine (nicht notwendigerweise Szenengraph-basierte) Szenenbeschreibungsdatei oder ein
 	 * Szenengraph-Objekt handeln.<p>
-	 * Bem.: Diese Methode ist durch die konkreten <tt>VsScene</tt>-Realisierungen zu implementieren.<p>
+	 * Bem.: Diese Methode ist durch die konkreten <tt>VsScene</tt>-Realisierungen zu implementieren.
 	 * @return Szenen-Beschreibung
 	 */
 	abstract public Object generateScene();

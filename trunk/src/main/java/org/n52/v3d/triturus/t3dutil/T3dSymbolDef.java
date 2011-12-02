@@ -1,7 +1,7 @@
 package org.n52.v3d.triturus.t3dutil;
 
 /**
- * Abstrakte Basisklasse zur Definition kartografischer 3D-Symbole. Zur Instanziierung konkreter Symbole ist die 
+ * Abstrakte Basisklasse zur Definition kartografischer 3D-Symbole. Zur Instanziierung konkreter Symbole ist die
  * Klasse <tt>T3dSymbolInstance</tt> zu verwenden.<p>
  * Bsp.: Ein Billboard-Symbol mit JPEG-Bitmap l�sst sich wie folgt definieren und instanziieren:
  * <pre>

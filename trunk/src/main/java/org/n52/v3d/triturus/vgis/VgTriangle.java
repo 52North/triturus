@@ -58,7 +58,7 @@ abstract public class VgTriangle extends VgGeomObject2d
 		VgPoint p1 = null, p2 = null, p3 = null;
 		this.getCornerPoints(p1, p2, p3);
 		
-   		double l12 = p2.distance(p1);
+   		double l12 = p2.distance(p1); // todo hier kann NullPointerException auftreten!
    		double l13 = p3.distance(p1);
    		double l23 = p3.distance(p2);
    		
@@ -130,7 +130,7 @@ abstract public class VgTriangle extends VgGeomObject2d
 	}
 
 	/**
-     * checks, if <tt>pt</tt> is inside the triangle.<p>
+     * checks, if - with respect to the x-y-plane - <tt>pt</tt> is inside the triangle.<p>
 	 * <i>German:</i> pr&uml;ft, ob die Stelle <tt>pt</tt> innerhalb des Dreiecks liegt. Wird in <tt>pEdge</tt> der Wert
      * <i>true</i> angegeben, so liefert die Methode auch dann <i>true</i> als Resultat, wenn <tt>p</tt> auf einer der
      * Dreiecksseiten liegt.<p>

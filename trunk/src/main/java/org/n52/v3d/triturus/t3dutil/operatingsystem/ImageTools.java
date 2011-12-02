@@ -47,7 +47,7 @@ import javax.swing.ImageIcon;
 /**
  * Class holding various helper methods to work with image files.<br /><br />
  * <i>German:</i> Klasse mit verschiedenen Hilfsmethoden f&uuml;r die Arbeit mit Bilddateien. Aktuell enth&auml;lt die
- * Klasse verschiedene Image-I/O-Methoden, zuk�nftige Erweiterungen sind vorgesehen.
+ * Klasse verschiedene Image-I/O-Methoden, zuk&uuml;nftige Erweiterungen sind vorgesehen.
  * @author Torsten Heinen
  */
 public class ImageTools
@@ -132,17 +132,17 @@ public class ImageTools
 
 	/**
 	 * todo engl. JavaDoc
-     * produziert ein BufferedImage aus den �bergebenen Werten.<p>
-	 * Das Array speichert f�r jeden Pixel die RGB(A) Komponenten in eigenen Speicherb�nken:
+     * produziert ein BufferedImage aus den &uuml;bergebenen Werten.<p>
+	 * Das Array speichert f&uuml;r jeden Pixel die RGB(A) Komponenten in eigenen Speicherb�nken:
      * <pre>
 	 * [r0][p0][p1]...
 	 * [g0][p0][p1]...
 	 * [b0][p0][p1]...
 	 * [a0][p0][p1]...
      * </pre>
-	 * <tt>imageData.length</tt> muss die Anzahl der Komponenten zur�ckgeben.<p>
+	 * <tt>imageData.length</tt> muss die Anzahl der Komponenten zur&uuml;ckgeben.<p>
      * <i>Bem.: Die Generierung klappt meistens, aber nicht immer -> noch ein wenig buggy.</i><p>
-	 * @return Repr�sentation des Daten-Arrays
+	 * @return Repr&auml;sentation des Daten-Arrays
 	 */
     public static BufferedImage createBufferedImage(int width, int height, boolean withAlpha, byte[] imageData) {
         ColorSpace colorSpace = ColorSpace.getInstance(ColorSpace.CS_sRGB);
@@ -197,9 +197,10 @@ public class ImageTools
     }
 
     /**
-     * todo: Javadoc
+     * @deprecated
      * @param imageLocation
      * @return Buffered image object
+     * @see javax.imageio.ImageIO#read
      */
     public static final BufferedImage loadImage(String imageLocation)
     {

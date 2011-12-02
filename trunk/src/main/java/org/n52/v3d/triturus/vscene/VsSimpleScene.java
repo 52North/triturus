@@ -28,25 +28,25 @@ import java.lang.Math;
 
 /**
  * todo engl. JavaDoc
- * Spezifikation f�r eine einfache Szene, die ein Gitter-basiertes Gel�ndemodell, eine zugeh�rige Drape-Datei sowie
- * Ansichtspunkte und Lichtquellen enth�lt.
+ * Spezifikation f&uuml;r eine einfache Szene, die ein Gitter-basiertes Gel�ndemodell, eine zugeh&ouml;rige Drape-Datei
+ * sowie Ansichtspunkte und Lichtquellen enth&auml;lt.
  * <p>
- * <tt>VsSimpleScene</tt>-Beschreibungen eignen sich insbesondere f�r einfache Szenen, in denen nur ein einziges
- * Gel�ndemodell visualisiert wird. Aus der r�umlichen Ausdehnung des darzustellenden Gel�ndemodells l�sst sich ein
- * <i>normierter Raumausschnitt</i> ableiten, der alle Visualisierungsobjekte enth�lt:
+ * <tt>VsSimpleScene</tt>-Beschreibungen eignen sich insbesondere f&uuml;r einfache Szenen, in denen nur ein einziges
+ * Gel&auml;ndemodell visualisiert wird. Aus der r&auml;umlichen Ausdehnung des darzustellenden Gel&auml;ndemodells
+ * l&auml;sst sich ein <i>normierter Raumausschnitt</i> ableiten, der alle Visualisierungsobjekte enth&auml;lt:
  * <ul>
  * <li>In der xy-Ebene ist dies eine Teilmenge der Bereichs -1 &lt;= x' &lt;= +1, -1 &lt;= y' &lt;= +1, wobei die
- * normierten Koordinaten mit einem Strich (') kenntlich gemacht sind. F�r quadratische Gel�ndemodelle wird dieser
- * Raumausschnitt voll eingenommen; f�r Gel�ndemodelle, deren Ausdehnung in x- und y-Richtung unterschiedlich ist, wird
- * entweder f�r x' oder f�r y' (exklusive "Oder"-Verkn�pfung) nur ein Teilbereich eingenommen. Der Mittelpunkt des
- * Gel�ndemodells liegt in jedem Fall an der Position (x', y') = (0, 0).</li>
- * <li>Die Ausdehnung in z'-Richtung ergibt in der Art und Weise aus den H�henwerten, als dass der vertikale
- * H�henma�stab und der horizontale Ma�stab korrespondieren. Insbesondere wird hierbei kein (!) �berh�hungsfaktor
- * ber�cksichtigt.</li>
+ * normierten Koordinaten mit einem Strich (') kenntlich gemacht sind. F�r quadratische Gel&auml;ndemodelle wird dieser
+ * Raumausschnitt voll eingenommen; f&uuml;r Gel&auml;ndemodelle, deren Ausdehnung in x- und y-Richtung unterschiedlich
+ * ist, wird entweder f&uuml;r x' oder f&uuml;r y' (exklusive "Oder"-Verkn&uuml;pfung) nur ein Teilbereich eingenommen.
+ * Der Mittelpunkt des Gel&auml;ndemodells liegt in jedem Fall an der Position (x', y') = (0, 0).</li>
+ * <li>Die Ausdehnung in z'-Richtung ergibt in der Art und Weise aus den H&ouml;henwerten, als dass der vertikale
+ * H&ouml;henma&szlig;stab und der horizontale Ma&szlig;stab korrespondieren. Insbesondere wird hierbei kein (!)
+ * &Uuml;berh&ouml;hungsfaktor ber&uuml;cksichtigt.</li>
  * <p>
  * In <tt>VsSimpleScene</tt>-Szenen lassen sich Ansichtspunkte und Lichtquellen mit Hilfe der Methode <tt>denorm()</tt>
  * bezogen auf eine normierte Bounding-Box angeben. Ansichtspunkte und Lichtquellenparameter sind dabei <i>invariant
- * gegen�ber der �berh�hung.</i>
+ * gegen&auml;ber der &Uuml;berh&ouml;hung.</i>
  * <p>
  * @author Benno Schmidt
  */
@@ -66,11 +66,11 @@ abstract public class VsSimpleScene extends VsScene
     private T3dColor mPedestalColor = new T3dColor(0.5f,0.5f,0.5f);
 
 	/**
-	 * setzt das Gel�ndemodell, das als Relief ("Terrain") dargestellt werden soll.<p>
-	 * Einer <tt>VsSimpleScene</tt> kann nur genau ein Gel�ndemodell zugeordnet sein.<p>
-	 * Bem.: Bei dem Gel�ndemodell muss es sich um ein Gitter-basiertes Modell handeln; TINs z. B. werden von einer
-     * <tt>VsSimpleScene</tt> nicht unterst�tzt. -> todo: bei Bedarf entsprechende <tt>VsScene</tt>-Spezialisierung bereitstellen.
-	 * @param pTerrain Gel�ndemodell
+	 * setzt das Gel&auml;ndemodell, das als Relief ("Terrain") dargestellt werden soll.<p>
+	 * Einer <tt>VsSimpleScene</tt> kann nur genau ein Gel&auml;ndemodell zugeordnet sein.<p>
+	 * Bem.: Bei dem Gel&auml;ndemodell muss es sich um ein Gitter-basiertes Modell handeln; TINs z. B. werden von einer
+     * <tt>VsSimpleScene</tt> nicht unterst&uuml;tzt. -> todo: bei Bedarf entsprechende <tt>VsScene</tt>-Spezialisierung bereitstellen.
+	 * @param pTerrain Gel&auml;ndemodell
 	 */
 	public void setTerrain(VgElevationGrid pTerrain) {
 		mTerrain = pTerrain;
@@ -78,8 +78,8 @@ abstract public class VsSimpleScene extends VsScene
 	}
 
 	/**
-	 * liefert das Gel�ndemodell, das als Relief ("Terrain") dargestellt werden soll.<p>
-	 * @return Gel�ndemodell
+	 * liefert das Gel&auml;ndemodell, das als Relief ("Terrain") dargestellt werden soll.
+	 * @return Gel&auml;ndemodell
 	 */
 	public VgElevationGrid getTerrain() {
 		return mTerrain;
@@ -88,27 +88,27 @@ abstract public class VsSimpleScene extends VsScene
 	/**
 	 * setzt die Textur, die auf das Relief ("Terrain") projiziert werden soll.<p>
 	 * Einer <tt>VsSimpleGeoScene</tt> kann nur genau eine Drape-Textur zugeordnet sein. Seitens der aufrufenden
-	 * Anwendung ist daf�r zu sorgen, dass diese Textur georeferenziert ist. Soll keine Drape-Textur verwendet
-	 * werden, kann der Wert <i>null</i> als Parameter angegeben werden.<p>
-	 * @param pImageFile Bilddatei mit vollst�ndiger Pfadangabe oder <i>null</i>
+	 * Anwendung ist daf&uuml;r zu sorgen, dass diese Textur georeferenziert ist. Soll keine Drape-Textur verwendet
+	 * werden, kann der Wert <i>null</i> als Parameter angegeben werden.
+	 * @param pImageFile Bilddatei mit vollst&auml;ndiger Pfadangabe oder <i>null</i>
 	 */
 	public void setDrape(String pImageFile) {
 		mDrape = pImageFile;
 	}
 
 	/**
-	 * liefert die Textur, die auf das Relief ("Terrain") projiziert werden soll.<p>
-	 * @return Bilddatei mit vollst�ndiger Pfadangabe oder <i>null</i>
+	 * liefert die Textur, die auf das Relief ("Terrain") projiziert werden soll.
+	 * @return Bilddatei mit vollst&auml;ndiger Pfadangabe oder <i>null</i>
 	 */
 	public String getDrape() {
 		return mDrape;
 	}
 
 	/**
-	 * liefert den zu einer im r�umlichen Referenzsystem vorliegenden Position geh�rigen Punkt im normierten
-	 * Koordinatensystem der <tt>VsSimpleScene</tt>. F�r die x'- und y'-Koordinate des Ergebnisses gilt stets
-	 * -1 &lt;= x' &lt; +1, -1 &lt;= y' &lt; +1, insofern der Punkt innerhalb der Bounding-Box des Gel�ndemodells
-	 * liegt.<p>
+	 * liefert den zu einer im r&auml;umlichen Referenzsystem vorliegenden Position geh&ouml;rigen Punkt im normierten
+	 * Koordinatensystem der <tt>VsSimpleScene</tt>. F&uuml;r die x'- und y'-Koordinate des Ergebnisses gilt stets
+	 * -1 &lt;= x' &lt; +1, -1 &lt;= y' &lt; +1, insofern der Punkt innerhalb der Bounding-Box des Gel&auml;ndemodells
+	 * liegt.
 	 * @param pGeoPos georeferenzierter Punkt
 	 * @return Punkt im normierten Koordinatenraum der <tt>VsSimpleScene</tt>
 	 * @see VsSimpleScene#denorm
@@ -123,7 +123,7 @@ abstract public class VsSimpleScene extends VsScene
 
 	/**
 	 * liefert den zu einem im nomierten Koordinatensystem der <tt>VsSimpleScene</tt> vorliegenden Position
-	 * geh�rigen Punkt im r�umlichen Referenzsystem der Szene.<p>
+	 * geh&ouml;rigen Punkt im r&auml;umlichen Referenzsystem der Szene.
 	 * @param pNormPos georeferenzierter Punkt
 	 * @return Punkt im normierten Koordinatenraum der <tt>VsSimpleScene</tt>
 	 * @see VsSimpleScene#norm
@@ -161,9 +161,10 @@ abstract public class VsSimpleScene extends VsScene
 	}
 
 	/**
-	 * liefert den Skalierungsfaktor f�r die Normierung von Geo-Koordinaten innerhalb der <tt>VsSimpleScene</tt>.<p>
-	 * Bem.: F�r die Normierung wird erst die Skalierung <tt>this.getScale()</tt>, dann die Translation
-	 * <tt>this.getOffset()</tt> auf die Geo-Koordinaten angewendet.<p>
+	 * liefert den Skalierungsfaktor f&uuml;r die Normierung von Geo-Koordinaten innerhalb der <tt>VsSimpleScene</tt>.
+     * <p>
+	 * Bem.: F&uuml;r die Normierung wird erst die Skalierung <tt>this.getScale()</tt>, dann die Translation
+	 * <tt>this.getOffset()</tt> auf die Geo-Koordinaten angewendet.
 	 * @return Normierungsfaktor
 	 * @see VsSimpleScene#getOffset
 	 */
@@ -172,18 +173,18 @@ abstract public class VsSimpleScene extends VsScene
 	}
 
     /**
-     * liefert das Seitenverh�ltnis der y-Ausdehnung zur x-Audehnung des Gel�ndemodells.<p>
-     * @return Seitenverh�ltnis
+     * liefert das Seitenverh&auml;ltnis der y-Ausdehnung zur x-Audehnung des Gel&auml;ndemodells.
+     * @return Seitenverh&auml;ltnis
      */
     public double getAspect() {
         return mAspect;
     }
 
 	/**
-	 * liefert den Translationsvektor f�r die Normierung von Geo-Koordinaten innerhalb der
+	 * liefert den Translationsvektor f&uuml;r die Normierung von Geo-Koordinaten innerhalb der
 	 * <tt>VsSimpleScene</tt>.<p>
-	 * Bem.: F�r die Normierung wird erst die Skalierung <tt>this.getScale()</tt>, dann die Translation
-	 * <tt>this.getOffset()</tt> auf die Geo-Koordinaten angewendet.<p>
+	 * Bem.: F&auml;r die Normierung wird erst die Skalierung <tt>this.getScale()</tt>, dann die Translation
+	 * <tt>this.getOffset()</tt> auf die Geo-Koordinaten angewendet.
 	 * @return Translation
 	 * @see VsSimpleScene#getScale
 	 */
@@ -192,25 +193,26 @@ abstract public class VsSimpleScene extends VsScene
 	}
 
 	/**
-	 * liefert den minimalen z-Wert des Gel�ndemodells <tt>this.getTerrain</tt> bezogen auf das System der
-	 * normierten Koordinaten.<p>
-	 * @return nomierte z-Koordinate f�r die minimale Gel�ndeh�he der <tt>VsSimpleScene</tt>
+	 * liefert den minimalen z-Wert des Gel&auml;ndemodells <tt>this.getTerrain</tt> bezogen auf das System der
+	 * normierten Koordinaten.
+	 * @return nomierte z-Koordinate f&uuml;r die minimale Gel�ndeh�he der <tt>VsSimpleScene</tt>
 	 */
 	public double normZMin() {
 		return mTerrain.minimalElevation() * mScale;
 	}
 
 	/**
-	 * liefert den maximalen z-Wert des Gel�ndemodells <tt>this.getTerrain</tt> bezogen auf das System der
-	 * normierten Koordinaten.<p>
-	 * @return nomierte z-Koordinate f�r die maximale Gel�ndeh�he der <tt>VsSimpleScene</tt>
+	 * liefert den maximalen z-Wert des Gel&auml;ndemodells <tt>this.getTerrain</tt> bezogen auf das System der
+	 * normierten Koordinaten.
+	 * @return nomierte z-Koordinate f&uuml;r die maximale Gel�ndeh�he der <tt>VsSimpleScene</tt>
 	 */
 	public double normZMax() {
 		return mTerrain.maximalElevation() * mScale;
 	}
 
     /**
-     * setzt die Hintergrundfarbe der POV-Ray-Szene. Voreinstellungsgem�� ist ein schwarzer Hintergrund gesetzt.<p>
+     * setzt die Hintergrundfarbe der POV-Ray-Szene. Voreinstellungsgem&auml;&szlig; ist ein schwarzer Hintergrund
+     * gesetzt.
      * @param pColor Hintergrundfarbe
      */
     public void setBackgroundColor(T3dColor pColor) {
@@ -218,7 +220,7 @@ abstract public class VsSimpleScene extends VsScene
     }
 
     /**
-     * liefert die gesetzte Hintergrundfarbe.<p>
+     * liefert die gesetzte Hintergrundfarbe.
      * @return Hintergrundfarbe
      */
     public T3dColor getBackgroundColor() {
@@ -226,8 +228,8 @@ abstract public class VsSimpleScene extends VsScene
     }
     
 	/**
-	 * steuert, ob die zur dem Gel�ndemodell geh�rige Bounding-Box als Shape zur Szene hinzugef�gt wird.<p>
-	 * @param pDrawBBox <i>true</i>, um der Szene Bounding-Box-Shape hinzuzuf�gen
+	 * steuert, ob die zur dem Gel&auml;ndemodell geh&ouml;rige Bounding-Box als Shape zur Szene hinzugef&uuml;gt wird.
+	 * @param pDrawBBox <i>true</i>, um der Szene Bounding-Box-Shape hinzuzuf&uuml;gen
 	 */
 	public void drawBBoxShape(boolean pDrawBBox) {
 		mDrawBBox = pDrawBBox;
@@ -238,9 +240,9 @@ abstract public class VsSimpleScene extends VsScene
 	}
 
     /**
-     * steuert, ob ein zum Gel�ndemodell geh�riger Sockel generiert und zur Szene hinzugef�gt wird.<p>
-     * Bem.: Dieser Modus wird (noch?) nicht von allen Visualisierungsumgebungen unterst�tzt.<p>
-     * @param pDrawPedestal <i>true</i>, um der Szene Gel�ndemodell-Sockel hinzuzuf�gen
+     * steuert, ob ein zum Gel&auml;ndemodell geh&ouml;riger Sockel generiert und zur Szene hinzugef&uuml;gt wird.<p>
+     * Bem.: Dieser Modus wird (noch?) nicht von allen Visualisierungsumgebungen unterst&uuml;tzt.
+     * @param pDrawPedestal <i>true</i>, um der Szene Gel&auml;ndemodell-Sockel hinzuzuf&uuml;gen
      */
     public void drawTerrainPedestal(boolean pDrawPedestal) {
         mDrawPedestal = pDrawPedestal;
@@ -251,7 +253,8 @@ abstract public class VsSimpleScene extends VsScene
 	}
 
     /**
-     * setzt die Farbe f�r den Gel�ndemodell-Sockel. Voreinstellungsgem�� ist die Farbe Grau (50 %) gesetzt.<p>
+     * setzt die Farbe f&uuml;r den Gel&auml;ndemodell-Sockel. Voreinstellungsgem&auml;&szlig; ist die Farbe Grau (50 %)
+     * gesetzt.
      * @param pColor Sockelfarbe
      */
     public void setPedestalColor(T3dColor pColor) {
@@ -259,7 +262,7 @@ abstract public class VsSimpleScene extends VsScene
     }
 
     /**
-     * liefert die gesetzte Sockelfarbe.<p>
+     * liefert die gesetzte Sockelfarbe.
      * @return Sockelfarbe
      */
     public T3dColor getPedestalColor() {
