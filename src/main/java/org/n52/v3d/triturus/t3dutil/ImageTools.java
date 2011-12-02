@@ -33,7 +33,7 @@ import javax.swing.ImageIcon;
  * @deprecated -> org.n52.v3d.triturus.t3dutil.operatingsystem
  * @author Torsten Heinen
  *
- * Hier werden einige ben�tigte Image IO Methoden bereitgestellt.
+ * Hier werden einige ben&ouml;tigte Image IO Methoden bereitgestellt.
  */
 public class ImageTools {
 	
@@ -115,7 +115,7 @@ public class ImageTools {
     }
 	
 	/**
-	 * Diese Methode produziert ein BufferedImage aus den �bergebenen Werten.<p>
+	 * Diese Methode produziert ein BufferedImage aus den &uuml;bergebenen Werten.<p>
 	 * Bem.: Die Generierung klappt meistens, aber nicht immer -> noch ein wenig buggy. 
 	 * 
 	 * @return BufferedImage
@@ -166,7 +166,11 @@ public class ImageTools {
 	public static BufferedImage createBufferedImage(int i, int j, boolean b, ByteBuffer buffer) {
 		return createBufferedImage(i, j, b, buffer.array());
 	}
-	
+
+    /**
+     * @deprecated
+     * @see javax.imageio.ImageIO#read
+     */
 	public static final BufferedImage loadImage(String imageLocation){ 
 		BufferedImage bufferedImage = null; 
 		ClassLoader  fileLoader  = ClassLoader.getSystemClassLoader();

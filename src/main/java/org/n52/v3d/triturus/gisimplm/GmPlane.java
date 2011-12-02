@@ -35,8 +35,12 @@ public class GmPlane extends VgPlane
     private double mA, mB, mC, mD; // Ebenengleichung A*x + B*y + C*z + D = 0
 
     /** 
-     * Construktor. The plane will be constructed by three given points. For collinear points, a <tt>T3dException</tt>
+     * Constructor. The plane will be constructed by three given points. For collinear points, a <tt>T3dException</tt>
      * will be thrown.
+     * @param pt1 Point that is lying on the plane
+     * @param pt2 Another point that is lying on the plane
+     * @param pt3 And another point that is lying on the plane
+     *
      */
     public GmPlane(VgPoint pt1, VgPoint pt2, VgPoint pt3)
     {
@@ -45,8 +49,9 @@ public class GmPlane extends VgPlane
     }
 
     /** 
-     * Construktor. The plane will be constructed by a triangle's corner-points. If the triangle's surface area is 0,
+     * Constructor. The plane will be constructed by a triangle's corner-points. If the triangle's surface area is 0,
      * a <tt>T3dException</tt> will be thrown.
+     * @param pTriangle Triangle that is lying on the plane
      */
 	public GmPlane(VgTriangle pTriangle) {
 		this.init(pTriangle);
@@ -79,7 +84,7 @@ public class GmPlane extends VgPlane
 		T3dVector hlp = new T3dVector(mA, mB, mC); 
 		hlp.doNorm();
 
-		VgPoint ret = null;
+		VgPoint ret;
 		ret = new GmPoint(hlp.getX(), hlp.getY(), hlp.getZ()); 
 		ret.setSRS(this.getSRS());
 		return ret;
@@ -114,7 +119,7 @@ public class GmPlane extends VgPlane
 	 */
 	public VgPoint projectPointZ(VgPoint pt)
 	{
-		VgPoint ret = null;
+		VgPoint ret;
 		ret = new GmPoint(pt);
 		
 		if (mC != 0.) {
