@@ -24,7 +24,7 @@ import org.n52.v3d.triturus.core.T3dException;
 import org.n52.v3d.triturus.core.T3dNotYetImplException;
 
 /** 
- * Filter ti transform a <tt>GmSimpleElevationGrid</tt>-object into a <tt>GmSimpleTINFeature</tt>.
+ * Filter to transform a <tt>GmSimpleElevationGrid</tt>-object into a <tt>GmSimpleTINFeature</tt>.
  * @author Benno Schmidt
  */
 public class FltElevationGrid2TIN extends T3dProcFilter
@@ -39,7 +39,9 @@ public class FltElevationGrid2TIN extends T3dProcFilter
         return mLogString;
     }
 
-    /** <b>TODO</b> */
+    /**
+     * performs the described filter operation.
+     */
     public GmSimpleTINFeature transform(GmSimpleElevationGrid pGrid) throws T3dException
     {
     	throw new T3dNotYetImplException();

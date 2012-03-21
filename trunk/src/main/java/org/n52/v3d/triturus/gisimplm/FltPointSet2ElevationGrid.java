@@ -180,7 +180,7 @@ public class FltPointSet2ElevationGrid extends T3dProcFilter
     }   
 
     /** 
-     * performs the grid calulation.
+     * performs the grid calculation.
      * @param pPointSet List of <tt>VgPoint</tt>-objects
      * @throws T3dException
      */
