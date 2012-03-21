@@ -17,6 +17,7 @@ public class FltTINPolygonAssembler extends T3dProcFilter
 
 	/**
      * return the TIN that results from the intersection operation.<br /><br />
+     * <i>Sorry, this method has not been implemented yet...</i>
 	 * <i>German:</i> liefert das TIN, das Ergebnis der Verschneidung ist.<p>
 	 * @param pTIN TIN, in dessen Geometrie die Polygon-Geometrie eingebaut werden soll.
 	 * @param pPolygon einzubauende Geometrie

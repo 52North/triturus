@@ -42,7 +42,10 @@ public class FltTIN2ElevationGrid extends T3dProcFilter
         return mLogString;
     }
 
-    /** <b>TODO</b> */
+    /**
+     * performs the described filter operation.<br />
+     * <i>Sorry, this method has not been implemented yet...</i>
+     */
     public GmSimpleElevationGrid transform(GmSimpleTINFeature pTIN) throws T3dException
     {
     	throw new T3dNotYetImplException();

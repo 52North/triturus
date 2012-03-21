@@ -55,7 +55,9 @@ public class FltElevationGrid2PointSet extends T3dProcFilter
        mEnv = pEnv;
     }
 
-    /** <b>TODO</b> */
+    /**
+     * performs the described filter operation.
+     */
     public ArrayList transform(GmSimpleElevationGrid pGrid) throws T3dException
     {
         if (pGrid == null)

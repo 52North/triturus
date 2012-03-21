@@ -19,7 +19,10 @@
  **************************************************************************************/
 package org.n52.v3d.triturus.gisimplm;
 
+import org.n52.v3d.triturus.core.T3dNotYetImplException;
 import org.n52.v3d.triturus.core.T3dProcFilter;
+import org.n52.v3d.triturus.vgis.VgLineString;
+import org.n52.v3d.triturus.vgis.VgProfile;
 
 /**
  * @deprecated
@@ -33,5 +36,14 @@ public class FltElevationGridProfile extends T3dProcFilter
 
     public String log() {
         return mLogString;
+    }
+
+    /**
+     * performs the described filter operation.<br />
+     * <i>Sorry, this method has not been implemented yet...</i>
+     */
+    public VgProfile transform(GmSimpleElevationGrid pGrid, VgLineString pDefLine)
+    {
+    	throw new T3dNotYetImplException();
     }
 }
