@@ -22,13 +22,11 @@ package org.n52.v3d.triturus.gisimplm;
 import org.n52.v3d.triturus.vgis.*;
 import org.n52.v3d.triturus.core.T3dProcFilter;
 import org.n52.v3d.triturus.core.T3dException;
-import org.n52.v3d.triturus.t3dutil.T3dVector;
 
 /**
  * Filter to calculate cross-sections for equidistant elevation-grids that are parallel to the x- and y-axis.
  * @author Benno Schmidt
  */
-// TODO Diese Klasse scheint doppelt -> Vergleich mit FltElevationGridProfile!!!
 public class FltElevationGrid2Profile extends T3dProcFilter
 {
     private String mLogString = "";
@@ -66,16 +64,13 @@ public class FltElevationGrid2Profile extends T3dProcFilter
     	ny = ((GmSimple2dGridGeometry) pGrid.getGeometry()).numberOfRows();
         mGrid = pGrid;
 
-        VgPoint ip = null; 
-
         // 1. z-Wert f�r Startpunkt des ersten Segments ermitteln
         if (pDefLine.numberOfVertices() <= 0)
             return null;
-        ip = this.grdProject(pDefLine.getVertex(0));
+        VgPoint ip = this.grdProject(pDefLine.getVertex(0));
         if (ip != null)
             this.registerVertex(ip, 0.);
 
-    	VgLineSegment seg = null;
     	double iFromFp, jFromFp, iToFp, jToFp;
     	int iFrom, jFrom, iTo, jTo;
 
@@ -84,7 +79,7 @@ public class FltElevationGrid2Profile extends T3dProcFilter
         {    
             // Bearbeitung des k-ten Liniensegments:
             
-            seg = new GmLineSegment(pDefLine.getVertex(k), pDefLine.getVertex(k + 1));
+            VgLineSegment seg = new GmLineSegment(pDefLine.getVertex(k), pDefLine.getVertex(k + 1));
 
             // 2. Definitionsliniensegment mit Gitter verschneiden und z-Werte ermitteln
             jFromFp = this.grdIndexX(seg.getStartPoint());
@@ -235,7 +230,7 @@ public class FltElevationGrid2Profile extends T3dProcFilter
 //System.out.println("pur = " + pur);
         pm = new GmPoint(0.5, 0.5, 0.25 * (pll.getZ() + plr.getZ() + pul.getZ() + pur.getZ()));
   
-        VgTriangle tri = null;
+        VgTriangle tri;
         if (jrem > 1. - 0.5 * irem) {
             if (irem > jrem) // rechtes Dreieck
                 tri = new GmTriangle(pm, plr, pur);
