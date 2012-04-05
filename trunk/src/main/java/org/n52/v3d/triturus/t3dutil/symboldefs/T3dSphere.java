@@ -25,7 +25,7 @@ import org.n52.v3d.triturus.t3dutil.T3dSymbolDef;
  * todo engl. doc
  * Klasse zur Definition eines Kugel-Symbols. Zur Instanziierung konkreter Symbole ist die Klasse
  * <tt>T3dSymbolInstance</tt> zu verwenden.<p>
- * @see T3dSymbolInstance
+ * @see org.n52.v3d.triturus.t3dutil.T3dSymbolInstance
  * @author Benno Schmidt
  */
 public class T3dSphere extends T3dSymbolDef

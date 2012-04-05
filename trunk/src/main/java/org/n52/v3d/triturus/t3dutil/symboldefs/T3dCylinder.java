@@ -24,7 +24,7 @@ import org.n52.v3d.triturus.t3dutil.T3dSymbolDef;
 /**
  * Klasse zur Definition eines Zylinder-Symbols. Zur Instanziierung konkreter Symbole ist die Klasse
  * <tt>T3dSymbolInstance</tt> zu verwenden.<p>
- * @see T3dSymbolInstance
+ * @see org.n52.v3d.triturus.t3dutil.T3dSymbolInstance
  * @author Benno Schmidt
  * todo engl. doc
  */
