@@ -5,6 +5,7 @@ package org.n52.v3d.triturus.t3dutil;
  * Klasse zur Verwaltung einer Farbinformation.<p>
  * Bem.: Statt dieser Klasse sollte <tt>T3dColor</tt> verwendet werden.<p>
  * @author Benno Schmidt
+ * @see T3dColor
  */
 public class VuColor
 {
