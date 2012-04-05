@@ -38,6 +38,15 @@ public class IoProfileWriter extends IoAbstractWriter
     private String mFormat;
 
     /**
+     * Identifier to render cross-sections to SVG (scalable vector graphics) documents.
+     */
+    public static final String SVG = "SVG";
+    /**
+     * Identifier to export cross-section information in ACADGEO format.
+     */
+    public static final String ACGEO = "AcGeo";
+
+    /**
      * Constructor.<br /><br />
      * <i>German:</i> Konstruktor. Als Parameter ist der Dateiformattyp zu setzen. Wird dieser nicht unterst&uuml;tzt,
      * wird sp&auml;ter w&auml;hrend des Schreibvorgangs eine Ausnahme geworfen.<br />
@@ -60,6 +69,8 @@ public class IoProfileWriter extends IoAbstractWriter
    /**
      * sets the format type.
      * @param pFormat Format-string (e.g. <tt></tt>&quot;AcGeo&quot;</tt>)
+     * @see IoProfileWriter#ACGEO
+     * @see IoProfileWriter#SVG
      */
    public void setFormatType(String pFormat) {
         mFormat = pFormat;
@@ -76,8 +87,8 @@ public class IoProfileWriter extends IoAbstractWriter
     public void writeToFile(VgProfile pProfile, String pFilename) throws T3dException
     {
         int i = 0;
-        if (mFormat.equalsIgnoreCase("AcGeo")) i = 1;
-        if (mFormat.equalsIgnoreCase("SVG")) i = 2;
+        if (mFormat.equalsIgnoreCase(ACGEO)) i = 1;
+        if (mFormat.equalsIgnoreCase(SVG)) i = 2;
         // --> hier ggf. weitere Typen erg�nzen...
 
         try {

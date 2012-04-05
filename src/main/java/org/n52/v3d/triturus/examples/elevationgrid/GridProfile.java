@@ -34,7 +34,7 @@ public class GridProfile
 	public static void main(String args[])
 	{
         // Read the elevation grid from file:
-		IoElevationGridReader reader = new IoElevationGridReader("ArcIGrd");
+		IoElevationGridReader reader = new IoElevationGridReader(IoElevationGridReader.ARCINFO_ASCII_GRID);
 		GmSimpleElevationGrid grid = null;
 		try {
 			grid = reader.readFromFile("/data/example_dem.asc");
@@ -62,11 +62,11 @@ public class GridProfile
             System.out.println((prof.getTZPair(i))[0] + ", " + (prof.getTZPair(i))[1]);
         // to SVG:
         System.out.println("Writing SVG-file...");
-        IoProfileWriter lWriter = new IoProfileWriter("SVG");
+        IoProfileWriter lWriter = new IoProfileWriter(IoProfileWriter.SVG);
         lWriter.writeToFile(prof, "/temp/cross-sec-1.svg");
         // to ASCII-file:
         System.out.println("Exporting to ASCII-file...");
-        lWriter.setFormatType("AcGeo");
+        lWriter.setFormatType(IoProfileWriter.ACGEO);
         lWriter.writeToFile(prof, "/temp/cross-sec-1.prf");
     }
 }
