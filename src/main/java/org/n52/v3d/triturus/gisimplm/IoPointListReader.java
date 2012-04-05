@@ -44,28 +44,35 @@ public class IoPointListReader extends IoObject
     private VgEnvelope mSpatialFilter = null;
 
     /**
-     * Konstruktor. Als Parameter ist der Dateiformattyp zu setzen. Wird dieser nicht unterst�tzt, wird sp�ter w�hrend
-     * des Lesevorgangs eine Ausnahme geworfen.<p>
-     * Es werden die folgenden Formate unterst�tzt:
+     * Identifier to be used to process plain ASCII files holding XYZ triples.
+     */
+    public static final String PLAIN = "Plain";
+
+    /**
+     * Constructor.<br /><br />
+     * <i>German:</i> Konstruktor. Als Parameter ist der Dateiformattyp zu setzen. Wird dieser nicht unterst&uuml;tzt,
+     * wird sp&auml;ter w&auml;hrend des Lesevorgangs eine Ausnahme geworfen.<br />
+     * Es werden die folgenden Formate unterst�tzt:<br />
      * <ul>
      * <li><i>Plain:</i> ASCII-Datei, zeilenweise x, y und z separiert durch Blank</li>
      * <li><b>... weitere Typen insb. Vermessungsformate -> Benno</b></li>
-     * </ul><p>
-     * @param pFormat Format-String, z. B. "Plain"
+     * </ul>
+     * @param pFormat Format-string, e.g. "Plain"
+     * @see IoPointListReader#PLAIN
      */
     public IoPointListReader(String pFormat) {
         mLogString = this.getClass().getName();
         this.setFormatType(pFormat);
     }
 
-    /** protokolliert die durchgef�hrte Transformation. */
     public String log() {
         return mLogString;
     }
 
     /** 
-     * setzt den Formattyp.<p>
-     * @param pFormat Dateityp (z. B. "AcGeo")
+     * sets the format type.
+     * @param pFormat Format-type (e.g. "Plain")
+     * @see IoPointListReader#PLAIN
      */
     public void setFormatType(String pFormat)
     {
@@ -73,10 +80,11 @@ public class IoPointListReader extends IoObject
     }
 
     /**
-     * liest eine Menge von 3D-Punkten einer Datei ein. Wird der spezifizierte Formattyp nicht unterst�tzt, wirft die
-     * Methode eine <tt>T3dNotYetImplException</tt>.<p>
-     * @param pFilename Pfad, unter dem die Datei abgelegt ist.
-     * @return <tt>ArrayList</tt> von <tt>VgPoint</tt>-Objekten
+     * reads in a set of 3-d points from a file.<br /><br />
+     * <i>German:</i> liest eine Menge von 3D-Punkten einer Datei ein. Wird der spezifizierte Formattyp nicht
+     * unterst&uuml;tzt, wirft die Methode eine <tt>T3dNotYetImplException</tt>.<p>
+     * @param pFilename File name (complete path)
+     * @return <tt>ArrayList</tt> consisting of <tt>VgPoint</tt> objects
      * @throws org.n52.v3d.triturus.core.T3dException
      * @throws org.n52.v3d.triturus.core.T3dNotYetImplException
      */
@@ -158,10 +166,12 @@ System.out.println("lineNumber = " + lineNumber);
     } // readPlainAscii()
 
     /**
-     * setzt einen r�umlichen Filter f�r die einzulesenden Punkte. Punkte, die au�erhalb der durch <tt>pFilter</tt>
-     * gegebenen Bounding-Box liegen, werden nicht ber�cksichtigt.<p>
-     * Soll keine r�umliche Filterung erfolgen, ist der Wert <i>null</i> als Parameter zu setzen (Voreinstellung).<p>
-     * Bem.: Die z-Werte der Bounding-Box sind auf hinreichend kleine/gro�e Werte zu setzen.<p>
+     * defines a spatial filter.<br /><br />
+     * <i>German:</i> setzt einen r&auml;umlichen Filter f&uuml;r die einzulesenden Punkte. Punkte, die au&szlig;erhalb
+     * der durch <tt>pFilter</tt> gegebenen Bounding-Box liegen, werden nicht ber&uuml;cksichtigt.<br />
+     * Soll keine r&auml;umliche Filterung erfolgen, ist der Wert <i>null</i> als Parameter zu setzen (Voreinstellung).
+     * <br />
+     * Bem.: Die z-Werte der Bounding-Box sind auf hinreichend kleine/gro&szlig;e Werte zu setzen.
      * @param pFilter Bounding-Box
      */
     public void setSpatialFilter(VgEnvelope pFilter) {
@@ -169,10 +179,11 @@ System.out.println("lineNumber = " + lineNumber);
     }
 
     /**
-     * liefert den gesetzten r�umlichen Filter. Punkte, die au�erhalb der Bounding-Box des Filters liegen, werden beim
-     * Einlesen nicht ber�cksichtigt.<p>
-     * Falls kein r�umlicher Filter gesetzt ist, wird der Wert <i>null</i> zur�ckgegeben.<p>
-     * @return 3D-Bounding-Box f�r r�umliche Filterung oder <i>null</i>
+     * gives the set spatial filter.<br /><br />
+     * <i>German:</i> liefert den gesetzten r&auml;umlichen Filter. Punkte, die au&szlig;erhalb der Bounding-Box des
+     * Filters liegen, werden beim Einlesen nicht ber&uuml;cksichtigt.<br />
+     * Falls kein r&auml;umlicher Filter gesetzt ist, wird der Wert <i>null</i> zur&uuml;ckgegeben.
+     * @return 3-D bounding-Box (if a spatial filter is set, else <i>null</i>)
      */
     public VgEnvelope getSpatialFilter() {
         return mSpatialFilter;
