@@ -46,6 +46,23 @@ public class IoElevationGridWriter extends IoAbstractWriter
     private MpHypsometricColor mHypsometricColMap = null;
 
     /**
+     * Identifier to be used to process elevation-grids in ArcInfo ASCII grid format.
+     */
+    public static final String ARCINFO_ASCII_GRID = "ArcIGrd";
+    /**
+     * Identifier to be used to process elevation-grids in ACADGEO format.
+     */
+    public static final String ACGEO = "AcGeo";
+    /**
+     * Identifier to be used to process elevation-grids in VRML 2 format.
+     */
+    public static final String VRML2 = "Vrml2";
+    /**
+     * Identifier to be used to process elevation-grids inX3D format.
+     */
+    public static final String X3D = "X3d";
+
+    /**
      * Constructor.<br /><br />
      * <i>German:</i> Konstruktor. Als Parameter ist der Dateiformattyp zu setzen. Wird dieser nicht unterst&uuml;tzt,
      * wird sp&auml;ter w&auml;hrend des Schreibvorgangs eine Ausnahme geworfen.<br />
@@ -69,6 +86,10 @@ public class IoElevationGridWriter extends IoAbstractWriter
      * 4. Um das <tt>GmSimpleElevationGrid</tt> als GIF-Bild abzuspeichern, kann bei Bedarf die Klasse 
      * <tt>IoElevationGridGIFWriter</tt> aus dem Paket org.n52.v3d.triturus.vispovray genutzt werden.
      * @param pFormat Format-string, e.g. <tt>&quot;ArcIGrd&quot;</tt>
+     * @see IoElevationGridWriter#ARCINFO_ASCII_GRID
+     * @see IoElevationGridWriter#ACGEO
+     * @see IoElevationGridWriter#VRML2
+     * @see IoElevationGridWriter#X3D
      */
     public IoElevationGridWriter(String pFormat) {
         mLogString = this.getClass().getName();
@@ -82,6 +103,10 @@ public class IoElevationGridWriter extends IoAbstractWriter
     /** 
      * sets the format type.
      * @param pFormat Format-string (e.g. <tt></tt>&quot;ArcIGrd&quot;</tt>)
+     * @see IoElevationGridWriter#ARCINFO_ASCII_GRID
+     * @see IoElevationGridWriter#ACGEO
+     * @see IoElevationGridWriter#VRML2
+     * @see IoElevationGridWriter#X3D
      */
     public void setFormatType(String pFormat) {
         mFormat = pFormat;
@@ -99,12 +124,12 @@ public class IoElevationGridWriter extends IoAbstractWriter
     public void writeToFile(GmSimpleElevationGrid pGrid, String pFilename) throws T3dException, T3dNotYetImplException
     {
         int i = 0;
-        if (mFormat.equalsIgnoreCase("ArcIGrd")) i = 1;
-        if (mFormat.equalsIgnoreCase("AcGeo")) i = 2;
+        if (mFormat.equalsIgnoreCase(ARCINFO_ASCII_GRID)) i = 1;
+        if (mFormat.equalsIgnoreCase(ACGEO)) i = 2;
         if (mFormat.equalsIgnoreCase("AcGeoTIN")) i = 3;
         if (mFormat.equalsIgnoreCase("Vrml1")) i = 4;
-        if (mFormat.equalsIgnoreCase("Vrml2")) i = 5;
-        if (mFormat.equalsIgnoreCase("X3d")) i = 6;
+        if (mFormat.equalsIgnoreCase(VRML2)) i = 5;
+        if (mFormat.equalsIgnoreCase(X3D)) i = 6;
         if (mFormat.equalsIgnoreCase("XYZ")) i = 7;
         // --> hier ggf. weitere Typen erg�nzen...
 

@@ -53,6 +53,11 @@ public class IoElevationGridReader extends IoObject
     private GmSimpleElevationGrid mElevationGrid = null;
 
     /**
+     * Identifier to be used to process elevation-grids in ArcInfo ASCII grid format.
+     */
+    public static final String ARCINFO_ASCII_GRID = "ArcIGrd";
+
+    /**
      * Constructor.<br /><br />
      * <i>German:</i> Konstruktor. Als Parameter ist der Dateiformattyp zu setzen. Wird dieser nicht unterst&uuml;tzt,
      * wird sp&auml;ter w&auml;hrend des Lesevorgangs eine Ausnahme geworfen.<br />
@@ -63,6 +68,7 @@ public class IoElevationGridReader extends IoObject
      * <li><i>BSQ:</i> Byte-sequential ESRI-format</li>
      * </ul><p>
      * @param pFormat Format-string, e.g. <tt></tt>&quot;ArcIGrd&quot;</tt>
+     * @see IoElevationGridReader#ARCINFO_ASCII_GRID
      */
     public IoElevationGridReader(String pFormat) {
         mLogString = this.getClass().getName();
@@ -76,6 +82,7 @@ public class IoElevationGridReader extends IoObject
     /** 
      * sets the format type.
      * @param pFormat Format-string (e.g. <tt></tt>&quot;ArcIGrd&quot;</tt>)
+     * @see IoElevationGridReader#ARCINFO_ASCII_GRID
      */
     public void setFormatType(String pFormat)
     {
@@ -83,11 +90,10 @@ public class IoElevationGridReader extends IoObject
     }
 
     /**
-     * @deprecated
      * reads an elevation-grid from a file or URL location.<br /><br />
      * <i>German:</i> liest ein Elevation-Grid aus einer Datei ein.<br />
      * @param pLocation File path or valid URL
-     * @return Elevation-gridm, or <i>null</i> if an error occurs
+     * @return Elevation-grid, or <i>null</i> if an error occurs
      * @throws org.n52.v3d.triturus.core.T3dNotYetImplException
      * @throws org.n52.v3d.triturus.core.T3dException
      */
@@ -97,7 +103,6 @@ public class IoElevationGridReader extends IoObject
     }
 
     /**
-     * @deprecated
      * reads an elevation-grid from a file or URL location.<br /><br />
      * <i>German:</i> liest ein Elevation-Grid aus einer Datei ein.<br />
      * Bem.: URLs m&uuml;ssen mit "http" beginnen, Dateien mit absoluter Pfadangabe mit "file" (noch zu testen).
@@ -123,7 +128,7 @@ public class IoElevationGridReader extends IoObject
 		}
 
     	int i = 0;
-        if (mFormat.equalsIgnoreCase("ArcIGrd")) i = 1;
+        if (mFormat.equalsIgnoreCase(ARCINFO_ASCII_GRID)) i = 1;
         if (mFormat.equalsIgnoreCase("AcGeo")) i = 2;
         if (mFormat.equalsIgnoreCase("BSQ")) i = 3;
         // --> hier ggf. weitere Typen erg�nzen...

@@ -33,7 +33,7 @@ public class GridConvert
 {
 	public static void main(String args[])
 	{
-        IoElevationGridReader reader = new IoElevationGridReader("ArcIGrd");
+        IoElevationGridReader reader = new IoElevationGridReader(IoElevationGridReader.ARCINFO_ASCII_GRID);
 
 		try {
             // Read the elevation grid from file:
@@ -53,7 +53,7 @@ public class GridConvert
             }
 
             // Write VRML output:
-			IoElevationGridWriter writer = new IoElevationGridWriter("Vrml2");
+			IoElevationGridWriter writer = new IoElevationGridWriter(IoElevationGridWriter.VRML2);
     		writer.writeToFile(grid, "/data/example_dem.wrl");
 		}
 		catch (T3dException e) {
