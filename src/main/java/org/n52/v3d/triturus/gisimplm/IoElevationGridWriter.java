@@ -32,7 +32,7 @@ import org.n52.v3d.triturus.t3dutil.MpHypsometricColor;
 import java.text.DecimalFormat;
 
 /**
- * Writing elevation grids (of type <tt>GmSimpleElevationGrid</tt>) to a file or stram.<br /><br />
+ * Writing elevation grids (of type <tt>GmSimpleElevationGrid</tt>) to a file or stream.<br /><br />
  * <i>German:</i> Schreiben von Gitter-basiertern H&ouml;henmodellen (Typ <tt>GmSimpleElevationGrid</tt>) in Dateien
  * oder Str&ouml;me.
  * @author Benno Schmidt
@@ -491,7 +491,7 @@ lDat.write("DEF Relief Transform {"); lDat.newLine();
             lDat.write("                        }"); lDat.newLine();
 if (false) {
 lDat.write("                        texture ImageTexture {"); lDat.newLine();              // TODO
-String lDrape = "http://www.wischelo.de/images/email.png";      // todo variabel machen!!        jpeg m�sste auch gehen...
+String lDrape = "http://52north.org/templates/52n/images/52n-logo.gif";      // todo variabel machen!!        jpeg m�sste auch gehen...
 System.out.println("DRAPE = " + lDrape);                   // todo: Problem: Bild ist noch spiegelbildlich!!
 lDat.write("                            url \"" + lDrape + "\""); lDat.newLine();
 lDat.write("                        }"); lDat.newLine();
