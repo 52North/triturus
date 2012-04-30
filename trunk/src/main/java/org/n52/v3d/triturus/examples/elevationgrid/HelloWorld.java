@@ -25,7 +25,8 @@ import org.n52.v3d.triturus.gisimplm.IoElevationGridWriter;
 import org.n52.v3d.triturus.vgis.VgPoint;
 
 /**
- * Triturus example application: Generates a very simple elevation grid and writes it to a VRML file.
+ * Triturus example application: Generates a very simple elevation grid and writes it to a VRML file named
+ * "hello_world.wrl" in the working directory.
  * @author Benno Schmidt
  */
 public class HelloWorld
