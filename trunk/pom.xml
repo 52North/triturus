@@ -1,18 +1,18 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-	<!--<parent>
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<parent>
 		<groupId>org.n52</groupId>
 		<artifactId>52-North</artifactId>
-		<version>5.2</version>
-	</parent>-->
+		<version>5.3</version>
+	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.n52.v3d</groupId>
 	<artifactId>52n-v3d-triturus</artifactId>
 	<version>1.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
-	<name>triturus</name>
+	<name>52North triturus 3d API ${version.line}</name>
 	<description>
-        This module serves as a base for all applications
+        This module serves as a base for all 52n 3d applications
     </description>
 	<mailingLists>
 		<mailingList>
@@ -28,7 +28,7 @@
                 mailto:3d-request@52north.org?subject=unsubscribe
             </unsubscribe>
 		</mailingList>
-		<!--mailingList>
+		<mailingList>
 			<name>3d-commits</name>
 			<archive>
                 http://list.52north.org/pipermail/3d-commits
@@ -39,7 +39,7 @@
 			<unsubscribe>
                 mailto:3d-commits-request@52north.org?subject=unsubscribe
             </unsubscribe>
-		</mailingList-->
+		</mailingList>
 	</mailingLists>
 	<developers>
 		<developer>
@@ -73,6 +73,22 @@
 		<developerConnection>scm:svn:https://svn.52north.org/svn/3d/52n-v3d-triturus/trunk/${project.artifactId}</developerConnection>
 		<url>http://svn.52north.org/cgi-bin/viewvc.cgi/52n-v3d-triturus/trunk/${project.artifactId}?root=3d</url>
 	</scm>
+	<ciManagement>
+		<system>hudson</system>
+		<url>http://3d.demo.52north.org:8080/</url>
+		<notifiers>
+			<notifier>
+				<type>mail</type>
+				<configuration>
+					<address>security-commits@52north.org</address>
+				</configuration>
+				<sendOnError>true</sendOnError>
+				<sendOnFailure>true</sendOnFailure>
+				<sendOnSuccess>true</sendOnSuccess>
+				<sendOnWarning>true</sendOnWarning>
+			</notifier>
+		</notifiers>
+	</ciManagement>
 	<build>
 		<plugins>
 			<plugin>
