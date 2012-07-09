@@ -10,7 +10,7 @@
 	<artifactId>52n-v3d-triturus</artifactId>
 	<version>1.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
-	<name>52North triturus 3d API ${version.line}</name>
+	<name>52North triturus 3d API</name>
 	<description>
         This module serves as a base for all 52n 3d applications
     </description>
