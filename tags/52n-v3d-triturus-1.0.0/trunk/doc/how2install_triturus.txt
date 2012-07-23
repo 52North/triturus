@@ -1,5 +1,0 @@
-how2install
-
- To compile the Triturus library, simply run Maven's 'package' task.
-
- To use the Triturus library, just add the Triturus JAR file to your Java project.
