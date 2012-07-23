@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <parent>
         <groupId>org.n52</groupId>
         <artifactId>52-North</artifactId>
@@ -8,7 +9,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.n52.v3d</groupId>
     <artifactId>52n-v3d-triturus</artifactId>
-    <version>1.0.1-SNAPSHOT</version>
+    <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>52North triturus 3d API</name>
     <description>
@@ -218,7 +219,7 @@
                             <groupId>org.apache.maven.plugins</groupId>
                             <artifactId>maven-javadoc-plugin</artifactId>
                             <version>2.8</version>
-                            <configuration />
+                            <configuration/>
                             <reportSets>
                                 <reportSet>
                                     <id>aggregate</id>
