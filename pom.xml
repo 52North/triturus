@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <parent>
         <groupId>org.n52</groupId>
         <artifactId>52-North</artifactId>
@@ -9,7 +8,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.n52.v3d</groupId>
     <artifactId>52n-v3d-triturus</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0.0</version>
     <packaging>jar</packaging>
     <name>52North triturus 3d API</name>
     <description>
@@ -70,9 +69,9 @@
     </developers>
     <scm>
         <!-- Specification of the Source-Content-Managmentsystem -->
-        <connection>scm:svn:https://svn.52north.org/svn/3d/triturus/trunk</connection>
-        <developerConnection>scm:svn:https://svn.52north.org/svn/3d/triturus/trunk</developerConnection>
-        <url>http://svn.52north.org/cgi-bin/viewvc.cgi/triturus/trunk/?root=3d</url>
+        <connection>scm:svn:https://svn.52north.org/svn/3d/triturus/tags/52n-v3d-triturus-1.0-SNAPSHOT</connection>
+        <developerConnection>scm:svn:https://svn.52north.org/svn/3d/triturus/tags/52n-v3d-triturus-1.0-SNAPSHOT</developerConnection>
+        <url>http://svn.52north.org/cgi-bin/viewvc.cgi/triturus/tags/52n-v3d-triturus-1.0-SNAPSHOT?root=3d</url>
     </scm>
     <ciManagement>
         <system>hudson</system>
@@ -219,7 +218,7 @@
                             <groupId>org.apache.maven.plugins</groupId>
                             <artifactId>maven-javadoc-plugin</artifactId>
                             <version>2.8</version>
-                            <configuration/>
+                            <configuration />
                             <reportSets>
                                 <reportSet>
                                     <id>aggregate</id>
