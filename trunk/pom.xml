@@ -71,7 +71,7 @@
         <!-- Specification of the Source-Content-Managmentsystem -->
         <connection>scm:svn:https://svn.52north.org/svn/3d/triturus/tags/52n-v3d-triturus-1.0.0</connection>
         <developerConnection>scm:svn:https://svn.52north.org/svn/3d/triturus/tags/52n-v3d-triturus-1.0.0</developerConnection>
-        <url>http://svn.52north.org/cgi-bin/viewvc.cgi/triturus/trunk/tags/52n-v3d-triturus-1.0.0?root=3d</url>
+        <url>http://svn.52north.org/cgi-bin/viewvc.cgi/triturus/tags/52n-v3d-triturus-1.0.0?root=3d</url>
     </scm>
     <ciManagement>
         <system>hudson</system>
