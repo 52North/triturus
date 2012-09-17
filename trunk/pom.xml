@@ -70,7 +70,7 @@
     <scm>
         <!-- Specification of the Source-Content-Managmentsystem -->
         <connection>scm:svn:https://svn.52north.org/svn/3d/triturus</connection>
-        <developerConnection>scm:svn:https://svn.52north.org/svn/3d/triturus>/developerConnection>
+        <developerConnection>scm:svn:https://svn.52north.org/svn/3d/triturus</developerConnection>
         <url>http://svn.52north.org/cgi-bin/viewvc.cgi/triturus?root=3d</url>
     </scm>
     <ciManagement>
