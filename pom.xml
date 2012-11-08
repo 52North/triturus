@@ -8,7 +8,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.n52.v3d</groupId>
     <artifactId>52n-v3d-triturus</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.0</version> 
     <packaging>jar</packaging>
     <name>52North triturus 3d API</name>
     <description>
@@ -69,9 +69,9 @@
     </developers>
     <scm>
         <!-- Specification of the Source-Content-Managmentsystem -->
-        <connection>scm:svn:https://svn.52north.org/svn/3d/triturus/trunk</connection>
-        <developerConnection>scm:svn:https://svn.52north.org/svn/3d/triturus/trunk</developerConnection>
-        <url>http://svn.52north.org/cgi-bin/viewvc.cgi/triturus/trunk/?root=3d</url>
+        <connection>scm:svn:https://svn.52north.org/svn/3d/triturus/tags/52n-v3d-triturus-1.0.0</connection>
+        <developerConnection>scm:svn:https://svn.52north.org/svn/3d/triturus/tags/52n-v3d-triturus-1.0.0</developerConnection>
+        <url>http://svn.52north.org/cgi-bin/viewvc.cgi/triturus/tags/52n-v3d-triturus-1.0.0?root=3d</url>
     </scm>
     <ciManagement>
         <system>hudson</system>
@@ -265,9 +265,20 @@
                     </reportPlugins>
                 </configuration>
             </plugin>
-
         </plugins>
     </build>
+    <repositories>
+        <repository>
+            <id>n52-releases</id>
+            <name>52n Releases</name>
+            <url>http://52north.org/maven/repo/releases/</url>
+        </repository>
+        <repository>
+            <id>n52-snapshots</id>
+            <name>52n Snapshots</name>
+            <url>http://52north.org/maven/repo/snapshots/</url>
+        </repository>
+    </repositories>
     <dependencies>
         <dependency>
             <groupId>javax.servlet</groupId>
@@ -356,5 +367,27 @@
                 </plugins>
             </build>
         </profile>
+		<profile>
+			<id>release</id>
+			<!-- a profile wich shall be activated if a release is performed -->
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-release-plugin</artifactId>
+						<configuration>
+							<!-- no build in release:prepare (takes to long time), so in bad 
+								cases release fails on perform -->
+							<preparationGoals>clean</preparationGoals>
+							<autoVersionSubmodules>true</autoVersionSubmodules>
+							<tagBase>https://svn.52north.org/svn/3d/triturus/tags/</tagBase>
+							<goals>deploy</goals>
+							<!-- for xmlbeans we do not need to deploy sources and javadoc -->
+							<useReleaseProfile>false</useReleaseProfile>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
     </profiles>
 </project>
