@@ -23,12 +23,12 @@ import org.n52.v3d.triturus.core.T3dException;
 import java.util.ArrayList;
 
 /**
- * todo engl. JavaDoc
- * Abstrakte Basisklasse f&uuml;r allgemeine Szenenbeschreibungen f&uuml;r 3D-Geovisualisierungen. Die Klasse dient
- * innerhalb des Rahmenwerks zur Abstraktion von der konkret eingesetzten Rendering-/Visualisierungsumgebung.
+ * Abstract base class to manage scene descriptions for generic 3D geo-visualizations. In the scope of the Triturus
+ * framework, this class allows to abstract from the concrete visualization-environment that is used.
  * <p>
- * <i>TODO: Konkrete Implementierungen k&ouml;nnten z. B. generische Szenengraphen, konkrete Szenengraphen f&uuml;r
- * Java 3D, Xith3D, VRML, GeoVRML, X3D, AVS-Netzwerke, POV-Ray-Szenenbeschreibungen oder sonstwas realisieren...</i>
+ * Examples for concrete implementations of this class would be generic scene-graphs or concrete scene-descriptions
+ * encoded using Java 3D, Xith3D, VRML, GeoVRML, X3D, AVS/Express networks, POV-Ray-scenes, etc.
+ *
  * @author Benno Schmidt
  */
 abstract public class VsScene
@@ -41,27 +41,29 @@ abstract public class VsScene
 	private ArrayList mLights = null;
 	
 	/**
-	 * setzt die Voreinstellung f&uuml;r die &Uuml;berh&ouml;hung (vertikaler H&ouml;henma&szlig;stab) der Szene.
-     * Voreingestellt ist der Wert 1.0.
-	 * @param pExaggeration z-Faktor
+	 * sets the initial exaggeration value (vertical height scale) of the scene. The default-value is set to 1.0.
+     *
+	 * @param pExaggeration z-factor
 	 */	
 	public void setDefaultExaggeration(double pExaggeration) {
 		mExaggeration = pExaggeration;
 	}
 
 	/**
-	 * liefert den f&uuml;r die &Uuml;berh&ouml;hung (vertikaler H&ouml;henma&szlig;stab) voreingestellten Wert.
-	 * @return z-Faktor
+     * gets the initial exaggeration value (vertical height scale) of the scene.
+	 * @return z-factor
 	 */	
 	public double getDefaultExaggeration() {
 		return mExaggeration;
 	}
 
 	/**
-	 * f�gt der Szene einen Kamera hinzu.<p>
-	 * Einer <tt>VsScene</tt> k&ouml;nnen mehrere Kameras hinzugef&uuml;gt werden. Voreinstellungsgem&auml;&zzlig; wird
-	 * die erste der Szene hinzugef&uuml;gte Kamera beim Start der Visualisierung gesetzt.
-	 * @param pCamera Kamera-Definition
+	 * adds a camera to the scene.
+     * <p>
+     * A <tt>VsScene</tt> might consist of multiple cameras. By default, the first camera that has been added to the
+     * scene, will be used when starting the visualization.
+     *
+	 * @param pCamera Camera-definition
 	 * @see VsScene#setCurrentCamera
 	 */
 	public void addCamera(VsCamera pCamera) 
@@ -74,11 +76,13 @@ abstract public class VsScene
 	}
 
 	/**
-	 * liefert die i-te f&uuml;r die Szene definierten Kamera.<p>
-	 * F&uuml;r i ist die Beziehung 0 &lt;= i &lt; <tt>this.numberOfCameras()</tt> einzuhalten.
-	 * @param i
-	 * @return Kamera-Definition
-	 * @throws T3dException
+	 * gets the i-th camera that has been defined to be part of the scene.
+     * <p>
+	 * Note: For i, the assertion 0 &lt;= i &lt; <tt>this.numberOfCameras()</tt> must hold.
+     *
+	 * @param i Camera index
+	 * @return Camera-definition
+	 * @throws T3dException if an unrepairable error occurs
 	 */
 	public VsCamera getCamera(int i) throws T3dException
 	{
@@ -92,8 +96,9 @@ abstract public class VsScene
 	}
 
 	/**
-	 * liefert die Anzahl der f&uuml;r die Kamera definierten Kameras.
-	 * @return Anzahl &gt;= 0
+	 * gets the number of cameras that have been defined.
+     *
+	 * @return Number &gt;= 0
 	 */
 	public int numberOfCameras() {
 		if (mCameras == null)
@@ -103,10 +108,12 @@ abstract public class VsScene
 	}
 	
 	/**
-	 * setzt die aktuelle Kamera.<p>
-	 * F&uuml;r i ist die Beziehung 0 &lt;= i &lt; <tt>this.numberOfCameras()</tt> einzuhalten.
-	 * @param i Index der aktuell gesetzten Kamera
-	 * @throws T3dException
+	 * sets the current camera.
+     * <p>
+     * Note: For the index i, the assertion 0 &lt;= i &lt; <tt>this.numberOfCameras()</tt> must hold.
+     *
+	 * @param i the current camera's index
+	 * @throws T3dException if an unrepairable error occurs
 	 */
 	public void setCurrentCamera(int i) throws T3dException
 	{
@@ -116,9 +123,10 @@ abstract public class VsScene
 	}
 
 	/**
-	 * liefert die aktuell gesetzte Kamera.
-	 * @return Kamera
-	 * @throws T3dException
+	 * returns the current camera.
+     *
+	 * @return Camera
+	 * @throws T3dException if an unrepairable error occurs
 	 */
 	public VsCamera getCurrentCamera() throws T3dException
 	{
@@ -129,10 +137,11 @@ abstract public class VsScene
 	}
 
 	/**
-	 * liefert den aktuell gesetzten Ansichtspunkt f&uuml;r die Szene. Dieser Ansichtspunkt entspricht dem
-	 * aktuellen Ansichtspunkt der aktuell gesetzten Kamera.
-	 * @return Ansichtspunkt 
-	 * @throws T3dException
+	 * returns the current viewpoint of the scene. This viewpoint corresponds to the current viewpoint of the current
+     * camera.
+     *
+	 * @return Viewpoint
+	 * @throws T3dException if an unrepairable error occurs
 	 */
 	public VsViewpoint getCurrentViewpoint() throws T3dException
 	{
@@ -143,7 +152,7 @@ abstract public class VsScene
 	}
 
     /**
-     * entfernt alle Kameras aus der Szene.
+     * removes all cameras from the scene.
      */
     public void removeCameras()
     {
@@ -152,9 +161,11 @@ abstract public class VsScene
     }
 
 	/**
-	 * f&uuml;gt der Szene eine Lichtquelle hinzu.<p>
-	 * Einer <tt>VsScene</tt> k&ouml;nnen mehrere Lichtquellen hinzugef&uuml;gt werden.
-	 * @param pLight Lichtquellen-Definition
+	 * adds a light-source to the scene.
+     * <p>
+     * A <tt>VsScene</tt> might consist of multiple light-sources.
+     *
+	 * @param pLight Light-source definition
 	 */
 	public void addLightSource(VsLightSource pLight) 
 	{
@@ -164,11 +175,13 @@ abstract public class VsScene
 	}
 
 	/**
-	 * liefert die i-ten f&uuml;r die Szene definierte Lichtquelle.<p>
-	 * F&uuml;r i ist die Beziehung 0 &lt;= i &lt; <tt>this.numberOfLightSources()</tt> einzuhalten.
-	 * @param i
-	 * @return Lichtquellen-Definition 
-	 * @throws T3dException
+     * gets the i-th light-source that has been defined to be part of the scene.
+     * <p>
+     * Note: For i, the assertion 0 &lt;= i &lt; <tt>this.numberOfLightSources()</tt> must hold.
+     *
+	 * @param i Light-source index
+	 * @return Light-source definition
+	 * @throws T3dException if an unrepairable error occurs
 	 */
 	public VsLightSource getLightSource(int i) throws T3dException
 	{
@@ -182,8 +195,9 @@ abstract public class VsScene
 	}
 
 	/**
-	 * liefert die Anzahl der f&uuml;r die Szene definierten Lichtquellen.
-	 * @return Anzahl &gt;= 0
+     * gets the number of light-sources that have been defined.
+     *
+     * @return Number &gt;= 0
 	 */
 	public int numberOfLightSources() {
 		if (mLights == null)
@@ -193,7 +207,7 @@ abstract public class VsScene
 	}
 
     /**
-     * entfernt alle Lichtquellen aus der Szene.
+     * removes all light-sources from the scene.
      */
     public void removeLightSources()
     {
@@ -202,11 +216,13 @@ abstract public class VsScene
     }
 
 	/**
-	 * generiert die zu den gesetzten Werten geh&ouml;rige Szenen-Beschreibung. Bei dem Resultat des Methodenaufrufs
-     * kann es sich z. B. um eine (nicht notwendigerweise Szenengraph-basierte) Szenenbeschreibungsdatei oder ein
-	 * Szenengraph-Objekt handeln.<p>
-	 * Bem.: Diese Methode ist durch die konkreten <tt>VsScene</tt>-Realisierungen zu implementieren.
-	 * @return Szenen-Beschreibung
+     * generates the scene-description according to the settings of the objects that have been added to the current
+     * scene. A call to this method might result in a scene description file (which not necessarily refers to a
+     * scene-graph-based format), or a scene-graph object.
+     * <p>
+	 * Note: This abstract method has to be implemented by a concrete <tt>VsScene</tt>-realisation.
+     *
+	 * @return Scene-description
 	 */
 	abstract public Object generateScene();
 }
