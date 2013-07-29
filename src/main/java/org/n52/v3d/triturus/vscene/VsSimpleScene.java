@@ -70,6 +70,7 @@ import java.lang.Math;
  *
  * @author Benno Schmidt
  */
+// TODO "Vs" in VsScene-Implementierungsklassen als Präfix entfernen
 abstract public class VsSimpleScene extends VsScene
 {
 	private VgElevationGrid mTerrain = null;
