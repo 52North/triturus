@@ -41,9 +41,9 @@ import java.net.URL;
 import java.net.MalformedURLException;
 
 /**
- * Reading elevation grids (of type <tt>GmSimpleElevationGrid</tt>) from a file or URL location.<br /><br />
- * <i>German:</i> Einlesen von Gitter-basiertern H&ouml;henmodellen (Typ <tt>GmSimpleElevationGrid</tt>) aus Dateien.
- * @author Benno Schmidt und Martin May
+ * Reading elevation grids (of type <tt>GmSimpleElevationGrid</tt>) from a file or URL location.
+ *
+ * @author Benno Schmidt, Martin May
  */
 public class IoElevationGridReader extends IoObject
 {
@@ -58,15 +58,16 @@ public class IoElevationGridReader extends IoObject
     public static final String ARCINFO_ASCII_GRID = "ArcIGrd";
 
     /**
-     * Constructor.<br /><br />
-     * <i>German:</i> Konstruktor. Als Parameter ist der Dateiformattyp zu setzen. Wird dieser nicht unterst&uuml;tzt,
-     * wird sp&auml;ter w&auml;hrend des Lesevorgangs eine Ausnahme geworfen.<br />
-     * Es werden z. Zt. die folgenden Formate unterst&uuml;tzt:<br />
+     * Constructor. As parameter, a format type identifier has to be set.
+     * <p>
+     * In case, the given format type is not supported, an exception will be thrown. Currently, these formats are
+     * supported:
      * <ul>
      * <li><i>ArcIGrd:</i> ArcInfo ASCII grids</li>
      * <li><i>AcGeo:</i> ACADGEO format (lattice without color-information</li>
      * <li><i>BSQ:</i> Byte-sequential ESRI-format</li>
-     * </ul><p>
+     * </ul>
+     * <p>
      * @param pFormat Format-string, e.g. <tt></tt>&quot;ArcIGrd&quot;</tt>
      * @see IoElevationGridReader#ARCINFO_ASCII_GRID
      */
@@ -81,6 +82,7 @@ public class IoElevationGridReader extends IoObject
 
     /** 
      * sets the format type.
+     *
      * @param pFormat Format-string (e.g. <tt></tt>&quot;ArcIGrd&quot;</tt>)
      * @see IoElevationGridReader#ARCINFO_ASCII_GRID
      */
@@ -91,7 +93,7 @@ public class IoElevationGridReader extends IoObject
 
     /**
      * reads an elevation-grid from a file or URL location.<br /><br />
-     * <i>German:</i> liest ein Elevation-Grid aus einer Datei ein.<br />
+     *
      * @param pLocation File path or valid URL
      * @return Elevation-grid, or <i>null</i> if an error occurs
      * @throws org.n52.v3d.triturus.core.T3dNotYetImplException
@@ -103,10 +105,12 @@ public class IoElevationGridReader extends IoObject
     }
 
     /**
-     * reads an elevation-grid from a file or URL location.<br /><br />
-     * <i>German:</i> liest ein Elevation-Grid aus einer Datei ein.<br />
-     * Bem.: URLs m&uuml;ssen mit "http" beginnen, Dateien mit absoluter Pfadangabe mit "file" (noch zu testen).
-     * Relative Pfade funktionieren auch (testdata/...)
+     * reads an elevation-grid from a file or URL location.
+     * <p>
+     * Note: URL strings shall start with <tt>"http"</tt>, file specifications that hold absolute paths with "file"
+     * (todo: this remains to be tested).
+     * Relative paths are supported (e.g.: <tt>"testdata/..."</tt>), too.
+     *
      * @param pLocation File path or valid URL
      * @return Elevation-gridm, or <i>null</i> if an error occurs
      * @throws org.n52.v3d.triturus.core.T3dNotYetImplException
@@ -131,14 +135,14 @@ public class IoElevationGridReader extends IoObject
         if (mFormat.equalsIgnoreCase(ARCINFO_ASCII_GRID)) i = 1;
         if (mFormat.equalsIgnoreCase("AcGeo")) i = 2;
         if (mFormat.equalsIgnoreCase("BSQ")) i = 3;
-        // --> hier ggf. weitere Typen erg�nzen...
+        // --> add more types here...
 
         try {
             switch (i) {
                 case 1: this.readArcInfoAsciiGrid(this.createBufferedReader(is)); break;
                 case 2: this.readAcadGeoGrid(this.createBufferedReader(is)); break;
                 case 3: this.readEsriBandSequential(pLocation); break;
-                // --> hier ggf. weitere Typen erg�nzen...
+                // --> add more types here...
 
                 default: throw new T3dNotYetImplException("Unsupported file format");
             }
@@ -166,13 +170,14 @@ public class IoElevationGridReader extends IoObject
     }
 
     /**
-     * reads a 2-D float array from a stream and generates a grid from it.<br /<<br />
-     * <i>German:</i> liest ein 2D-Float-Array aus dem Stream aus und generiert daraus ein Grid.
+     * reads a 2-D float array from a stream and generates a grid from it.
+     *
 	 * @param inputStream
      * @throws IOException
 	 */
 	public GmSimpleElevationGrid readRawFloats(InputStream inputStream, VgEnvelope pEnv, int pWidth, int pHeight)
         throws IOException
+
     {
 		int bufferSize = (pWidth+1)*(pHeight+1)*4;
 		ByteBuffer bb = ByteBuffer.allocate(bufferSize);
