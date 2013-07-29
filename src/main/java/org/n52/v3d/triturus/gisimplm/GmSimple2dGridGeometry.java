@@ -30,6 +30,7 @@ import java.lang.Double;
 
 /** 
  * Class to manage equidistant grid geometries that be oriented arbitrarily inside the x-y plane.
+ *
  * @author Benno Schmidt
  */
 public class GmSimple2dGridGeometry extends VgEquidistGrid
@@ -40,6 +41,7 @@ public class GmSimple2dGridGeometry extends VgEquidistGrid
 
     /** 
      * Constructor.
+     *
      * @param pCols Number of grid columns (x-direction)
      * @param pRows Number of grid rows (y-direction)
      */
@@ -55,7 +57,8 @@ public class GmSimple2dGridGeometry extends VgEquidistGrid
     }
 
     /** 
-     * returns the grid geometry's bounding-box.<br />
+     * returns the grid geometry's bounding-box.
+     *
      * @return Bounding-box (in x-y-plane; &quot;Lattice&quot; view)
      */
     public VgEnvelope envelope()
@@ -81,6 +84,7 @@ public class GmSimple2dGridGeometry extends VgEquidistGrid
 
     /**
      * returns the vector that spans the grid's first axis (row direction).
+     *
      * @return Direction vector
      */
     public T3dVector getDirectionRows() {
@@ -89,14 +93,16 @@ public class GmSimple2dGridGeometry extends VgEquidistGrid
     
     /**
      * returns the vector that spans the grid's second axis (column direction).
+     *
      * @return Direction vector
      */
     public T3dVector getDirectionColumns() {
         return new T3dVector(1., 0., 0.);
     }
 
-    /** 
+    /**
      * sets the grid's origin point.
+     *
      * @param pPnt Grid origin
      */
     public void setOrigin(VgPoint pPnt) {
@@ -105,6 +111,7 @@ public class GmSimple2dGridGeometry extends VgEquidistGrid
     
     /** 
      * returns the grid's origin point.
+     *
      * @return Grid origin
      */
     public VgPoint getOrigin() {
@@ -113,6 +120,7 @@ public class GmSimple2dGridGeometry extends VgEquidistGrid
 
     /** 
      * returns the grid-cell size in x-direction (along the grid's columns).
+     *
      * @return Cell size
      */
     public double getDeltaX() {
@@ -121,6 +129,7 @@ public class GmSimple2dGridGeometry extends VgEquidistGrid
 
     /**
      * @deprecated
+     * @see this#getDeltaX
      */
     public double getCellSizeColumns() {
         return this.getDeltaX();
@@ -128,6 +137,7 @@ public class GmSimple2dGridGeometry extends VgEquidistGrid
 
     /** 
      * returns the grid-cell size in y-direction (along the grid's rows).
+     *
      * @return Cell size
      */
     public double getDeltaY() {
@@ -136,6 +146,7 @@ public class GmSimple2dGridGeometry extends VgEquidistGrid
     
     /**
      * @deprecated
+     * @see this#getDeltaY
      */
     public double getCellSizeRows() {
         return this.getDeltaY();
@@ -145,9 +156,10 @@ public class GmSimple2dGridGeometry extends VgEquidistGrid
       * @deprecated
       * @see VgEquidistGrid#getCellSizeRows
       * @see VgEquidistGrid#getCellSizeColumns
+      *
       * <i>German:</i> liefert die Gitterweiten f&uuml;r die Achsen in <tt>pDeltaRows</tt> und <tt>pDeltaColumns</tt>.
-     * <br />
       * Bem.: Die Reihenfolge der Ausgabe-Parameter ist zu beachten!
+     *
       * @param pDeltaRows Gitterweite in Richtung der 1. Achse (Zeilen)
       * @param pDeltaColumns Gitterweite in Richtung der 2. Achse (Spalten)
       */
