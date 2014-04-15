@@ -26,16 +26,30 @@ import java.io.*;
 import java.util.ArrayList;
 
 /**
- * Import of features consisting of point-geometries.<br /><br />
+ * Import of features consisting of point-geometries and thematic attributes from a file. Each line of the data file
+ * gives x, y and z coordinate of a point as well as the feature's attribute values separated by white spaces.
+ * Additionally, a meta-file that specifies the attribute names and corresponding data types has to be given.
+ * <br /><br />
  * <i>German:</i> Einlesen punkthafter Geoobjekte. In den Eingabedateien stehen zeilenweise x-, y- und z-Koordinaten und
  * Attributwerte durch Leerzeichen voneinander getrennt. Die Namen der Attribute werden aus einer Metadaten-Datei
  * eingelesen.<br />
- * Beispiel:
+ * Sample data file:<br />
+ * <pre>
+ * 57.37 42.34 1.2 18.8 City_Hall
+ * 65.31 48.12 9.8 15.8 Railway_Station
+ * 60.26 49.05 3.0 16.8 High_Street
+ * </pre><br />
+ * Sample meta-data file:<br />
+ * <pre>
+ * temperature double
+ * station String
+ * </pre><br />
+ * Code example showing class use:<br />
  * <pre>
  * IoPointFeatureReader reader = new IoPointFeatureReader();
  * try {
- *     reader.readFromMetaFile( "example.metadata" );
- *     reader.readFromFile( "example.data" );
+ *     reader.readFromMetaFile("example.metadata");
+ *     reader.readFromFile("example.data");
  * }
  * catch (T3dException e) {
  *     ...
@@ -88,14 +102,14 @@ public class IoPointFeatureReader extends IoObject
             while (line != null) {
                 lineNumber++;
 
-                x = this.toDouble( this.getStrTok(line, 0, " " ));
-                y = this.toDouble( this.getStrTok(line, 1, " " ));
-                z = this.toDouble( this.getStrTok(line, 2, " " ));
+                x = this.toDouble(this.getStrTok(line, 0, " " ));
+                y = this.toDouble(this.getStrTok(line, 1, " " ));
+                z = this.toDouble(this.getStrTok(line, 2, " " ));
  
                 GmAttrFeature lFeat = new GmAttrFeature();
-                lFeat.setGeometry(new GmPoint( x, y, z ));
+                lFeat.setGeometry(new GmPoint(x, y, z));
                
-                for (int i = 0; i < mNumberOfAttributes; i++) 
+                for (int i = 0; i < mNumberOfAttributes; i++)
                 {
                     String lType = (String) mAttrTypes.get(i);
                     String lAttrName = (String) mAttrNames.get(i);
@@ -105,7 +119,7 @@ public class IoPointFeatureReader extends IoObject
                         lFeat.addAttribute(lAttrName, lType, new Integer(this.toInt(lVal)));
                     else {
                     if (lType.equals("float") || lType.equals("double"))
-                        lFeat.addAttribute(lAttrName, lType, new Double( this.toDouble(lVal)));
+                        lFeat.addAttribute(lAttrName, lType, new Double(this.toDouble(lVal)));
                     else
                         lFeat.addAttribute(lAttrName, lType, lVal);
                     }
@@ -132,7 +146,7 @@ public class IoPointFeatureReader extends IoObject
     }
 
     /**
-     * reads names and types of the thematic attributes from an metadata file in ASCII format.<br /><br />
+     * reads names and types of the thematic attributes from a metadata file in ASCII format.<br /><br />
      * <i>German:</i> liest die Namen und Typen der verwendeten Attribute aus einer Metadaten-Datei im ASCII-Format ein.
      * @param pFilename File path
      * @throws org.n52.v3d.triturus.core.T3dException
