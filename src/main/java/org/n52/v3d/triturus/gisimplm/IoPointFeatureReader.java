@@ -26,7 +26,7 @@ import java.io.*;
 import java.util.ArrayList;
 
 /**
- * Import of features constisting of point-geometries.<br /><br />
+ * Import of features consisting of point-geometries.<br /><br />
  * <i>German:</i> Einlesen punkthafter Geoobjekte. In den Eingabedateien stehen zeilenweise x-, y- und z-Koordinaten und
  * Attributwerte durch Leerzeichen voneinander getrennt. Die Namen der Attribute werden aus einer Metadaten-Datei
  * eingelesen.<br />
