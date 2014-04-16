@@ -148,7 +148,15 @@ public class MpGMTHypsometricColor extends MpHypsometricColor
     	}
     	return this.interpolate(pElevation);
     }
-        
+
+    public T3dColor transform(Object pValue) throws T3dException
+    {
+        if (pValue instanceof Double)
+            return this.transform(((Double)pValue).doubleValue());
+        else
+            throw new T3dException("Could not map object value to hypsometric color.");
+    }
+
     /**
      * Ermittelt den Farbwert zu der angegebene H�he durch lineare 
      * Interpolation zwischen der Farbtabelle. Die Farbtabelle muss 

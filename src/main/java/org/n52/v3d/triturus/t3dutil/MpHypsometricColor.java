@@ -20,7 +20,7 @@
 package org.n52.v3d.triturus.t3dutil;
 
 /**
- * Abstract base class to derive hypsometric color-values.
+ * Abstract base class to determine hypsometric color-values.
  *
  * @see org.n52.v3d.triturus.t3dutil.MpSimpleHypsometricColor
  * @see org.n52.v3d.triturus.t3dutil.MpGMTHypsometricColor

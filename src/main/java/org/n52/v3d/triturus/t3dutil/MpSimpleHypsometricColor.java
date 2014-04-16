@@ -5,12 +5,14 @@ import org.n52.v3d.triturus.core.T3dException;
 import java.util.ArrayList;
 
 /**
- * Klasse zur Ermittlung hypsometrischer Farbwerte. Die einfach gehaltene Implementierung verwendet
+ * Implementation for hypsometric color mappings.
+ * <br /><br />
+ * <i>German:</i> Klasse zur Ermittlung hypsometrischer Farbwerte. Die einfach gehaltene Implementierung verwendet
  * voreinstellungsgem�� den klassischen Farbkeil f�r die Bundesrepublik Deutschland, durch den tiefe Lagen
  * dunkelgr�n, mittlere Lagen gelb und hohe Lagen braun dargestellt werden. Die St�tzwerte der Farbpalette k�nnen
  * �ber die Methode <tt>MpSimpleHypsometricColor#setPalette</tt> abge�ndert werden, wobei die Farben zwischen den
  * St�tzpunkten entweder im HSV-Farbraum linear interpoliert werden oder ein eintheitlicher Farbwert je definierter
- * H�henklasse verwendet wird.<p>
+ * H�henklasse verwendet wird.<br />
  * Beispiel zur Verwendung:
  * <pre>
  * double elevs[] = {70., 120., 500., 900.};
@@ -21,6 +23,7 @@ import java.util.ArrayList;
  *     new T3dColor(0.82f, 0.2f, 0.0f)}; // R�tlichbraun
  * colMapper.setPalette(elev, cols, true);
  * </pre>
+ *
  * @see org.n52.v3d.triturus.t3dutil.MpGMTHypsometricColor
  * @author Benno Schmidt
  */
@@ -30,16 +33,10 @@ public class MpSimpleHypsometricColor extends MpHypsometricColor
     private ArrayList lColors = new ArrayList();
     private boolean mInterpolMode = true;
 
-    /** Konstruktor. */
     public MpSimpleHypsometricColor() {
         this.setClassicalPalette();
     }
 
-    /**
-     * liefert die einem H�henwert zugeordnete Farbe.<p>
-     * @param pElevation H�henwert
-     * @return der H�he zugewiesener Farbwert
-     */
     public T3dColor transform(double pElevation) throws T3dException
     {
         if (pElevation <= ((Double) lHeights.get(0)).doubleValue())
@@ -60,14 +57,23 @@ public class MpSimpleHypsometricColor extends MpHypsometricColor
         return (T3dColor) lColors.get(lHeights.size() - 1);
     }
 
+    public T3dColor transform(Object pValue) throws T3dException
+    {
+        if (pValue instanceof Double)
+            return this.transform(((Double)pValue).doubleValue());
+        else
+            throw new T3dException("Could not map object value to hypsometric color.");
+    }
+
     /**
-     * setzt eine Palette f�r die hypsometrischen Einf�rbung. Die H�he <i>pElevations[i]</i> wird dabei auf die
-     * Farbe <i>pColors[i]</i> abgebildet. Abh�ngig vom angegebenen Modus wird zwischen den Farben im HSV-Farbraum
-     * linear interpoliert oder der gesamten Klasse <i>pElevations[i] &lt; h &lt;= pElevations[i + 1]</tt> einheitlich
-     * der Farbwert <i>pColors[i]><tt> zugeordnet.<p>
-     * @param pElevations Feld mit H�henwerten
-     * @param pColors Feld mit zugeh�rigen Farbwerten
-     * @param pInterpolMode <i>true</i> f�r Interpolation im HSV-Farbraum, <i>false</i> f�r einheitliche Klassen.
+     * sets the hypsometric color palette. Here, the elevation value <i>pElevations[i]</i> will be mapped to the color
+     * <i>pColors[i]</i>. Dependent on the given interpolation mode, the mapper will interpolate between colors in
+     * HSV color space (hue/saturation/value), or for the overall interval
+     * <i>pElevations[i] &lt; h &lt;= pElevations[i + 1]</tt> a uniform color value <i>pColors[i]><tt> will be assigned.
+     *
+     * @param pElevations Array which holds elevation values
+     * @param pColors Array whichs holds the corresponding color values
+     * @param pInterpolMode <i>true</i> for interpolation in HSV color space, <i>false</i> for uniform classes.
      */
     public void setPalette(double[] pElevations, T3dColor[] pColors, boolean pInterpolMode)
     {
