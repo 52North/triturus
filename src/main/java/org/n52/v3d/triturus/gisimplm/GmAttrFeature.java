@@ -60,7 +60,7 @@ public class GmAttrFeature extends VgAttrFeature
      * assigns a geometry to the object. E.g. for a point feature:
      * <pre>
      * GmAttrFeature myFeature = new GmAttrFeature();
-     * myFeature.setGeometry( new GmPoint( 1000., 1500., 0. ) );
+     * myFeature.setGeometry(new GmPoint(1000., 1500., 0.));
      * </pre>
      * @param pGeom geometric object
      */
@@ -124,21 +124,21 @@ public class GmAttrFeature extends VgAttrFeature
     }
 
     /** 
-     * checks if any thematic attribute has been defined.
+     * checks if the given attribute has been defined.
      * @param pAttrName Attribute name
      * @return <i>true</i> if an attribute has been defined
      */
     public boolean hasAttribute(String pAttrName) 
     {
-    	return (this.internalAttributePos( pAttrName ) != 0);
+    	return (this.internalAttributePos(pAttrName) >= 0);
     }
 
-    private int internalAttributePos( String pAttrName ) {
+    private int internalAttributePos(String pAttrName) {
     	for (int i = 0; i < mAttrNames.size(); i++) {
-    	    if (((String) mAttrNames.get( i )).equalsIgnoreCase( pAttrName ))
+    	    if (((String) mAttrNames.get(i)).equalsIgnoreCase( pAttrName ))
     	        return i;
     	}
-    	return 0;
+    	return -1;
     }
     	     
 	/**
@@ -158,7 +158,7 @@ public class GmAttrFeature extends VgAttrFeature
     public Object getAttributeValue(String pAttrName) throws T3dException
     {
     	int i = this.internalAttributePos(pAttrName);
-    	if (i <= 0)
+    	if (i < 0)
     	    throw new T3dException("Tried to access non-present attribute \"" + pAttrName + "\".");
     	// else:
     	return mAttrValues.get(i);
@@ -191,7 +191,7 @@ public class GmAttrFeature extends VgAttrFeature
     public String getAttributeType(String pAttrName)
     {
     	int i = this.internalAttributePos(pAttrName);
-    	if (i <= 0)
+    	if (i < 0)
     	    throw new T3dException("Tried to access non-present attribute \"" + pAttrName + "\".");
     	// else:
     	return (String) mAttrTypes.get(i);
