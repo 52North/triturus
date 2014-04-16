@@ -22,9 +22,9 @@ package org.n52.v3d.triturus.t3dutil.symboldefs;
 import org.n52.v3d.triturus.t3dutil.T3dSymbolDef;
 
 /**
- * todo engl. doc
- * Klasse zur Definition eines Kegel-Symbols. Zur Instanziierung konkreter Symbole ist die Klasse
- * <tt>T3dSymbolInstance</tt> zu verwenden.<p>
+ * Definition of a cone to be used as a (cartographic) symbol. To instantiate concrete symbols, the class
+ * <tt>T3dSymbolInstance</tt> has to be used.
+ *
  * @see org.n52.v3d.triturus.t3dutil.T3dSymbolInstance
  * @author Benno Schmidt
  */
@@ -34,32 +34,36 @@ public class T3dCone extends T3dSymbolDef
 	private double mHeight = 1.;
 	
 	/** 
-	 * setzt den Kegelradius.<p>
-	 * @param pRadius Radius
+	 * sets the cone's radius.
+     *
+	 * @param pRadius radius
 	 */
 	public void setRadius(double pRadius) {
 		mRadius = pRadius;
 	}
 
 	/**
-	 * liefert den Kegelradius.<p>
-	 * @return gesetzter Radius
+	 * gets the cone's radius.
+     *
+	 * @return radius
 	 */
 	public double getRadius() {
 		return mRadius;
 	}
 	
 	/** 
-	 * setzt die H�he des Kegels.<p>
-	 * @param pHeight H�he
+	 * sets the cone's height.
+     *
+	 * @param pHeight height
 	 */
 	public void setHeight(double pHeight) {
 		mHeight = pHeight;
 	}
 
 	/**
-	 * liefert die H�he des Kegels.<p>
-	 * @return gesetzte H�he
+	 * gets the cone's height.
+     *
+	 * @return height
 	 */
 	public double getHeight() {
 		return mHeight;

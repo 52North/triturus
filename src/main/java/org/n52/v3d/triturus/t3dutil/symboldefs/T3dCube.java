@@ -22,9 +22,9 @@ package org.n52.v3d.triturus.t3dutil.symboldefs;
 import org.n52.v3d.triturus.t3dutil.T3dSymbolDef;
 
 /**
- * todo engl. doc
- * Klasse zur Definition eines W�rfel-Symbols. Zur Instanziierung konkreter Symbole ist die Klasse
- * <tt>T3dSymbolInstance</tt> zu verwenden.<p>
+ * Definition of a cube to be used as a (cartographic) symbol. To instantiate concrete symbols, the class
+ * <tt>T3dSymbolInstance</tt> has to be used.
+ *
  * @see org.n52.v3d.triturus.t3dutil.T3dSymbolInstance
  * @author Benno Schmidt
  */
@@ -33,19 +33,20 @@ public class T3dCube extends T3dSymbolDef
 	private double mSize = 1.;
 	
 	/** 
-	 * setzt die Kantenl�nge des W�rfels.<p>
-	 * @param pSize Kantenl�nge
+	 * sets the cube's size.
+     *
+	 * @param pSize size
 	 */
 	public void setSize(double pSize) {
 		mSize = pSize;
 	}
 
 	/**
-	 * liefert die Kantenl�nge.<p>
-	 * @return gesetzte Kantenl�nge
+	 * gets the cube's size.
+     *
+	 * @return size
 	 */
 	public double getSize() {
 		return mSize;
 	}
-	
 }

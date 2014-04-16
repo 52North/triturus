@@ -22,9 +22,9 @@ package org.n52.v3d.triturus.t3dutil.symboldefs;
 import org.n52.v3d.triturus.t3dutil.T3dSymbolDef;
 
 /**
- * todo engl. doc
- * Klasse zur Definition eines Quader-Symbols. Zur Instanziierung konkreter Symbole ist die Klasse
- * <tt>T3dSymbolInstance</tt> zu verwenden.<p>
+ * Definition of a rectangular parallelepiped box to be used as a (cartographic) symbol. To instantiate concrete
+ * symbols, the class <tt>T3dSymbolInstance</tt> has to be used.
+ *
  * @see org.n52.v3d.triturus.t3dutil.T3dSymbolInstance
  * @author Benno Schmidt
  */
@@ -35,10 +35,11 @@ public class T3dBox extends T3dSymbolDef
 	private double mSizeZ = 1.;
 	
 	/** 
-	 * setzt die Kantenl�ngen des Quaders.<p>
-	 * @param pSizeX Kantenl�nge in x-Richtung
-	 * @param pSizeY Kantenl�nge in y-Richtung
-	 * @param pSizeZ Kantenl�nge in z-Richtung
+	 * sets the box's extents.
+     *
+	 * @param pSizeX extent in x-direction
+	 * @param pSizeY extent in y-direction
+	 * @param pSizeZ extent in z-direction
 	 */
 	public void setSize(double pSizeX, double pSizeY, double pSizeZ) {
 		mSizeX = pSizeX;
@@ -47,24 +48,27 @@ public class T3dBox extends T3dSymbolDef
 	}
 	
 	/**
-	 * liefert die Kantenl�nge in x-Richtung.<p>
-	 * @return gesetzte Kantenl�nge
+	 * gets the box's extent in x-direction.
+     *
+	 * @return extent
 	 */
 	public double getSizeX() {
 		return mSizeX;
 	}
 
 	/**
-	 * liefert die Kantenl�nge in y-Richtung.<p>
-	 * @return gesetzte Kantenl�nge
+     * gets the box's extent in y-direction.
+     *
+     * @return extent
 	 */
 	public double getSizeY() {
 		return mSizeY;
 	}
 
 	/**
-	 * liefert die Kantenl�nge in z-Richtung.<p>
-	 * @return gesetzte Kantenl�nge
+     * gets the box's extent in z-direction.
+     *
+     * @return extent
 	 */
 	public double getSizeZ() {
 		return mSizeZ;

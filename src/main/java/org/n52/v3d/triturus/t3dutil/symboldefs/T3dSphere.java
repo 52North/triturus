@@ -22,9 +22,9 @@ package org.n52.v3d.triturus.t3dutil.symboldefs;
 import org.n52.v3d.triturus.t3dutil.T3dSymbolDef;
 
 /**
- * todo engl. doc
- * Klasse zur Definition eines Kugel-Symbols. Zur Instanziierung konkreter Symbole ist die Klasse
- * <tt>T3dSymbolInstance</tt> zu verwenden.<p>
+ * Definition of a sphere to be used as a (cartographic) symbol. To instantiate concrete symbols, the class
+ * <tt>T3dSymbolInstance</tt> has to be used.
+ *
  * @see org.n52.v3d.triturus.t3dutil.T3dSymbolInstance
  * @author Benno Schmidt
  */
@@ -33,7 +33,8 @@ public class T3dSphere extends T3dSymbolDef
 	private double mRadius = 1.;
 	
 	/** 
-	 * setzt den Kugelradius.<p>
+	 * sets the sphere's radius.
+     *
 	 * @param pRadius Radius
 	 */
 	public void setRadius(double pRadius) {
@@ -41,8 +42,9 @@ public class T3dSphere extends T3dSymbolDef
 	}
 
 	/**
-	 * liefert den Kugelradius.<p>
-	 * @return gesetzter Radius
+	 * gets the sphere's radius.
+     *
+	 * @return Radius
 	 */
 	public double getRadius() {
 		return mRadius;

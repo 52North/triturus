@@ -22,9 +22,9 @@ package org.n52.v3d.triturus.t3dutil.symboldefs;
 import org.n52.v3d.triturus.t3dutil.T3dSymbolDef;
 
 /**
- * todo engl. doc
- * Klasse zur Definition eines Rechteck-Symbols. Zur Instanziierung konkreter Symbole ist die Klasse
- * <tt>T3dSymbolInstance</tt> zu verwenden.<p>
+ * Definition of a rectangular (cartographic) symbol that is oriented parallel to the xy-plane. To instantiate a
+ * concrete symbol, the class <tt>T3dSymbolInstance</tt> has to be used.
+ *
  * @see org.n52.v3d.triturus.t3dutil.T3dSymbolInstance
  * @author Benno Schmidt
  */
@@ -34,32 +34,36 @@ public class T3dHorizontalRectangle extends T3dSymbolDef
 	private double mSizeY = 1.;
 	
 	/** 
-	 * setzt den Ausdehnung in x-Richtung.<p>
-	 * @param pSize Ausdehnung
+	 * sets the rectangle's extent in x-direction.
+     *
+	 * @param pSize extent
 	 */
 	public void setSizeX(double pSize) {
 		mSizeX = pSize;
 	}
 
 	/**
-	 * liefert die Ausdehnung in x-Richtung.<p>
-	 * @return gesetzte Ausdehnung
+	 * gets the rectangle's extent in x-direction.
+     *
+	 * @return extent
 	 */
 	public double getSizeX() {
 		return mSizeX;
 	}
 
 	/** 
-	 * setzt den Ausdehnung in y-Richtung.<p>
-	 * @param pSize Ausdehnung
+	 * sets the rectangle's extent in y-direction.
+     *
+	 * @param pSize extent
 	 */
 	public void setSizeY(double pSize) {
 		mSizeY = pSize;
 	}
 
 	/**
-	 * liefert die Ausdehnung in y-Richtung.<p>
-	 * @return gesetzte Ausdehnung
+	 * gets the rectangle's extent in y-direction.
+     *
+	 * @return extent
 	 */
 	public double getSizeY() {
 		return mSizeY;

@@ -22,11 +22,11 @@ package org.n52.v3d.triturus.t3dutil.symboldefs;
 import org.n52.v3d.triturus.t3dutil.T3dSymbolDef;
 
 /**
- * Klasse zur Definition eines Zylinder-Symbols. Zur Instanziierung konkreter Symbole ist die Klasse
- * <tt>T3dSymbolInstance</tt> zu verwenden.<p>
+ * Definition of a cylinder to be used as a (cartographic) symbol. To instantiate concrete symbols, the class
+ * <tt>T3dSymbolInstance</tt> has to be used.
+ *
  * @see org.n52.v3d.triturus.t3dutil.T3dSymbolInstance
  * @author Benno Schmidt
- * todo engl. doc
  */
 public class T3dCylinder extends T3dSymbolDef
 {
@@ -34,32 +34,36 @@ public class T3dCylinder extends T3dSymbolDef
 	private double mHeight = 1.;
 	
 	/** 
-	 * setzt den Zylinderradius.<p>
-	 * @param pRadius Radius
+	 * sets the cylinder's radius.
+     *
+	 * @param pRadius radius
 	 */
 	public void setRadius(double pRadius) {
 		mRadius = pRadius;
 	}
 
 	/**
-	 * liefert den Zylinderradius.<p>
-	 * @return gesetzter Radius
+	 * gets the cylinder's radius.
+     *
+	 * @return radius
 	 */
 	public double getRadius() {
 		return mRadius;
 	}
 	
 	/** 
-	 * setzt die H�he des Zylinders.<p>
-	 * @param pHeight H�he
+	 * sets the cylinder's height.
+     *
+	 * @param pHeight height
 	 */
 	public void setHeight(double pHeight) {
 		mHeight = pHeight;
 	}
 
 	/**
-	 * liefert die H�he des Zylinders.<p>
-	 * @return gesetzte H�he
+	 * gets the cylinder's height.
+     *
+	 * @return height
 	 */
 	public double getHeight() {
 		return mHeight;
