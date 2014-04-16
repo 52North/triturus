@@ -31,8 +31,23 @@ import org.n52.v3d.triturus.t3dutil.T3dSymbolDef;
 public class T3dSphere extends T3dSymbolDef
 {
 	private double mRadius = 1.;
-	
-	/** 
+
+    /**
+	 * Constructor. The radius of the sphere symbol will be set to 1.
+	 */
+    public T3dSphere() {
+    }
+
+    /**
+	 * Constructor.
+     *
+	 * @param pRadius Radius
+	 */
+    public T3dSphere(double pRadius) {
+        mRadius = mRadius;
+    }
+
+    /**
 	 * sets the sphere's radius.
      *
 	 * @param pRadius Radius
