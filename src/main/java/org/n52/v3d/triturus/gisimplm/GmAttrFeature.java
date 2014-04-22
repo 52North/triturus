@@ -27,9 +27,8 @@ import org.n52.v3d.triturus.core.T3dException;
 import java.util.ArrayList;
 
 /**
- * Implementation for attributed geometric objects.<br /><br />
- * <i>German: </i> Implementierung f&uuml;r attributierte Geometrien. Die Anzahl der thematischen Attribute der im
- * Hauptspeicher vorgehaltenen (atomaren) Objekte ist prinzipiell beliebig.
+ * Implementation for attributed geometric objects. Attributes will be held in main memory.
+ *
  * @author Benno Schmidt
  */
 public class GmAttrFeature extends VgAttrFeature
@@ -39,9 +38,6 @@ public class GmAttrFeature extends VgAttrFeature
     private ArrayList mAttrValues = new ArrayList();
     private ArrayList mAttrTypes = new ArrayList();
     
-    /**
-     * Constructor.
-     */
     public GmAttrFeature() {
     	mAttrNames.clear();
     	mAttrValues.clear();
@@ -50,6 +46,7 @@ public class GmAttrFeature extends VgAttrFeature
 
 	/**
      * returns the object's geometry.
+     *
      * @return Object geometry or <i>null</i>
      */
     public VgGeomObject getGeometry() {
@@ -62,6 +59,7 @@ public class GmAttrFeature extends VgAttrFeature
      * GmAttrFeature myFeature = new GmAttrFeature();
      * myFeature.setGeometry(new GmPoint(1000., 1500., 0.));
      * </pre>
+     *
      * @param pGeom geometric object
      */
     public void setGeometry(VgGeomObject pGeom) {
@@ -92,19 +90,19 @@ public class GmAttrFeature extends VgAttrFeature
     }
 
 	/**
-	 * defines a thematic attribute.<br /><br />
-     * <i>German:</i> definiert ein thematisches Attribut. Neben dem Namen des zu definierenden Attributs sind der Typ
-     * und der Initialwert des Attributs anzugeben. Falls das Attribut bereits existiert, wird eine Ausnahme geworfen.
-     * <br />
-     * Beispiel:
+	 * defines a thematic attribute. Attribute name, data-type and initial value have to be given. If an attribute
+     * already exists, an exception will be thrown.
+     * <p>
+     * Example:
      * <pre>
      * GmAttrFeature myFeature = new GmAttrFeature();
      * myFeature.addAttribute("FEATURE_ID", "java.lang.String", "p1545");
-     * </pre><p>
+     * </pre>
+     *
 	 * @param pAttrName Attribute name
 	 * @param pAttrType Attribute type as Java class-name
      * @param pVal Attribute value
-     * @throws T3dException 
+     * @throws T3dException if an error occurs
      */
     public void addAttribute(String pAttrName, String pAttrType, Object pVal) throws T3dException
     {
@@ -125,6 +123,7 @@ public class GmAttrFeature extends VgAttrFeature
 
     /** 
      * checks if the given attribute has been defined.
+     *
      * @param pAttrName Attribute name
      * @return <i>true</i> if an attribute has been defined
      */
@@ -142,15 +141,15 @@ public class GmAttrFeature extends VgAttrFeature
     }
     	     
 	/**
-	 * return a thematic attribute's value. If the given attribute is not defined, a <tt>T3dException</tt> will be
-     * thrown.<br /><br />
-     * <i>German:</i> liefert den Wert eines thematischen Attributs. Falls das angegebene Attribut nicht definiert ist,
-     * wird eine <tt>T3dException</tt> geworfen.<br />
-     * Beispiel f&uuml;r die Abfrage eines String-wertigen Attributs:
+	 * returns a thematic attribute's value. If the given attribute is not defined, a <tt>T3dException</tt> will be
+     * thrown.
+     * <p>
+     * Query example for a String-valued attribute:
      * <pre>
-     * String val = myFeature.getAttributeValue( "FEATURE_ID" );
-     * System.out.println("Der Wert des Attributs \"FEATURE_ID\" ist: " + val );
+     * String val = myFeature.getAttributeValue("FEATURE_ID");
+     * System.out.println("The value of the attributs \"FEATURE_ID\" is: " + val );
      * </pre>
+     *
 	 * @param pAttrName Name of the queried attribute
 	 * @return Object of type of the queried attribute
 	 * @throws T3dException
@@ -166,15 +165,15 @@ public class GmAttrFeature extends VgAttrFeature
 
     /**
      * sets a thematic attribute's value. If the attribute has not been defined, or the given object types can not be
-     * mapped on each other, a <tt>T3dException</tt> will be thrown.<br /><br />
-     * <i>German:</i> setzt den Wert eines thematischen Attributs. Falls das Attribut nicht definiert ist oder die
-     * Objekttypen nicht aufeinander abgebildet werden k&ouml;nnen, wird eine <tt>T3dException</tt> geworfen.<br />
-     * Beispiel:
+     * mapped on each other, a <tt>T3dException</tt> will be thrown.
+     * <p>
+     * Example:
      * <pre>
      * GmAttrFeature myFeature = new GmAttrFeature();
      * myFeature.addAttribute("FEATURE_ID", "java.lang.String");
      * myFeature.setAttributeValue("FEATURE_ID", "p1546");
-     * </pre><br />
+     * </pre>
+     *
      * @param pAttrName Attribute name
      * @param pVal Value to be set
      * @throws T3dException
