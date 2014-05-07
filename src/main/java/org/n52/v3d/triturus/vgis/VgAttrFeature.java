@@ -28,8 +28,8 @@ import org.n52.v3d.triturus.core.T3dException;
 abstract public class VgAttrFeature extends VgFeature 
 {
 	/**
-	 * defines a thematic attribute. The defining attribute's name have to be given as well as the attribute value's
-     * type.
+	 * defines a thematic attribute. The name of the defining attribute has to be given as well as the attribute
+     * value's type.
 	 * @param pAttrName Attribute name
 	 * @param pAttrType Attribute type as Java class-name
 	 */
