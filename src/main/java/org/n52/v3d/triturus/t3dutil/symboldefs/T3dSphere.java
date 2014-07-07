@@ -44,7 +44,7 @@ public class T3dSphere extends T3dSymbolDef
 	 * @param pRadius Radius
 	 */
     public T3dSphere(double pRadius) {
-        mRadius = mRadius;
+        mRadius = pRadius;
     }
 
     /**
