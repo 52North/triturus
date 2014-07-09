@@ -33,7 +33,26 @@ public class T3dBox extends T3dSymbolDef
 	private double mSizeX = 1.;
 	private double mSizeY = 1.;
 	private double mSizeZ = 1.;
-	
+
+    /**
+	 * Constructor. x-, y-, and z-extent of the box symbol will be set to 1.
+	 */
+    public T3dBox() {
+    }
+
+    /**
+	 * Constructor.
+     *
+     * @param pSizeX extent in x-direction
+     * @param pSizeY extent in y-direction
+     * @param pSizeZ extent in z-direction
+	 */
+    public T3dBox(double pSizeX, double pSizeY, double pSizeZ) {
+        mSizeX = pSizeX;
+        mSizeY = pSizeY;
+        mSizeZ = pSizeZ;
+    }
+
 	/** 
 	 * sets the box's extents.
      *
