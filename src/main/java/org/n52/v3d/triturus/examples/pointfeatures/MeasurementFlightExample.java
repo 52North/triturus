@@ -1,21 +1,53 @@
+/***************************************************************************************
+ * Copyright (C) 2014 by 52 North Initiative for Geospatial Open Source Software GmbH  *
+ *                                                                                     *
+ * Contact: Benno Schmidt & Martin May, 52 North Initiative for Geospatial Open Source *
+ * Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, Germany, info@52north.org *
+ *                                                                                     *
+ * This program is free software; you can redistribute and/or modify it under the      *
+ * terms of the GNU General Public License version 2 as published by the Free Software *
+ * Foundation.                                                                         *
+ *                                                                                     *
+ * This program is distributed WITHOUT ANY WARRANTY; even without the implied WARRANTY *
+ * OF MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public  *
+ * License for more details.                                                           *
+ *                                                                                     *
+ * You should have received a copy of the GNU General Public License along with this   *
+ * program (see gnu-gpl v2.txt). If not, write to the Free Software Foundation, Inc.,  *
+ * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA, or visit the Free Software *
+ * Foundation web page, http://www.fsf.org.                                            *
+ **************************************************************************************/
 package org.n52.v3d.triturus.examples.pointfeatures;
-
 
 import org.n52.v3d.triturus.gisimplm.GmMeasurementPath;
 import org.n52.v3d.triturus.gisimplm.GmPoint;
 import org.n52.v3d.triturus.vgis.VgGeomObject;
 import org.n52.v3d.triturus.vgis.VgPoint;
+import org.n52.v3d.triturus.viskml.KmlScene;
 
+/**
+ * Triturus example application: Generates two measurement paths.
+ *
+ * @author Benno Schmidt
+ */
 public class MeasurementFlightExample
 {
     public static void main(String args[])
     {
         MeasurementFlightExample app = new MeasurementFlightExample();
-        app.runExample1();
-        app.runExample2();
+        
+        // Define two measurement flights:
+        GmMeasurementPath flight1 = app.runExample1();
+        GmMeasurementPath flight2 = app.runExample2();
+        
+        // Export these flights to a KML file:
+    	KmlScene s = new KmlScene();
+    	s.add(flight1);
+    	s.add(flight2);
+    	s.generateScene("C:\\temp\\test.kml");
     }
 
-    private void runExample1()
+    private GmMeasurementPath runExample1()
     {
         GmMeasurementPath flight = new GmMeasurementPath(3);
 
@@ -51,6 +83,8 @@ public class MeasurementFlightExample
                     + this.getAsString(flight.getMeasurement(i))
                     + " (" + (new java.util.Date(flight.getTimeStamp(i))).toString() + ")");
         }
+        
+        return flight;
     }
 
     private String getAsString(double[] vector) {
@@ -63,22 +97,21 @@ public class MeasurementFlightExample
         return buf.toString();
     }
 
-    private void runExample2()
+    private GmMeasurementPath runExample2()
     {
         GmMeasurementPath flight = new GmMeasurementPath(5);
         long N = 100000;
 
         VgPoint pos = new GmPoint();
         pos.setSRS(VgGeomObject.SRSLatLonWgs84);
-        long time;
+        long time = System.currentTimeMillis();
         double[] measurement;
 
         for (int i = 0; i < N; i++) {
             pos = new GmPoint(7.5 + Math.random(), 52.0 + Math.random(), 100. * Math.random());
-            time = System.currentTimeMillis();
+            time += 1000;
             measurement = new double[]{Math.random(), Math.random(), Math.random(), Math.random(), Math.random()};
             flight.addMeasurement(pos, time, measurement);
-
         }
 
         System.out.println(flight);
@@ -88,5 +121,7 @@ public class MeasurementFlightExample
                     + this.getAsString(flight.getMeasurement(i))
                     + " (" + flight.getTimeStamp(i) + ")");
         }
+        
+        return flight;
     }
 }
