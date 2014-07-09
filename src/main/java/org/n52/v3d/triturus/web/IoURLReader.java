@@ -1,5 +1,3 @@
-package org.n52.v3d.triturus.web;
-
 /***************************************************************************************
  * Copyright (C) 2011 by 52 North Initiative for Geospatial Open Source Software GmbH  *
  *                                                                                     *
@@ -19,6 +17,8 @@ package org.n52.v3d.triturus.web;
  * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA, or visit the Free Software *
  * Foundation web page, http://www.fsf.org.                                            *
  **************************************************************************************/
+package org.n52.v3d.triturus.web;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -37,12 +37,11 @@ import java.net.URLConnection;
 import org.n52.v3d.triturus.core.T3dException;
 
 /** 
- * todo engl. JavaDoc
- * Einlesen von Dokumenten &uuml;ber einen Web-Zugriff. Hierbei kann es sich z. B. um Textdateien, HTML- und
- * XML-Dateien, VRML-Dateien oder bin&auml;r kodierte Bitmaps handeln.
+ * Provides Web-based document access. These documents might be text documents, HTML or XML documents, VRML scenes or
+ * binary codes bitmaps.
  * <p>
- * Bem.: In vielen F�llen kann die Verwendung der Klasse <tt>org.n52.v3d.triturus.web.IoHttpURLReader</tt> vorteilhaft sein.
- * <p>
+ * Note: Often, it is advantageous to use the class <tt>org.n52.v3d.triturus.web.IoHttpURLReader</tt>.
+ *
  * @see IoHttpURLReader
  * @author Benno Schmidt, Martin May
  */
@@ -56,16 +55,14 @@ public class IoURLReader
     private static final String mConfigFile = "testdata/CONFIG/proxy.cfg";
 
     /** 
-     * Konstruktor.
+     * Constructor.
      * <p>
-     * Voreinstellungsgem&auml;&szlig; wird f&uuml;r den Web-Zugriff kein Proxy-Server verwendet. Ggf. sind &uuml;ber
-     * die Methode <tt>setProxy()</tt> der Host-Name des Proxy-Servers und ein Proxy-Port zu spezifizieren.
+     * By default, no proxy server is configured. Proxies might be configured using the <tt>setProxy()</tt> method.
      * <p>
-     * <b>Hinweis:</b> Die Proxy-Einstellungen werden aus <tt>./testdata/config/proxy.cfg</tt> eingelesen, falls
-     * vorhanden.</b>
-     * <p>
-     * @param pProtocol Protokoll f&uuml;r Web-Zugriff (bislang wird nur "http" unterst&uuml;tzt)
-     * @param pURL URL f&uuml;r den Web-Request
+     * Note:Proxy-setting will be read from the file <tt>./testdata/config/proxy.cfg</tt>, if present.
+     *
+     * @param pProtocol Protocol used for Web-access (currently, only "http" is supported)
+     * @param pURL web request URL
      */
     public IoURLReader(String pProtocol, String pURL) {
     	mProtocol = pProtocol;
@@ -78,7 +75,8 @@ public class IoURLReader
     }
 
     /**
-     * setzt den URL f&uuml;r den Web-Request.<p>
+     * sets the URL used to perform the Web request.
+     *
      * @param pURL URL
      */
     public void setURL(String pURL) {
@@ -86,7 +84,8 @@ public class IoURLReader
     }
 
     /**
-     * liefert den f&uuml;r den Web-Request gesetzten URL.<p>
+     * gets the URL used to perform the Web request.
+     *
      * @return URL
      */
     public String getURL() {
@@ -94,11 +93,12 @@ public class IoURLReader
     }
 
     /** 
-     * setzt den Host-Namen oder die IP des Proxy-Servers und den Proxy-Port f&uuml;r den Web-Request. Falls kein
-     * Proxy-Server verwendet werden soll, ist als Host-Name f&uuml;r den Proxy-Server ein Leerstring zu &uuml;bergeben
-     * (<tt>pProxy = ""</tt>).<p>
-     * @param pProxyHost Host-Name des Proxy-Servers
-     * @param pProxyPort Proxy-Port or -1, um den Vorgabe-Port des verwendeten Protokolls zu verwenden.
+     * allows to specify the host name or the IP of the proxy-server and the proxy-port that will be used to perform the
+     * Web request. In case no proxy server shall be used, an empty string should be passed as host-name
+     * (<tt>pProxy = ""</tt>).
+     *
+     * @param pProxyHost Host name of proxy-server
+     * @param pProxyPort Proxy-port or -1 to use the default port of the specified protocol
      */
     public void setProxy(String pProxyHost, int pProxyPort) {
     	mProxyHost = pProxyHost;
@@ -107,18 +107,19 @@ public class IoURLReader
 
     /**
      * @deprecated -> IoURLReader#setProxyHost
-     * setzt den Proxy-Server. Falls kein Proxy-Server verwendet werden soll, ist als Host-Name f&uuml;r den
-     * Proxy-Server ein Leerstring zu &uuml;bergeben (<tt>pProxy = ""</tt>).<p>
-     * @param pProxyHost Name des Proxy-Servers
+     * @see IoURLReader#setProxyHost
+     *
+     * @param pProxyHost Host name of proxy-server
      */
     public void setProxy(String pProxyHost) {
     	mProxyHost = pProxyHost;
     }
 
     /**
-     * setzt den Proxy-Server. Falls kein Proxy-Server verwendet werden soll, ist als Host-Name f&uuml;r den
-     * Proxy-Server ein Leerstring zu &uuml;bergeben (<tt>pProxy = ""</tt>).<p>
-     * @param pProxyHost Name des Proxy-Servers
+     * specifies the proxy-server. In case no proxy server shall be used, an empty string should be passed as host-name
+     * (<tt>pProxy = ""</tt>).
+     *
+     * @param pProxyHost Host name of proxy-server
      */
     public void setProxyHost(String pProxyHost) {
     	mProxyHost = pProxyHost;
@@ -126,17 +127,18 @@ public class IoURLReader
 
     /**
      * @deprecated -> IoURLReader#setProxy
-     * setzt die Port-Nummer.<p>
-     * @param pPort Port-Nummer
      * @see IoURLReader#setProxyPort
+     *
+     * @param pPort Proxy-port or -1 to use the default port of the specified protocol
      */
     public void setPort(int pPort) {
     	mProxyPort = pPort;
     }
 
     /**
-     * setzt die Proxy-Port-Nummer.<p>
-     * @param pPort Nummer des Proxy-Ports
+     * specifies the proxy-port.
+     *
+     * @param pPort Proxy-port number
      * @see IoURLReader#setProxyPort
      */
     public void setProxyPort(int pPort) {
@@ -145,19 +147,18 @@ public class IoURLReader
 
     /**
      * @deprecated -> IoURLReader#getProxyHost
-     * liefert den gesetzten Proxy-Server. Falls kein Proxy-Server gesetzt ist, wird ein Leerstring
-     * zur&uuml;ckgegeben.<p>
-     * @return Name des Proxy-Servers
      * @see IoURLReader#setProxyHost
+     *
+     * @return Host name of proxy-server
      */
     public String getProxy() {
     	return mProxyHost;
     }
 
     /**
-     * liefert den gesetzten Proxy-Server. Falls kein Proxy-Server gesetzt ist, wird ein Leerstring
-     * zur&uuml;ckgegeben.<p>
-     * @return Name des Proxy-Servers
+     * gets the set proxy-server's name or IP. If no proxy-server has been specified, an empty string will be returned.
+     *
+     * @return Proxy-server name or IP
      * @see IoURLReader#setProxyHost
      */
     public String getProxyHost() {
@@ -166,17 +167,18 @@ public class IoURLReader
 
     /**
      * @deprecated -> IoURLReader#getProxyPort
-     * liefert die gesetzte Port-Nummer.<p>
-     * @return Port-Nummer
      * @see IoURLReader#setProxy
+     *
+     * @return Port number
      */
     public int getPort() {
     	return mProxyPort;
     }
 
     /**
-     * liefert die gesetzte Port-Nummer.<p>
-     * @return Port-Nummer
+     * returns the set port number.
+     *
+     * @return Port number
      * @see IoURLReader#setProxyPort
      */
     public int getProxyPort() {
@@ -187,14 +189,14 @@ public class IoURLReader
     {
     	try {
 			BufferedReader proxyIn = new BufferedReader(new FileReader(pProxyConf));
-			String line = "";
+			String line;
 			while ((line = proxyIn.readLine()) != null) {
 				if (line.charAt(0) != '#') {
 					if (line.length() > 1) {
-						if (this.getProxyHost() == "") {
+						if ("".equalsIgnoreCase(this.getProxyHost())) {
 							this.setProxyHost(line);
 						}
-						else if (this.getProxyHost() != "" && this.getProxyPort() == -1) {
+						else if (!("".equalsIgnoreCase(this.getProxyHost()) && this.getProxyPort() == -1)) {
 							this.setProxyPort(Integer.parseInt(line));
 						}
 					}
@@ -235,8 +237,9 @@ public class IoURLReader
     }
 
     /**
-     * liefert den Wert des <tt>content-type</tt>-Header-Feldes.<p>
-     * @return MIME-Type, z. B. <tt>"text/html"</tt> oder <tt>"image/jpeg"</tt>
+     * gets the content of the header field <tt>content-type</tt>.
+     *
+     * @return MIME type, e.g. <tt>"text/html"</tt> or <tt>"image/jpeg"</tt>
      * @throws T3dException
      */
     public String getContentType() throws T3dException
@@ -249,7 +252,7 @@ public class IoURLReader
         }
         
         try {
-            URLConnection lConn = null;
+            URLConnection lConn;
             lConn = mURL.openConnection();
             lConn.connect();
             return lConn.getContentType();
@@ -260,10 +263,12 @@ public class IoURLReader
     }
 
     /** 
-     * liefert den Wert des <tt>content-length</tt>-Header-Feldes.<p>
-     * Bem.: Einige Server senden die L?nge nur, falls eine bin&auml;re Datei geschickt wird; d. h., bei Textdateien
-     * fehlt diese Information.<p>
-     * @return Anzahl vorhandener Bytes
+     * gets the content of the header field <tt>content-length</tt>.
+     * <p>
+     * Note: Some server send the length information for binary files only. For text documents, this information might
+     * not be present.
+     *
+     * @return Number of bytes
      * @throws T3dException
      */
     public int getContentLength() throws T3dException
@@ -276,7 +281,7 @@ public class IoURLReader
         }
         
         try {
-            URLConnection lConn = null;
+            URLConnection lConn;
             lConn = mURL.openConnection();
             lConn.connect();
             return lConn.getContentLength();
@@ -287,9 +292,10 @@ public class IoURLReader
     }
 
     /**
-     * fragt das Dokument mit der spezifizierten URL ab und speichert den Inhalt in einer Datei.<p>
-     * @param pFilename Name (optional mit Pfad) der Zieldatei
-     * @return MIME-Typ des gelesenen Inhalts
+     * requests the document with the specified URL ab and writes the document's content to a file.
+     *
+     * @param pFilename Name of target file (file path)
+     * @return MIME-type of read content
      * @throws T3dException
      */
     public String getContent(String pFilename) throws T3dException
@@ -303,14 +309,14 @@ public class IoURLReader
             throw e;
         }
 
-        URLConnection lConn = null;
+        URLConnection lConn;
         try {
             lConn = mURL.openConnection();
         }
         catch (IOException e) {
              throw new T3dException("IO Error: " + e.getMessage());
         }
-        //lConn.setRequestProperty("User-Agent", "conTerraTriturus");
+        //lConn.setRequestProperty("User-Agent", "52n Triturus");
         //lConn.setRequestProperty("Connection", "close");
         //lConn.setRequestProperty("Accept", "*/*");
 
@@ -319,14 +325,12 @@ public class IoURLReader
 
         if (contentType.startsWith("text/") || contentType.equalsIgnoreCase("application/vnd.ogc.se_xml"))
         {
-            if (lDebug) System.out.println("lese Textstrom");
+            if (lDebug) System.out.println("read text stream");
 
             try {
-                String str = new String();
-                str = "";
+                String str = "";
                 StringBuffer lBuf = new StringBuffer();
-                DataInputStream lData = null;
-                lData = new DataInputStream(new BufferedInputStream(lConn.getInputStream()));
+                DataInputStream lData = new DataInputStream(new BufferedInputStream(lConn.getInputStream()));
 
                 String line;
                 while ((line = lData.readLine()) != null) {
@@ -347,7 +351,7 @@ public class IoURLReader
         }
         else
         {
-            if (lDebug) System.out.println("lese Bin�rstrom");
+            if (lDebug) System.out.println("read binary stram");
 
             char c = '\200';
             int i = lConn.getContentLength();
