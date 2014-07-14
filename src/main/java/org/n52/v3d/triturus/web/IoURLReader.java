@@ -369,6 +369,8 @@ public class IoURLReader
                     if (j == -1)
                         break;
                 }
+                // Curiously, this method might throw an java.lang.IndexOutOfBoundsException for large
+                // documents (k >= 1.000.000). (?)
 
                 FileOutputStream outs = new FileOutputStream(pFilename);
                 outs.write(abyte0);
