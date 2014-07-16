@@ -1,5 +1,5 @@
 /***************************************************************************************
- * Copyright (C) 2011 by 52 North Initiative for Geospatial Open Source Software GmbH  *
+ * Copyright (C) 2014 by 52 North Initiative for Geospatial Open Source Software GmbH  *
  *                                                                                     *
  * Contact: Benno Schmidt & Martin May, 52 North Initiative for Geospatial Open Source *
  * Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, Germany, info@52north.org *
@@ -8,21 +8,31 @@
  * terms of the GNU General Public License version 2 as published by the Free Software *
  * Foundation.                                                                         *
  *                                                                                     *
- * This program is distributed WITHOUT ANY WARRANTY; even without the implied WARRANTY *
- * OF MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public  *
- * License for more details.                                                           *
+ * If the program is linked with libraries which are licensed under one of the         *
+ * following licenses, the combination of the program with the linked library is not   *
+ * considered a "derivative work" of the program:                                      *
  *                                                                                     *
- * You should have received a copy of the GNU General Public License along with this   *
- * program (see gnu-gpl v2.txt). If not, write to the Free Software Foundation, Inc.,  *
- * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA, or visit the Free Software *
- * Foundation web page, http://www.fsf.org.                                            *
+ *   - Apache License, version 2.0                                                     *
+ *   - Apache Software License, version 1.0                                            *
+ *   - GNU Lesser General Public License, version 3                                    *
+ *   - Mozilla Public License, versions 1.0, 1.1 and 2.0                               *
+ *   - Common Development and Distribution License (CDDL), version 1.0                 *
+ *                                                                                     *
+ * Therefore the distribution of the program linked with libraries licensed under      *
+ * the aforementioned licenses, is permitted by the copyright holders if the           *
+ * distribution is compliant with both the GNU General Public License version 2 and    *
+ * the aforementioned licenses.                                                        *
+ *                                                                                     *
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY     *
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A     *
+ * PARTICULAR PURPOSE. See the GNU General Public License for more details.            *
+ *                                                                                     *
  **************************************************************************************/
 package org.n52.v3d.triturus.core;
 
 /**
- * Framework-specific exception.<br /><br />
- * <i>German:</i> </i>Rahmenwerk-spezifische Ausnahme. <tt>T3dException</tt> ist eine Spezialisierung der Klassen
- * <tt>RuntimeException</tt> und <tt>Throwable</tt>.
+ * Framework-specific exception.
+ *
  * @see T3dExceptionMessage
  * @author Benno Schmidt
  */
@@ -32,8 +42,8 @@ public class T3dException extends RuntimeException
 
     /**
      * Constructor.<br />
-     * Note: The error IDs will be used by the class <tt>T3dExceptionMessage</tt>.<br /><br />
-     * <i>German:</i> Bem.: Die Verwendung der Fehler-IDs erfolgt in der Klasse <tt>T3dExceptionMessage</tt>.
+     * Note: The error IDs will be used by the class <tt>T3dExceptionMessage</tt>.
+     *
      * @param pMsg Error message
      * @param pErrId unique ID
      */
@@ -43,7 +53,8 @@ public class T3dException extends RuntimeException
     }
 
 	/**
-	 * Constructor.<p>
+	 * Constructor.
+     *
 	 * @param pMsg Error message
 	 */
 	public T3dException(String pMsg) {
@@ -58,10 +69,9 @@ public class T3dException extends RuntimeException
 	}
 
     /**
-     * returns the <tt>T3dException</tt>'s ID. If not ID is set, the method will return -1.<br /><br />
-     * <i>German:</i> liefert die ID der <tt>T3dException</tt>. Falls keine ID gesetzt ist, wird der Wert -1
-     * zur&uuml;ckgegeben.
-     * @return ID
+     * returns the <tt>T3dException</tt>'s ID. If no ID is set, the method will return -1.
+     *
+     * @return Error ID
      */
     public int getId() {
         return mId;
