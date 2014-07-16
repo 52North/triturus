@@ -1,5 +1,5 @@
 /***************************************************************************************
- * Copyright (C) 2011 by 52 North Initiative for Geospatial Open Source Software GmbH  *
+ * Copyright (C) 2014 by 52 North Initiative for Geospatial Open Source Software GmbH  *
  *                                                                                     *
  * Contact: Benno Schmidt & Martin May, 52 North Initiative for Geospatial Open Source *
  * Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, Germany, info@52north.org *
@@ -8,14 +8,25 @@
  * terms of the GNU General Public License version 2 as published by the Free Software *
  * Foundation.                                                                         *
  *                                                                                     *
- * This program is distributed WITHOUT ANY WARRANTY; even without the implied WARRANTY *
- * OF MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public  *
- * License for more details.                                                           *
+ * If the program is linked with libraries which are licensed under one of the         *
+ * following licenses, the combination of the program with the linked library is not   *
+ * considered a "derivative work" of the program:                                      *
  *                                                                                     *
- * You should have received a copy of the GNU General Public License along with this   *
- * program (see gnu-gpl v2.txt). If not, write to the Free Software Foundation, Inc.,  *
- * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA, or visit the Free Software *
- * Foundation web page, http://www.fsf.org.                                            *
+ *   - Apache License, version 2.0                                                     *
+ *   - Apache Software License, version 1.0                                            *
+ *   - GNU Lesser General Public License, version 3                                    *
+ *   - Mozilla Public License, versions 1.0, 1.1 and 2.0                               *
+ *   - Common Development and Distribution License (CDDL), version 1.0                 *
+ *                                                                                     *
+ * Therefore the distribution of the program linked with libraries licensed under      *
+ * the aforementioned licenses, is permitted by the copyright holders if the           *
+ * distribution is compliant with both the GNU General Public License version 2 and    *
+ * the aforementioned licenses.                                                        *
+ *                                                                                     *
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY     *
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A     *
+ * PARTICULAR PURPOSE. See the GNU General Public License for more details.            *
+ *                                                                                     *
  **************************************************************************************/
 package org.n52.v3d.triturus.vgis;
 
@@ -29,6 +40,7 @@ import org.n52.v3d.triturus.core.T3dException;
  * Bem.: Innerhalb des Rahmenwerks werden <tt>VgPoint</tt>-Objekte zumeist f&uuml;r die Verarbeitung von
  * <i>Ortsvektoren</i> verwendet. Die Verwendung f&uuml;r <tt>Richtungsvektoren</tt> ist prinzipiell m&ouml;glich;
  * zumeist ist allerdings die Hilfsklasse <tt>T3dVector</tt> vorzuziehen.
+ *
  * @see org.n52.v3d.triturus.t3dutil.T3dVector
  * @author Benno Schmidt
  */
@@ -38,6 +50,7 @@ abstract public class VgPoint extends VgGeomObject0d implements Comparable
 	 * sets the point's x-value.<br /><br />
 	 * <i>German: </i> Bem.: F&uml;r <i>geografische Koordinaten</i> (<tt>&quot;EPSG:4326&quot;</tt>) ist als x-Wert die
      * geografische L&auml;nge anzugeben, f&uuml;r <i>Gau&szlig;-Kr&uuml;ger-Koordinaten</i> der Rechtswert.
+     *
      * @param pX x-coordinate
 	 */
 	abstract public void setX(double pX);
@@ -46,6 +59,7 @@ abstract public class VgPoint extends VgGeomObject0d implements Comparable
      * returns the point's x-value.<br /><br />
      * <i>German: </i> Bem.: F&uml;r <i>geografische Koordinaten</i> (<tt>&quot;EPSG:4326&quot;</tt>) wird die
      * geografische L&auml;nge zur&uuml;ckgegeben, f&uuml;r <i>Gau&szlig;-Kr&uuml;ger-Koordinaten</i> der Rechtswert.
+     *
      * @return x-coordinate
      */
 	abstract public double getX();
@@ -53,7 +67,8 @@ abstract public class VgPoint extends VgGeomObject0d implements Comparable
 	/** 
      * sets the point's y-value.<br /><br />
      * <i>German: </i> Bem.: F&uml;r <i>geografische Koordinaten</i> (<tt>&quot;EPSG:4326&quot;</tt>) ist als x-Wert die
-     * geografische Breite anzugeben, f&uuml;r <i>Gau&szlig;-Kr&uuml;ger-Koordinaten</i> der Hochwert.   #
+     * geografische Breite anzugeben, f&uuml;r <i>Gau&szlig;-Kr&uuml;ger-Koordinaten</i> der Hochwert.
+     *
      * @param pY y-coordinate
 	 */
 	abstract public void setY(double pY);
@@ -62,18 +77,21 @@ abstract public class VgPoint extends VgGeomObject0d implements Comparable
      * return the point's y-value.<br /><br />
      * <i>German: </i> Bem.: F&uml;r <i>geografische Koordinaten</i> (<tt>&quot;EPSG:4326&quot;</tt>) wird die
      * geografische breite zur&uuml;ckgegeben, f&uuml;r <i>Gau&szlig;-Kr&uuml;ger-Koordinaten</i> der Hochwert.
+     *
      * @return y-coordinate
   	 */
 	abstract public double getY();
 
 	/**
      * sets the point's z-value.
+     *
      * @param pZ z-coordinate
      */
 	abstract public void setZ(double pZ);
 
     /**
      * returns the point's z-value.
+     *
      * @return z-coordinate
      */
 	abstract public double getZ();
@@ -81,6 +99,7 @@ abstract public class VgPoint extends VgGeomObject0d implements Comparable
 	/** 
 	 * copies the coordinates of a <tt>VgPoint</tt>-object. The information about the coordinate reference system
      * will be taken over.
+     *
      * @param pt Point geometry
 	 */
 	public void set(VgPoint pt) 
@@ -101,6 +120,7 @@ abstract public class VgPoint extends VgGeomObject0d implements Comparable
      * xy-Ebene und in z-Richtung vern&uuml;nftige Ma&szlig;e verwendet werden.<br />
 	 * Falls das Referenzsystem der Geometrie <tt>pt</tt> nicht mit dem der Geometrie <tt>this</tt> &uuml;bereinstimmt,
      * wird eine <tt>T3dException</tt> geworfen.
+     *
 	 * @see VgGeomObject#getSRS
      * @throws T3dException
      * @throws ClassCastException
@@ -136,6 +156,7 @@ abstract public class VgPoint extends VgGeomObject0d implements Comparable
 	 * Der Abstand wird in dem der Geometrie zugrunde liegenden r&auml;umlichen Referenzsystem (<tt>this.getSRS()</tt>)
      * berechnet. Falls das Referenzsystem der Geometrie <tt>pt</tt> nicht mit dem der Geometrie <tt>this</tt>
      * &uml;bereinstimmt, wird eine <tt>T3dException</tt> geworfen.
+     *
 	 * @see VgGeomObject#getSRS
 	 * @see VgGeomObject0d#distance
      * @throws T3dSRSException
@@ -170,6 +191,7 @@ abstract public class VgPoint extends VgGeomObject0d implements Comparable
      * Koordinaten genau &uuml;berein, ist der R&uuml;ckgabewert 0.<br />
 	 * Hinweis: Die r&auml;umlichen Bezugssysteme der Punkte <tt>this</tt> und <tt>pt</tt> werden durch die Methode
      * nicht auf Kompatibilit&auml;t gepr&uuml;ft.
+     *
 	 * @return -1, 1 oder 0
 	 */
 	public int compareTo(Object pt) 

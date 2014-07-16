@@ -1,5 +1,5 @@
 /***************************************************************************************
- * Copyright (C) 2011 by 52 North Initiative for Geospatial Open Source Software GmbH  *
+ * Copyright (C) 2014 by 52 North Initiative for Geospatial Open Source Software GmbH  *
  *                                                                                     *
  * Contact: Benno Schmidt & Martin May, 52 North Initiative for Geospatial Open Source *
  * Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, Germany, info@52north.org *
@@ -8,25 +8,33 @@
  * terms of the GNU General Public License version 2 as published by the Free Software *
  * Foundation.                                                                         *
  *                                                                                     *
- * This program is distributed WITHOUT ANY WARRANTY; even without the implied WARRANTY *
- * OF MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public  *
- * License for more details.                                                           *
+ * If the program is linked with libraries which are licensed under one of the         *
+ * following licenses, the combination of the program with the linked library is not   *
+ * considered a "derivative work" of the program:                                      *
  *                                                                                     *
- * You should have received a copy of the GNU General Public License along with this   *
- * program (see gnu-gpl v2.txt). If not, write to the Free Software Foundation, Inc.,  *
- * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA, or visit the Free Software *
- * Foundation web page, http://www.fsf.org.                                            *
+ *   - Apache License, version 2.0                                                     *
+ *   - Apache Software License, version 1.0                                            *
+ *   - GNU Lesser General Public License, version 3                                    *
+ *   - Mozilla Public License, versions 1.0, 1.1 and 2.0                               *
+ *   - Common Development and Distribution License (CDDL), version 1.0                 *
+ *                                                                                     *
+ * Therefore the distribution of the program linked with libraries licensed under      *
+ * the aforementioned licenses, is permitted by the copyright holders if the           *
+ * distribution is compliant with both the GNU General Public License version 2 and    *
+ * the aforementioned licenses.                                                        *
+ *                                                                                     *
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY     *
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A     *
+ * PARTICULAR PURPOSE. See the GNU General Public License for more details.            *
+ *                                                                                     *
  **************************************************************************************/
 package org.n52.v3d.triturus.vgis;
 
 /**
  * Three-dimensional bounding-box objects. x- and y-coodinates refer to the set spatial reference system (SRS). Note
- * that the following assertions must hold: <tt>env.getMinX() &lt;= env.getMaxX()</tt> and <tt>env.getMinY()
- * &lt;= env.getMaxY()</tt>.
- * <br /><br />
- * <i>German: </i> Klasse zur Verwaltung dreidimensionaler Bounding-Boxes. x- und y-Werte sind dabei bezogen auf das
- * eingestellte r&auml;umliche Bezugssystem (SRS) anzugeben. Die Beziehungen <tt>env.getMinX() &lt;= env.getMaxX()</tt>
- * und <tt>env.getMinY() &lt;= env.getMaxY()</tt> sind von den implementierenden Klassen stets einzuhalten.
+ * that the following assertions must hold for all implementations: <tt>env.getMinX() &lt;= env.getMaxX()</tt> and
+ * <tt>env.getMinY() &lt;= env.getMaxY()</tt>.
+ *
  * @author Benno Schmidt
  * @see VgGeomObject#getSRS
  */
@@ -34,84 +42,98 @@ abstract public class VgEnvelope extends VgGeomObject3d
 {
 	/**
      * sets the bounding-box's minimal x-coordinate.
+     *
      * @param pX x-coordinate referring to the set spatial reference system
      */
 	abstract public void setXMin(double pX);
 
     /**
      * gets the bounding-box's minimal x-coordinate.
+     *
      * @return x-coordinate referring to the set spatial reference system
      */
 	abstract public double getXMin();
 
     /**
      * sets the bounding-box's maximal x-coordinate.
+     *
      * @param pX x-coordinate referring to the set spatial reference system
      */
 	abstract public void setXMax(double pX);
 
     /**
      * gets the bounding-box's maximal x-coordinate.
+     *
      * @return x-coordinate referring to the set spatial reference system
      */
 	abstract public double getXMax();
 
     /**
      * sets the bounding-box's minimal y-coordinate.
+     *
      * @param pY y-coordinate referring to the set spatial reference system
      */
 	abstract public void setYMin(double pY);
 
     /**
      * gets the bounding-box's minimal y-coordinate.
+     *
      * @return y-coordinate referring to the set spatial reference system
      */
 	abstract public double getYMin();
 
     /**
      * sets the bounding-box's maximal y-coordinate.
+     *
      * @param pY y-coordinate referring to the set spatial reference system
      */
 	abstract public void setYMax(double pY);
 
     /**
      * gets the bounding-box's maximal y-coordinate.
+     *
      * @return y-coordinate referring to the set spatial reference system
      */
 	abstract public double getYMax();
 
     /**
      * sets the bounding-box's minimal z-coordinate.
+     *
      * @param pZ z-coordinate
      */
 	abstract public void setZMin(double pZ);
 
     /**
      * gets the bounding-box's minimal z-coordinate.
+     *
      * @return z-coordinate
      */
 	abstract public double getZMin();
 
     /**
      * sets the bounding-box's maximal z-coordinate.
+     *
      * @param pZ z-coordinate
      */
 	abstract public void setZMax(double pZ);
 
     /**
      * gets the bounding-box's maximal z-coordinate.
+     *
      * @return z-coordinate
      */
 	abstract public double getZMax();
 
 	/**
      * gets the bounding-box's center point.
+     *
      * @return Center point
      */
 	abstract public VgPoint getCenterPoint();
 
     /**
      * sets the bounding-box's center point. Note that bounding-box will be translated by this operation.
+     *
      * @param pCenter new center point
      */
     abstract public void setCenterPoint(VgPoint pCenter);
@@ -130,6 +152,7 @@ abstract public class VgEnvelope extends VgGeomObject3d
     /**
      * performs a bounding-box scaling. The center-point will not be changed, but the bounding-box's extents in x-, y-
      * and z-direction will be multiplied by the given factor.
+     *
      * @param pFactor Scaling factor
      */
     public void scale(double pFactor)
@@ -153,6 +176,7 @@ abstract public class VgEnvelope extends VgGeomObject3d
     /**
      * performs a bounding-box scaling. The center-point will not be changed. The bounding-box's extents in x-, y-
      * and z-direction will be set to the specified values.
+     *
      * @param pExtentX new extent in x-direction
      * @param pExtentY new extent in y-direction
      * @param pExtentZ new extent in z-direction
@@ -171,6 +195,7 @@ abstract public class VgEnvelope extends VgGeomObject3d
 
     /**
      * returns the bounding-box's extent in x-direction (width resp. length).
+     *
      * @return Extent &gt;= 0
      */
     public double getExtentX() {
@@ -179,6 +204,7 @@ abstract public class VgEnvelope extends VgGeomObject3d
 
     /**
      * returns the bounding-box's extent in y-direction (length resp. width).
+     *
      * @return Extent &gt;= 0
      */
     public double getExtentY() {
@@ -187,6 +213,7 @@ abstract public class VgEnvelope extends VgGeomObject3d
 
     /**
      * returns the bounding-box's extent in z-direction (height).
+     *
      * @return Extent &gt;= 0
      */
     public double getExtentZ() {
@@ -194,7 +221,8 @@ abstract public class VgEnvelope extends VgGeomObject3d
     }
 
     /**
-     * returns the length of bounding-box's diagonal in 3D space.<p>
+     * returns the length of bounding-box's diagonal in 3D space.
+     *
      * @return Diagonal length
      */
     public double diagonalLength()
@@ -208,6 +236,7 @@ abstract public class VgEnvelope extends VgGeomObject3d
 
 	/**
 	 * returns the bounding-box's volume with respect to the assigned spatial reference system.
+     *
      * @return Volume
 	 */
 	public double volume() 
@@ -221,6 +250,7 @@ abstract public class VgEnvelope extends VgGeomObject3d
 
 	/**
 	 * returns the surface area with respect to the assigned spatial reference system.
+     *
      * @return Surface area
 	 */
 	public double surface()
@@ -235,6 +265,7 @@ abstract public class VgEnvelope extends VgGeomObject3d
     /**
      * extends the bounding-box's spatial extent such that the specified point will be not lie outside of the
      * bounding-box.
+     *
      * @param pPnt Point that will be element of the modified bounding-box
      */
     public void letContainPoint(VgPoint pPnt)
@@ -255,12 +286,14 @@ abstract public class VgEnvelope extends VgGeomObject3d
     /**
      * extends the bounding-box's spatial extent such that te specified bounding-box will be part of the
      * bounding-box (&quot;union operator&quot;).
+     *
      * @param pEnv Bounding-box that will be element of the modified bounding-box
      */
     abstract public void letContainEnvelope(VgEnvelope pEnv);
 
     /**
-     * checks bounding-boxes for geometrical equivalence.<p>
+     * checks bounding-boxes for geometrical equivalence.
+     *
      * @param pEnv Bounding-box that has to be compared with <tt>this</tt> object
      * @return <i>true</i>, if for geometrical equivalence, else <i>false</i>
      */
@@ -276,6 +309,7 @@ abstract public class VgEnvelope extends VgGeomObject3d
 
     /**
      * checks, if a given point lies inside the bounding-Box.
+     *
      * @param pt Point to be checked
      * @return <i>true</i>, if <tt>pt</tt> lies inside the bounding-box or on the border, else <i>false</i>
      */
