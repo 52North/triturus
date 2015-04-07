@@ -26,6 +26,18 @@ Concrete development goals are:
 * to have open ended software that is easily extensible
 * to be compatible to existing standards in the context of geo object modeling and computer graphics (OGC, ISO, W3C).
 
+## Installation
+To compile the Triturus library, simply run Maven's 'package' task.
+
+To use the Triturus library, just add the Triturus JAR file to your Java project.
+
+## License information
+This program is free software; you can redistribute it and/or modify it
+under the terms of the GNU General Public License version 2 as published
+by the Free Software Foundation.
+
+For further information please refer to 'LICENSE'-file
+
 ## Additional documents and links
 This sections lists documents that lead to a deeper understanding of the Triturus library and give additional information
 
