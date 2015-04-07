@@ -31,7 +31,6 @@ import org.n52.v3d.triturus.vgis.VgElevationGrid;
 import org.n52.v3d.triturus.vscene.MultiTerrainScene;
 import org.n52.v3d.triturus.vscene.VsScene;
 
-import javax.media.jai.Histogram;
 import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
