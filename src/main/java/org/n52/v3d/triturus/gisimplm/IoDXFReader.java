@@ -445,16 +445,21 @@ public class IoDXFReader extends IoObject
                 if (this.get(70).compareTo( "" ) != 0 && lPlFlag % 2 == 1)
                     lEntIsPolygon = true; // da 'Polylinie ist geschlosse'-Flag gesetzt (Gruppencode 70)
                 if (lEntIsPolygon) 
-                    lGeom = new GmPolygon();
+                    lGeom = new GmLinearRing();
                 else
                     lGeom = new GmLineString();
                 for (int i = 0; i < mVertices.size(); i++) {
                     if (lEntIsPolygon)
-                        ((GmPolygon) lGeom).addVertex( (GmPoint) mVertices.get( i ) );
+                        ((GmLinearRing)lGeom).addVertex( (GmPoint) mVertices.get( i ) );
                     else
                         ((GmLineString) lGeom).addVertex( (GmPoint) mVertices.get( i ) );
                 }
 
+                // if the entity is a polygon, then create a GmPolygon from the 
+                // previously created linearRing
+                if (lEntIsPolygon) 
+                    lGeom = new GmPolygon((GmLinearRing)lGeom);
+                
                 lFeat.setGeometry(lGeom);
 
                 if (lPlFlag > 1)
@@ -536,9 +541,12 @@ public class IoDXFReader extends IoObject
                     lFeat.addAttribute("VG_GEOMETRY", "java.lang.String", "org.n52.v3d.triturus.vgis.VgTriangle");
                 }
                 else {
-                    lGeom = new GmPolygon();
+                    lGeom = new GmLinearRing();
                     for (int i = 0; i < 4; i++)
-                        ((GmPolygon) lGeom).addVertex(new GmPoint( x[i], y[i], z[i] )); 
+                        ((GmLinearRing) lGeom).addVertex(new GmPoint( x[i], y[i], z[i] ));
+                    
+                    // create a GmPolygon from the previously created linearRing
+                    lGeom = new GmPolygon((GmLinearRing)lGeom);
                     lFeat.addAttribute("VG_GEOMETRY", "java.lang.String", "org.n52.v3d.triturus.vgis.VgPolygon");
                 }
 
