@@ -19,22 +19,24 @@
  **************************************************************************************/
 package org.n52.v3d.triturus.vgis;
 
+import org.n52.v3d.triturus.vgis.VgGeomObject2d;
+
 /**
- * A simple Extension of {@link VgGeomObject3d} for collections of 3-dimensional
+ * A simple Extension of {@link VgGeomObject2d} for collections of 2-dimensional
  * geometries.
  * 
  * @author Christian Danowski
- *
+ * 
  */
-public abstract class VgCollection3d extends VgGeomObject3d implements
-		VgCollection {
+public abstract class VgGeomCollection2d extends VgGeomObject2d implements
+		VgGeomCollection {
 
 	/**
-	 * <b>3D-implementation that only supports 3-dimensional objects</b> <br/>
+	 * <b>2D-implementation that only supports 2-dimensional objects</b> <br/>
 	 * <br/>
 	 * {@inheritDoc}
 	 */
-	public abstract VgGeomObject3d getGeometry(int i);
+	public abstract VgGeomObject2d getGeometry(int i);
 
 	public abstract int getNumberOfGeometries();
 

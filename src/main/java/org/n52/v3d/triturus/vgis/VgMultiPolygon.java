@@ -32,7 +32,7 @@ import org.n52.v3d.triturus.gisimplm.GmMultiPolygon;
  * @author Christian Danowski
  * 
  */
-public abstract class VgMultiPolygon extends VgCollection2d {
+public abstract class VgMultiPolygon extends VgGeomCollection2d {
 
 	protected List<VgPolygon> polygons;
 

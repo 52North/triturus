@@ -71,13 +71,8 @@ public class GmLinearRing extends VgLinearRing {
 	public int getNumberOfVertices() {
 		return mVertices.size();
 	}
-
-	/**
-	 * returns the polygon's bounding-box.
-	 * 
-	 * @return <tt>GmEnvelope</tt>, or <i>null</i> for
-	 *         <tt>this.numberOfVertices() = 0</tt>.
-	 */
+	
+	@Override
 	public VgEnvelope envelope() {
 		if (this.getNumberOfVertices() > 0) {
 			GmEnvelope mEnv = new GmEnvelope(this.getVertex(0));
@@ -88,11 +83,7 @@ public class GmLinearRing extends VgLinearRing {
 			return null;
 	}
 
-	/**
-	 * returns the object's footprint geometry (projection to the x-y-plane).
-	 * 
-	 * @return &quot;Footprint&quot; as <tt>GmLinearRing</tt>-object
-	 */
+	@Override
 	public VgGeomObject footprint() {
 		GmLinearRing res = new GmLinearRing();
 		VgPoint v = null;

@@ -20,8 +20,11 @@
 package org.n52.v3d.triturus.vgis;
 
 import org.n52.v3d.triturus.core.T3dException;
+import org.n52.v3d.triturus.gisimplm.GmEnvelope;
+import org.n52.v3d.triturus.gisimplm.GmLinearRing;
+import org.n52.v3d.triturus.gisimplm.GmPoint;
 import org.n52.v3d.triturus.vgis.VgGeomObject;
-import org.n52.v3d.triturus.vgis.VgGeomObject2d;
+import org.n52.v3d.triturus.vgis.VgGeomObject1d;
 import org.n52.v3d.triturus.vgis.VgPoint;
 
 /**
@@ -31,7 +34,7 @@ import org.n52.v3d.triturus.vgis.VgPoint;
  * @author Christian Danowski
  *
  */
-public abstract class VgLinearRing extends VgGeomObject2d {
+public abstract class VgLinearRing extends VgGeomObject1d {
 
 	/**
 	 * returns the polygon's i-th vertex. The constraint 0 &lt;= i &lt;
@@ -51,6 +54,18 @@ public abstract class VgLinearRing extends VgGeomObject2d {
 	abstract public int getNumberOfVertices();
 
 	/**
+	 * returns the circumference of the polygon referring to the assigned
+	 * coordinate reference system.<br />
+	 * <br />
+	 * 
+	 * @return Circumference value
+	 * @see VgGeomObject#getSRS
+	 */
+	public double circumference() {
+		return this.sumUpArea()[1];
+	}
+	
+	/**
 	 * returns the polygon area referring to the assigned coordinate reference
 	 * system.<br />
 	 * <br />
@@ -60,24 +75,12 @@ public abstract class VgLinearRing extends VgGeomObject2d {
 	 */
 	public double area() {
 
-		return this.sumUpAreaXY()[0];
+		return this.sumUpArea()[0];
 	}
-
-	/**
-	 * returns the circumference of the polygon referring to the assigned
-	 * coordinate reference system.<br />
-	 * <br />
-	 * 
-	 * @return Circumference value
-	 * @see VgGeomObject#getSRS
-	 */
-	public double circumference() {
-		return this.sumUpAreaXY()[1];
-	}
-
-	private double[] sumUpAreaXY() {
+	
+	private double[] sumUpArea() {
 		int N = this.getNumberOfVertices();
-		double A = 0., C = 0.;
+		double A = 0., C = 0., C3d = 0.;
 
 		if (N >= 3) {
 			double dx, dy, dz, sx;
@@ -92,24 +95,40 @@ public abstract class VgLinearRing extends VgGeomObject2d {
 				sx = pt1.getX() + pt2.getX();
 				A += sx * dy;
 				C += Math.sqrt(dx * dx + dy * dy);
+				C3d += Math.sqrt(dx * dx + dy * dy + dz * dz); 
 			}
 
 			pt1 = this.getVertex(N - 1);
 			pt2 = this.getVertex(0);
 			dx = pt2.getX() - pt1.getX();
 			dy = pt2.getY() - pt1.getY();
+			dz = pt2.getZ() - pt1.getZ();
 			sx = pt1.getX() + pt2.getX();
 			A += sx * dy;
 			C += Math.sqrt(dx * dx + dy * dy);
+			C3d += Math.sqrt(dx * dx + dy * dy + dz * dz); 
 		} else {
-			if (N == 2)
+			if (N == 2){
 				C = this.getVertex(0).distanceXY(this.getVertex(1));
+				C3d = this.getVertex(0).distance(this.getVertex(1));
+			}
 		}
 
-		double[] ret = new double[2];
+		double[] ret = new double[3];
 		ret[0] = A;
 		ret[1] = C;
+		ret[2] = C3d;
 		return ret;
+	}
+	
+	@Override
+	public double length() {
+		return this.sumUpArea()[2];
+	}
+
+	@Override
+	public double lengthXY() {
+		return this.circumference();
 	}
 
 	public String toString() {

@@ -25,12 +25,12 @@ package org.n52.v3d.triturus.vgis;
  * @author Christian Danowski
  *
  */
-public interface VgCollection {
+public interface VgGeomCollection {
 
 	/**
 	 * Gets the i-th geometry of the collection.<br />
 	 * Note: The following condition must always be ensured: <b>0 &lt;= i &lt;
-	 * {@link VgCollection#getNumberOfGeometries()}</b>.
+	 * {@link VgGeomCollection#getNumberOfGeometries()}</b>.
 	 * 
 	 * @param i
 	 *            geometry index

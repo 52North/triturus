@@ -26,8 +26,8 @@ package org.n52.v3d.triturus.vgis;
  * @author Christian Danowski
  *
  */
-public abstract class VgCollection1d extends VgGeomObject1d implements
-		VgCollection {
+public abstract class VgGeomCollection1d extends VgGeomObject1d implements
+		VgGeomCollection {
 
 	/**
 	 * <b>1D-implementation that only supports 1-dimensional objects</b> <br/>
