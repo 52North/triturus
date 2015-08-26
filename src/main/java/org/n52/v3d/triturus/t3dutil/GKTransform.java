@@ -1,3 +1,34 @@
+/**
+ * Copyright (C) 2007-2015 52Â°North Initiative for Geospatial Open Source
+ * Software GmbH
+ *
+ * This program is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU General Public License version 2 as published
+ * by the Free Software Foundation.
+ *
+ * If the program is linked with libraries which are licensed under one of
+ * the following licenses, the combination of the program with the linked
+ * library is not considered a "derivative work" of the program:
+ *
+ *  - Apache License, version 2.0
+ *  - Apache Software License, version 1.0
+ *  - GNU Lesser General Public License, version 3
+ *  - Mozilla Public License, versions 1.0, 1.1 and 2.0
+ *  - Common Development and Distribution License (CDDL), version 1.0.
+ *
+ * Therefore the distribution of the program linked with libraries licensed
+ * under the aforementioned licenses, is permitted by the copyright holders
+ * if the distribution is compliant with both the GNU General Public
+ * icense version 2 and the aforementioned licenses.
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+ * Public License for more details.
+ *
+ * Contact: Benno Schmidt & Martin May, 52 North Initiative for Geospatial Open Source
+ * Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, Germany, info@52north.org
+ */
 package org.n52.v3d.triturus.t3dutil;
 
 import java.util.*;
@@ -10,15 +41,15 @@ public class GKTransform {
 
     //******Konstanten******//
     
-    //Ellipsoidparameter für BESSEL
+    //Ellipsoidparameter fï¿½r BESSEL
     static final double    a  = 6377397.155;
     static final double    b  = 6356078.96282;
     static final double    a2 = 4.06711944726E13;
     static final double    b2 = 4.039973978389E13;
     static final double    e_2 = 6.674372174975E-3;    //e_2=e2  Quadr. der 
-    //1.numerische Exzentrizität
+    //1.numerische Exzentrizitï¿½t
     static final double    e2_2 =   0.006719218741582;   //e2_=e'2 Quadr. der 
-    //2.numerische Exzentrizität
+    //2.numerische Exzentrizitï¿½t
     static final double    e = 0.08169683087473;    // e2 = (a2-b2)/a2
     static final double    N3 = 0.001674184800972;   // n = (a-b)/(a+b)
     
@@ -28,17 +59,17 @@ public class GKTransform {
     static final double    PI       =      3.14159265358979323846;
     static final double    DEG2RAD =       PI / 180.0;
     static final double    RAD2DEG = 180.0 / PI;
-    //Lotfußpunkte
+    //Lotfuï¿½punkte
     static final double    E0 = 0.994992124558914; //Konstanten zur Berechnung
     static final double   F2 = 0.00251127322033324;    // der geographischen
     static final double    F4 = 3.67878644696096E-6;   // Breite des
-    static final double    F6 = 7.38044744263472E-9;   // Lotfußpunktes
+    static final double    F6 = 7.38044744263472E-9;   // Lotfuï¿½punktes
 
     //*******ENDE Konstanten********//
 
 
 		public static double[] ellToGauss(double lon, double lat, int streifen, double[] out) {
-			//ellip. --> Gauss-Krüger
+			//ellip. --> Gauss-Krï¿½ger
 			//Quelle: Formelsammlung LVA - NRW, Blatt 1-9,1-10
 
 			double rechts, hoch;
@@ -47,7 +78,7 @@ public class GKTransform {
 	    	out = new double[2];
 
 			double N2 = a2 / Math.sqrt((a2 * Math.pow (Math.cos (lat), 2.0)  + (b2 * Math.pow (Math.sin (lat), 2.0))));
-			//Querkrümmungshalbmesser
+			//Querkrï¿½mmungshalbmesser
 
 			double t = Math.tan (lat);
 			double t2 = Math.pow (t,2.0);
@@ -116,7 +147,7 @@ public class GKTransform {
 
 
 			double ETA = e2_2 * Math.pow(cos_Bf, 2.0);
-			double N = c / Math.sqrt(1.0 + ETA);  //Querkrümmungshalbmesser
+			double N = c / Math.sqrt(1.0 + ETA);  //Querkrï¿½mmungshalbmesser
 		
 			double y_N = rechts / N;
 		
@@ -126,9 +157,9 @@ public class GKTransform {
 			double DB = - s1 + s2 - s3;
 			lat = Bf + DB * tan_Bf;         //geogr. Breite in Radiant
 
-			//Länge  aus GK-Koord.
+			//Lï¿½nge  aus GK-Koord.
 			double DL = y_N - (Math.pow(y_N, 3.0) * (1.0 + 2.0 * tan_Bf_2 + ETA) / 6.0) + Math.pow(y_N, 5.0) * (5.0 + 28.0 * tan_Bf_2 + 24.0 * tan_Bf_4) / 120.0;
-			lon = (streifen * 3.0 * DEG2RAD) + (DL / cos_Bf); //geogr. Länge in Rad
+			lon = (streifen * 3.0 * DEG2RAD) + (DL / cos_Bf); //geogr. Lï¿½nge in Rad
 	
 			out[0] = lon;
 			out[1] = lat;

@@ -27,7 +27,9 @@ Concrete development goals are:
 * to be compatible to existing standards in the context of geo object modeling and computer graphics (OGC, ISO, W3C).
 
 ## Installation
-To compile the Triturus library, simply run Maven's 'package' task.
+To compile the Triturus library, simply execute the following [Maven](http://maven.apache.org/) task 
+
+`mvn clean install`
 
 To use the Triturus library, just add the Triturus JAR file to your Java project.
 
@@ -47,13 +49,7 @@ This sections lists documents that lead to a deeper understanding of the Trituru
 
 ## Contributing
 
-You are interesting in contributing the 52°North Triturus and you want to pull your changes to the 52N repository to make it available to all?
-
-In that case we need your official permission and for this purpose we have a so called contributors license agreement (CLA) in place. With this agreement you grant us the rights to use and publish your code under an open source license.
-
-A link to the contributors license agreement and further explanations are available here: 
-
-    http://52north.org/about/licensing/cla-guidelines
+Please find information for Contributing to the project in the seperate [CONTRIBUTE.md](CONTRIBUTE.md).
 
 ## Support and Contact
 

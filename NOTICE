@@ -1,0 +1,12 @@
+Copyright 2015 52°North Initiative for Geospatial Open Source Software GmbH
+
+Licensed under GNU GENERAL PUBLIC LICENSE Version 2
+
+This project includes:
+
+  52North triturus 3d API under GNU GENERAL PUBLIC LICENSE Version 2, June 1991
+  Commons Logging under The Apache Software License, Version 2.0
+  Hamcrest Core under New BSD License
+  JUnit under Eclipse Public License 1.0
+  servlet-api under CDDL 1.1 or GPL2 w/ CPE
+

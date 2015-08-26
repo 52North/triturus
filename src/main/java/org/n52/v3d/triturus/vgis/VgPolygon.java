@@ -1,22 +1,34 @@
-/***************************************************************************************
- * Copyright (C) 2011 by 52 North Initiative for Geospatial Open Source Software GmbH  *
- *                                                                                     *
- * Contact: Benno Schmidt & Martin May, 52 North Initiative for Geospatial Open Source *
- * Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, Germany, info@52north.org *
- *                                                                                     *
- * This program is free software; you can redistribute and/or modify it under the      *
- * terms of the GNU General Public License version 2 as published by the Free Software *
- * Foundation.                                                                         *
- *                                                                                     *
- * This program is distributed WITHOUT ANY WARRANTY; even without the implied WARRANTY *
- * OF MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public  *
- * License for more details.                                                           *
- *                                                                                     *
- * You should have received a copy of the GNU General Public License along with this   *
- * program (see gnu-gpl v2.txt). If not, write to the Free Software Foundation, Inc.,  *
- * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA, or visit the Free Software *
- * Foundation web page, http://www.fsf.org.                                            *
- **************************************************************************************/
+/**
+ * Copyright (C) 2007-2015 52Â°North Initiative for Geospatial Open Source
+ * Software GmbH
+ *
+ * This program is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU General Public License version 2 as published
+ * by the Free Software Foundation.
+ *
+ * If the program is linked with libraries which are licensed under one of
+ * the following licenses, the combination of the program with the linked
+ * library is not considered a "derivative work" of the program:
+ *
+ *  - Apache License, version 2.0
+ *  - Apache Software License, version 1.0
+ *  - GNU Lesser General Public License, version 3
+ *  - Mozilla Public License, versions 1.0, 1.1 and 2.0
+ *  - Common Development and Distribution License (CDDL), version 1.0.
+ *
+ * Therefore the distribution of the program linked with libraries licensed
+ * under the aforementioned licenses, is permitted by the copyright holders
+ * if the distribution is compliant with both the GNU General Public
+ * icense version 2 and the aforementioned licenses.
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+ * Public License for more details.
+ *
+ * Contact: Benno Schmidt & Martin May, 52 North Initiative for Geospatial Open Source
+ * Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, Germany, info@52north.org
+ */
 package org.n52.v3d.triturus.vgis;
 
 import org.n52.v3d.triturus.vgis.VgGeomObject;
@@ -31,7 +43,7 @@ import org.n52.v3d.triturus.vgis.VgGeomObject2d;
  * innere L&ouml;cher definiert werden. In der aktuellen Version wird jedoch
  * nicht &uuml;berpr&uuml;ft, ob die L&ouml;cher g&uuml;ltig sind, sprich ob sie
  * den Simple-Feature-Bedingungen des OGC entsprechen. Ein inneres Loch darf den
- * äu&szlig;eren Rand (outer boundary) des Polygons maximal in einem Punkt
+ * ï¿½u&szlig;eren Rand (outer boundary) des Polygons maximal in einem Punkt
  * ber&uuml;hren. Dies wird jedoch ebenfalls aktuell nicht gepr&uuml;ft.<br/>
  * Die Polygone m&uuml;ssen <i>planar</i> sein.<br />
  * <i>Planarit&auml;t wird z. Zt. in der Implementierung <tt>GmPlane</tt> noch
