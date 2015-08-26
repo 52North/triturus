@@ -31,19 +31,23 @@
  */
 package org.n52.v3d.triturus.web;
 
-import org.n52.v3d.triturus.core.T3dException;
-
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.ServletOutputStream;
-import javax.imageio.ImageIO;
-import java.io.*;
+import java.awt.Font;
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
-import java.awt.*;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.StringTokenizer;
 
-import com.sun.image.codec.jpeg.JPEGImageEncoder;
-import com.sun.image.codec.jpeg.JPEGCodec;
-import com.sun.image.codec.jpeg.JPEGEncodeParam;
+import javax.imageio.ImageIO;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
+
+import org.n52.v3d.triturus.core.T3dException;
 
 /**
  * todo engl. JavaDoc
@@ -292,11 +296,18 @@ public class HttpStandardResponse
                     try {
                         //ImageIO.setUseCache(false); // wichtig!
                         pResponse.setContentType("image/jpeg");
-                        JPEGImageEncoder enc = JPEGCodec.createJPEGEncoder(out); // JPEG-Encoder instanziieren
-                        JPEGEncodeParam prm = enc.getDefaultJPEGEncodeParam(lImage);
-                        prm.setQuality(1.0f, false); // Qualit�t auf 100% setzen
-                        enc.setJPEGEncodeParam(prm);
-                        enc.encode(lImage); // Bild als JPG encoden und an Client senden
+                        ImageIO.write(lImage, "jpg", out);
+                        
+                        /*
+                         * Old implementation: must be replaced due to deprecated/missing classes from com.sun.*
+						 *
+                         * JPEGImageEncoder enc = JPEGCodec.createJPEGEncoder(out); // JPEG-Encoder instanziieren
+                         * JPEGEncodeParam prm = enc.getDefaultJPEGEncodeParam(lImage);
+                         * prm.setQuality(1.0f, false); // Qualit�t auf 100% setzen
+                         * enc.setJPEGEncodeParam(prm);
+                         * enc.encode(lImage); // Bild als JPG encoden und an Client senden
+                         */
+                        
                     } catch (Exception e) {
                         //e.printStackTrace();
                         throw new T3dException("Could not send JPEG image. " + e.getMessage());
@@ -305,13 +316,18 @@ public class HttpStandardResponse
                 case sBMPOutput:
                     try {
                         pResponse.setContentType("image/bmp");
-                        // Merkw�rdig, dass nachstehender Code praktisch das korrekte Resultat liefert... (todo)
-                        JPEGImageEncoder enc = JPEGCodec.createJPEGEncoder(out); // JPEG-Encoder instanziieren
-                        JPEGEncodeParam prm = enc.getDefaultJPEGEncodeParam(lImage);
-                        prm.setQuality(1.0f, false); // Qualit�t auf 100% setzen
-                        enc.setJPEGEncodeParam(prm);
-                        enc.encode(lImage); // Bild als JPG encoden und an Client senden
-                        ImageIO.write(lImage, "jpg", out); // !
+                        /*
+                        * Old implementation: must be replaced due to deprecated/missing classes from com.sun.*
+						*
+						* Merkw�rdig, dass nachstehender Code praktisch das korrekte Resultat liefert... (todo)
+						*
+                        * JPEGImageEncoder enc = JPEGCodec.createJPEGEncoder(out); // JPEG-Encoder instanziieren
+                        * JPEGEncodeParam prm = enc.getDefaultJPEGEncodeParam(lImage);
+                        * prm.setQuality(1.0f, false); // Qualit�t auf 100% setzen
+                        * enc.setJPEGEncodeParam(prm);
+                        * enc.encode(lImage); // Bild als JPG encoden und an Client senden
+                        */
+                        ImageIO.write(lImage, "BMP", out); // !
                     } catch (Exception e) {
                         //e.printStackTrace();
                         throw new T3dException("Could not send BMP image. " + e.getMessage());
