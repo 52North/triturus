@@ -1,37 +1,53 @@
-/***************************************************************************************
- * Copyright (C) 2011 by 52 North Initiative for Geospatial Open Source Software GmbH  *
- *                                                                                     *
- * Contact: Benno Schmidt & Martin May, 52 North Initiative for Geospatial Open Source *
- * Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, Germany, info@52north.org *
- *                                                                                     *
- * This program is free software; you can redistribute and/or modify it under the      *
- * terms of the GNU General Public License version 2 as published by the Free Software *
- * Foundation.                                                                         *
- *                                                                                     *
- * This program is distributed WITHOUT ANY WARRANTY; even without the implied WARRANTY *
- * OF MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public  *
- * License for more details.                                                           *
- *                                                                                     *
- * You should have received a copy of the GNU General Public License along with this   *
- * program (see gnu-gpl v2.txt). If not, write to the Free Software Foundation, Inc.,  *
- * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA, or visit the Free Software *
- * Foundation web page, http://www.fsf.org.                                            *
- **************************************************************************************/
+/**
+ * Copyright (C) 2007-2015 52°North Initiative for Geospatial Open Source
+ * Software GmbH
+ *
+ * This program is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU General Public License version 2 as published
+ * by the Free Software Foundation.
+ *
+ * If the program is linked with libraries which are licensed under one of
+ * the following licenses, the combination of the program with the linked
+ * library is not considered a "derivative work" of the program:
+ *
+ *  - Apache License, version 2.0
+ *  - Apache Software License, version 1.0
+ *  - GNU Lesser General Public License, version 3
+ *  - Mozilla Public License, versions 1.0, 1.1 and 2.0
+ *  - Common Development and Distribution License (CDDL), version 1.0.
+ *
+ * Therefore the distribution of the program linked with libraries licensed
+ * under the aforementioned licenses, is permitted by the copyright holders
+ * if the distribution is compliant with both the GNU General Public
+ * icense version 2 and the aforementioned licenses.
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+ * Public License for more details.
+ *
+ * Contact: Benno Schmidt & Martin May, 52 North Initiative for Geospatial Open Source
+ * Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, Germany, info@52north.org
+ */
 package org.n52.v3d.triturus.web;
 
-import org.n52.v3d.triturus.core.T3dException;
-
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.ServletOutputStream;
-import javax.imageio.ImageIO;
-import java.io.*;
+import java.awt.Font;
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
-import java.awt.*;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.StringTokenizer;
 
-import com.sun.image.codec.jpeg.JPEGImageEncoder;
-import com.sun.image.codec.jpeg.JPEGCodec;
-import com.sun.image.codec.jpeg.JPEGEncodeParam;
+import javax.imageio.ImageIO;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
+
+import org.n52.v3d.triturus.core.T3dException;
 
 /**
  * todo engl. JavaDoc
@@ -280,11 +296,18 @@ public class HttpStandardResponse
                     try {
                         //ImageIO.setUseCache(false); // wichtig!
                         pResponse.setContentType("image/jpeg");
-                        JPEGImageEncoder enc = JPEGCodec.createJPEGEncoder(out); // JPEG-Encoder instanziieren
-                        JPEGEncodeParam prm = enc.getDefaultJPEGEncodeParam(lImage);
-                        prm.setQuality(1.0f, false); // Qualit�t auf 100% setzen
-                        enc.setJPEGEncodeParam(prm);
-                        enc.encode(lImage); // Bild als JPG encoden und an Client senden
+                        ImageIO.write(lImage, "jpg", out);
+                        
+                        /*
+                         * Old implementation: must be replaced due to deprecated/missing classes from com.sun.*
+						 *
+                         * JPEGImageEncoder enc = JPEGCodec.createJPEGEncoder(out); // JPEG-Encoder instanziieren
+                         * JPEGEncodeParam prm = enc.getDefaultJPEGEncodeParam(lImage);
+                         * prm.setQuality(1.0f, false); // Qualit�t auf 100% setzen
+                         * enc.setJPEGEncodeParam(prm);
+                         * enc.encode(lImage); // Bild als JPG encoden und an Client senden
+                         */
+                        
                     } catch (Exception e) {
                         //e.printStackTrace();
                         throw new T3dException("Could not send JPEG image. " + e.getMessage());
@@ -293,13 +316,18 @@ public class HttpStandardResponse
                 case sBMPOutput:
                     try {
                         pResponse.setContentType("image/bmp");
-                        // Merkw�rdig, dass nachstehender Code praktisch das korrekte Resultat liefert... (todo)
-                        JPEGImageEncoder enc = JPEGCodec.createJPEGEncoder(out); // JPEG-Encoder instanziieren
-                        JPEGEncodeParam prm = enc.getDefaultJPEGEncodeParam(lImage);
-                        prm.setQuality(1.0f, false); // Qualit�t auf 100% setzen
-                        enc.setJPEGEncodeParam(prm);
-                        enc.encode(lImage); // Bild als JPG encoden und an Client senden
-                        ImageIO.write(lImage, "jpg", out); // !
+                        /*
+                        * Old implementation: must be replaced due to deprecated/missing classes from com.sun.*
+						*
+						* Merkw�rdig, dass nachstehender Code praktisch das korrekte Resultat liefert... (todo)
+						*
+                        * JPEGImageEncoder enc = JPEGCodec.createJPEGEncoder(out); // JPEG-Encoder instanziieren
+                        * JPEGEncodeParam prm = enc.getDefaultJPEGEncodeParam(lImage);
+                        * prm.setQuality(1.0f, false); // Qualit�t auf 100% setzen
+                        * enc.setJPEGEncodeParam(prm);
+                        * enc.encode(lImage); // Bild als JPG encoden und an Client senden
+                        */
+                        ImageIO.write(lImage, "BMP", out); // !
                     } catch (Exception e) {
                         //e.printStackTrace();
                         throw new T3dException("Could not send BMP image. " + e.getMessage());
