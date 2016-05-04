@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2007-2015 52°North Initiative for Geospatial Open Source
+ * Copyright (C) 2007-2016 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it
@@ -39,6 +39,7 @@ import java.util.ArrayList;
 /**
  * Triturus example application: Reads point coordinates from an ASCII file and constructs an elevation-grid (lattice
  * model).
+ * 
  * @author Benno Schmidt
  * @see org.n52.v3d.triturus.examples.gridding.GriddingApp
  */
@@ -68,10 +69,10 @@ public class Gridding
                 System.out.println("A lattice consisting of " + nx + " x " + ny + " elements will be set-up...");
                 GmSimple2dGridGeometry lGeom = new GmSimple2dGridGeometry( 
                     nx, ny, 
-                    new GmPoint(lEnv.getXMin(), lEnv.getYMin(), 0.), // untere linke Ecke
-                    cellSize, cellSize); // Gitterweiten in x- und y-Richtung
+                    new GmPoint(lEnv.getXMin(), lEnv.getYMin(), 0.), // lower left corner
+                    cellSize, cellSize); // Cell-sizes in x- and y-direction
                                             
-                double searchRadius = 0.9 * cellSize; // na ja...
+                double searchRadius = 0.9 * cellSize; // well...
                 System.out.println("Search radius: " + searchRadius);
 
                 FltPointSet2ElevationGrid lGridder = new FltPointSet2ElevationGrid(lGeom, searchRadius);
