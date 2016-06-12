@@ -37,59 +37,102 @@ import org.n52.v3d.triturus.gisimplm.*;
 import java.util.ArrayList;
 
 /**
- * Triturus example application: Reads point coordinates from an ASCII file and constructs an elevation-grid (lattice
- * model).
- * 
- * @author Benno Schmidt
- * @see org.n52.v3d.triturus.examples.gridding.GriddingApp
+ * Triturus example application: Reads point coordinates from an ASCII file and
+ * constructs an elevation-grid (lattice model).
+ *
+ * @author Benno Schmidt, Adhitya Kamakshidasan
  */
-public class Gridding
-{
-    public static void main(String args[]) 
-    {
+public class Gridding {
+
+    private String inputPath = "data/test.xyz";
+    private String outputPath = "data/test.x3d";
+    private double cellSize = 50.0;
+    private short weightFunction = 1;
+    private String outputFormat = IoElevationGridWriter.X3D;
+
+    public void setInputPath(String inputPath) {
+        this.inputPath = inputPath;
+    }
+
+    public String getInputPath() {
+        return this.inputPath;
+    }
+
+    public void setOutputPath(String outputPath) {
+        this.outputPath = outputPath;
+    }
+
+    public String getOutputPath() {
+        return this.outputPath;
+    }
+    
+    public void setCellSize(double cellSize){
+        this.cellSize = cellSize;
+    }
+    
+    public double getCellSize(){
+        return cellSize;
+    }
+    
+    public void setWeightFunction(short weightFunction){
+        this.weightFunction = weightFunction;
+    }
+    
+    public short getWeightFunction(){
+        return weightFunction;
+    }
+    
+    public void setOutputFormat(String outputFormat){
+        this.outputFormat = outputFormat;
+    }
+
+    public void performGridding() {
         IoPointListReader lReader = new IoPointListReader("Plain");
 
         ArrayList lPointList;
 
         try {
-            lPointList = lReader.readFromFile("/triturus/data/test.xyz");
-
+            lPointList = lReader.readFromFile(inputPath);
+            
             int N = lPointList.size();
             System.out.println("Number of read points: " + N);
-            
+
             if (N > 0) {
                 GmEnvelope lEnv = new GmEnvelope((GmPoint) lPointList.get(0));
-                for (int i = 1; i < N; i++)
+                for (int i = 1; i < N; i++) {
                     lEnv.letContainPoint((GmPoint) lPointList.get(i));
+                }
                 System.out.println("Bounding-box: " + lEnv.toString());
 
-                double cellSize = 50.0;
                 int nx = (int) Math.ceil(lEnv.getExtentX() / cellSize) + 1;
                 int ny = (int) Math.ceil(lEnv.getExtentY() / cellSize) + 1;
                 System.out.println("A lattice consisting of " + nx + " x " + ny + " elements will be set-up...");
-                GmSimple2dGridGeometry lGeom = new GmSimple2dGridGeometry( 
-                    nx, ny, 
-                    new GmPoint(lEnv.getXMin(), lEnv.getYMin(), 0.), // lower left corner
-                    cellSize, cellSize); // Cell-sizes in x- and y-direction
-                                            
+                GmSimple2dGridGeometry lGeom = new GmSimple2dGridGeometry(
+                        nx, ny,
+                        new GmPoint(lEnv.getXMin(), lEnv.getYMin(), 0.), // lower left corner
+                        cellSize, cellSize); // Cell-sizes in x- and y-direction
+
                 double searchRadius = 0.9 * cellSize; // well...
                 System.out.println("Search radius: " + searchRadius);
 
-                FltPointSet2ElevationGrid lGridder = new FltPointSet2ElevationGrid(lGeom, searchRadius);
-                System.out.println("Amount of heap-space required: " +
-                    (lGridder.estimateMemoryConsumption() / 1000) + " KBytes");
+                FltPointSet2ElevationGrid lGridder = new FltPointSet2ElevationGrid(lGeom, weightFunction, searchRadius);
+                System.out.println("Amount of heap-space required: "
+                        + (lGridder.estimateMemoryConsumption() / 1000) + " KBytes");
                 System.out.println("# points inside search-circle: " + lGridder.numberOfPointsInSearchCircle());
-                
+
                 System.out.println("Starting gridding for " + lPointList.size() + " input points...");
                 GmSimpleElevationGrid lResGrid = lGridder.transform(lPointList);
- 
-                if (!lResGrid.isSet())
+
+                if (!lResGrid.isSet()) {
                     System.out.println("Could not assign values to all lattice points!");
-                
+                }
+
                 System.out.println("Writing result file...");
-                IoElevationGridWriter lGridWriter = new IoElevationGridWriter(IoElevationGridWriter.ACGEO);
-                lGridWriter.writeToFile(lResGrid, "/triturus/data/test.grd");
-            } 
+                IoElevationGridWriter lGridWriter = new IoElevationGridWriter(outputFormat);
+                lGridWriter.writeToFile(lResGrid, outputPath);
+                
+                System.out.println("Success!");
+            }
         }
         catch (T3dException e) {
             e.printStackTrace();
@@ -98,4 +141,10 @@ public class Gridding
             e.printStackTrace();
         }
     }
+    
+    public static void main(String args[]){
+        Gridding gridding = new Gridding();
+        gridding.performGridding();
+    }
+    
 }
