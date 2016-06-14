@@ -759,7 +759,7 @@ public class IoElevationGridWriter extends IoAbstractWriter {
             lDat.write("\" centerOfRotation=\"" + px + " " + (lExaggeration * pz) + " " + py + "\"></Viewpoint>");
             lDat.newLine();
 
-            lDat.write("    <Shape>");
+            lDat.write("    <Shape onclick=\"handleClick(event)\">");
             lDat.newLine();
             lDat.write("      <Appearance>");
             lDat.newLine();
@@ -798,6 +798,8 @@ public class IoElevationGridWriter extends IoAbstractWriter {
             lDat.write("</X3D>");
             lDat.newLine();
             if (isX3dom) {
+                lDat.write("<div id=\"insert\"></div>");
+                lDat.newLine();
                 lDat.write("</body>");
                 lDat.newLine();
                 lDat.write("</html>");

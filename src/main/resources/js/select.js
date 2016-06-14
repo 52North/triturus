@@ -2,7 +2,7 @@ function roundWithTwoDecimals(value) {
     return (Math.round(value * 100)) / 100;
 }
 
-function handleGroupClick(event) {
+function handleClick(event) {
     var coordinates = event.hitPnt;
     document.getElementById('coordX').innerHTML = roundWithTwoDecimals(coordinates[0]);
     document.getElementById('coordY').innerHTML = roundWithTwoDecimals(coordinates[1]);
@@ -14,8 +14,6 @@ function handleGroupClick(event) {
 }
 
 function findNeighbours(point) {
-
-
     var j = point[0] / cellRowSize;
     var value = point[1] / lExageration;
     var i = point[2] / cellColumnSize;
@@ -45,7 +43,7 @@ window.onload = function(){
     var array = [];
     while (result.length > 0) array.push(result.splice(0, columns));
 	
-	document.getElementById("insert").innerHTML = '
+	document.getElementById("insert").innerHTML = '\
 		<div style="position:absolute;left:1000px;top:100px;width:200px">\
 			<h3>Click coordinates:</h3>\
 			<table style="font-size:1em;">\
