@@ -46,18 +46,4 @@ window.onload = function(event){
 	this.result = height.map(Number);
 	this.array = [];
 	while(result.length > 0) array.push(result.splice(0,columns));
-	document.getElementById("insert").innerHTML = '\
-		<div style="position:absolute;left:1000px;top:100px;width:200px">\
-			<h3>Click coordinates:</h3>\
-			<table style="font-size:1em;">\
-				<tr><td>X: </td><td id="coordX">-</td></tr>\
-				<tr><td>Y: </td><td id="coordY">-</td></tr>\
-				<tr><td>Z: </td><td id="coordZ">-</td></tr>\
-				<tr><td>i: </td><td id="gridZ">-</td></tr>\
-				<tr><td>j: </td><td id="gridX">-</td></tr>\
-				<tr><td>value: </td><td id="gridY">-</td></tr>\
-				<tr><td></td><td id="gridValue"></td></tr>\
-			</table>\
-		</div>\
-	';
-        };
+};
