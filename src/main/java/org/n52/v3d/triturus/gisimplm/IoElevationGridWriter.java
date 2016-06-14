@@ -730,11 +730,11 @@ public class IoElevationGridWriter extends IoAbstractWriter {
                 lDat.newLine();
                 lDat.write("<head>");
                 lDat.newLine();
-                lDat.write("<link rel=\"stylesheet\" type=\"text/css\" href=\"https://rawgit.com/kamakshidasan/triturus/src/main/resources/css/x3dom.css\" />");
+                lDat.write("<link rel=\"stylesheet\" type=\"text/css\" href=\"https://rawgit.com/kamakshidasan/triturus/master/src/main/resources/css/x3dom.css\" />");
                 lDat.newLine();
-                lDat.write("<script type=\"text/javascript\" src=\"https://rawgit.com/kamakshidasan/triturus/src/main/resources/js/x3dom-full.js\"></script>");
+                lDat.write("<script type=\"text/javascript\" src=\"https://rawgit.com/kamakshidasan/triturus/master/src/main/resources/js/x3dom-full.js\"></script>");
                 lDat.newLine();
-                lDat.write("<script type=\"text/javascript\" src=\"https://rawgit.com/kamakshidasan/triturus/src/main/resources/js/select.js\"></script>");
+                lDat.write("<script type=\"text/javascript\" src=\"https://rawgit.com/kamakshidasan/triturus/master/src/main/resources/js/select.js\"></script>");
                 lDat.newLine();
                 lDat.write("</head>");
                 lDat.newLine();
