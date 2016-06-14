@@ -730,11 +730,11 @@ public class IoElevationGridWriter extends IoAbstractWriter {
                 lDat.newLine();
                 lDat.write("<head>");
                 lDat.newLine();
-                lDat.write("<link rel=\"stylesheet\" type=\"text/css\" href=\"https://cdn.rawgit.com/kamakshidasan/triturus/triturus-adhitya/src/main/resources/css/x3dom.css\" />");
+                lDat.write("<link rel=\"stylesheet\" type=\"text/css\" href=\"https://rawgit.com/kamakshidasan/triturus/src/main/resources/css/x3dom.css\" />");
                 lDat.newLine();
-                lDat.write("<script type=\"text/javascript\" src=\"https://cdn.rawgit.com/kamakshidasan/triturus/triturus-adhitya/src/main/resources/js/x3dom-full.js\"></script>");
+                lDat.write("<script type=\"text/javascript\" src=\"https://rawgit.com/kamakshidasan/triturus/src/main/resources/js/x3dom-full.js\"></script>");
                 lDat.newLine();
-                lDat.write("<script type=\"text/javascript\" src=\"https://cdn.rawgit.com/kamakshidasan/triturus/triturus-adhitya/src/main/resources/js/select.js\"></script>");
+                lDat.write("<script type=\"text/javascript\" src=\"https://rawgit.com/kamakshidasan/triturus/src/main/resources/js/select.js\"></script>");
                 lDat.newLine();
                 lDat.write("</head>");
                 lDat.newLine();
@@ -767,7 +767,7 @@ public class IoElevationGridWriter extends IoAbstractWriter {
             lDat.newLine();
             lDat.write("      </Appearance>");
             lDat.newLine();
-            lDat.write("      <ElevationGrid solid=\"false\"");
+            lDat.write("      <ElevationGrid id=\"grid\" solid=\"false\"");
 
             // Grid parameters:
             lDat.write(" xDimension=\"" + lGeom.numberOfColumns());
@@ -798,18 +798,6 @@ public class IoElevationGridWriter extends IoAbstractWriter {
             lDat.write("</X3D>");
             lDat.newLine();
             if (isX3dom) {
-                lDat.write("<div style=\"position:absolute;left:1000px;top:100px;width:200px\">\n" +
-                "	<h3>Click coordinates:</h3>\n" +
-                "	<table style=\"font-size:1em;\">\n" +
-                "		<tr><td>X: </td><td id=\"coordX\">-</td></tr>\n" +
-                "		<tr><td>Y: </td><td id=\"coordY\">-</td></tr>\n" +
-                "		<tr><td>Z: </td><td id=\"coordZ\">-</td></tr>\n" +
-                "		<tr><td>i: </td><td id=\"gridZ\">-</td></tr>\n" +
-                "		<tr><td>j: </td><td id=\"gridX\">-</td></tr>\n" +
-                "		<tr><td>value: </td><td id=\"gridY\">-</td></tr>\n" +
-                "		<tr><td></td><td id=\"gridValue\"></td></tr>\n" +
-                "	</table>\n" +
-                "</div>");
                 lDat.write("</body>");
                 lDat.newLine();
                 lDat.write("</html>");
