@@ -798,10 +798,22 @@ public class IoElevationGridWriter extends IoAbstractWriter {
             lDat.write("</X3D>");
             lDat.newLine();
             if (isX3dom) {
-                lDat.write("<div id='insert'></div>");
+                lDat.write("<div style=\"position:absolute;left:1000px;top:100px;width:200px\">\n" +
+                "	<h3>Click coordinates:</h3>\n" +
+                "	<table style=\"font-size:1em;\">\n" +
+                "		<tr><td>X: </td><td id=\"coordX\">-</td></tr>\n" +
+                "		<tr><td>Y: </td><td id=\"coordY\">-</td></tr>\n" +
+                "		<tr><td>Z: </td><td id=\"coordZ\">-</td></tr>\n" +
+                "		<tr><td>i: </td><td id=\"gridZ\">-</td></tr>\n" +
+                "		<tr><td>j: </td><td id=\"gridX\">-</td></tr>\n" +
+                "		<tr><td>value: </td><td id=\"gridY\">-</td></tr>\n" +
+                "		<tr><td></td><td id=\"gridValue\"></td></tr>\n" +
+                "	</table>\n" +
+                "</div>");
                 lDat.write("</body>");
                 lDat.newLine();
                 lDat.write("</html>");
+                lDat.newLine();
             }
             lDat.close();
         }
