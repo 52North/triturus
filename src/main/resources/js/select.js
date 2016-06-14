@@ -31,16 +31,16 @@ function findNeighbours(point) {
 }
 
 window.onload = function(){
-	var grid = document.getElementById("grid");
-    var lExageration = 7.0;
-    var height = grid.height;
-    var columns = parseInt(grid.xDimension);
-    var cellColumnSize = parseInt(grid.xSpacing);
-    var rows = parseInt(grid.zDimension);
-    var cellRowSize = parseInt(grid.zSpacing);
+	this.grid = document.getElementById("grid");
+    this.lExageration = 7.0;
+    this.height = grid.height;
+    this.columns = parseInt(grid.xDimension);
+    this.cellColumnSize = parseInt(grid.xSpacing);
+    this.rows = parseInt(grid.zDimension);
+    this.cellRowSize = parseInt(grid.zSpacing);
     height = height.split(" ");
-    var result = height.map(Number);
-    var array = [];
+    this.result = height.map(Number);
+    this.array = [];
     while (result.length > 0) array.push(result.splice(0, columns));
 	
 	document.getElementById("insert").innerHTML = '\
