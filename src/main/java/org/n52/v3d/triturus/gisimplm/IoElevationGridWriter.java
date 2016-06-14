@@ -734,6 +734,8 @@ public class IoElevationGridWriter extends IoAbstractWriter {
                 lDat.newLine();
                 lDat.write("<script type=\"text/javascript\" src=\"https://cdn.rawgit.com/kamakshidasan/triturus/triturus-adhitya/src/main/resources/js/x3dom-full.js\"></script>");
                 lDat.newLine();
+                lDat.write("<script type=\"text/javascript\" src=\"https://cdn.rawgit.com/kamakshidasan/triturus/triturus-adhitya/src/main/resources/js/select.js\"></script>");
+                lDat.newLine();
                 lDat.write("</head>");
                 lDat.newLine();
                 lDat.write("<body>");
@@ -795,8 +797,8 @@ public class IoElevationGridWriter extends IoAbstractWriter {
             lDat.newLine();
             lDat.write("</X3D>");
             lDat.newLine();
-            lDat.newLine();
             if (isX3dom) {
+                lDat.write("<div id='insert'></div>");
                 lDat.write("</body>");
                 lDat.newLine();
                 lDat.write("</html>");
