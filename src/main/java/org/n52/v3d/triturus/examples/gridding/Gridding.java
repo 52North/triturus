@@ -45,10 +45,10 @@ import java.util.ArrayList;
 public class Gridding {
 
     private String inputPath = "data/test.xyz";
-    private String outputPath = "data/test.x3d";
+    private String outputPath = "data/test.html";
     private double cellSize = 50.0;
     private short weightFunction = 1;
-    private String outputFormat = IoElevationGridWriter.X3D;
+    private String outputFormat = IoElevationGridWriter.X3DOM;
 
     public void setInputPath(String inputPath) {
         this.inputPath = inputPath;
@@ -92,6 +92,7 @@ public class Gridding {
         ArrayList lPointList;
 
         try {
+            // This returns an Arraylist with all points transformed as GmPoints inside it
             lPointList = lReader.readFromFile(inputPath);
             
             int N = lPointList.size();
@@ -103,7 +104,7 @@ public class Gridding {
                     lEnv.letContainPoint((GmPoint) lPointList.get(i));
                 }
                 System.out.println("Bounding-box: " + lEnv.toString());
-
+                
                 int nx = (int) Math.ceil(lEnv.getExtentX() / cellSize) + 1;
                 int ny = (int) Math.ceil(lEnv.getExtentY() / cellSize) + 1;
                 System.out.println("A lattice consisting of " + nx + " x " + ny + " elements will be set-up...");
@@ -117,7 +118,7 @@ public class Gridding {
 
                 FltPointSet2ElevationGrid lGridder = new FltPointSet2ElevationGrid(lGeom, weightFunction, searchRadius);
                 System.out.println("Amount of heap-space required: "
-                        + (lGridder.estimateMemoryConsumption() / 1000) + " KBytes");
+                        + (lGridder.estimateMemoryConsumption() / 1024) + " KBytes");
                 System.out.println("# points inside search-circle: " + lGridder.numberOfPointsInSearchCircle());
 
                 System.out.println("Starting gridding for " + lPointList.size() + " input points...");

@@ -730,9 +730,11 @@ public class IoElevationGridWriter extends IoAbstractWriter {
                 lDat.newLine();
                 lDat.write("<head>");
                 lDat.newLine();
-                lDat.write("<link rel=\"stylesheet\" type=\"text/css\" href=\"https://cdn.rawgit.com/kamakshidasan/triturus/triturus-adhitya/src/main/resources/css/x3dom.css\" />");
+                lDat.write("<link rel=\"stylesheet\" type=\"text/css\" href=\"https://rawgit.com/kamakshidasan/triturus/master/src/main/resources/css/x3dom.css\" />");
                 lDat.newLine();
-                lDat.write("<script type=\"text/javascript\" src=\"https://cdn.rawgit.com/kamakshidasan/triturus/triturus-adhitya/src/main/resources/js/x3dom-full.js\"></script>");
+                lDat.write("<script type=\"text/javascript\" src=\"https://rawgit.com/kamakshidasan/triturus/master/src/main/resources/js/x3dom-full.js\"></script>");
+                lDat.newLine();
+                lDat.write("<script type=\"text/javascript\" src=\"https://rawgit.com/kamakshidasan/triturus/master/src/main/resources/js/select.js\"></script>");
                 lDat.newLine();
                 lDat.write("</head>");
                 lDat.newLine();
@@ -757,7 +759,7 @@ public class IoElevationGridWriter extends IoAbstractWriter {
             lDat.write("\" centerOfRotation=\"" + px + " " + (lExaggeration * pz) + " " + py + "\"></Viewpoint>");
             lDat.newLine();
 
-            lDat.write("    <Shape>");
+            lDat.write("    <Shape onclick=\"handleClick(event)\">");
             lDat.newLine();
             lDat.write("      <Appearance>");
             lDat.newLine();
@@ -765,7 +767,7 @@ public class IoElevationGridWriter extends IoAbstractWriter {
             lDat.newLine();
             lDat.write("      </Appearance>");
             lDat.newLine();
-            lDat.write("      <ElevationGrid solid=\"false\"");
+            lDat.write("      <ElevationGrid id=\"grid\" solid=\"false\"");
 
             // Grid parameters:
             lDat.write(" xDimension=\"" + lGeom.numberOfColumns());
@@ -795,11 +797,13 @@ public class IoElevationGridWriter extends IoAbstractWriter {
             lDat.newLine();
             lDat.write("</X3D>");
             lDat.newLine();
-            lDat.newLine();
             if (isX3dom) {
+                lDat.write("<div id=\"insert\"></div>");
+                lDat.newLine();
                 lDat.write("</body>");
                 lDat.newLine();
                 lDat.write("</html>");
+                lDat.newLine();
             }
             lDat.close();
         }
