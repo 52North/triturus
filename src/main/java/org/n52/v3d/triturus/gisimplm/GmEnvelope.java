@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2007-2015 52°North Initiative for Geospatial Open Source
+ * Copyright (C) 2007-2016 52 North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it
@@ -18,16 +18,17 @@
  *
  * Therefore the distribution of the program linked with libraries licensed
  * under the aforementioned licenses, is permitted by the copyright holders
- * if the distribution is compliant with both the GNU General Public
- * icense version 2 and the aforementioned licenses.
+ * if the distribution is compliant with both the GNU General Public License 
+ * version 2 and the aforementioned licenses.
  *
  * This program is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
- * Public License for more details.
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY 
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License 
+ * for more details.
  *
- * Contact: Benno Schmidt & Martin May, 52 North Initiative for Geospatial Open Source
- * Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, Germany, info@52north.org
+ * Contact: Benno Schmidt and Martin May, 52 North Initiative for Geospatial 
+ * Open Source Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, 
+ * Germany, info@52north.org
  */
 package org.n52.v3d.triturus.gisimplm;
 
@@ -40,23 +41,23 @@ import org.n52.v3d.triturus.vgis.VgPolygon;
 
 /**
  * 3D-Bounding-box (<i>envelope</i>) implementation. Object information will be
- * kept in main memory.<br />
- * x- and y-values have to be given with respect to the spatial reference system
- * (SRS) that has been set for the geometric object. The assertions
+ * kept in main memory. x- and y-values have to be given with respect to the 
+ * spatial reference system (CRS) that has been set for the geometric object. 
+ * The assertions
  * <tt>env.getMinX() &lt;= env.getMaxX()</tt>,
  * <tt>env.getMinY() &lt;= env.getMaxY()</tt> and
  * <tt>env.getMinZ() &lt;= env.getMaxZ()</tt> always hold.
- * <p>
  * 
  * @author Benno Schmidt
  */
-public class GmEnvelope extends VgEnvelope {
+public class GmEnvelope extends VgEnvelope 
+{
 	private double mXMin, mXMax, mYMin, mYMax, mZMin, mZMax;
 
 	/**
 	 * Constructor.
 	 * 
-	 * @param pXMin
+	 * @param pXMin 
 	 *            minimal x-value
 	 * @param pXMax
 	 *            maximal x-value
@@ -69,8 +70,11 @@ public class GmEnvelope extends VgEnvelope {
 	 * @param pZMax
 	 *            maximal z-value
 	 */
-	public GmEnvelope(double pXMin, double pXMax, double pYMin, double pYMax,
-			double pZMin, double pZMax) {
+	public GmEnvelope(
+			double pXMin, double pXMax, 
+			double pYMin, double pYMax,
+			double pZMin, double pZMax) 
+	{
 		mXMin = pXMin;
 		mXMax = pXMax;
 		mYMin = pYMin;
@@ -82,13 +86,14 @@ public class GmEnvelope extends VgEnvelope {
 	}
 
 	/**
-	 * Constructor. The geometry of the bounding-box <tt>pEnv</tt> will be taken
-	 * over.
+	 * Constructor. The geometry of the bounding-box <tt>pEnv</tt> will be copied
+	 * to <tt>this</tt> object.
 	 * 
 	 * @param pEnv
-	 *            Envelope holding geometry to be taken over
+	 *            Envelope geometry to be copied
 	 */
-	public GmEnvelope(VgEnvelope pEnv) {
+	public GmEnvelope(VgEnvelope pEnv) 
+	{
 		mXMin = pEnv.getXMin();
 		mXMax = pEnv.getXMax();
 		mYMin = pEnv.getYMin();
@@ -106,7 +111,8 @@ public class GmEnvelope extends VgEnvelope {
 	 * @param pPnt
 	 *            Point geometry
 	 */
-	public GmEnvelope(VgPoint pPnt) {
+	public GmEnvelope(VgPoint pPnt) 
+	{
 		this.setSRS(pPnt.getSRS());
 
 		mXMin = pPnt.getX();
@@ -118,7 +124,7 @@ public class GmEnvelope extends VgEnvelope {
 	}
 
 	/**
-	 * Constructor. The geometry havwe to be specified by two opposite
+	 * Constructor. The geometry have to be specified by two opposite
 	 * corner-points (e.g., &quot;lower left bottom&quot; and &quot;upper right
 	 * top&quot;).
 	 * 
@@ -127,7 +133,8 @@ public class GmEnvelope extends VgEnvelope {
 	 * @param pPnt2
 	 *            second corner
 	 */
-	public GmEnvelope(VgPoint pPnt1, VgPoint pPnt2) {
+	public GmEnvelope(VgPoint pPnt1, VgPoint pPnt2) 
+	{
 		this.setSRS(pPnt1.getSRS());
 		this.assertSRS(pPnt2);
 
@@ -153,7 +160,8 @@ public class GmEnvelope extends VgEnvelope {
 	 * @param pDepth
 	 *            Depth (y-direction)
 	 */
-	public GmEnvelope(VgPoint pCenter, double pWidth, double pDepth) {
+	public GmEnvelope(VgPoint pCenter, double pWidth, double pDepth) 
+	{
 		mXMin = pCenter.getX() - pWidth / 2.;
 		mXMax = pCenter.getX() + pWidth / 2.;
 		mYMin = pCenter.getY() - pDepth / 2.;
@@ -161,7 +169,7 @@ public class GmEnvelope extends VgEnvelope {
 		mZMin = pCenter.getZ();
 		mZMax = pCenter.getZ();
 
-		// this.assureOrdering(); hier nicht n�tig
+		// this.assureOrdering(); not needed here
 	}
 
 	/**
@@ -178,7 +186,8 @@ public class GmEnvelope extends VgEnvelope {
 	 * @param pCommaSeparatedList
 	 *            List consisting of 4 or 6 coordinate-values
 	 */
-	public GmEnvelope(String pCommaSeparatedList) {
+	public GmEnvelope(String pCommaSeparatedList) 
+	{
 		String[] coords = pCommaSeparatedList.split(",");
 		if (coords.length != 4 && coords.length != 6)
 			throw new T3dException("Cannot parse geo-coordinates from \""
@@ -191,7 +200,8 @@ public class GmEnvelope extends VgEnvelope {
 			mYMax = Double.parseDouble(coords[3]);
 			mZMin = 0.;
 			mZMax = 0.;
-		} else { // coords.length = 6
+		} 
+		else { // coords.length = 6
 			mXMin = Double.parseDouble(coords[0]);
 			mXMax = Double.parseDouble(coords[3]);
 			mYMin = Double.parseDouble(coords[1]);
@@ -204,10 +214,10 @@ public class GmEnvelope extends VgEnvelope {
 	}
 
 	/**
-	 * sets the bounding-box's minimal x-coordinate.<br />
-	 * After method execution it is not asserted that the condition
-	 * <i>env.getXMin() &lt;= env.getXMax()</i> holds. If necessary, the method
-	 * <tt>assureOrdering()</tt> has to be called explicitly!
+	 * sets the bounding-box's minimal x-coordinate. After method execution it is 
+	 * not asserted that the condition <i>env.getXMin() &lt;= env.getXMax()</i> 
+	 * holds. If necessary, the method <tt>assureOrdering()</tt> has to be called 
+	 * explicitly!
 	 * 
 	 * @param pX
 	 *            x-coordinate referring to the set spatial reference system
@@ -221,10 +231,10 @@ public class GmEnvelope extends VgEnvelope {
 	}
 
 	/**
-	 * sets the bounding-box's maximal x-coordinate. After method execution it
-	 * is not asserted that the condition <i>env.getXMin() &lt;=
-	 * env.getXMax()</i> holds. If necessary, the method
-	 * <tt>assureOrdering()</tt> has to be called explicitly!
+	 * sets the bounding-box's maximal x-coordinate. After method execution it is 
+	 * not asserted that the condition <i>env.getXMin() &lt;= env.getXMax()</i> 
+	 * holds. If necessary, the method <tt>assureOrdering()</tt> has to be called 
+	 * explicitly!
 	 * 
 	 * @param pX
 	 *            x-coordinate referring to the set spatial reference system
@@ -238,10 +248,10 @@ public class GmEnvelope extends VgEnvelope {
 	}
 
 	/**
-	 * sets the bounding-box's minimal y-coordinate. After method execution it
-	 * is not asserted that the condition <i>env.getXMin() &lt;=
-	 * env.getXMax()</i> holds. If necessary, the method
-	 * <tt>assureOrdering()</tt> has to be called explicitly!
+	 * sets the bounding-box's minimal y-coordinate. After method execution it is 
+	 * not asserted that the condition <i>env.getXMin() &lt;= env.getXMax()</i> 
+	 * holds. If necessary, the method <tt>assureOrdering()</tt> has to be called 
+	 * explicitly!
 	 * 
 	 * @param pY
 	 *            y-coordinate referring to the set spatial reference system
@@ -255,10 +265,10 @@ public class GmEnvelope extends VgEnvelope {
 	}
 
 	/**
-	 * sets the bounding-box's maximal y-coordinate. After method execution it
-	 * is not asserted that the condition <i>env.getXMin() &lt;=
-	 * env.getXMax()</i> holds. If necessary, the method
-	 * <tt>assureOrdering()</tt> has to be called explicitly!
+	 * sets the bounding-box's maximal y-coordinate. After method execution it is 
+	 * not asserted that the condition <i>env.getXMin() &lt;= env.getXMax()</i> 
+	 * holds. If necessary, the method <tt>assureOrdering()</tt> has to be called 
+	 * explicitly!
 	 * 
 	 * @param pY
 	 *            y-coordinate referring to the set spatial reference system
@@ -272,10 +282,10 @@ public class GmEnvelope extends VgEnvelope {
 	}
 
 	/**
-	 * sets the bounding-box's minimal z-coordinate. After method execution it
-	 * is not asserted that the condition <i>env.getXMin() &lt;=
-	 * env.getXMax()</i> holds. If necessary, the method
-	 * <tt>assureOrdering()</tt> has to be called explicitly!
+	 * sets the bounding-box's minimal z-coordinate. After method execution it is 
+	 * not asserted that the condition <i>env.getXMin() &lt;= env.getXMax()</i> 
+	 * holds. If necessary, the method <tt>assureOrdering()</tt> has to be called 
+	 * explicitly!
 	 * 
 	 * @param pZ
 	 *            z-coordinate
@@ -289,10 +299,10 @@ public class GmEnvelope extends VgEnvelope {
 	}
 
 	/**
-	 * sets the bounding-box's maximal z-coordinate. After method execution it
-	 * is not asserted that the condition <i>env.getXMin() &lt;=
-	 * env.getXMax()</i> holds. If necessary, the method
-	 * <tt>assureOrdering()</tt> has to be called explicitly!
+	 * sets the bounding-box's maximal z-coordinate. After method execution it is 
+	 * not asserted that the condition <i>env.getXMin() &lt;= env.getXMax()</i> 
+	 * holds. If necessary, the method <tt>assureOrdering()</tt> has to be called 
+	 * explicitly!
 	 * 
 	 * @param pZ
 	 *            z-coordinate
@@ -310,7 +320,8 @@ public class GmEnvelope extends VgEnvelope {
 	 * 
 	 * @return <tt>GmPoint</tt> with minimum x-, y- and z-value
 	 */
-	public VgPoint getLowerLeftFrontCorner() {
+	public VgPoint getLowerLeftFrontCorner() 
+	{
 		VgPoint ret = new GmPoint(mXMin, mYMin, mZMin);
 		ret.setSRS(this.getSRS());
 		return ret;
@@ -321,7 +332,8 @@ public class GmEnvelope extends VgEnvelope {
 	 * 
 	 * @return <tt>GmPoint</tt> with maximum x-, y- and z-value
 	 */
-	public VgPoint getUpperRightBackCorner() {
+	public VgPoint getUpperRightBackCorner() 
+	{
 		VgPoint ret = new GmPoint(mXMax, mYMax, mZMax);
 		ret.setSRS(this.getSRS());
 		return ret;
@@ -332,12 +344,17 @@ public class GmEnvelope extends VgEnvelope {
 				0.5 * (mZMin + mZMax));
 	}
 
-	public void setCenterPoint(VgPoint pCenter) {
+	public void setCenterPoint(VgPoint pCenter) 
+	{
 		double mx = (this.getXMax() + this.getXMin()) / 2.;
 		double my = (this.getYMax() + this.getYMin()) / 2.;
 		double mz = (this.getZMax() + this.getZMin()) / 2.;
-		GmPoint delta = new GmPoint(pCenter.getX() - mx, pCenter.getY() - my,
+	
+		GmPoint delta = new GmPoint(
+				pCenter.getX() - mx, 
+				pCenter.getY() - my,
 				pCenter.getZ() - mz);
+		
 		this.translate(delta);
 	}
 
@@ -350,18 +367,16 @@ public class GmEnvelope extends VgEnvelope {
 	 * @return rotated &quot;bounding-box&quot; (which is no bounding-box any
 	 *         more) as polygon
 	 */
-	public VgPolygon rotateXY(double pAzimuth) {
+	public VgPolygon rotateXY(double pAzimuth) 
+	{
 		double cx = this.getCenterPoint().getX();
 		double cy = this.getCenterPoint().getY();
+	
 		GmLinearRing ret = new GmLinearRing();
-		T3dVector p1 = new T3dVector(this.getXMin() - cx, this.getYMin() - cy,
-				0.);
-		T3dVector p2 = new T3dVector(this.getXMax() - cx, this.getYMin() - cy,
-				0.);
-		T3dVector p3 = new T3dVector(this.getXMax() - cx, this.getYMax() - cy,
-				0.);
-		T3dVector p4 = new T3dVector(this.getXMin() - cx, this.getYMax() - cy,
-				0.);
+		T3dVector p1 = new T3dVector(this.getXMin() - cx, this.getYMin() - cy, 0.);
+		T3dVector p2 = new T3dVector(this.getXMax() - cx, this.getYMin() - cy, 0.);
+		T3dVector p3 = new T3dVector(this.getXMax() - cx, this.getYMax() - cy, 0.);
+		T3dVector p4 = new T3dVector(this.getXMin() - cx, this.getYMax() - cy, 0.);
 		T3dVector q1 = p1.rotateXY(pAzimuth);
 		T3dVector q2 = p2.rotateXY(pAzimuth);
 		T3dVector q3 = p3.rotateXY(pAzimuth);
@@ -375,26 +390,24 @@ public class GmEnvelope extends VgEnvelope {
 
 	/**
 	 * returns a bounding-box that has been rotated around the
-	 * coordinate-system's origin (0, 0, 0) with respect to the z-axis. TODO:
-	 * Methode ist noch nicht getestet
+	 * coordinate-system's origin (0, 0, 0) with respect to the z-axis. 
+	 * TODO: This method has not been tested yet!
 	 * 
 	 * @param pInclination
 	 *            Rotation angle in radians
 	 * @return rotated &quot;bounding-box&quot; (which is no bounding-box any
 	 *         more) as polygon
 	 */
-	public VgPolygon rotateZ(double pInclination) {
+	public VgPolygon rotateZ(double pInclination) 
+	{
 		double cx = this.getCenterPoint().getX();
 		double cy = this.getCenterPoint().getY();
+	
 		GmLinearRing ret = new GmLinearRing();
-		T3dVector p1 = new T3dVector(this.getXMin() - cx, this.getYMin() - cy,
-				0.);
-		T3dVector p2 = new T3dVector(this.getXMax() - cx, this.getYMin() - cy,
-				0.);
-		T3dVector p3 = new T3dVector(this.getXMax() - cx, this.getYMax() - cy,
-				0.);
-		T3dVector p4 = new T3dVector(this.getXMin() - cx, this.getYMax() - cy,
-				0.);
+		T3dVector p1 = new T3dVector(this.getXMin() - cx, this.getYMin() - cy, 0.);
+		T3dVector p2 = new T3dVector(this.getXMax() - cx, this.getYMin() - cy, 0.);
+		T3dVector p3 = new T3dVector(this.getXMax() - cx, this.getYMax() - cy, 0.);
+		T3dVector p4 = new T3dVector(this.getXMin() - cx, this.getYMax() - cy, 0.);
 		T3dVector q1 = p1.rotateZ(pInclination);
 		T3dVector q2 = p2.rotateZ(pInclination);
 		T3dVector q3 = p3.rotateZ(pInclination);
@@ -408,10 +421,10 @@ public class GmEnvelope extends VgEnvelope {
 
 	public void letContainEnvelope(VgEnvelope pEnv) {
 		this.assertSRS(pEnv);
-		this.letContainPoint(new GmPoint(pEnv.getXMin(), pEnv.getYMin(), pEnv
-				.getZMin()));
-		this.letContainPoint(new GmPoint(pEnv.getXMax(), pEnv.getYMax(), pEnv
-				.getZMax()));
+		this.letContainPoint(new GmPoint(
+				pEnv.getXMin(), pEnv.getYMin(), pEnv.getZMin()));
+		this.letContainPoint(new GmPoint(
+				pEnv.getXMax(), pEnv.getYMax(), pEnv.getZMax()));
 	}
 
 	public VgEnvelope envelope() {

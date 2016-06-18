@@ -34,46 +34,81 @@ package org.n52.v3d.triturus.examples.gridding;
 
 import org.n52.v3d.triturus.core.T3dException;
 import org.n52.v3d.triturus.gisimplm.*;
+import org.n52.v3d.triturus.vgis.VgPoint;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
- * Triturus example application: Reads point coordinates from an ASCII file and
- * constructs an elevation-grid (lattice model).
+ * Triturus example application: Reads point coordinates from an ASCII file, 
+ * constructs an elevation-grid (lattice model), and writes the result to a 
+ * X3DOM scene.
  *
  * @author Benno Schmidt, Adhitya Kamakshidasan
  */
-public class Gridding {
-
-    private String inputPath = "data/test.xyz";
-    private String outputPath = "data/test.html";
+public class Gridding 
+{
+    private String inputFile = "data/test.xyz";
+    private String outputFile = "data/test.html";
     private double cellSize = 50.;
-    private short weightFunction = 1;
+    private short samplingMethod = 1;
     private String outputFormat = IoElevationGridWriter.X3DOM;
 
     
     public static void main(String args[]){
-        Gridding gridding = new Gridding();
-        gridding.performGridding();
+        Gridding app = new Gridding();
+
+        List<VgPoint> points = app.readPointCloud();
+        GmSimpleElevationGrid elevGrid = app.performGridding(points);
+        app.writeOutputFile(elevGrid);
     }
 
-    public void setInputPath(String inputPath) {
-        this.inputPath = inputPath;
+    /**
+     * sets the input file.
+     * 
+     * @param inputFile File name (optionally including file path)
+     */
+    public void setInputFile(String inputFile) {
+        this.inputFile = inputFile;
     }
 
-    public String getInputPath() {
-        return this.inputPath;
+    public String getInputFile() {
+        return this.inputFile;
     }
 
-    public void setOutputPath(String outputPath) {
-        this.outputPath = outputPath;
-    }
+    /**
+     * reads point data from the specified input file.
+     *  
+     * @return List of {@link VgPoint}-objects 
+     * @see {@link this#setInputFile(String)}
+     */
+    public List<VgPoint> readPointCloud() 
+    {
+        IoPointListReader reader = new IoPointListReader("Plain");
 
-    public String getOutputPath() {
-        return this.outputPath;
+        ArrayList<VgPoint> pointList = null;
+
+        try {
+            pointList = reader.readFromFile(inputFile);
+            int N = pointList.size();
+            System.out.println("Number of read points: " + N);
+        }
+        catch (T3dException e) {
+            e.printStackTrace();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }    
+        
+        return pointList;
     }
-    
-    public void setCellSize(double cellSize){
+       
+    /**
+     * sets the cell size of the elevation grid to be set up.
+     * 
+     * @param cellSize Grid cell size
+     */
+    public void setCellSize(double cellSize) {
         this.cellSize = cellSize;
     }
     
@@ -81,65 +116,75 @@ public class Gridding {
         return cellSize;
     }
     
-    public void setWeightFunction(short weightFunction){
-        this.weightFunction = weightFunction;
+    /**
+     * sets the sampling method to be used. Default-value is 
+     * {@link FltPointSet2ElevationGrid.cNearestNeighbor}.
+     * 
+     * @param samplingMethod Sampling method identifier
+     */
+    public void setSamplingMethod(short samplingMethod) {
+        this.samplingMethod = samplingMethod;
     }
     
-    public short getWeightFunction(){
-        return weightFunction;
+    public short getSamplingMethod(){
+        return samplingMethod;
     }
     
-    public void setOutputFormat(String outputFormat){
+    /**
+     * sets the format to be used for file output.  
+     * 
+     * @param outputFormat File format type identifier
+     * @see IoElevationGridWriter
+     */
+    public void setOutputFormat(String outputFormat) {
         this.outputFormat = outputFormat;
     }
 
-    public void performGridding() {
-        IoPointListReader lReader = new IoPointListReader("Plain");
-
-        ArrayList lPointList;
-
+    /**
+     * performs gridding.  
+     * 
+     * @param pointList List of {@link VgPoint}s
+     * @return 
+     */
+    public GmSimpleElevationGrid performGridding(List<VgPoint> pointList) 
+    {
+    	GmSimpleElevationGrid resGrid = null;
+    	
         try {
-            // This returns an ArrayList with all points transformed as GmPoints inside it
-            lPointList = lReader.readFromFile(inputPath);
-            
-            int N = lPointList.size();
-            System.out.println("Number of read points: " + N);
-
+            int N = pointList.size();
             if (N > 0) {
-                GmEnvelope lEnv = new GmEnvelope((GmPoint) lPointList.get(0));
+                GmEnvelope env = new GmEnvelope((GmPoint) pointList.get(0));
                 for (int i = 1; i < N; i++) {
-                    lEnv.letContainPoint((GmPoint) lPointList.get(i));
+                    env.letContainPoint((GmPoint) pointList.get(i));
                 }
-                System.out.println("Bounding-box: " + lEnv.toString());
+                System.out.println("Bounding-box: " + env.toString());
                 
-                int nx = (int) Math.ceil(lEnv.getExtentX() / cellSize) + 1;
-                int ny = (int) Math.ceil(lEnv.getExtentY() / cellSize) + 1;
-                System.out.println("A lattice consisting of " + nx + " x " + ny + " elements will be set-up...");
-                GmSimple2dGridGeometry lGeom = new GmSimple2dGridGeometry(
-                        nx, ny,
-                        new GmPoint(lEnv.getXMin(), lEnv.getYMin(), 0.), // lower left corner
-                        cellSize, cellSize); // Cell-sizes in x- and y-direction
+                int nx = (int) Math.ceil(env.getExtentX() / cellSize) + 1;
+                int ny = (int) Math.ceil(env.getExtentY() / cellSize) + 1;
+                System.out.println("A lattice consisting of " + 
+                	nx + " x " + ny + " elements will be set-up...");
+                GmSimple2dGridGeometry geom = new GmSimple2dGridGeometry(
+                    nx, ny,
+                    new GmPoint(env.getXMin(), env.getYMin(), 0.), // lower left corner
+                    cellSize, cellSize); // Cell-sizes in x- and y-direction
 
                 double searchRadius = 0.9 * cellSize; // well...
                 System.out.println("Search radius: " + searchRadius);
 
-                FltPointSet2ElevationGrid lGridder = new FltPointSet2ElevationGrid(lGeom, weightFunction, searchRadius);
-                System.out.println("Amount of heap-space required: "
-                        + (lGridder.estimateMemoryConsumption() / 1024) + " KBytes");
-                System.out.println("# points inside search-circle: " + lGridder.numberOfPointsInSearchCircle());
+                FltPointSet2ElevationGrid gridder = 
+                	new FltPointSet2ElevationGrid(geom, samplingMethod, searchRadius);
 
-                System.out.println("Starting gridding for " + lPointList.size() + " input points...");
-                GmSimpleElevationGrid lResGrid = lGridder.transform(lPointList);
+                System.out.println("Amount of heap-space required: " +
+                	(gridder.estimateMemoryConsumption() / 1000) + " KBytes");
+                System.out.println("# points inside search-circle: " + 
+                	gridder.numberOfPointsInSearchCircle());
+                System.out.println("Starting gridding for " + N + " input points...");
+                
+                resGrid = gridder.transform(pointList);
 
-                if (!lResGrid.isSet()) {
+                if (!resGrid.isSet()) {
                     System.out.println("Could not assign values to all lattice points!");
                 }
-
-                System.out.println("Writing result file...");
-                IoElevationGridWriter lGridWriter = new IoElevationGridWriter(outputFormat);
-                lGridWriter.writeToFile(lResGrid, outputPath);
-                
-                System.out.println("Success!");
             }
         }
         catch (T3dException e) {
@@ -148,5 +193,42 @@ public class Gridding {
         catch (Exception e) {
             e.printStackTrace();
         }
-    }    
+
+        return resGrid;
+    }
+    
+    /**
+     * sets the output file name.
+     * 
+     * @param outputPath File name (optionally including file path)
+     */
+    public void setOutputFile(String outputFile) {
+        this.outputFile = outputFile;
+    }
+
+    public String getOutputFile() {
+        return this.outputFile;
+    }
+
+    /**
+     * 
+     * @param elevGrid
+     */
+    public void writeOutputFile(GmSimpleElevationGrid elevGrid) {
+        try {
+            System.out.println("Writing result file...");
+
+            IoElevationGridWriter gridWriter 
+            	= new IoElevationGridWriter(outputFormat);
+            gridWriter.writeToFile(elevGrid, outputFile);
+            
+            System.out.println("Success!");
+        }
+        catch (T3dException e) {
+            e.printStackTrace();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
