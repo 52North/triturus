@@ -376,7 +376,7 @@ public class IoElevationGridWriter extends IoAbstractWriter
             for (int j = 0; j < lGeom.numberOfColumns(); j++) {
                 for (int i = 0; i < lGeom.numberOfRows(); i++) 
                 {
-                    GmPoint pt = new GmPoint(lGeom.getVertexCoordinate(i, j));
+                    GmPoint pt = new GmPoint(lGeom.getVertexPoint(i, j));
                     
                     lDat.write(dfXY.format(pt.getX()) + " " + dfXY.format(pt.getY()));
                     lDat.write(" " + dfZ.format(pGrid.getValue(i, j)));
@@ -480,7 +480,7 @@ public class IoElevationGridWriter extends IoAbstractWriter
             for (int j = 0; j < lGeom.numberOfColumns(); j++) {
                 for (int i = 0; i < lGeom.numberOfRows(); i++) 
                 {
-                    GmPoint pt = new GmPoint(lGeom.getVertexCoordinate(i, j));
+                    GmPoint pt = new GmPoint(lGeom.getVertexPoint(i, j));
                     lDat.write("        " 
                     		+ dfXY.format(pt.getX()) + " " 
                     		+ dfXY.format(pt.getY()) + " " 
@@ -790,8 +790,8 @@ public class IoElevationGridWriter extends IoAbstractWriter
             lDat.newLine();
 
             // DEM center point:
-            double px = lGeom.numberOfColumns() / 2. * lGeom.getCellSizeColumns();
-            double py = lGeom.numberOfRows() / 2. * lGeom.getCellSizeRows();
+            double px = lGeom.numberOfColumns() / 2. * lGeom.getDeltaX();
+            double py = lGeom.numberOfRows() / 2. * lGeom.getDeltaY();
             double pz = (pGrid.maximalElevation() + pGrid.minimalElevation()) / 2.;
 
             // Camera position and rotation point:
@@ -814,9 +814,9 @@ public class IoElevationGridWriter extends IoAbstractWriter
 
             // Grid parameters:
             lDat.write(" xDimension=\"" + lGeom.numberOfColumns());
-            lDat.write("\" xSpacing=\"" + lGeom.getCellSizeColumns());
+            lDat.write("\" xSpacing=\"" + lGeom.getDeltaX());
             lDat.write("\" zDimension=\"" + lGeom.numberOfRows());
-            lDat.write("\" zSpacing=\"" + lGeom.getCellSizeRows());
+            lDat.write("\" zSpacing=\"" + lGeom.getDeltaY());
             lDat.write("\"");
             lDat.newLine();
 
@@ -880,7 +880,7 @@ public class IoElevationGridWriter extends IoAbstractWriter
                 for (int i = 0; i < pGrid.numberOfRows(); i++) 
                 {
                     if (pGrid.isSet(i, j)) {
-                        VgPoint pt = lGeom.getVertexCoordinate(i, j);
+                        VgPoint pt = lGeom.getVertexPoint(i, j);
                         
                         lDat.write(
                                 dfXY.format(pt.getX()) + " " +
