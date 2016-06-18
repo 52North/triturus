@@ -144,7 +144,7 @@ public class Gridding
      * performs gridding.  
      * 
      * @param pointList List of {@link VgPoint}s
-     * @return 
+     * @return Elevation grid
      */
     public GmSimpleElevationGrid performGridding(List<VgPoint> pointList) 
     {
@@ -211,8 +211,11 @@ public class Gridding
     }
 
     /**
+     * writes elevation grid to the specified output.
      * 
-     * @param elevGrid
+     * @param elevGrid Elevation grid
+     * @see {@link this#setOutputFile(String)}
+     * @see {@link this#setOutputFormat(String)}
      */
     public void writeOutputFile(GmSimpleElevationGrid elevGrid) {
         try {
