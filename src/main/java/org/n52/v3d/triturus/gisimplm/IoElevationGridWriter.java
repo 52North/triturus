@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2007-2015 52°North Initiative for Geospatial Open Source
+ * Copyright (C) 2007-2016 52 North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it
@@ -18,16 +18,17 @@
  *
  * Therefore the distribution of the program linked with libraries licensed
  * under the aforementioned licenses, is permitted by the copyright holders
- * if the distribution is compliant with both the GNU General Public
- * icense version 2 and the aforementioned licenses.
+ * if the distribution is compliant with both the GNU General Public License 
+ * version 2 and the aforementioned licenses.
  *
  * This program is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
- * Public License for more details.
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY 
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License 
+ * for more details.
  *
- * Contact: Benno Schmidt & Martin May, 52 North Initiative for Geospatial Open Source
- * Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, Germany, info@52north.org
+ * Contact: Benno Schmidt and Martin May, 52 North Initiative for Geospatial 
+ * Open Source Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, 
+ * Germany, info@52north.org
  */
 package org.n52.v3d.triturus.gisimplm;
 
@@ -35,6 +36,7 @@ import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+
 import org.n52.v3d.triturus.core.T3dNotYetImplException;
 import org.n52.v3d.triturus.core.T3dException;
 import org.n52.v3d.triturus.vgis.VgPoint;
@@ -45,46 +47,52 @@ import java.text.DecimalFormat;
 
 /**
  * The <tt>IoElevationGridWriter</tt> provides methods to write elevation grids
- * (of type <tt>GmSimpleElevationGrid</tt>) to a file or stream. Various output
+ * (of type {@link GmSimpleElevationGrid} to a file or stream. Various output
  * formats such as VRML/X3D or ArcInfo ASCII grids are supported.
  *
  * @author Benno Schmidt
  */
-public class IoElevationGridWriter extends IoAbstractWriter {
-
+public class IoElevationGridWriter extends IoAbstractWriter 
+{	
     private String mLogString = "";
     private String mFormat;
 
     private int mNoDataValue = -9999;
     private MpHypsometricColor mHypsometricColMap = null;
+    private double mExaggeration = 1.;
 
+    
     /**
-     * Identifier to be used to process elevation-grids in ArcInfo ASCII grid
-     * format.
+     * File-format type identifier to be used for export in ArcInfo ASCII 
+     * grid format.
      */
     public static final String ARCINFO_ASCII_GRID = "ArcIGrd";
+    
     /**
-     * Identifier to be used to process elevation-grids in ACADGEO format.
+     * File-format type identifier to be used for export in ACADGEO format.
      */
     public static final String ACGEO = "AcGeo";
+    
     /**
-     * Identifier to be used to process elevation-grids in VRML 2 format.
+     * File-format type identifier to be used for VRML2 export.
      */
     public static final String VRML2 = "Vrml2";
+    
     /**
-     * Identifier to be used to process elevation-grids inX3D format.
+     * File-format type identifier to be used for X3D export.
      */
     public static final String X3D = "X3d";
-        /**
-     * Identifier to be used to process elevation-grids inX3DOM format.
-     */
-    public static final String X3DOM = "X3DOM";
-
+    
     /**
-     * Constructor. As a input parameter, the file format type identifier must
-     * be specified.
-     * <br />
-     * The supported formats are listed below:<br />
+     * File-format type identifier to be used for export to a 
+     * X3DOM description.
+     */
+    public static final String X3DOM = "X3Dom";
+
+    
+    /**
+     * Constructor. As an input parameter, the file format type identifier must
+     * be specified. The supported formats are listed below:<br />
      * <ul>
      * <li><i>ArcIGrd:</i> ArcInfo ASCII grids (cell-based)</li>
      * <li><i>AcGeo:</i> ACADGEO format, lattice without color information</li>
@@ -92,8 +100,8 @@ public class IoElevationGridWriter extends IoAbstractWriter {
      * <li><i>Vrml1:</i> VRML 1.0 scene (non-optimized triangle mesh)</li>
      * <li><i>Vrml2:</i> VRML 2.0 scene (type ElevationGrid)</li>
      * <li><i>X3d:</i> X3D scene</li>
-     * <li><i>XYZ:</i> plain ASCII-file with coordinates of the elevation
-     * points</li>
+     * <li><i>X3Dom:</i> HTML5 with embedded X3DOM description</li>
+     * <li><i>XYZ:</i> plain ASCII-file with coordinates of the elevation points</li>
      * </ul><p>
      * Notes:
      * <p>
@@ -106,15 +114,16 @@ public class IoElevationGridWriter extends IoAbstractWriter {
      * is used.<br />
      * 3. X3D-export is not georeferenced yet and implemented prototypical
      * only.<br />
-     * 4. To save the <tt>GmSimpleElevationGrid</tt>-object as GIF-image, the
-     * class <tt>IoElevationGridGIFWriter</tt>
-     * (see package <tt>org.n52.v3d.triturus.vispovray</tt>) might be suitable.
+     * 4. To save the {@link GmSimpleElevationGrid}-object as GIF-image, the
+     * class {@link org.n52.v3d.triturus.vispovray.IoElevationGridGIFWriter} 
+     * might be suitable.
      *
      * @param pFormat Format-string, e.g. <tt>&quot;ArcIGrd&quot;</tt>
      * @see IoElevationGridWriter#ARCINFO_ASCII_GRID
      * @see IoElevationGridWriter#ACGEO
      * @see IoElevationGridWriter#VRML2
      * @see IoElevationGridWriter#X3D
+     * @see IoElevationGridWriter#X3DOM
      */
     public IoElevationGridWriter(String pFormat) {
         mLogString = this.getClass().getName();
@@ -128,7 +137,7 @@ public class IoElevationGridWriter extends IoAbstractWriter {
     /**
      * sets the format type.
      *
-     * @param pFormat Format-string (e.g. <tt></tt>&quot;ArcIGrd&quot;</tt>)
+     * @param pFormat Format-string (e.g. <tt>&quot;ArcIGrd&quot;</tt>)
      * @see IoElevationGridWriter#ARCINFO_ASCII_GRID
      * @see IoElevationGridWriter#ACGEO
      * @see IoElevationGridWriter#VRML2
@@ -142,12 +151,13 @@ public class IoElevationGridWriter extends IoAbstractWriter {
      * writes an elevation-grid to a file.
      *
      * @param pGrid Elevation-Grid to be written
-     * @param pFilename File path
+     * @param pFilename File name (with path optionally)
      * @throws T3dException for framework-specific errors
-     * @throws T3dNotYetImplException if the called functionality has not been
-     * implemented yet
+     * @throws T3dNotYetImplException if the called functionality has not been implemented yet
      */
-    public void writeToFile(GmSimpleElevationGrid pGrid, String pFilename) throws T3dException, T3dNotYetImplException {
+    public void writeToFile(GmSimpleElevationGrid pGrid, String pFilename) 
+    		throws T3dException, T3dNotYetImplException 
+    {
         int i = 0;
         if (mFormat.equalsIgnoreCase(ARCINFO_ASCII_GRID)) {
             i = 1;
@@ -192,13 +202,13 @@ public class IoElevationGridWriter extends IoAbstractWriter {
                 this.writeVrml2(pGrid, pFilename);
                 break;
             case 6:
-                this.writeSimpleX3d(pGrid, pFilename,false);
+                this.writeSimpleX3d(pGrid, pFilename, false);
                 break;
             case 7:
                 this.writeAsciiXYZ(pGrid, pFilename);
                 break;
             case 8:
-                this.writeSimpleX3d(pGrid, pFilename,true);
+                this.writeSimpleX3d(pGrid, pFilename, true);
                 break;
             // --> add more types here...
 
@@ -207,7 +217,9 @@ public class IoElevationGridWriter extends IoAbstractWriter {
         }
     }
 
-    private void writeArcInfoAsciiGrid(GmSimpleElevationGrid pGrid, String pFilename) throws T3dException {
+    private void writeArcInfoAsciiGrid(GmSimpleElevationGrid pGrid, String pFilename) 
+    		throws T3dException 
+    {
         if (pGrid == null) {
             throw new T3dException("Grid information not available.");
         }
@@ -215,7 +227,8 @@ public class IoElevationGridWriter extends IoAbstractWriter {
         GmSimple2dGridGeometry lGeom = (GmSimple2dGridGeometry) pGrid.getGeometry();
 
         if (Math.abs((lGeom.getDeltaX() - lGeom.getDeltaY()) / lGeom.getDeltaX()) >= 0.001) {
-            throw new T3dException("ArcInfo ASCII grids require equal cell-sizes in x- and y-direction.");
+            throw new T3dException(
+            		"ArcInfo ASCII grids require equal cell-sizes in x- and y-direction.");
         }
 
         String mNoDataValueStr = "-9999";
@@ -233,10 +246,12 @@ public class IoElevationGridWriter extends IoAbstractWriter {
             lDat.write("nrows         " + lGeom.numberOfRows()); // line 2
             lDat.newLine();
             lDat.write("xllcorner     "); // line 3
-            lDat.write("" + (lGeom.envelope().getXMin() - lGeom.getDeltaX() / 2.)); // since this is a grid, not a lattice!
+            lDat.write("" + 
+            		(lGeom.envelope().getXMin() - lGeom.getDeltaX() / 2.)); // since this is a grid, not a lattice!
             lDat.newLine();
             lDat.write("yllcorner     "); // line 4
-            lDat.write("" + (lGeom.envelope().getYMin() - lGeom.getDeltaY() / 2.)); // since this is a grid, not a lattice!
+            lDat.write("" + 
+            		(lGeom.envelope().getYMin() - lGeom.getDeltaY() / 2.)); // since this is a grid, not a lattice!
             lDat.newLine();
             lDat.write("cellsize      " + lGeom.getDeltaX()); // line 5
             lDat.newLine();
@@ -280,7 +295,9 @@ public class IoElevationGridWriter extends IoAbstractWriter {
         mNoDataValue = pNoDataValue;
     }
 
-    private void writeAcadGeoGrid(GmSimpleElevationGrid pGrid, String pFilename) throws T3dException {
+    private void writeAcadGeoGrid(GmSimpleElevationGrid pGrid, String pFilename) 
+    		throws T3dException 
+    {
         try {
             BufferedWriter lDat = new BufferedWriter(new FileWriter(pFilename));
 
@@ -330,7 +347,9 @@ public class IoElevationGridWriter extends IoAbstractWriter {
         }
     } // writeAcadGeoGrid()
 
-    private void writeAcadGeoTIN(GmSimpleElevationGrid pGrid, String pFilename) throws T3dException {
+    private void writeAcadGeoTIN(GmSimpleElevationGrid pGrid, String pFilename) 
+    		throws T3dException 
+    {
         if (!pGrid.isSet()) {
             throw new T3dNotYetImplException("Can not write unset grid vertices yet!");
         }
@@ -355,8 +374,10 @@ public class IoElevationGridWriter extends IoAbstractWriter {
 
             // Write elevation-values for grid vertices:
             for (int j = 0; j < lGeom.numberOfColumns(); j++) {
-                for (int i = 0; i < lGeom.numberOfRows(); i++) {
+                for (int i = 0; i < lGeom.numberOfRows(); i++) 
+                {
                     GmPoint pt = new GmPoint(lGeom.getVertexCoordinate(i, j));
+                    
                     lDat.write(dfXY.format(pt.getX()) + " " + dfXY.format(pt.getY()));
                     lDat.write(" " + dfZ.format(pGrid.getValue(i, j)));
                     lDat.newLine();
@@ -370,7 +391,8 @@ public class IoElevationGridWriter extends IoAbstractWriter {
             // Write triangulation:
             int crn1, crn2, crn3, crn4;
             for (int j = 0; j <= lGeom.numberOfColumns() - 2; j++) {
-                for (int i = 0; i <= lGeom.numberOfRows() - 2; i++) {
+                for (int i = 0; i <= lGeom.numberOfRows() - 2; i++) 
+                {
                     crn1 = j * lGeom.numberOfRows() + i;
                     crn2 = (j + 1) * lGeom.numberOfRows() + i;
                     crn3 = (j + 1) * lGeom.numberOfRows() + (i + 1);
@@ -399,7 +421,9 @@ public class IoElevationGridWriter extends IoAbstractWriter {
         }
     } // writeAcadGeoTIN()
 
-    private void writeSimpleVrml1(GmSimpleElevationGrid pGrid, String pFilename) throws T3dException {
+    private void writeSimpleVrml1(GmSimpleElevationGrid pGrid, String pFilename) 
+    		throws T3dException 
+    {
         try {
             BufferedWriter lDat = new BufferedWriter(new FileWriter(pFilename));
 
@@ -454,9 +478,13 @@ public class IoElevationGridWriter extends IoAbstractWriter {
             DecimalFormat dfZ = this.getDecimalFormatZ();
 
             for (int j = 0; j < lGeom.numberOfColumns(); j++) {
-                for (int i = 0; i < lGeom.numberOfRows(); i++) {
+                for (int i = 0; i < lGeom.numberOfRows(); i++) 
+                {
                     GmPoint pt = new GmPoint(lGeom.getVertexCoordinate(i, j));
-                    lDat.write("        " + dfXY.format(pt.getX()) + " " + dfXY.format(pt.getY()) + " " + dfZ.format(pGrid.getValue(i, j)));
+                    lDat.write("        " 
+                    		+ dfXY.format(pt.getX()) + " " 
+                    		+ dfXY.format(pt.getY()) + " " 
+                    		+ dfZ.format(pGrid.getValue(i, j)));
                     lDat.newLine();
                 }
             }
@@ -475,14 +503,19 @@ public class IoElevationGridWriter extends IoAbstractWriter {
 
             int crn1, crn2, crn3, crn4;
             for (int j = 0; j <= lGeom.numberOfColumns() - 2; j++) {
-                for (int i = 0; i < lGeom.numberOfRows() - 2; i++) {
+                for (int i = 0; i < lGeom.numberOfRows() - 2; i++) 
+                {
                     crn1 = j * lGeom.numberOfRows() + i;
                     crn2 = (j + 1) * lGeom.numberOfRows() + i;
                     crn3 = (j + 1) * lGeom.numberOfRows() + (i + 1);
                     crn4 = j * lGeom.numberOfRows() + (i + 1);
 
-                    if (pGrid.isSet(i, j) && pGrid.isSet(i, j + 1)
-                            && pGrid.isSet(i + 1, j + 1) && pGrid.isSet(i + 1, j)) {
+                    if (
+                    		pGrid.isSet(i, j) && 
+                    		pGrid.isSet(i, j + 1) && 
+                    		pGrid.isSet(i + 1, j + 1) && 
+                    		pGrid.isSet(i + 1, j)) 
+                    {
                         lDat.write("        " + crn1 + ", " + crn2 + ", " + crn4 + ", -1,");
                         lDat.newLine();
                         lDat.write("        " + crn4 + ", " + crn2 + ", " + crn3 + ", -1,");
@@ -514,17 +547,29 @@ public class IoElevationGridWriter extends IoAbstractWriter {
     } // writeSimpleVrml1()
 
     /**
-     * enables the export of hypsometric coloured models. Note that this mode is
-     * supported for the &quot;Vrml2&quot; format only.
+     * enables the export of hypsometric colored models. As parameter, a hypsometric 
+     * a color-mapper has to be given or <i>null</i>, if no coloring shall be carried 
+     * out. Note that this mode is supported for the {@link VRML2} format only.
      *
-     * @param pColMap Hypsometric color-assignment or <i>null</i>, if no
-     * coloring shall be carried out
+     * @param pColMap Hypsometric color-assignment or <i>null</i> for no coloring 
      */
     public void setHypsometricColorMapper(MpHypsometricColor pColMap) {
         mHypsometricColMap = pColMap;
     }
 
-    private void writeVrml2(GmSimpleElevationGrid pGrid, String pFilename) throws T3dException {
+    /**
+     * sets a vertical &quot"exaggeration&quot; factor. Note that this mode is 
+     * supported for the {@link VRML2} export only.
+     *
+     * @param pNoDataValue NODATA-value
+     */
+    public void setExaggeration(double pExaggeration) {
+    	mExaggeration = pExaggeration;
+    }
+
+    private void writeVrml2(GmSimpleElevationGrid pGrid, String pFilename) 
+    		throws T3dException 
+    {
         try {
             BufferedWriter lDat = new BufferedWriter(new FileWriter(pFilename));
 
@@ -540,7 +585,8 @@ public class IoElevationGridWriter extends IoAbstractWriter {
 
             // Fovy:
             double fovy = 0.785398; // i.e., 45 degrees
-            double zCamera = pGrid.maximalElevation() + 0.5 * lGeom.envelope().diagonalLength() / Math.tan(0.5 * fovy);
+            double zCamera = pGrid.maximalElevation() + 
+            		0.5 * lGeom.envelope().diagonalLength() / Math.tan(0.5 * fovy);
 
             lDat.write("#VRML V2.0 utf8");
             lDat.newLine();
@@ -582,10 +628,10 @@ public class IoElevationGridWriter extends IoAbstractWriter {
             lDat.newLine();
             lDat.newLine();
             lDat.write("Group { children [");
-            lDat.newLine();                   // TODO
+            lDat.newLine();
             lDat.write("DEF Relief Transform {");
             lDat.newLine();
-            lDat.write("    scale 1 5 1"); // �berh�hung
+            lDat.write("    scale 1 " + mExaggeration + " 1"); // Exaggeration
             lDat.write("    children [");
             lDat.newLine();
             lDat.write("        Transform {");
@@ -600,20 +646,9 @@ public class IoElevationGridWriter extends IoAbstractWriter {
             lDat.newLine();
             lDat.write("                        material Material {");
             lDat.newLine();
-            //          lDat.write("                            diffuseColor 0.2 0.5 0.2"); lDat.newLine();
+            // lDat.write("                            diffuseColor 0.2 0.5 0.2"); lDat.newLine();
             lDat.write("                        }");
             lDat.newLine();
-            if (false) {
-                lDat.write("                        texture ImageTexture {");
-                lDat.newLine();              // TODO
-                String lDrape = "http://52north.org/templates/52n/images/52n-logo.gif";      // todo variabel machen!!        jpeg m�sste auch gehen...
-                System.out.println("DRAPE = " + lDrape);                   // todo: Problem: Bild ist noch spiegelbildlich!!
-                lDat.write("                            url \"" + lDrape + "\"");
-                lDat.newLine();
-                lDat.write("                        }");
-                lDat.newLine();
-                mHypsometricColMap = null;
-            }
             lDat.write("                    }");
             lDat.newLine();
             lDat.write("                    geometry ElevationGrid {");
@@ -622,9 +657,9 @@ public class IoElevationGridWriter extends IoAbstractWriter {
             lDat.newLine();
             lDat.write("                        zDimension " + lGeom.numberOfRows());
             lDat.newLine();
-            lDat.write("                        xSpacing " + lGeom.getCellSizeColumns());
+            lDat.write("                        xSpacing " + lGeom.getDeltaX());
             lDat.newLine();
-            lDat.write("                        zSpacing " + +lGeom.getCellSizeRows());
+            lDat.write("                        zSpacing " + +lGeom.getDeltaY());
             lDat.newLine();
             lDat.write("                        height [");
             lDat.newLine();
@@ -648,13 +683,17 @@ public class IoElevationGridWriter extends IoAbstractWriter {
                 lDat.newLine();
                 lDat.write("                            color [");
                 lDat.newLine();
+                
                 for (int i = lGeom.numberOfRows() - 1; i >= 0; i--) {
-                    for (int j = 0; j < lGeom.numberOfColumns(); j++) {
+                    for (int j = 0; j < lGeom.numberOfColumns(); j++) 
+                    {
                         T3dColor col = mHypsometricColMap.transform(pGrid.getValue(i, j));
+                    
                         lDat.write(col.getRed() + " " + col.getGreen() + " " + col.getBlue() + ",");
                         lDat.newLine();
                     }
                 }
+                
                 lDat.write("                            ]");
                 lDat.newLine();
                 lDat.write("                        }");
@@ -676,6 +715,7 @@ public class IoElevationGridWriter extends IoAbstractWriter {
             lDat.write(", DEF Sensor TouchSensor {} ] }");
             lDat.newLine();
 
+            /*
             lDat.write("DEF Clock TimeSensor {");
             lDat.newLine();
             lDat.write("  cycleInterval 20.0");
@@ -702,10 +742,11 @@ public class IoElevationGridWriter extends IoAbstractWriter {
             lDat.newLine();
             lDat.write("ROUTE Interpolator.value_changed TO Relief.set_scale");
             lDat.newLine();
-
+            */
+            
             lDat.newLine();
 
-            lDat.close(); // darf nicht vergessen werden!
+            lDat.close(); // Don't forget this!
         }
         catch (FileNotFoundException e) {
             throw new T3dException("Could not access file \"" + pFilename + "\".");
@@ -718,7 +759,9 @@ public class IoElevationGridWriter extends IoAbstractWriter {
         }
     } // writeVrml2()
 
-    private void writeSimpleX3d(GmSimpleElevationGrid pGrid, String pFilename, boolean isX3dom) throws T3dException {
+    private void writeSimpleX3d(GmSimpleElevationGrid pGrid, String pFilename, boolean isX3dom) 
+    		throws T3dException 
+    {
         final double lExaggeration = 7.;
 
         try {
@@ -818,7 +861,9 @@ public class IoElevationGridWriter extends IoAbstractWriter {
         }
     } // writeSimpleX3d()
 
-    private void writeAsciiXYZ(GmSimpleElevationGrid pGrid, String pFilename) throws T3dException {
+    private void writeAsciiXYZ(GmSimpleElevationGrid pGrid, String pFilename) 
+    		throws T3dException 
+    {
         if (pGrid == null) {
             throw new T3dException("Grid information not available.");
         }
@@ -832,10 +877,15 @@ public class IoElevationGridWriter extends IoAbstractWriter {
             DecimalFormat dfZ = this.getDecimalFormatZ();
 
             for (int j = 0; j < pGrid.numberOfColumns(); j++) {
-                for (int i = 0; i < pGrid.numberOfRows(); i++) {
+                for (int i = 0; i < pGrid.numberOfRows(); i++) 
+                {
                     if (pGrid.isSet(i, j)) {
                         VgPoint pt = lGeom.getVertexCoordinate(i, j);
-                        lDat.write(dfXY.format(pt.getX()) + " " + dfXY.format(pt.getY()) + " " + dfZ.format(pGrid.getValue(i, j)));
+                        
+                        lDat.write(
+                                dfXY.format(pt.getX()) + " " +
+                                dfXY.format(pt.getY()) + " " +
+                                dfZ.format(pGrid.getValue(i, j)));
                         lDat.newLine();
                     }
                 }

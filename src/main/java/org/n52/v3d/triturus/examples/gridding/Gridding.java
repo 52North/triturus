@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2007-2015 52°North Initiative for Geospatial Open Source
+ * Copyright (C) 2007-2016 52 North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it
@@ -18,16 +18,17 @@
  *
  * Therefore the distribution of the program linked with libraries licensed
  * under the aforementioned licenses, is permitted by the copyright holders
- * if the distribution is compliant with both the GNU General Public
- * icense version 2 and the aforementioned licenses.
+ * if the distribution is compliant with both the GNU General Public License 
+ * version 2 and the aforementioned licenses.
  *
  * This program is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
- * Public License for more details.
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY 
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License 
+ * for more details.
  *
- * Contact: Benno Schmidt & Martin May, 52 North Initiative for Geospatial Open Source
- * Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, Germany, info@52north.org
+ * Contact: Benno Schmidt and Martin May, 52 North Initiative for Geospatial 
+ * Open Source Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, 
+ * Germany, info@52north.org
  */
 package org.n52.v3d.triturus.examples.gridding;
 
@@ -46,9 +47,15 @@ public class Gridding {
 
     private String inputPath = "data/test.xyz";
     private String outputPath = "data/test.html";
-    private double cellSize = 50.0;
+    private double cellSize = 50.;
     private short weightFunction = 1;
     private String outputFormat = IoElevationGridWriter.X3DOM;
+
+    
+    public static void main(String args[]){
+        Gridding gridding = new Gridding();
+        gridding.performGridding();
+    }
 
     public void setInputPath(String inputPath) {
         this.inputPath = inputPath;
@@ -92,7 +99,7 @@ public class Gridding {
         ArrayList lPointList;
 
         try {
-            // This returns an Arraylist with all points transformed as GmPoints inside it
+            // This returns an ArrayList with all points transformed as GmPoints inside it
             lPointList = lReader.readFromFile(inputPath);
             
             int N = lPointList.size();
@@ -141,11 +148,5 @@ public class Gridding {
         catch (Exception e) {
             e.printStackTrace();
         }
-    }
-    
-    public static void main(String args[]){
-        Gridding gridding = new Gridding();
-        gridding.performGridding();
-    }
-    
+    }    
 }
