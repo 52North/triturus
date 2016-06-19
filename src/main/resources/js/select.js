@@ -7,15 +7,14 @@ function handleClick(event) {
     document.getElementById('coordX').innerHTML = roundWithTwoDecimals(coordinates[0]);
     document.getElementById('coordY').innerHTML = roundWithTwoDecimals(coordinates[1]);
     document.getElementById('coordZ').innerHTML = roundWithTwoDecimals(coordinates[2]);
-    document.getElementById('gridX').innerHTML = roundWithTwoDecimals(coordinates[0] / 50.0);
-    document.getElementById('gridY').innerHTML = roundWithTwoDecimals(coordinates[1]);
-    document.getElementById('gridZ').innerHTML = roundWithTwoDecimals(coordinates[2] / 50.0);
+    document.getElementById('gridX').innerHTML = roundWithTwoDecimals(coordinates[0]/cellColumnSize);
+    document.getElementById('gridY').innerHTML = roundWithTwoDecimals(coordinates[1]/transform[1]);
+    document.getElementById('gridZ').innerHTML = roundWithTwoDecimals(coordinates[2]/cellRowSize);
     findNeighbours(event.hitPnt)
 }
 
 function findNeighbours(point) {
     var j = point[0] / cellRowSize;
-    var value = point[1];
     var i = point[2] / cellColumnSize;
 
     var ceil_i = Math.ceil(i);
@@ -28,19 +27,16 @@ function findNeighbours(point) {
         "array[" + ceil_i + "][" + floor_j + "] = " + (array[ceil_i][floor_j]).toFixed(2) + "<br>" +
         "array[" + floor_i + "][" + ceil_j + "] = " + (array[floor_i][ceil_j]).toFixed(2) + "<br>" +
         "array[" + ceil_i + "][" + ceil_j + "] = " + (array[ceil_i][ceil_j]).toFixed(2) + "</p><br>";
-    // @Adhitya: This can be replaced by visibility
-    document.getElementById("situation").innerHTML = '\
-			Z Value: <input type="text" id="situationValue" size="10" value="5"><br>\
-			<input type="radio" name="situationType" onclick="check(this.value)" value="relative" checked>Relative\
-			<input type="radio" name="situationType" onclick="check(this.value)" value="absolute">Absolute<br>\
-		';
-    document.getElementById("showFlooding").innerHTML = '\
-			<input type="submit" value="Show Flooding" onclick="flood()">\
-		';
+    
+    document.getElementById("situation").style.display = "block";
 }
 
 function check(situationType) {
     this.situationType = situationType;
+}
+
+function getTransformScale() {
+	this.transform = document.getElementById("elevationTransform").scale.split(" ");
 }
 
 window.onload = function() {
@@ -54,6 +50,7 @@ window.onload = function() {
     this.result = height.map(Number);
     this.array = [];
     while (result.length > 0) array.push(result.splice(0, columns));
+	getTransformScale();
 
     document.getElementById("insert").innerHTML = '\
 		<div style="position:absolute;left:1000px;top:100px;width:200px">\
@@ -68,8 +65,13 @@ window.onload = function() {
 			</table>\
 			<br>\
 			<div id="gridValues"></div>\
-			<div id="situation"></div>\
-			<div id="showFlooding"></div>\
+			<div id="situation" style="display:none;">\
+				Z Value: <input type="text" id="situationValue" size="10" value="5"><br>\
+				<input type="radio" name="situationType" onclick="check(this.value)" value="relative" checked>Relative\
+				<input type="radio" name="situationType" onclick="check(this.value)" value="absolute">Absolute<br>\
+				<br>\
+				<input type="submit" value="Show Flooding" onclick="flood()">\
+			</div>\
 		</div>\
 	';
 }

@@ -779,6 +779,7 @@ public class IoElevationGridWriter extends IoAbstractWriter
                 lDat.write("<script type=\"text/javascript\" src=\"https://rawgit.com/kamakshidasan/triturus/master/src/main/resources/js/x3dom-full.js\"></script>");
                 lDat.newLine();
                 lDat.write("<script type=\"text/javascript\" src=\"https://rawgit.com/kamakshidasan/triturus/master/src/main/resources/js/select.js\"></script>");
+                //lDat.write("<script type=\"text/javascript\" src=\"../src/main/resources/js/select.js\"></script>");
                 lDat.newLine();
                 lDat.write("</head>");
                 lDat.newLine();
@@ -802,7 +803,7 @@ public class IoElevationGridWriter extends IoAbstractWriter
             lDat.write("" + px + " " + (lExaggeration * 10. * pz) + " " + py);
             lDat.write("\" centerOfRotation=\"" + px + " " + (lExaggeration * pz) + " " + py + "\"></Viewpoint>");
             lDat.newLine();
-            lDat.write("    <Transform scale=\"1 " + (lExaggeration) + " 1\">");
+            lDat.write("    <Transform id=\"elevationTransform\" scale=\"1 " + (lExaggeration) + " 1\">");
             lDat.newLine();
 
             lDat.write("    <Shape onclick=\"handleClick(event)\">");
