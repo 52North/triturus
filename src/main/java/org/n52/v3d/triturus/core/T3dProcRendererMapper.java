@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2007-2015 52°North Initiative for Geospatial Open Source
+ * Copyright (C) 2007-2016 52 North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it
@@ -18,31 +18,28 @@
  *
  * Therefore the distribution of the program linked with libraries licensed
  * under the aforementioned licenses, is permitted by the copyright holders
- * if the distribution is compliant with both the GNU General Public
- * icense version 2 and the aforementioned licenses.
+ * if the distribution is compliant with both the GNU General Public License 
+ * version 2 and the aforementioned licenses.
  *
  * This program is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
- * Public License for more details.
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY 
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License 
+ * for more details.
  *
- * Contact: Benno Schmidt & Martin May, 52 North Initiative for Geospatial Open Source
- * Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, Germany, info@52north.org
+ * Contact: Benno Schmidt and Martin May, 52 North Initiative for Geospatial 
+ * Open Source Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, 
+ * Germany, info@52north.org
  */
 package org.n52.v3d.triturus.core;
 
 /**
  * @deprecated
- * Abstract base class for renderer-mapper objects. <i>Renderer-mapper objects</i> transform abstract,
- * Renderer-independent visualization objects into Renderer-specific shapes (e.g. abstract visualization object
- * <tt>-></tt> Java 3D shape).<br />
- * Note: Realizations of this abstract base class usually are begin with the prefix &quot;Mpr&quot; as class name.
- * <br /><br />
- * <i>German:</i> Abstrakte Basisklasse f&uml;r Renderer-Mapper-Objekte. Renderer-Mapper-Objekte dienen zur
- * Transformation von abstrakten, Renderer-unabh&auml;ngigen Visualisierungsobjekten in Renderer-spezifische Shapes
- * (z. B. abstracktes Visualisierungsobjekt <tt>-&gt;</tt> Java 3D-Shape).<br /><br />
- * Hinweis: Realisierungen dieser abstrakten Basisklasse sollten nach M&ouml;glichkeit mit dem Pr&auml;fix
- * &quot;Mpr&quot; versehen werden.<br />
+ * Abstract base class for renderer-mapper objects. <i>Renderer-mapper 
+ * objects</i> transform abstract, Renderer-independent visualization objects 
+ * into Renderer-specific shapes (e.g. abstract visualization object
+ * <tt>-></tt> Java 3D shape). Note: Realizations of this abstract base class 
+ * usually are begin with the prefix &quot;Mpr&quot; as class name.
+ * 
  * @see T3dProcMapper
  * @see T3dProcFilter
  * @see IoObject
@@ -50,8 +47,8 @@ package org.n52.v3d.triturus.core;
  */
 abstract public class T3dProcRendererMapper
 {
-    /** protocols the transformation.<br /><br />
-    * <i>German:</i> protokolliert die durchgef&uuml;hrte Transformation.
+    /** protocols the transformation.
+     * 
     * @return Text to be logged
     */
 	abstract public String log();
