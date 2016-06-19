@@ -33,7 +33,6 @@
 package org.n52.v3d.triturus.gisimplm;
 
 import org.n52.v3d.triturus.core.T3dException;
-import org.n52.v3d.triturus.core.T3dNotYetImplException;
 import org.n52.v3d.triturus.core.T3dProcFilter;
 import org.n52.v3d.triturus.vgis.VgElevationGrid;
 import org.n52.v3d.triturus.vgis.VgGeomObject;
@@ -63,14 +62,15 @@ public class FltElevationGridFloodFill extends T3dProcFilter
     }
 
     /** 
-     * performs the flood fill.
+     * performs the flood fill. The Seed-point gives the water-level z' for 
+     * the position (x, y).
      * 
      * @param pElevationGrid Elevation-grid
-     * @param pSeedPoint Seed-point giving the water-level z' for the position (x, y)
+     * @param pSeedPoint Seed-point 
      * @throws T3dException
      */
     public VgElevationGrid transform(VgElevationGrid pElevationGrid, VgPoint pSeedPoint) 
-    		throws T3dException
+    	throws T3dException
     {   	
         if (pElevationGrid == null) {
             throw new T3dException("Source grid is missing.");
@@ -81,17 +81,68 @@ public class FltElevationGridFloodFill extends T3dProcFilter
             throw new T3dException("Unexpected grid geometry.");        	
         }
         
-        VgElevationGrid lResultGrid = 
-        		new GmSimpleElevationGrid((GmSimple2dGridGeometry)lGeom);
-
+        GmSimpleElevationGrid lResultGrid = 
+        	this.setUpResultGrid((GmSimple2dGridGeometry) lGeom);
+        
         try {
-        	// TODO
+        	int[] indices = 
+        		((GmSimple2dGridGeometry) lGeom).getIndices(pSeedPoint);
+        	if (indices == null) {
+                throw new T3dException("Seed point outside elevation grid.");
+        	}
+        	int row = indices[0], col = indices[1];
+        	
+        	// Start recursion:
+        	this.fillElement(
+        			lResultGrid, pElevationGrid, 
+        			row, col, 
+        			pSeedPoint.getZ());
         }
         catch (T3dException e) {
             throw e;
         }
 
-        throw new T3dNotYetImplException();
-//return lResultGrid;
+        return lResultGrid;
     }    
+
+    private GmSimpleElevationGrid setUpResultGrid(GmSimple2dGridGeometry pGeom)
+    {
+    	GmSimpleElevationGrid lResultGrid = new GmSimpleElevationGrid(pGeom);
+
+    	// Usually, the following lines should not be necessary:
+    	for (int i = 0; i < lResultGrid.numberOfRows(); i++) {
+    		for (int j = 0; j < lResultGrid.numberOfColumns(); j++) {
+    			lResultGrid.unset(i, j);
+    		}
+    	}
+    	
+    	return lResultGrid;
+    }
+
+	private void fillElement(
+			GmSimpleElevationGrid targetGrd, 
+			VgElevationGrid srcGrd,
+			int i, 
+			int j,
+			double zFlood) 
+	{
+		if (
+			i < 0 || i >= srcGrd.numberOfRows() || 
+			j < 0 || j >= srcGrd.numberOfColumns()) 
+		{
+			return;
+		}
+		if (targetGrd.isSet(i, j)) {
+			return;
+		}
+		// else:
+		double z = srcGrd.getValue(i, j);
+		if (z < zFlood) {
+			targetGrd.setValue(i, j, zFlood);
+			fillElement(targetGrd, srcGrd, i - 1, j, zFlood);
+			fillElement(targetGrd, srcGrd, i + 1, j, zFlood);
+			fillElement(targetGrd, srcGrd, i, j - 1, zFlood);
+			fillElement(targetGrd, srcGrd, i, j + 1, zFlood);
+		}
+	}
 }

@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2007-2015 52°North Initiative for Geospatial Open Source
+ * Copyright (C) 2007-2016 52 North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it
@@ -18,16 +18,17 @@
  *
  * Therefore the distribution of the program linked with libraries licensed
  * under the aforementioned licenses, is permitted by the copyright holders
- * if the distribution is compliant with both the GNU General Public
- * icense version 2 and the aforementioned licenses.
+ * if the distribution is compliant with both the GNU General Public License 
+ * version 2 and the aforementioned licenses.
  *
  * This program is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
- * Public License for more details.
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY 
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License 
+ * for more details.
  *
- * Contact: Benno Schmidt & Martin May, 52 North Initiative for Geospatial Open Source
- * Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, Germany, info@52north.org
+ * Contact: Benno Schmidt and Martin May, 52 North Initiative for Geospatial 
+ * Open Source Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, 
+ * Germany, info@52north.org
  */
 package org.n52.v3d.triturus.examples.elevationgrid;
 
@@ -37,7 +38,9 @@ import org.n52.v3d.triturus.gisimplm.IoElevationGridReader;
 import org.n52.v3d.triturus.gisimplm.IoElevationGridWriter;
 
 /** 
- * Triturus example application: Reads an elevation grid in ArcInfo ASCII grid format and writes it to a VRML file.
+ * Triturus example application: Reads an elevation grid in ArcInfo ASCII grid 
+ * format and writes it to a VRML file.
+ * 
  * @author Benno Schmidt
  * @see GridConvertApp
  */
@@ -45,11 +48,13 @@ public class GridConvert
 {
 	public static void main(String args[])
 	{
-        IoElevationGridReader reader = new IoElevationGridReader(IoElevationGridReader.ARCINFO_ASCII_GRID);
+        IoElevationGridReader reader = 
+        	new IoElevationGridReader(IoElevationGridReader.ARCINFO_ASCII_GRID);
 
 		try {
             // Read the elevation grid from file:
-			GmSimpleElevationGrid grid = reader.readFromFile("/data/example_dem.asc");
+			GmSimpleElevationGrid grid = 
+				reader.readFromFile("/data/example_dem.asc");
 
             // This is just some control output:
 			System.out.println(grid);
@@ -59,13 +64,14 @@ public class GridConvert
             // If some grid cell's have NODATA values, assign a value...
             for (int j = 0; j < grid.numberOfColumns(); j++) {
                 for (int i = 0; i < grid.numberOfRows(); i++) {
-                    if (! grid.isSet(i, j))
+                    if (!grid.isSet(i, j))
                         grid.setValue(i, j, 0.0);
                 }
             }
 
             // Write VRML output:
-			IoElevationGridWriter writer = new IoElevationGridWriter(IoElevationGridWriter.VRML2);
+			IoElevationGridWriter writer = 
+				new IoElevationGridWriter(IoElevationGridWriter.VRML2);
     		writer.writeToFile(grid, "/data/example_dem.wrl");
 		}
 		catch (T3dException e) {
