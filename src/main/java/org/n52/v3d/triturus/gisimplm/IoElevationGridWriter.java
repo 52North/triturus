@@ -742,7 +742,7 @@ public class IoElevationGridWriter extends IoAbstractWriter {
                 lDat.write("<body>");
                 lDat.newLine();
             }
-            lDat.write("<X3D profile='Immersive' height='800px' width='800px'>");
+            lDat.write("<X3D profile='Immersive' height='700px' width='700px'>");
             lDat.newLine();
             lDat.write("  <Scene>");
             lDat.newLine();

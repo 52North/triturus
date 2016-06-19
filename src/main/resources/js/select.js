@@ -23,11 +23,16 @@ function findNeighbours(point) {
     var floor_i = Math.floor(i);
     var floor_j = Math.floor(j);
 
-    document.getElementById("gridValue").innerHTML =
-        "array[" + floor_i + "][" + floor_j + "] = " + (array[floor_i][floor_j] / lExageration).toFixed(2) + "\n" +
-        "array[" + ceil_i + "][" + floor_j + "] = " + (array[ceil_i][floor_j] / lExageration).toFixed(2) + "\n" +
-        "array[" + floor_i + "][" + ceil_j + "] = " + (array[floor_i][ceil_j] / lExageration).toFixed(2) + "\n" +
-        "array[" + ceil_i + "][" + ceil_j + "] = " + (array[ceil_i][ceil_j] / lExageration).toFixed(2);
+    document.getElementById("gridValues").innerHTML = "<p>"+
+        "array[" + floor_i + "][" + floor_j + "] = " + (array[floor_i][floor_j] / lExageration).toFixed(2) + "<br>" +
+        "array[" + ceil_i + "][" + floor_j + "] = " + (array[ceil_i][floor_j] / lExageration).toFixed(2) + "<br>" +
+        "array[" + floor_i + "][" + ceil_j + "] = " + (array[floor_i][ceil_j] / lExageration).toFixed(2) + "<br>" +
+        "array[" + ceil_i + "][" + ceil_j + "] = " + (array[ceil_i][ceil_j] / lExageration).toFixed(2) + "</p>";
+	document.getElementById("situation").innerHTML = '\
+			Z Value: <input type="text" id="situationValue" size="10" value="5">\
+			<input type="radio" name="situationType" onclick="check(this.value)" value="relative">Relative\
+			<input type="radio" name="situationType" onclick="check(this.value)" value="absolute">Absolute<br>\
+		';
 }
 
 function check(situationType) {
@@ -57,11 +62,9 @@ window.onload = function(){
 				<tr><td>i: </td><td id="gridZ">-</td></tr>\
 				<tr><td>j: </td><td id="gridX">-</td></tr>\
 				<tr><td>value: </td><td id="gridY">-</td></tr>\
-				<tr><td></td><td id="gridValue"></td></tr>\
+				<tr><td></td><td id="gridValues"></td></tr>\
+				<tr><td></td><td id="situation"></td></tr>\
 			</table>\
-			Z Value: <input type="text" id="situation" size="20" value="5"><br>\
-			<input type="radio" name="situationType" onclick="check(this.value)" value="relative">Relative<br>\
-			<input type="radio" name="situationType" onclick="check(this.value)" value="absolute">Absolute<br>\
 		</div>\
 	';
 }
