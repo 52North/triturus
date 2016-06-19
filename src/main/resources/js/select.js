@@ -30,6 +30,10 @@ function findNeighbours(point) {
         "array[" + ceil_i + "][" + ceil_j + "] = " + (array[ceil_i][ceil_j] / lExageration).toFixed(2);
 }
 
+function check(situationType) {
+    this.situationType=situationType;
+}
+
 window.onload = function(){
 	this.grid = document.getElementById("grid");
     this.lExageration = 7.0;
@@ -55,6 +59,9 @@ window.onload = function(){
 				<tr><td>value: </td><td id="gridY">-</td></tr>\
 				<tr><td></td><td id="gridValue"></td></tr>\
 			</table>\
+			Z Value: <input type="text" id="situation" size="20" value="5"><br>\
+			<input type="radio" name="situationType" onclick="check(this.value)" value="relative">Relative<br>\
+			<input type="radio" name="situationType" onclick="check(this.value)" value="absolute">Absolute<br>\
 		</div>\
 	';
 }
