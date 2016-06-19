@@ -61,24 +61,25 @@ public class FloodFillDemo
 	
 	public void run() 
 	{
-        IoElevationGridReader reader = new IoElevationGridReader(
-        		IoElevationGridReader.ARCINFO_ASCII_GRID);
+		IoElevationGridReader reader = new IoElevationGridReader(
+			IoElevationGridReader.ARCINFO_ASCII_GRID);
 		IoElevationGridWriter writer = new IoElevationGridWriter(
-				IoElevationGridWriter.ARCINFO_ASCII_GRID);
-
+			IoElevationGridWriter.ARCINFO_ASCII_GRID);
+		
 		GmSimpleElevationGrid srcGrd, targetGrd;
 		
 		try {
-            // Read the elevation grid from file:
+			// Read the elevation grid from file:
 			srcGrd = reader.readFromFile(inputFile);
-
-            // This is just some control output:
+			
+			// This is just some control output:
 			System.out.println(srcGrd);
-            System.out.print("The elevation grid's bounding-box: ");
+			System.out.print("The elevation grid's bounding-box: ");
 			System.out.println(srcGrd.envelope().toString());
 			VgPoint seedPoint = new GmPoint(srcGrd.envelope().getCenterPoint());
 			// Set water-level 2 meters above ground:
-			seedPoint.setZ(srcGrd.getValue(
+			seedPoint.setZ(
+				srcGrd.getValue(
 					srcGrd.numberOfRows() / 2, 
 					srcGrd.numberOfColumns() / 2) 
 				+ 2.); 
@@ -88,10 +89,10 @@ public class FloodFillDemo
 			targetGrd = (GmSimpleElevationGrid) flt.transform(srcGrd, seedPoint);
 			
 			// Write result:
-    		writer.writeToFile(targetGrd, outputFile);
+			writer.writeToFile(targetGrd, outputFile);
 		}
 		catch (T3dException e) {
 			e.printStackTrace();
 		}
-    }
+	}
 }
