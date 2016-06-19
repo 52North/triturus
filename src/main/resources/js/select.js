@@ -29,7 +29,7 @@ function findNeighbours(point) {
         "array[" + floor_i + "][" + ceil_j + "] = " + (array[floor_i][ceil_j] / lExageration).toFixed(2) + "<br>" +
         "array[" + ceil_i + "][" + ceil_j + "] = " + (array[ceil_i][ceil_j] / lExageration).toFixed(2) + "</p>";
 	document.getElementById("situation").innerHTML = '\
-			Z Value: <input type="text" id="situationValue" size="10" value="5">\
+			Z Value: <input type="text" id="situationValue" size="10" value="5"><br>\
 			<input type="radio" name="situationType" onclick="check(this.value)" value="relative">Relative\
 			<input type="radio" name="situationType" onclick="check(this.value)" value="absolute">Absolute<br>\
 		';
