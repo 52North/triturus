@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2007-2015 52°North Initiative for Geospatial Open Source
+ * Copyright (C) 2007-2016 52 North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it
@@ -18,16 +18,17 @@
  *
  * Therefore the distribution of the program linked with libraries licensed
  * under the aforementioned licenses, is permitted by the copyright holders
- * if the distribution is compliant with both the GNU General Public
- * icense version 2 and the aforementioned licenses.
+ * if the distribution is compliant with both the GNU General Public License 
+ * version 2 and the aforementioned licenses.
  *
  * This program is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
- * Public License for more details.
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY 
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License 
+ * for more details.
  *
- * Contact: Benno Schmidt & Martin May, 52 North Initiative for Geospatial Open Source
- * Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, Germany, info@52north.org
+ * Contact: Benno Schmidt and Martin May, 52 North Initiative for Geospatial 
+ * Open Source Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, 
+ * Germany, info@52north.org
  */
 package org.n52.v3d.triturus.gisimplm;
 
@@ -41,9 +42,10 @@ import java.io.*;
 import java.util.ArrayList;
 
 /**
- * Import of files that contain point coordinates (special simple ASCII format)<br /><br />
- *  <i>German:</i> Einlesen von Punktdateien. In den Punktdateien stehen zeilenweise x-, y- und z-Koordinaten durch
- * Leerzeichen voneinander getrennt.
+ * Import of files that contain point coordinates. Here, a special simple ASCII 
+ * format us used: Each line of the input files gives x-, y- and z-coordinate
+ * separated by a space character (&quot; &quot;).
+ * 
  * @author Benno Schmidt
  */
 public class IoPointListReader extends IoObject
@@ -51,23 +53,22 @@ public class IoPointListReader extends IoObject
     private String mLogString = "";
 
     private String mFormat;
-    private ArrayList mPointList = null;
+    private ArrayList<VgPoint> mPointList = null;
 
     private VgEnvelope mSpatialFilter = null;
 
+    
     /**
-     * Identifier to be used to process plain ASCII files holding XYZ triples.
+     * File-format type identifier to be used for plain ASCII files holding 
+     * XYZ triples.
      */
     public static final String PLAIN = "Plain";
 
     /**
-     * Constructor.<br /><br />
-     * <i>German:</i> Konstruktor. Als Parameter ist der Dateiformattyp zu setzen. Wird dieser nicht unterst&uuml;tzt,
-     * wird sp&auml;ter w&auml;hrend des Lesevorgangs eine Ausnahme geworfen.<br />
-     * Es werden die folgenden Formate unterst�tzt:<br />
+     * Constructor. As an input parameter, the file format type identifier must
+     * be specified. The supported formats are listed below:<br />
      * <ul>
-     * <li><i>Plain:</i> ASCII-Datei, zeilenweise x, y und z separiert durch Blank</li>
-     * <li><b>... weitere Typen insb. Vermessungsformate -> Benno</b></li>
+     * <li><i>Plain:</i> ASCII file, x, y and z line by line, separated by space character</li>
      * </ul>
      * @param pFormat Format-string, e.g. "Plain"
      * @see IoPointListReader#PLAIN
@@ -83,7 +84,8 @@ public class IoPointListReader extends IoObject
 
     /** 
      * sets the format type.
-     * @param pFormat Format-type (e.g. "Plain")
+     * 
+     * @param pFormat Format-type (e.g. <tt>&quot;Plain&quot;</tt>)
      * @see IoPointListReader#PLAIN
      */
     public void setFormatType(String pFormat)
@@ -92,26 +94,31 @@ public class IoPointListReader extends IoObject
     }
 
     /**
-     * reads in a set of 3-d points from a file.<br /><br />
-     * <i>German:</i> liest eine Menge von 3D-Punkten einer Datei ein. Wird der spezifizierte Formattyp nicht
-     * unterst&uuml;tzt, wirft die Methode eine <tt>T3dNotYetImplException</tt>.<p>
-     * @param pFilename File name (complete path)
-     * @return <tt>ArrayList</tt> consisting of <tt>VgPoint</tt> objects
+     * reads in a set of 3-d points from a file. 
+     * 
+     * @param pFilename File name (with path optionally)
+     * @return {@link ArrayList} consisting of {@link VgPoint} objects
      * @throws org.n52.v3d.triturus.core.T3dException
      * @throws org.n52.v3d.triturus.core.T3dNotYetImplException
      */
-    public ArrayList readFromFile(String pFilename) throws T3dException, T3dNotYetImplException
+    public ArrayList<VgPoint> readFromFile(String pFilename) 
+    		throws T3dException, T3dNotYetImplException
     {
         int i = 0;
-        if (mFormat.equalsIgnoreCase("Plain")) i = 1;
-        // --> hier ggf. weitere Typen erg�nzen...
+        if (mFormat.equalsIgnoreCase("Plain")) {
+        	i = 1;
+        }
+        // --> add more types here...
 
         try {
             switch (i) {
-                case 1: this.readPlainAscii(pFilename); break;
-                // --> hier ggf. weitere Typen erg�nzen...
+                case 1: 
+                	this.readPlainAscii(pFilename); 
+                	break;
+                // --> add more types here...
 
-                default: throw new T3dNotYetImplException("Unsupported file format");
+                default: 
+                	throw new T3dNotYetImplException("Unsupported file format");
             }
         }
         catch (T3dException e) {
@@ -123,11 +130,11 @@ public class IoPointListReader extends IoObject
 
     private void readPlainAscii(String pFilename) throws T3dException
     {
-// TODO: Separator variabel machen ebenso wie Reihenfolge x y z etc.; Kennung?
+    	// TODO: Keep configurable: Separator, x-y-z order, skip point-identifiers etc.
         String line = "";
         int lineNumber = 0;
 
-        mPointList = new ArrayList();
+        mPointList = new ArrayList<VgPoint>();
 
         try {
             FileReader lFileRead = new FileReader(pFilename);
@@ -174,16 +181,16 @@ public class IoPointListReader extends IoObject
         catch (Exception e) {
             throw new T3dException("Parser error in \"" + pFilename + "\":" + lineNumber);
         }
-System.out.println("lineNumber = " + lineNumber);
+        //System.out.println("lineNumber = " + lineNumber);
     } // readPlainAscii()
 
     /**
-     * defines a spatial filter.<br /><br />
-     * <i>German:</i> setzt einen r&auml;umlichen Filter f&uuml;r die einzulesenden Punkte. Punkte, die au&szlig;erhalb
-     * der durch <tt>pFilter</tt> gegebenen Bounding-Box liegen, werden nicht ber&uuml;cksichtigt.<br />
-     * Soll keine r&auml;umliche Filterung erfolgen, ist der Wert <i>null</i> als Parameter zu setzen (Voreinstellung).
-     * <br />
-     * Bem.: Die z-Werte der Bounding-Box sind auf hinreichend kleine/gro&szlig;e Werte zu setzen.
+     * defines a spatial filter. Points outside the given envelope will be ignored 
+     * when importing points. If no filter shall be used (i.e., import all points from 
+     * the source-file), the filter envelope has to be set to <i>null</i> (which is the 
+     * default-value). Note: When using such filters, do not forget to set proper
+     * z-values!
+     * 
      * @param pFilter Bounding-Box
      */
     public void setSpatialFilter(VgEnvelope pFilter) {
@@ -191,22 +198,21 @@ System.out.println("lineNumber = " + lineNumber);
     }
 
     /**
-     * gives the set spatial filter.<br /><br />
-     * <i>German:</i> liefert den gesetzten r&auml;umlichen Filter. Punkte, die au&szlig;erhalb der Bounding-Box des
-     * Filters liegen, werden beim Einlesen nicht ber&uuml;cksichtigt.<br />
-     * Falls kein r&auml;umlicher Filter gesetzt ist, wird der Wert <i>null</i> zur&uuml;ckgegeben.
+     * returns the set spatial filter.
+     * 
      * @return 3-D bounding-Box (if a spatial filter is set, else <i>null</i>)
+     * @see this{@link #setSpatialFilter(VgEnvelope)}
      */
     public VgEnvelope getSpatialFilter() {
         return mSpatialFilter;
     }
 
-    // private Helfer, ben�tigt in readPlainAscii():
+    // private helpers, used by readPlainAscii():
 
-    // Extraktion des i-ten Tokens (i >= 1!, i max. = 4) aus einem String ('pSep" als Trenner):
+    // Extraction of the i-th token (i >= 1!, i max. = 4) from a string ('pSep" as separator):
     private String getStrTok(String pStr, int i, String pSep) throws T3dException
     {
-        ArrayList lStrArr = new ArrayList(); 
+        ArrayList<String> lStrArr = new ArrayList<String>(); 
         lStrArr.add(pStr);
         int i0 = 0, i1 = 0, k = 0;
         while (k < 4 && i1 >= 0) {
@@ -227,14 +233,14 @@ System.out.println("lineNumber = " + lineNumber);
         return (String) lStrArr.get(i - 1);
     } 
 
-    // Konvertierung String -> Gleitpunktzahl:
+    // Convert String to floating-point number:
     private double toDouble(String pStr) 
     {
-pStr = pStr.replaceAll(",", "."); // todo: falls, als Dezimalpunkt
+    	pStr = pStr.replaceAll(",", "."); // TODO: ',' as decimal-point
         return Double.parseDouble(pStr);
     } 
 
-    // Konvertierung String -> Ganzzahl:
+    // Convert String to integer:
     private int toInt(String pStr)
     {
         return Integer.parseInt(pStr);

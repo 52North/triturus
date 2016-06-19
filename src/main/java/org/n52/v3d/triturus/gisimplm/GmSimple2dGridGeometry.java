@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2007-2015 52°North Initiative for Geospatial Open Source
+ * Copyright (C) 2007-2016 52 North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it
@@ -18,16 +18,17 @@
  *
  * Therefore the distribution of the program linked with libraries licensed
  * under the aforementioned licenses, is permitted by the copyright holders
- * if the distribution is compliant with both the GNU General Public
- * icense version 2 and the aforementioned licenses.
+ * if the distribution is compliant with both the GNU General Public License 
+ * version 2 and the aforementioned licenses.
  *
  * This program is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
- * Public License for more details.
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY 
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License 
+ * for more details.
  *
- * Contact: Benno Schmidt & Martin May, 52 North Initiative for Geospatial Open Source
- * Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, Germany, info@52north.org
+ * Contact: Benno Schmidt and Martin May, 52 North Initiative for Geospatial 
+ * Open Source Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, 
+ * Germany, info@52north.org
  */
 package org.n52.v3d.triturus.gisimplm;
 
@@ -51,6 +52,7 @@ public class GmSimple2dGridGeometry extends VgEquidistGrid
     private VgPoint mOrigin;
     private double mDeltaX, mDeltaY;
 
+    
     /** 
      * Constructor.
      *
@@ -67,7 +69,7 @@ public class GmSimple2dGridGeometry extends VgEquidistGrid
        mDeltaX = pDeltaX;
        mDeltaY = pDeltaY;
     }
-
+    
     /** 
      * returns the grid geometry's bounding-box.
      *
@@ -86,10 +88,20 @@ public class GmSimple2dGridGeometry extends VgEquidistGrid
        return new GmEnvelope(xMin, xMax, yMin, yMax, 0., 0.);
     }
 
+    /**
+     * return the geometry's number of grid columns.
+     * 
+     * @return Number of grid columns (x-direction)
+     */
     public int numberOfColumns() {
         return mCols;
     }
     
+    /**
+     * return the geometry's number of grid rows.
+     * 
+     * @return Number of grid rows (y-direction)
+     */
     public int numberOfRows() {
         return mRows;
     }
@@ -168,19 +180,29 @@ public class GmSimple2dGridGeometry extends VgEquidistGrid
       * @deprecated
       * @see VgEquidistGrid#getCellSizeRows
       * @see VgEquidistGrid#getCellSizeColumns
-      *
-      * <i>German:</i> liefert die Gitterweiten f&uuml;r die Achsen in <tt>pDeltaRows</tt> und <tt>pDeltaColumns</tt>.
-      * Bem.: Die Reihenfolge der Ausgabe-Parameter ist zu beachten!
-     *
-      * @param pDeltaRows Gitterweite in Richtung der 1. Achse (Zeilen)
-      * @param pDeltaColumns Gitterweite in Richtung der 2. Achse (Spalten)
       */
     public void getDelta(Double pDeltaRows, Double pDeltaColumns) {
         pDeltaRows = new Double(this.getCellSizeRows());
         pDeltaColumns = new Double(this.getCellSizeColumns());
     }	
 
+    /**
+     * @deprecated
+     * @see this{@link #getVertexPoint(int, int)}
+     */
     public VgPoint getVertexCoordinate(int i, int j) throws T3dException
+    {
+        return this.getVertexPoint(i, j);
+    }
+
+    /**
+     * return a grid cell's vertex point.
+     * 
+     * @param i Grid row index (y-direction)
+     * @param j Grid column index (x-direction)
+     * @return Vertex point
+     */
+    public VgPoint getVertexPoint(int i, int j) throws T3dException
     {
         if (i < 0 || i >= mRows || j < 0 || j >= mCols) 
             throw new T3dException("Index out of bounds.");
