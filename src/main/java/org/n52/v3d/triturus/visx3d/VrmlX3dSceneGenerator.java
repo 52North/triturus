@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2007-2015 52°North Initiative for Geospatial Open Source
+ * Copyright (C) 2007-2016 52 North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it
@@ -18,16 +18,17 @@
  *
  * Therefore the distribution of the program linked with libraries licensed
  * under the aforementioned licenses, is permitted by the copyright holders
- * if the distribution is compliant with both the GNU General Public
- * icense version 2 and the aforementioned licenses.
+ * if the distribution is compliant with both the GNU General Public License 
+ * version 2 and the aforementioned licenses.
  *
  * This program is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
- * Public License for more details.
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY 
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License 
+ * for more details.
  *
- * Contact: Benno Schmidt & Martin May, 52 North Initiative for Geospatial Open Source
- * Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, Germany, info@52north.org
+ * Contact: Benno Schmidt and Martin May, 52 North Initiative for Geospatial 
+ * Open Source Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, 
+ * Germany, info@52north.org
  */
 package org.n52.v3d.triturus.visx3d;
 
@@ -50,18 +51,14 @@ import java.io.IOException;
 import java.text.DecimalFormat;
 
 /**
- * VRML/X3D scene generator.
- * <p>
- * Note: The current implementation takes <tt>MultiTerrainScene</tt>-objects as input only.
+ * VRML/X3D scene generator. The current implementation takes 
+ * {@link MultiTerrainScene}-objects as input.
  *
- * @see MultiTerrainScene
  * @author Benno Schmidt
- * @since Triturus ver 1.1
+ * @see MultiTerrainScene
  */
 public class VrmlX3dSceneGenerator extends IoAbstractWriter
 {
-    // TODO VrmlX3dSceneGenerator extends T3dConcreteSceneGenerator ab Triturus 1.1
-
     private String mLogString = "";
 
     private VsScene mScene;
@@ -70,7 +67,7 @@ public class VrmlX3dSceneGenerator extends IoAbstractWriter
     /**
      * Constructor.
      *
-     * @param pScene <tt>MultiTerrainScene</tt>-object
+     * @param pScene {@link MultiTerrainScene}-object
      */
     public VrmlX3dSceneGenerator(VsScene pScene)
     {
@@ -78,8 +75,9 @@ public class VrmlX3dSceneGenerator extends IoAbstractWriter
 
         mScene = pScene;
 
-        if (! (mScene instanceof MultiTerrainScene)) {
-            throw new T3dNotYetImplException("MultiTerrainScene expected for VRML visualization...");
+        if (!(mScene instanceof MultiTerrainScene)) {
+            throw new T3dNotYetImplException(
+            		"MultiTerrainScene expected for VRML/X3D visualization...");
         }
     }
 
@@ -88,7 +86,8 @@ public class VrmlX3dSceneGenerator extends IoAbstractWriter
     }
 
     /**
-     * generates a VRML 2.0 file representing the content of the scene that has been passed to the constructor.
+     * generates a VRML 2.0 file representing the content of the scene that 
+     * has been passed to the constructor.
      *
      * @param pFilename Output-file name (complete file path)
      */
@@ -126,8 +125,14 @@ public class VrmlX3dSceneGenerator extends IoAbstractWriter
             wl("      geometry IndexedLineSet {");
 
             T3dVector
-                pos1 = s.norm(new GmPoint(s.envelope().getXMin(), s.envelope().getYMin(), s.envelope().getZMin())),
-                pos2 = s.norm(new GmPoint(s.envelope().getXMax(), s.envelope().getYMax(), s.envelope().getZMax()));
+                pos1 = s.norm(new GmPoint(
+                		s.envelope().getXMin(), 
+                		s.envelope().getYMin(), 
+                		s.envelope().getZMin())),
+                pos2 = s.norm(new GmPoint(
+                		s.envelope().getXMax(), 
+                		s.envelope().getYMax(), 
+                		s.envelope().getZMax()));
 
             wl("        coord Coordinate {");
             wl("          point [");
@@ -165,7 +170,8 @@ public class VrmlX3dSceneGenerator extends IoAbstractWriter
             wl("      }");
             wl("    },");
 
-            for (int i = 0; i < s.getTerrains().size(); i++) {
+            for (int i = 0; i < s.getTerrains().size(); i++) 
+            {
                 VgElevationGrid terr = s.getTerrains().get(i);
                 GmSimple2dGridGeometry terrGeom = (GmSimple2dGridGeometry) terr.getGeometry();
                 double scale = s.getScale();
@@ -174,6 +180,7 @@ public class VrmlX3dSceneGenerator extends IoAbstractWriter
                         terrGeom.envelope().getXMin(),
                         terrGeom.envelope().getYMax(),
                         0.0));
+    
                 double dx = upperLeftCornerNormalized.getX();
                 double dz = -upperLeftCornerNormalized.getY();
 
@@ -217,7 +224,8 @@ public class VrmlX3dSceneGenerator extends IoAbstractWriter
 
                     for (int ii = terrGeom.numberOfRows() - 1; ii >= 0; ii--) {
                         for (int jj = 0; jj < terrGeom.numberOfColumns(); jj++) {
-                            T3dColor col = s.getHypsometricColorMapper().transform(terr.getValue(ii, jj));
+                            T3dColor col = s.getHypsometricColorMapper().transform(
+                            		terr.getValue(ii, jj));
                             wl(col.getRed() + " " + col.getGreen() + " " + col.getBlue() + ",");
                         }
                     }
@@ -251,7 +259,8 @@ public class VrmlX3dSceneGenerator extends IoAbstractWriter
                 wl("            diffuseColor IS color");
                 wl("          }");
                 wl("        }");
-                wl("        geometry Sphere {"); // todo bislang werden alle marker als Kugeln dargestellt
+                wl("        geometry Sphere {"); 
+                // TODO Currently all markers are visualized using spheres
                 wl("          radius 0.025");
                 wl("        }");
                 wl("      }");
@@ -265,8 +274,12 @@ public class VrmlX3dSceneGenerator extends IoAbstractWriter
                     T3dVector pos = s.norm(m.getPosition());
 
                     wl("MarkerProto {");
-                    wl("  color " + col.getRed() + " " + col.getGreen() + " " + col.getBlue());
-                    wl("  position " + pos.getX() + " " + (pos.getZ() * s.getDefaultExaggeration()) + " " + (-pos.getY()));
+                    wl("  color " + 
+                    		col.getRed() + " " + col.getGreen() + " " + col.getBlue());
+                    wl("  position " + 
+                    		pos.getX() + " " + 
+                    		(pos.getZ() * s.getDefaultExaggeration()) + " " + 
+                    		(-pos.getY()));
                     wl("}");
                 }
             }
@@ -285,7 +298,8 @@ public class VrmlX3dSceneGenerator extends IoAbstractWriter
     }
 
     /**
-     * generates an X3D file representing the content of the scene that has been passed to the constructor.
+     * generates an X3D file representing the content of the scene that has 
+     * been passed to the constructor.
      *
      * @param pFilename Output-file name (complete file path)
      */
@@ -306,10 +320,11 @@ public class VrmlX3dSceneGenerator extends IoAbstractWriter
     }
 
     /**
-     * generates an XHTML document containing a simple X3DOM model. Note that the flag <tt>pX3dom</tt> must be set to
-     * <i>true</i> to embed the X3D model into XHTML using X3DOM. Otherwise, for <tt>pX3dom</tt> set to <i>false</i>,
-     * regular X3D output will be produced (you could call the method writeToX3dFile without <tt>pX3dom</tt> parameter
-     * instead).
+     * generates an XHTML document containing a simple X3DOM model. Note that the 
+     * flag <tt>pX3dom</tt> must be set to <i>true</i> to embed the X3D model into 
+     * XHTML using X3DOM. Otherwise, for <tt>pX3dom</tt> set to <i>false</i>, regular 
+     * X3D output will be produced (you could call the method {@link writeToX3dFile} 
+     * without <tt>pX3dom</tt> parameter instead).
      *
      * @param pFilename Output-file name (complete file path)
      * @param pX3dom controls whether an X3D or an XHTML/X3DOM document will be generated

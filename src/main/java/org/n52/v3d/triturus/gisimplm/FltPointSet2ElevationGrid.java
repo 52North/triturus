@@ -36,7 +36,6 @@ import org.n52.v3d.triturus.core.T3dProcFilter;
 import org.n52.v3d.triturus.core.T3dException;
 import org.n52.v3d.triturus.vgis.VgPoint;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /** 
@@ -217,9 +216,10 @@ public class FltPointSet2ElevationGrid extends T3dProcFilter
      */
     public GmSimpleElevationGrid transform(List<VgPoint> pPointSet) throws T3dException
     {   	
-        if (mGrid == null)
+        if (mGrid == null) {
             throw new T3dException("Destination grid-geometry is missing.");
-
+        }
+        
         mSumZ = new double[mNX * mNY];
         mSumN = new double[mNX * mNY];
                  
