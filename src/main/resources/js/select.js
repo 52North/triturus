@@ -62,9 +62,9 @@ window.onload = function(){
 				<tr><td>i: </td><td id="gridZ">-</td></tr>\
 				<tr><td>j: </td><td id="gridX">-</td></tr>\
 				<tr><td>value: </td><td id="gridY">-</td></tr>\
-				<tr><td></td><td id="gridValues"></td></tr>\
-				<tr><td></td><td id="situation"></td></tr>\
 			</table>\
+			<div id="gridValues"></div>\
+			<div id="situation"></div>\
 		</div>\
 	';
 }
