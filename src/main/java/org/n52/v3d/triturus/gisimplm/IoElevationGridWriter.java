@@ -802,6 +802,8 @@ public class IoElevationGridWriter extends IoAbstractWriter
             lDat.write("" + px + " " + (lExaggeration * 10. * pz) + " " + py);
             lDat.write("\" centerOfRotation=\"" + px + " " + (lExaggeration * pz) + " " + py + "\"></Viewpoint>");
             lDat.newLine();
+            lDat.write("    <Transform scale=\"1 " + (lExaggeration) + " 1\">");
+            lDat.newLine();
 
             lDat.write("    <Shape onclick=\"handleClick(event)\">");
             lDat.newLine();
@@ -828,14 +830,17 @@ public class IoElevationGridWriter extends IoAbstractWriter
             // Elevation-values:
             for (int i = lGeom.numberOfRows() - 1; i >= 0; i--) {
                 for (int j = 0; j < lGeom.numberOfColumns(); j++) {
-                    lDat.write("" + dfZ.format(lExaggeration * pGrid.getValue(i, j)) + " ");
+                    lDat.write("" + dfZ.format(pGrid.getValue(i, j)) + " ");
                 }
             }
+            
             lDat.write("\">");
             lDat.newLine();
             lDat.write("      </ElevationGrid>");
             lDat.newLine();
             lDat.write("    </Shape>");
+            lDat.newLine();
+            lDat.write("    </Transform>");
             lDat.newLine();
             lDat.write("  </Scene>");
             lDat.newLine();

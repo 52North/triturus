@@ -8,14 +8,14 @@ function handleClick(event) {
     document.getElementById('coordY').innerHTML = roundWithTwoDecimals(coordinates[1]);
     document.getElementById('coordZ').innerHTML = roundWithTwoDecimals(coordinates[2]);
     document.getElementById('gridX').innerHTML = roundWithTwoDecimals(coordinates[0] / 50.0);
-    document.getElementById('gridY').innerHTML = roundWithTwoDecimals(coordinates[1] / 7.0);
+    document.getElementById('gridY').innerHTML = roundWithTwoDecimals(coordinates[1]);
     document.getElementById('gridZ').innerHTML = roundWithTwoDecimals(coordinates[2] / 50.0);
     findNeighbours(event.hitPnt)
 }
 
 function findNeighbours(point) {
     var j = point[0] / cellRowSize;
-    var value = point[1] / lExageration;
+    var value = point[1];
     var i = point[2] / cellColumnSize;
 
     var ceil_i = Math.ceil(i);
@@ -24,14 +24,18 @@ function findNeighbours(point) {
     var floor_j = Math.floor(j);
 
     document.getElementById("gridValues").innerHTML = "<p>"+
-        "array[" + floor_i + "][" + floor_j + "] = " + (array[floor_i][floor_j] / lExageration).toFixed(2) + "<br>" +
-        "array[" + ceil_i + "][" + floor_j + "] = " + (array[ceil_i][floor_j] / lExageration).toFixed(2) + "<br>" +
-        "array[" + floor_i + "][" + ceil_j + "] = " + (array[floor_i][ceil_j] / lExageration).toFixed(2) + "<br>" +
-        "array[" + ceil_i + "][" + ceil_j + "] = " + (array[ceil_i][ceil_j] / lExageration).toFixed(2) + "</p>";
+        "array[" + floor_i + "][" + floor_j + "] = " + (array[floor_i][floor_j]).toFixed(2) + "<br>" +
+        "array[" + ceil_i + "][" + floor_j + "] = " + (array[ceil_i][floor_j]).toFixed(2) + "<br>" +
+        "array[" + floor_i + "][" + ceil_j + "] = " + (array[floor_i][ceil_j]).toFixed(2) + "<br>" +
+        "array[" + ceil_i + "][" + ceil_j + "] = " + (array[ceil_i][ceil_j]).toFixed(2) + "</p>";
+	// @Adhitya: This can be replaced by visibility
 	document.getElementById("situation").innerHTML = '\
 			Z Value: <input type="text" id="situationValue" size="10" value="5"><br>\
 			<input type="radio" name="situationType" onclick="check(this.value)" value="relative" checked>Relative\
 			<input type="radio" name="situationType" onclick="check(this.value)" value="absolute">Absolute<br>\
+		';
+	document.getElementById("showFlooding").innerHTML = '\
+			<input type="submit" value="Show Flooding" onclick="flood()">\
 		';
 }
 
@@ -41,7 +45,6 @@ function check(situationType) {
 
 window.onload = function(){
 	this.grid = document.getElementById("grid");
-    this.lExageration = 7.0;
     this.height = grid.height;
     this.columns = parseInt(grid.xDimension);
     this.cellColumnSize = parseInt(grid.xSpacing);
@@ -63,8 +66,11 @@ window.onload = function(){
 				<tr><td>j: </td><td id="gridX">-</td></tr>\
 				<tr><td>value: </td><td id="gridY">-</td></tr>\
 			</table>\
+			<br>\
+			<br>\
 			<div id="gridValues"></div>\
 			<div id="situation"></div>\
+			<div id="showFlooding"></div>\
 		</div>\
 	';
 }
