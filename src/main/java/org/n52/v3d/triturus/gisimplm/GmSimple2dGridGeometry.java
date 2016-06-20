@@ -42,7 +42,8 @@ import org.n52.v3d.triturus.core.T3dException;
 import java.lang.Double;
 
 /** 
- * Class to manage equidistant grid geometries that be oriented arbitrarily inside the x-y plane.
+ * Class to manage equidistant grid geometries that be oriented arbitrarily 
+ * inside the x-y plane.
  *
  * @author Benno Schmidt
  */
@@ -58,8 +59,14 @@ public class GmSimple2dGridGeometry extends VgEquidistGrid
      *
      * @param pCols Number of grid columns (x-direction)
      * @param pRows Number of grid rows (y-direction)
+     * @param pOrigin Origin point
+     * @param pDeltaX Cell-size in x-direction
+     * @param pDeltaY Cell-size in y-direction
      */
-    public GmSimple2dGridGeometry(int pCols, int pRows, VgPoint pOrigin, double pDeltaX, double pDeltaY) 
+    public GmSimple2dGridGeometry(
+    		int pCols, int pRows, 
+    		VgPoint pOrigin, 
+    		double pDeltaX, double pDeltaY) 
     {
        mRows = pRows;
        mCols = pCols;
@@ -215,4 +222,35 @@ public class GmSimple2dGridGeometry extends VgEquidistGrid
     public VgGeomObject footprint() {
         return this;
     }
+    
+	/**
+	 * returns the indices of the nearest grid element for a given 
+	 * geo-position <tt>pPos</tt>. If <tt>pPos</tt> is outside the 
+	 * elevation-grid, the return-value will be <i>null</i>. Otherwise the
+	 * first element of the returned array will give the row index, the
+	 * second element will give the column index.
+	 * 
+	 * @param pPos Query position
+	 * @return int[2]-array holding row and column index
+	 */
+	public int[] getIndices(VgPoint pPos) 
+	{
+		double 
+			col = (pPos.getX() - this.getOrigin().getX()) / this.getDeltaX(),
+			row = (pPos.getY() - this.getOrigin().getY()) / this.getDeltaY();
+		int 
+			colInt = (int) Math.round(col),
+			rowInt = (int) Math.round(row);
+		if (
+			colInt < 0 || colInt >= this.numberOfColumns() || 
+			rowInt < 0 || rowInt >= this.numberOfRows())
+		{
+			return null; 
+		}
+		
+		int[] res = new int[2];
+		res[0] = rowInt;
+		res[1] = colInt;
+		return res; 
+	}
 }

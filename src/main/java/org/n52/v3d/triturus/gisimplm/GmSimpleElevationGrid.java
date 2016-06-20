@@ -39,11 +39,10 @@ import java.util.ArrayList;
 
 /**
  * Class to manage a grid holding elevation values. The grid is assumed 
- * to be orientated parallel to x- and y-axis. It might be specified as 
- * vertex-based (so-called &quot;Lattice&quot;) or cell-based 
- * (&quot;Grid&quot;). Note that grid's values may left unset, since for 
- * all grid elements (vertices or cells) a &quot;no data&quot;-flag can 
- * be set.
+ * to be parallel in line with the x- and y-axis. It might be specified 
+ * as vertex-based (so-called &quot;Lattice&quot;) or cell-based 
+ * (&quot;Grid&quot;). Note that grid's values may left unset, since for all 
+ * grid elements (vertices or cells) a &quot;no data&quot;-flag can be set.
  * 
  * @author Benno Schmidt
  */
@@ -61,13 +60,19 @@ public class GmSimpleElevationGrid extends VgElevationGrid
      * 
      * @param pCols Number of grid cells in x-direction (columns)
      * @param pRows Number of grid cells in y-direction (rows)
+     * @param pOrigin Origin point
+     * @param pDeltaX Cell-size in x-direction
+     * @param pDeltaY Cell-size in y-direction
      */
     public GmSimpleElevationGrid(
     		int pCols, int pRows, 
     		VgPoint pOrigin, 
     		double pDeltaX, double pDeltaY)
     {
-        mGeom = new GmSimple2dGridGeometry(pCols, pRows, pOrigin, pDeltaX, pDeltaY);
+        mGeom = new GmSimple2dGridGeometry(
+        		pCols, pRows, 
+        		pOrigin, 
+        		pDeltaX, pDeltaY);
         
         mVal = new double[pRows][pCols]; 
         mIsSetFl = new boolean[pRows][pCols]; 
@@ -196,6 +201,10 @@ public class GmSimpleElevationGrid extends VgElevationGrid
      * 0 &lt;= pCol &lt; this.numberOfColumns()</i>
      * is violated, a <tt>T3dException</tt> will be thrown. Post-condition: 
      * <tt>this.isSet(pRow, pCol) = true</tt>
+     * 
+     * @param pRow Row-index
+     * @param pCol Column-index
+     * @param pZ Elevation-value
      */
     public void setValue(int pRow, int pCol, double pZ) throws T3dException 
     {
@@ -207,7 +216,7 @@ public class GmSimpleElevationGrid extends VgElevationGrid
         }
         catch (Exception e) {
             throw new T3dException(
-            		"Could not set grid value (" + pRow + ", " + pCol + ").");
+            	"Could not set grid value (" + pRow + ", " + pCol + ").");
         }
     }
 
@@ -218,6 +227,8 @@ public class GmSimpleElevationGrid extends VgElevationGrid
      * 0 &lt;= pCol &lt; this.numberOfColumns()</i> 
      * is violated, a <tt>T3dException</tt> will be thrown.
      * 
+     * @param pRow Row-index
+     * @param pCol Column-index
      * @throws T3dException
      */
     public boolean isSet(int pRow, int pCol) throws T3dException
@@ -251,6 +262,8 @@ public class GmSimpleElevationGrid extends VgElevationGrid
      * is violated, a <tt>T3dException</tt> will be thrown. Post-condition:
      * <tt>this.isIsSet(pRow, pCol) = false</tt><p>
      * 
+     * @param pRow Row-index
+     * @param pCol Column-index
      * @throws T3dException
      */
     public void unset(int pRow, int pCol) throws T3dException
@@ -273,6 +286,8 @@ public class GmSimpleElevationGrid extends VgElevationGrid
      * <tt>T3dException</tt> will be thrown. Post-condition:
      * <tt>this.isIsSet(pRow, pCol) = false</tt><p>
      * 
+     * @param pRow Row-index
+     * @param pCol Column-index
      * @throws T3dException
      */
     public double getValue(int pRow, int pCol) throws T3dException
@@ -284,14 +299,15 @@ public class GmSimpleElevationGrid extends VgElevationGrid
                 throw new T3dException("Tried to access unset grid element.");
         }
         catch (Exception e) {
-            throw new T3dException("Illegal grid element access. " + e.getMessage());
+            throw new T3dException(
+            	"Illegal grid element access. " + e.getMessage());
         }
     }
 
     /** 
-     * returns the elevation grid's bounding-box. Note that this extent depends
-     * on the grid-type (vertex-based &quot;lattice&quot; mode or cell-based 
-     * &quot;grid&quot; mode)!
+     * returns the elevation grid's bounding-box. Note that this extent 
+     * depends on the grid-type (vertex-based &quot;lattice&quot; mode or 
+     * cell-based &quot;grid&quot; mode)!
      * 
      * @return 3D-bounding-box, or <i>null</i> if an error occurs
      * @see GmSimpleElevationGrid#setLatticeInterpretation
@@ -425,13 +441,18 @@ public class GmSimpleElevationGrid extends VgElevationGrid
 	}
 
 	/**
-     * returns the coordinates of a point that is part of the 
-     * elevation-grid. If there is no z-value assigned to the grid point, 
-     * the return-value will be <i>null</i>.
+     * returns the coordinates of a point that is part of the elevation-grid.
+     * If there is no z-value assigned to the grid point, the return-value 
+     * will be <i>null</i>.
+     * 
+     * @param pRow Row-index
+     * @param pCol Column-index
+     * @return Elevation-Point 
 	 */
-	public VgPoint getPoint(int pRow, int pCol) {
-		double x = mGeom.getOrigin().getX() + pCol * getDeltaX();
-        double y = mGeom.getOrigin().getY() + pRow * getDeltaY();
+	public VgPoint getPoint(int pRow, int pCol) 
+	{
+		double x = mGeom.getOrigin().getX() + pCol * this.getDeltaX();
+        double y = mGeom.getOrigin().getY() + pRow * this.getDeltaY();
         double z;
         if (! this.isSet(pRow, pCol))
             return null;

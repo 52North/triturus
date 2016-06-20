@@ -55,7 +55,8 @@ public class Gridding
     private String outputFormat = IoElevationGridWriter.X3DOM;
 
     
-    public static void main(String args[]){
+    public static void main(String args[])
+    {
         Gridding app = new Gridding();
 
         List<VgPoint> points = app.readPointCloud();

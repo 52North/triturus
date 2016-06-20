@@ -33,49 +33,66 @@
 package org.n52.v3d.triturus.examples.elevationgrid;
 
 import org.n52.v3d.triturus.core.T3dException;
+import org.n52.v3d.triturus.gisimplm.FltElevationGridFloodFill;
+import org.n52.v3d.triturus.gisimplm.GmPoint;
 import org.n52.v3d.triturus.gisimplm.GmSimpleElevationGrid;
 import org.n52.v3d.triturus.gisimplm.IoElevationGridReader;
 import org.n52.v3d.triturus.gisimplm.IoElevationGridWriter;
+import org.n52.v3d.triturus.vgis.VgPoint;
 
 /** 
  * Triturus example application: Reads an elevation grid in ArcInfo ASCII grid 
- * format and writes it to a VRML file.
+ * format, computes a simple flooding-situation, and generates another
+ * elevation grid which holds the information about the flooded area.
  * 
  * @author Benno Schmidt
- * @see GridConvertApp
  */
-public class GridConvert
+public class FloodFillDemo
 {
+	private String 
+		inputFile = "/data/example_dem.asc",
+		outputFile = "/data/example_dem_flood_2.asc";
+
 	public static void main(String args[])
 	{
-        IoElevationGridReader reader = 
-        	new IoElevationGridReader(IoElevationGridReader.ARCINFO_ASCII_GRID);
-
+		FloodFillDemo app = new FloodFillDemo();
+		app.run();
+	}
+	
+	public void run() 
+	{
+		IoElevationGridReader reader = new IoElevationGridReader(
+			IoElevationGridReader.ARCINFO_ASCII_GRID);
+		IoElevationGridWriter writer = new IoElevationGridWriter(
+			IoElevationGridWriter.ARCINFO_ASCII_GRID);
+		
+		GmSimpleElevationGrid srcGrd, targetGrd;
+		
 		try {
-            // Read the elevation grid from file:
-			GmSimpleElevationGrid grid = 
-				reader.readFromFile("/data/example_dem.asc");
-
-            // This is just some control output:
-			System.out.println(grid);
-            System.out.print("The elevation grid's bounding-box: ");
-			System.out.println(grid.envelope().toString());
-
-            // If some grid cell's have NODATA values, assign a value...
-            for (int j = 0; j < grid.numberOfColumns(); j++) {
-                for (int i = 0; i < grid.numberOfRows(); i++) {
-                    if (!grid.isSet(i, j))
-                        grid.setValue(i, j, 0.0);
-                }
-            }
-
-            // Write VRML output:
-			IoElevationGridWriter writer = 
-				new IoElevationGridWriter(IoElevationGridWriter.VRML2);
-    		writer.writeToFile(grid, "/data/example_dem.wrl");
+			// Read the elevation grid from file:
+			srcGrd = reader.readFromFile(inputFile);
+			
+			// This is just some control output:
+			System.out.println(srcGrd);
+			System.out.print("The elevation grid's bounding-box: ");
+			System.out.println(srcGrd.envelope().toString());
+			VgPoint seedPoint = new GmPoint(srcGrd.envelope().getCenterPoint());
+			// Set water-level 2 meters above ground:
+			seedPoint.setZ(
+				srcGrd.getValue(
+					srcGrd.numberOfRows() / 2, 
+					srcGrd.numberOfColumns() / 2) 
+				+ 2.); 
+			System.out.println( "Seed: " + seedPoint);
+			
+			FltElevationGridFloodFill flt = new FltElevationGridFloodFill();
+			targetGrd = (GmSimpleElevationGrid) flt.transform(srcGrd, seedPoint);
+			
+			// Write result:
+			writer.writeToFile(targetGrd, outputFile);
 		}
 		catch (T3dException e) {
 			e.printStackTrace();
 		}
-    }
+	}
 }

@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2007-2015 52°North Initiative for Geospatial Open Source
+ * Copyright (C) 2007-2016 52 North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it
@@ -18,16 +18,17 @@
  *
  * Therefore the distribution of the program linked with libraries licensed
  * under the aforementioned licenses, is permitted by the copyright holders
- * if the distribution is compliant with both the GNU General Public
- * icense version 2 and the aforementioned licenses.
+ * if the distribution is compliant with both the GNU General Public License 
+ * version 2 and the aforementioned licenses.
  *
  * This program is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
- * Public License for more details.
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY 
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License 
+ * for more details.
  *
- * Contact: Benno Schmidt & Martin May, 52 North Initiative for Geospatial Open Source
- * Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, Germany, info@52north.org
+ * Contact: Benno Schmidt and Martin May, 52 North Initiative for Geospatial 
+ * Open Source Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, 
+ * Germany, info@52north.org
  */
 package org.n52.v3d.triturus.core;
 
@@ -39,11 +40,13 @@ package org.n52.v3d.triturus.core;
  */
 public class T3dException extends RuntimeException
 {
-    private int mId = -1;
+	private static final long serialVersionUID = 1L;
+	
+	private int mId = -1;
 
     /**
-     * Constructor.<br />
-     * Note: The error IDs will be used by the class <tt>T3dExceptionMessage</tt>.
+     * Constructor. Note that the error IDs will be used by the class 
+     * {@link T3dExceptionMessage<}.
      *
      * @param pMsg Error message
      * @param pErrId unique ID
@@ -70,7 +73,8 @@ public class T3dException extends RuntimeException
 	}
 
     /**
-     * returns the <tt>T3dException</tt>'s ID. If no ID is set, the method will return -1.
+     * returns the <tt>T3dException</tt>'s ID. If no ID is set, the method 
+     * will return -1.
      *
      * @return Error ID
      */
