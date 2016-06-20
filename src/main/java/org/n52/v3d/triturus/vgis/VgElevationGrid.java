@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2007-2015 52°North Initiative for Geospatial Open Source
+ * Copyright (C) 2007-2016 52 North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it
@@ -18,24 +18,27 @@
  *
  * Therefore the distribution of the program linked with libraries licensed
  * under the aforementioned licenses, is permitted by the copyright holders
- * if the distribution is compliant with both the GNU General Public
- * icense version 2 and the aforementioned licenses.
+ * if the distribution is compliant with both the GNU General Public License 
+ * version 2 and the aforementioned licenses.
  *
  * This program is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
- * Public License for more details.
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY 
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License 
+ * for more details.
  *
- * Contact: Benno Schmidt & Martin May, 52 North Initiative for Geospatial Open Source
- * Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, Germany, info@52north.org
+ * Contact: Benno Schmidt and Martin May, 52 North Initiative for Geospatial 
+ * Open Source Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, 
+ * Germany, info@52north.org
  */
 package org.n52.v3d.triturus.vgis;
 
 /**
- * Class to manage elevation grids. The grid's elevation values might refer to the grid geometry's vertices (so-called
- * "lattices", <i>vertex-based grid</i>) or to the grid-cells (<i>cell-based grid</i>, often designed as "grids" in
- * contrast to "lattices"). Since for all gid cells a "no-data"-flag can be set, not for all grid's elements elevation
- * values must be given.
+ * Class to manage elevation grids. The grid's elevation values might refer to 
+ * the grid geometry's vertices (so-called &quot;lattices&quot;, <i>vertex-based 
+ * grid</i>) or to the grid-cells (<i>cell-based grid</i>, often designed as 
+ * &quot;grids&quot; in contrast to &quot;lattices&quot;). Since for all grid 
+ * cells a &quot;no-data&quot;-flag can be set, not for all grid's elements 
+ * elevation values must be given.
  *
  * @author Benno Schmidt
  */
@@ -56,7 +59,8 @@ abstract public class VgElevationGrid extends VgFeature
     abstract public int numberOfRows();
     
     /**
-     * sets the elevation value <tt>pZ</tt> for the row index <tt>pRow</tt> and the column index <tt>pCol</tt>.
+     * sets the elevation value <tt>pZ</tt> for the row index <tt>pRow</tt> 
+     * and the column index <tt>pCol</tt>.
      *
      * @param pRow Row index
      * @param pCol Column index
@@ -65,7 +69,8 @@ abstract public class VgElevationGrid extends VgFeature
     abstract public void setValue(int pRow, int pCol, double pZ);
 
     /** 
-     * returns the elevation value for the row index <tt>pRow</tt> and the column index <tt>pCol</tt>.
+     * returns the elevation value for the row index <tt>pRow</tt> and the 
+     * column index <tt>pCol</tt>.
      *
      * @return Elevation value
      */

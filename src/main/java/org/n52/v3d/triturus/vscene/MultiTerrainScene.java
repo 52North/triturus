@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2007-2015 52°North Initiative for Geospatial Open Source
+ * Copyright (C) 2007-2016 52 North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it
@@ -18,16 +18,17 @@
  *
  * Therefore the distribution of the program linked with libraries licensed
  * under the aforementioned licenses, is permitted by the copyright holders
- * if the distribution is compliant with both the GNU General Public
- * icense version 2 and the aforementioned licenses.
+ * if the distribution is compliant with both the GNU General Public License 
+ * version 2 and the aforementioned licenses.
  *
  * This program is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
- * Public License for more details.
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY 
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License 
+ * for more details.
  *
- * Contact: Benno Schmidt & Martin May, 52 North Initiative for Geospatial Open Source
- * Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, Germany, info@52north.org
+ * Contact: Benno Schmidt and Martin May, 52 North Initiative for Geospatial 
+ * Open Source Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, 
+ * Germany, info@52north.org
  */
 package org.n52.v3d.triturus.vscene;
 
@@ -45,39 +46,43 @@ import org.n52.v3d.triturus.vgis.VgPoint;
 import java.util.ArrayList;
 
 /**
- * Specification of a scene that consists of an arbitrary number of grid-based <i>digital elevation models</i> (DEMs),
- * an arbitrary number of <i>marker objects</i>, <i>viewpoint definitions</i>, and </i>light-sources</i>.
+ * Specification of a scene that consists of an arbitrary number of grid-based 
+ * <i>digital elevation models</i> (DEMs), an arbitrary number of <i>marker 
+ * objects</i>, <i>viewpoint definitions</i>, and </i>light-sources</i>.
  * <p>
  * Examples for typical use cases:
  * <ul>
  *     <li>Visualization of > 1 (neighboring) elevation models</li>
- *     <li>Visualization of elevation models referring to different thematic aspects (e.g., terrain surface and
- *     groundwater levels)</li>
+ *     <li>Visualization of elevation models referring to different thematic 
+ *     aspects (e.g., terrain surface and groundwater levels)</li>
  * </ul>
  * <p>
- * From the elevation models' spatial extents, a normalized 3D bounding-box will be calculated dynamically (as for
- * <tt>VsSimpleScene</tt></tt>s, see description there):
+ * From the elevation models' spatial extents, a normalized 3D bounding-box 
+ * will be calculated dynamically (as for {@link VsSimpleScene}s, see description 
+ * there):
  * <ul>
- *     <li>In the x-y-plane, this will be a subset of the range -1 &lt;= x' &lt;= +1, -1 &lt;= y' &lt;= +1, whereat the
- *     normalized coordinates are symbolized using an apostrophe (').</li>
- *     <li>The extent in z-direction will be computed from the elevation-values in a way, that vertical height-scale
- * and horizontal scale (x-y-plane) correspond (no exaggeration factor!).</li>
+ *     <li>In the x-y-plane, this will be a subset of the range 
+ *     -1 &lt;= x' &lt;= +1, -1 &lt;= y' &lt;= +1, whereat the normalized 
+ *     coordinates are symbolized using an apostrophe (').</li>
+ *     <li>The extent in z-direction will be computed from the elevation-values 
+ *     in a way, that vertical height-scale and horizontal scale (x-y-plane) 
+ *     correspond (no exaggeration factor!).</li>
  * </ul>
  * <p>
- * For <tt>MultiTerrainScene</tt>s, viewpoint and light-source definitions can be specified easily, since the
- * helper-method <tt>denorm()</tt> allows to specify parameters using normalized coordinates. Hence, viewpoints and
- * light-source parameters are <i>invariant with respect to the set exaggeration-value.</i>
+ * For {@link MultiTerrainScene}s, viewpoint and light-source definitions can 
+ * be specified easily, since the helper-method <tt>denorm()</tt> allows to 
+ * specify parameters using normalized coordinates. Hence, viewpoints and 
+ * light-source parameters are <i>invariant with respect to the set 
+ * exaggeration-value.</i>
  *
+ * @author Benno Schmidt
  * @see VsScene
  * @see VsSimpleScene
- * @author Benno Schmidt
- * @since Triturus ver 1.1
  */
-/*abstract*/ public class MultiTerrainScene extends VsScene
-// todo Maybe this class should be abstract in the future?
+public class MultiTerrainScene extends VsScene
 {
     private ArrayList<VgElevationGrid> mTerrains = null;
-    private VgEnvelope mBBox = null; // A 'null' value will be used to indicate BBox-calculation is necessary.
+    private VgEnvelope mBBox = null; // 'null' to indicate BBox-calculation is necessary
 
     private ArrayList<T3dSymbolInstance> mMarkers = null;
 
@@ -93,12 +98,12 @@ import java.util.ArrayList;
 
 
     /**
-     * adds an elevation model to be visualized as relief ("terrain") to the current scene.
-     * <p>
-     * You can not add more than one elevation-model to the <tt>VsSimpleScene</tt>.
-     * <p>
-     * Note, that the elevation-model must be a grid-based model. E.g., <tt>MultiTerrainScene</tt> descriptions do
-     * not support triangulated irregular networks (TINs) yet (although it should be easy to implement this).
+     * adds an elevation model to be visualized as relief ("terrain") to the 
+     * current scene. You can not add more than one elevation-model to the 
+     * {@link VsSimpleScene}. Note, that the elevation-model must be a 
+     * grid-based model. E.g., {@link MultiTerrainScene} descriptions do
+     * not support triangulated irregular networks (TINs) yet (although it 
+     * should be easy to implement this).
      *
      * @param pTerrain Elevation-model
      */
@@ -120,8 +125,8 @@ import java.util.ArrayList;
                     pTerrain.maximalElevation());
 
             if (mBBox == null) {
-                // Since mTerrains must not be empty (after calls ti removeTerrain()),
-                // mBBox = lBBox is not sufficient!
+                // Since mTerrains must not be empty (after calls to 
+            	// removeTerrain()), mBBox = lBBox is not sufficient!
                 mBBox = this.envelope();
             }
 
@@ -132,9 +137,10 @@ import java.util.ArrayList;
     }
 
     /**
-     * gets the elevation-models to be visualized.
+     * gets the elevation-models to be visualized. If no elevation-models have 
+     * been added to the scene, the method will return <i>null</i>.
      *
-     * @return List of elevation-models, or <i>null</i> if no elevation-models have been added to the scene
+     * @return List of elevation-models 
      */
     public ArrayList<VgElevationGrid> getTerrains() {
         return mTerrains;
@@ -152,10 +158,12 @@ import java.util.ArrayList;
     }
 
     /**
-     * returns the 3D bounding-box with respect to the elevation-grids that are part of the scene. Note that marker
-     * locations will be ignored.
+     * returns the 3D bounding-box with respect to the elevation-grids that 
+     * are part of the scene. If no elevation-grids are part of the scene,
+     * the method will return <i>null</i>. Note that marker locations will 
+     * be ignored.
      *
-     * @return Bounding-box or <i>null</i>, if no elevation-grids are part of the scene
+     * @return Bounding-box (or <i>null</i>)
      */
     public VgEnvelope envelope()
     {
@@ -204,9 +212,10 @@ import java.util.ArrayList;
     }
 
     /**
-     * gets the markers to be visualized.
+     * gets the markers to be visualized. If no markers have been added to 
+     * the scene, the method will return <i>null</i>.
      *
-     * @return List of markers, or <i>null</i> if no markers have been added to the scene
+     * @return List of markers
      */
     public ArrayList<T3dSymbolInstance> getMarkers() {
         return mMarkers;
@@ -224,10 +233,13 @@ import java.util.ArrayList;
     }
 
     /**
-     * returns a position referring to the normalized coordinate-space for a position in geo-coordinate-space. I.e.,
-     * this method transforms geo-coordinates into (<tt>MultiTerrainScene</tt>-specific) normalized coordinates.
+     * returns a position referring to the normalized coordinate-space for 
+     * a position in geo-coordinate-space. I.e., this method transforms 
+     * geo-coordinates into (<tt>MultiTerrainScene</tt>-specific) normalized 
+     * coordinates.
      * <p>
-     * For the result point, the assertion -1 &lt;= x' &lt; +1, -1 &lt;= y' &lt; +1 must hold, if and only if the
+     * For the result point, the assertion 
+     * -1 &lt;= x' &lt; +1, -1 &lt;= y' &lt; +1 must hold, if and only if the
      * position is inside the model's bounding-box.
      *
      * @param pGeoPos Georeferenced point
@@ -245,8 +257,10 @@ import java.util.ArrayList;
     }
 
     /**
-     * returns a position referring to the geo-coordinate-space for a position in the normalized coordinate-space.
-     * I.e., this method transforms (<tt>MultiTerrainScene</tt>-specific) normalized coordinates into geo-coordinates.
+     * returns a position referring to the geo-coordinate-space for a position 
+     * in the normalized coordinate-space. I.e., this method transforms 
+     * (@link MultiTerrainScene}-specific) normalized coordinates into 
+     * geo-coordinates.
      *
 	 * @param pNormPos Georeferenced point
 	 * @return Point in normalized coordinate space
@@ -254,7 +268,8 @@ import java.util.ArrayList;
 	 */
 	public VgPoint denorm(T3dVector pNormPos)
 	{
-        // todo: Method is identical to VsSimpleScene#denorm - maybe this should be refactored...
+        // todo: Method is identical to VsSimpleScene#denorm 
+		// - maybe this should be refactored in the future...
 
 		return new GmPoint(
 		    (pNormPos.getX() - mOffset.getX()) / mScale,
@@ -264,7 +279,8 @@ import java.util.ArrayList;
 
     private void calculateNormTransformation()
 	{
-        // todo: Method is rather identical to VsSimpleScene#calculateNormTransformation - maybe this should be refactored...
+        // todo: Method is rather identical to VsSimpleScene#calculateNormTransformation 
+		// - maybe this should be refactored in the future...
 
         VgEnvelope envXY = this.envelope();
 		double xMinGeo = envXY.getXMin();
@@ -289,46 +305,52 @@ import java.util.ArrayList;
 	}
 
     /**
-     * returns the scale factor that corresponds to the normalization-transformation.
-     * <p>
-     * Note: The normalization will be performed applying the scaling <tt>this.getScale()</tt> to geo-coordinates
-     * first, and then the translation <tt>this.getOffset()</tt>.
+     * returns the scale factor that corresponds to the 
+     * normalization-transformation. Note that the normalization will 
+     * be performed applying the scaling <tt>this.getScale()</tt> to 
+     * geo-coordinates first, and then the translation 
+     * <tt>this.getOffset()</tt>.
      *
      * @return Scaling factor
      * @see VsSimpleScene#getOffset
      */
     public double getScale() {
-        // todo: Method is identical to VsSimpleScene#getScale - maybe this should be refactored...
+        // todo: Method is identical to VsSimpleScene#getScale 
+		// - maybe this should be refactored in the future...
         return mScale;
     }
 
     /**
-     * returns the aspect-ratio of y-extent and x-extent of the elevation-model.
+     * returns the aspect-ratio of y-extent and x-extent of the 
+     * elevation-model.
      *
      * @return Aspect-ratio
      */
     public double getAspect() {
-        // todo: Method is identical to VsSimpleScene#getAspect - maybe this should be refactored...
+        // todo: Method is identical to VsSimpleScene#getAspect 
+		// - maybe this should be refactored in the future...
         return mAspect;
     }
 
     /**
-     * returns the translation vector that corresponds to the normalization-transformation.
-     * <p>
-     * Note: The normalization will be performed applying the scaling <tt>this.getScale()</tt> to geo-coordinates
-     * first, and then the translation <tt>this.getOffset()</tt>.
+     * returns the translation vector that corresponds to the 
+     * normalization-transformation. Note that the normalization will 
+     * be performed applying the scaling <tt>this.getScale()</tt> to 
+     * geo-coordinates first, and then the translation 
+     * <tt>this.getOffset()</tt>.
      *
      * @return Translation vector
      * @see VsSimpleScene#getScale
      */
     public T3dVector getOffset() {
-        // TODO: Method is identical to VsSimpleScene#getOffset - maybe this should be refactored...
+        // TODO: Method is identical to VsSimpleScene#getOffset 
+		// - maybe this should be refactored in the future...
         return mOffset;
     }
 
     /**
-     * gets the minimum z'-value of the elevation-model <tt>this.getTerrain</tt> with respect to normalized coordinate
-     * space.
+     * gets the minimum z'-value of the elevation-model <tt>this.getTerrain</tt> 
+     * with respect to normalized coordinate space.
      *
      * @return normalized z'-coordinate for the minimum elevation-value inside the <tt>VsSimpleScene</tt>
      */
@@ -337,8 +359,8 @@ import java.util.ArrayList;
     }
 
     /**
-     * gets the maximum z'-value of the elevation-model <tt>this.getTerrain</tt> with respect to normalized coordinate
-     * space.
+     * gets the maximum z'-value of the elevation-model <tt>this.getTerrain</tt> 
+     * with respect to normalized coordinate space.
      *
      * @return normalized z'-coordinate for the maximum elevation-value inside the <tt>VsSimpleScene</tt>
      */
@@ -365,8 +387,9 @@ import java.util.ArrayList;
     }
 
     /**
-     * sets the relief shapes' default color. By default, a green coloring will be used. Note that this value will
-     * ignored, if a color-mapper is assigned to the scene.
+     * sets the relief shapes' default color. By default, a green coloring 
+     * will be used. Note that this value will ignored, if a color-mapper is 
+     * assigned to the scene.
      *
      * @see this#setHypsometricColorMapper(org.n52.v3d.triturus.t3dutil.MpHypsometricColor)
      * @param pColor Relief-color
@@ -404,7 +427,8 @@ import java.util.ArrayList;
     }
 
     /**
-     * controls, if the 3D-bounding-box corresponding to the elevation-model will be visible.
+     * controls, if the 3D-bounding-box corresponding to the elevation-model 
+     * will be visible.
      *
      * @param pDrawBBox <i>true</i>, to add the bounding-box shape to the scene
      */
@@ -418,17 +442,21 @@ import java.util.ArrayList;
 
     /**
      * enables the usage of a hypsometric color map for terrain visualization.
+     * If no coloring shall be carried out, call the method with a 
+     * <i>null</i>-value for <tt>pColMap</tt>.
      *
-     * @param pColMap Hypsometric color-assignment or <i>null</i>, if no colouring shall be carried out
+     * @param pColMap Hypsometric color-assignment or <i>null</i>
      */
     public void setHypsometricColorMapper(MpHypsometricColor pColMap) {
     	mHypsometricColMap = pColMap;
     }
 
     /**
-     * gets the hypsometric color mapper that will be used to color the relief color.
+     * gets the hypsometric color mapper that will be used to color the 
+     * relief color. If no coloring will be used, the method will return
+     * <i>null</i>.
      *
-     * @return color.amapper object, or <i>null</i>, if no coloring will be used
+     * @return color-mapper object (<i>null</i>, if no coloring used)
      */
     public MpHypsometricColor getHypsometricColorMapper() {
         return mHypsometricColMap;

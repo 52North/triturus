@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2007-2015 52°North Initiative for Geospatial Open Source
+ * Copyright (C) 2007-2016 52 North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it
@@ -18,16 +18,17 @@
  *
  * Therefore the distribution of the program linked with libraries licensed
  * under the aforementioned licenses, is permitted by the copyright holders
- * if the distribution is compliant with both the GNU General Public
- * icense version 2 and the aforementioned licenses.
+ * if the distribution is compliant with both the GNU General Public License 
+ * version 2 and the aforementioned licenses.
  *
  * This program is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
- * Public License for more details.
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY 
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License 
+ * for more details.
  *
- * Contact: Benno Schmidt & Martin May, 52 North Initiative for Geospatial Open Source
- * Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, Germany, info@52north.org
+ * Contact: Benno Schmidt and Martin May, 52 North Initiative for Geospatial 
+ * Open Source Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, 
+ * Germany, info@52north.org
  */
 package org.n52.v3d.triturus.gisimplm;
 
@@ -37,12 +38,13 @@ import org.n52.v3d.triturus.core.T3dException;
 import java.util.ArrayList;
 
 /**
- * Class to manage grids holding elevation values.<br /><br />
- * <i>German:</i> Klasse zur Verwaltung eines Gitters von H&ouml;henpunkten. Das Gitter wird als achsenparallel
- * vorausgesetzt. Ein Gitter ist wahlweise Vertex-basiert (&quot;Lattices&quot;) oder Zellen-basiert (&quot;Grids&quot;).
- * <br />
- * Die Gitterelemente m&uuml;ssen nicht notwendigerweise mit H&ouml;henwerten belegt sein . F&uuml;r jedes Element
- * l&auml;sst sich ein &quot;no data&quot;-Flag setzen.
+ * Class to manage a grid holding elevation values. The grid is assumed 
+ * to be orientated parallel to x- and y-axis. It might be specified as 
+ * vertex-based (so-called &quot;Lattice&quot;) or cell-based 
+ * (&quot;Grid&quot;). Note that grid's values may left unset, since for 
+ * all grid elements (vertices or cells) a &quot;no data&quot;-flag can 
+ * be set.
+ * 
  * @author Benno Schmidt
  */
 public class GmSimpleElevationGrid extends VgElevationGrid
@@ -53,15 +55,20 @@ public class GmSimpleElevationGrid extends VgElevationGrid
     private boolean mLatticeMode = false;
     private String mTheme = "Elevations";
 
+    
     /**
-     * Constructor.<br /><br />
-     * <i>German:</i> Konstruktor. Es wird ein Gitter erzeugt, in dem alle Punkte unbelegt sind.
+     * Constructor. This will generate a grid will all elements unset.
+     * 
      * @param pCols Number of grid cells in x-direction (columns)
      * @param pRows Number of grid cells in y-direction (rows)
      */
-    public GmSimpleElevationGrid(int pCols, int pRows, VgPoint pOrigin, double pDeltaX, double pDeltaY)
+    public GmSimpleElevationGrid(
+    		int pCols, int pRows, 
+    		VgPoint pOrigin, 
+    		double pDeltaX, double pDeltaY)
     {
         mGeom = new GmSimple2dGridGeometry(pCols, pRows, pOrigin, pDeltaX, pDeltaY);
+        
         mVal = new double[pRows][pCols]; 
         mIsSetFl = new boolean[pRows][pCols]; 
         for (int i = 0; i < pRows; i++) {
@@ -69,18 +76,22 @@ public class GmSimpleElevationGrid extends VgElevationGrid
                 mIsSetFl[i][j] = false;
             }
         }
+        
         this.setName("unnamed elevation grid");
     }
 
     /**
-     * Constructor.<br /><br />
-     * <i>German:</i> Konstruktor. Es wird ein Gitter erzeugt, in dem alle Punkte unbelegt sind.
+     * Constructor. This will generate a grid will all elements unset.
+     * 
+     * @param pGeom Existing grid geometry
      */
     public GmSimpleElevationGrid(GmSimple2dGridGeometry pGeom) 
     {
         mGeom = pGeom;
+      
         int nRows = mGeom.numberOfRows();
         int nCols = mGeom.numberOfColumns();
+ 
         mVal = new double[nRows][nCols]; 
         mIsSetFl = new boolean[nRows][nCols]; 
         for (int i = 0; i < nRows; i++) {
@@ -88,30 +99,35 @@ public class GmSimpleElevationGrid extends VgElevationGrid
                 mIsSetFl[i][j] = false;
             }
         }
+        
         this.setName("unnamed elevation grid");
     }
 
     /** 
      * provides thematic meta-information.
+     * 
      * @return List of strings
      */
-    public ArrayList getThematicAttributes() {
-        ArrayList lList = new ArrayList();
+    public ArrayList<String> getThematicAttributes() 
+    {
+        ArrayList<String> lList = new ArrayList<String>();
         lList.add(mTheme);
         return lList;
     }
     
     /** 
      * returns the object geometry.
-     * @return <tt>GmSimple2dGridGeometry</tt>-object
-     * @see org.n52.v3d.triturus.gisimplm.GmSimple2dGridGeometry
+     * 
+     * @return {@link GmSimple2dGridGeometry}-object
      */
     public VgGeomObject getGeometry() {
         return mGeom;
     }
 
     /** 
-     * always returns <i>false</i>, since a <tt>GmSimpleElevationGrid</tt> consists of one and only geo-object.
+     * always returns <i>false</i>, since a {@link GmSimpleElevationGrid} 
+     * consists of one and only geo-object.
+     * 
      * @return <i>false</i>
      */
     public boolean isCollection() {
@@ -119,9 +135,10 @@ public class GmSimpleElevationGrid extends VgElevationGrid
     }
 
     /** 
-     * always returns this <tt>GmSimpleElevationGrid</tt> itself.
+     * always returns this {@link GmSimpleElevationGrid} itself.
+     * 
      * @param i (here always 0)
-     * @return elevation-grid itself
+     * @return Elevation-grid itself
      * @throws T3dException
      */ 
     public VgFeature getFeature(int i) throws T3dException
@@ -159,26 +176,26 @@ public class GmSimpleElevationGrid extends VgElevationGrid
     }
 
     /**
-     * sets vertex-based interpretation mode.<br /><br />
-     * <i>German:</i> setzt den Modus f&uuml;r eine Vertex-basierte Interpretation.
+     * sets vertex-based interpretation mode.
      */
     public void setLatticeInterpretation() {
        mLatticeMode = true;
     }
     
     /**
-     * sets cell-based interpretation mode.<br /><br />
-     * <i>German:</i> setzt den Modus f&uuml;r eine Zellen-basierte Interpretation.
+     * sets cell-based interpretation mode.
      */
     public void setGridInterpretation() {
        mLatticeMode = false;
     }
 
     /**
-     * sets the elevation value <tt>pZ</tt> for the row index <tt>pRow</tt> and the column index <tt>pCol</tt>. If one
-     * if the assertions <i>0 &lt;= pRow &lt; this.numberOfRows(), 0 &lt;= pCol &lt; this.numberOfColumns()</i>
-     * is violated, a <tt>T3dException</tt> will be thrown.<br />
-     * Post-condition: <tt>this.isSet(pRow, pCol) = true</tt>
+     * sets the elevation value <tt>pZ</tt> for the row index <tt>pRow</tt> 
+     * and the column index <tt>pCol</tt>. If one of the assertions 
+     * <i>0 &lt;= pRow &lt; this.numberOfRows(), 
+     * 0 &lt;= pCol &lt; this.numberOfColumns()</i>
+     * is violated, a <tt>T3dException</tt> will be thrown. Post-condition: 
+     * <tt>this.isSet(pRow, pCol) = true</tt>
      */
     public void setValue(int pRow, int pCol, double pZ) throws T3dException 
     {
@@ -189,14 +206,18 @@ public class GmSimpleElevationGrid extends VgElevationGrid
             this.updateZBounds(zOld, pZ);
         }
         catch (Exception e) {
-            throw new T3dException("Could not set grid value (" + pRow + ", " + pCol + ").");
+            throw new T3dException(
+            		"Could not set grid value (" + pRow + ", " + pCol + ").");
         }
     }
 
     /** 
-     * returns <i>true</i>, if an elevation-value is assigned to a given grid element. If one of the assertions
-     * <i>0 &lt;= pRow &lt; this.numberOfRows(), 0 &lt;= pCol &lt; this.numberOfColumns()</i> is violated, a
-     * <tt>T3dException</tt> will be thrown.
+     * returns <i>true</i>, if an elevation-value is assigned to a given 
+     * grid element. If one of the assertions
+     * <i>0 &lt;= pRow &lt; this.numberOfRows(), 
+     * 0 &lt;= pCol &lt; this.numberOfColumns()</i> 
+     * is violated, a <tt>T3dException</tt> will be thrown.
+     * 
      * @throws T3dException
      */
     public boolean isSet(int pRow, int pCol) throws T3dException
@@ -223,11 +244,13 @@ public class GmSimpleElevationGrid extends VgElevationGrid
     }
 
     /**
-     * TODO: JavaDoc
-     * <i>German:</i> l&ouml;scht die Belegung eines Gitterelementes. Wird eine der beiden Bedingungen
-     * <i>0 &lt;= pRow &lt; this.numberOfRows(), 0 &lt;= pCol &lt; this.numberOfColumns()</i> verletzt, wird
-     * eine <tt>T3DException</tt> geworfen.<p>
-     * Nachbedingung: <tt>this.isIsSet(pRow, pCol) = false</tt><p>
+     * defines a grid element (vertex or cell) as unset (&quot;nodata&quot;). 
+     * If one of the assertions
+     * <i>0 &lt;= pRow &lt; this.numberOfRows(), 
+     * 0 &lt;= pCol &lt; this.numberOfColumns()</i> 
+     * is violated, a <tt>T3dException</tt> will be thrown. Post-condition:
+     * <tt>this.isIsSet(pRow, pCol) = false</tt><p>
+     * 
      * @throws T3dException
      */
     public void unset(int pRow, int pCol) throws T3dException
@@ -241,12 +264,15 @@ public class GmSimpleElevationGrid extends VgElevationGrid
     }
 
     /** 
-     * TODO: JavaDoc
-     * <i>German:</i> liefert den H&ouml;henwert f&uuml;r den Zeilenindex <tt>pRow</tt> und den Spaltenindex
-     * <tt>pCol</tt>. Wird eine der beiden Bedingungen <i>0 &lt;= pRow &lt; this.numberOfRows(), 0 &lt;= pCol &lt;
-     * this.numberOfColumns()</i> verletzt oder ist das abgefragte Gitterelement nicht belegt, wird eine
-     * <tt>T3DException</tt> geworfen.<br />
-     * Nachbedingung: <tt>this.isIsSet(pRow, pCol) = true</tt>
+     * gets the elevation-value for the row-index <tt>pRow</tt> and the 
+     * column-index <tt>pCol</tt>. 
+     * If one of the assertions
+     * <i>0 &lt;= pRow &lt; this.numberOfRows(), 
+     * 0 &lt;= pCol &lt; this.numberOfColumns()</i> 
+     * is violated, or if the queried element is unset, a 
+     * <tt>T3dException</tt> will be thrown. Post-condition:
+     * <tt>this.isIsSet(pRow, pCol) = false</tt><p>
+     * 
      * @throws T3dException
      */
     public double getValue(int pRow, int pCol) throws T3dException
@@ -263,10 +289,11 @@ public class GmSimpleElevationGrid extends VgElevationGrid
     }
 
     /** 
-     * returns the elevation grid's bounding-box.<br /><br />
-     * <i>German:</i> liefert die Bounding-Box des Elevation-Grids. Die Ausdehnung ist dabei abh&auml;ngig davon, ob
-     * eine Zellen- oder Vertex-basierte Sicht erfolgt.<br />
-     * @return 3D-Bounding-Box, or <i>null</i> if an error occurs
+     * returns the elevation grid's bounding-box. Note that this extent depends
+     * on the grid-type (vertex-based &quot;lattice&quot; mode or cell-based 
+     * &quot;grid&quot; mode)!
+     * 
+     * @return 3D-bounding-box, or <i>null</i> if an error occurs
      * @see GmSimpleElevationGrid#setLatticeInterpretation
      * @see GmSimpleElevationGrid#setGridInterpretation
      */
@@ -322,16 +349,16 @@ public class GmSimpleElevationGrid extends VgElevationGrid
     }
 
     /**
-     * deactivates lazy evaluation mode.<br /><br />
-     * <i>German:</i> deaktiviert &quot;lazy evaluation&quot; der Ausdehnung in z-Richtung.<br />
-     * Eine explizite Deaktivierung unmittelbar vor dem Aufruf mehrerer <tt>setValue()</tt>-Aufrufe kann aus
-     * Performanz-Gr&uuml;nden notwendig werden.
+     * deactivates lazy evaluation mode for minimal/maximal z-value 
+     * computation. For performance reasons, it might be necessary to 
+     * deactivate this mode explicitly before starting multiple 
+     * <tt>setValue()</tt>-calls.
      */
     public void setZBoundsInvalid() {
         mCalculated = false;
     }
 
-    // private Helfer zur Berechnung der z-Bounds ("lazy evaluation"!):
+    // Private helpers to compute z-bounds ("lazy evaluation"!):
 
     private boolean mCalculated = false;
     private double mZMin, mZMax;
@@ -362,7 +389,7 @@ public class GmSimpleElevationGrid extends VgElevationGrid
 
     private void updateZBounds(double pZOld, double pZNew)     
     { 
-        final double eps = 0.000001; // Epsilon f�r Gleichheitstest
+        final double eps = 0.000001; // Epsilon for =-operation
 
         if (mCalculated) {
             if (pZNew <= mZMin) { mZMin = pZNew; return; }
@@ -370,12 +397,12 @@ public class GmSimpleElevationGrid extends VgElevationGrid
             if (pZNew >= mZMax) { mZMax = pZNew; return; }
             // assert: pZMin < pZNew < mZMax 
             if (Math.abs(pZOld - mZMin) < eps || Math.abs(pZOld - mZMax) < eps)
-                mCalculated = false; // sp�tere Neuberechnung notwendig
+                mCalculated = false; // re-computation will be necessary later
         } // else:
             ; // skip
     }
 
-    // Ermittlung des z-Wertes des "erstbesten" belegten Gitterelements:
+    // Get z-value of some set grid element:
     private double getFirstSetZValue() throws T3dException 
     {
         for (int i = 0; i < this.numberOfRows(); i++) {
@@ -390,15 +417,17 @@ public class GmSimpleElevationGrid extends VgElevationGrid
 
 	/** 
 	 * returns the corresponding footprint geometry.
-	 * @return Footprint as <tt>GmSimple2dGridGeometry</tt>-object
+	 * 
+	 * @return Footprint as {@link GmSimple2dGridGeometry}-object
   	 */
 	public VgGeomObject footprint() {
 		return mGeom.footprint();
 	}
 
 	/**
-     * returns the coordinates of a point that is part of the elevation-grid. If there is no z-value assigned to the
-     * grid point, the return-value will be <i>null</i>.
+     * returns the coordinates of a point that is part of the 
+     * elevation-grid. If there is no z-value assigned to the grid point, 
+     * the return-value will be <i>null</i>.
 	 */
 	public VgPoint getPoint(int pRow, int pCol) {
 		double x = mGeom.getOrigin().getX() + pCol * getDeltaX();
