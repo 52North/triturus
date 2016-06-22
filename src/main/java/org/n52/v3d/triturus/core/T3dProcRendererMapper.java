@@ -47,9 +47,10 @@ package org.n52.v3d.triturus.core;
  */
 abstract public class T3dProcRendererMapper
 {
-    /** protocols the transformation.
-     * 
-    * @return Text to be logged
-    */
+	/**
+	 * protocols the transformation.
+	 * 
+	 * @return Text to be logged
+	 */
 	abstract public String log();
 }
