@@ -253,4 +253,32 @@ public class GmSimple2dGridGeometry extends VgEquidistGrid
 		res[1] = colInt;
 		return res; 
 	}
+	
+	/**
+	 * returns the indices of the nearest grid element for a given 
+	 * geo-position <tt>pPos</tt> as floating-point numbers. If <tt>pPos</tt> 
+	 * is outside the elevation-grid, the return-value will be <i>null</i>. 
+	 * Otherwise the first element of the returned array will give the row 
+	 * index position, the second element will give the column position.
+	 * 
+	 * @param pPos Query position
+	 * @return float[2]-array holding row and column index position
+	 */
+	public float[] getIndicesAsFloat(VgPoint pPos) 
+	{
+		double 
+			col = (pPos.getX() - this.getOrigin().getX()) / this.getDeltaX(),
+			row = (pPos.getY() - this.getOrigin().getY()) / this.getDeltaY();
+		if (
+			col < 0 || col >= this.numberOfColumns() || 
+			row < 0 || row >= this.numberOfRows())
+		{
+			return null; 
+		}
+		
+		float[] res = new float[2];
+		res[0] = (float) row;
+		res[1] = (float) col;
+		return res; 
+	}
 }
