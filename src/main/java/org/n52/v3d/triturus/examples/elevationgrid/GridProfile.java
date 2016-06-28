@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2007-2015 52°North Initiative for Geospatial Open Source
+ * Copyright (C) 2007-2016 52 North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it
@@ -18,16 +18,17 @@
  *
  * Therefore the distribution of the program linked with libraries licensed
  * under the aforementioned licenses, is permitted by the copyright holders
- * if the distribution is compliant with both the GNU General Public
- * icense version 2 and the aforementioned licenses.
+ * if the distribution is compliant with both the GNU General Public License 
+ * version 2 and the aforementioned licenses.
  *
  * This program is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
- * Public License for more details.
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY 
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License 
+ * for more details.
  *
- * Contact: Benno Schmidt & Martin May, 52 North Initiative for Geospatial Open Source
- * Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, Germany, info@52north.org
+ * Contact: Benno Schmidt and Martin May, 52 North Initiative for Geospatial 
+ * Open Source Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, 
+ * Germany, info@52north.org
  */
 package org.n52.v3d.triturus.examples.elevationgrid;
 
@@ -37,7 +38,9 @@ import org.n52.v3d.triturus.vgis.VgLineString;
 import org.n52.v3d.triturus.vgis.VgProfile;
 
 /**
- * Triturus example application: Generates a cross-section for a given elevation grid.
+ * Triturus example application: Generates a cross-section for a given 
+ * elevation grid.
+ * 
  * @author Benno Schmidt
  * @see GridProfileApp
  */
@@ -45,11 +48,18 @@ public class GridProfile
 {
 	public static void main(String args[])
 	{
+		GridProfile app = new GridProfile();
+		app.run();
+	}
+	
+	public void run() 
+	{
         // Read the elevation grid from file:
-		IoElevationGridReader reader = new IoElevationGridReader(IoElevationGridReader.ARCINFO_ASCII_GRID);
+		IoElevationGridReader reader = new IoElevationGridReader(
+				IoElevationGridReader.ARCINFO_ASCII_GRID);
 		GmSimpleElevationGrid grid = null;
 		try {
-			grid = reader.readFromFile("/data/example_dem.asc");
+			grid = reader.readFromFile("/data/test.grd");
 		}
 		catch (T3dException e) {
 			e.printStackTrace();
@@ -60,23 +70,28 @@ public class GridProfile
         System.out.print("The elevation grid's bounding-box: ");
 		System.out.println(grid.envelope().toString());
 
-        // Give definition-line (sequence of x, y, z coordinates, z will be ignored):
-		VgLineString defLine = new GmLineString("2670740,5811200,0,2670700,5811000,0");
+        // Give definition-line (sequence of x, y, z coordinates, z will be 
+		// ignored):
+		VgLineString defLine = new GmLineString(
+				"3532000,5505000,0," + 
+				"3532000,5505500,0," + 
+				"3532000,5506000,0," + 
+				"3534000,5506000,0");
 		System.out.println(defLine); // control output
 		
 		// Generate cross-section:
 		FltElevationGrid2Profile proc = new FltElevationGrid2Profile();
 		VgProfile prof = proc.transform(grid, defLine);
 
-		// Cross-section output...
-		// to console:
-        for (int i = 0; i < prof.numberOfTZPairs(); i++)
+		// Cross-section output to console...
+        for (int i = 0; i < prof.numberOfTZPairs(); i++) {
             System.out.println((prof.getTZPair(i))[0] + ", " + (prof.getTZPair(i))[1]);
-        // to SVG:
+        }
+        // to SVG ...
         System.out.println("Writing SVG-file...");
         IoProfileWriter lWriter = new IoProfileWriter(IoProfileWriter.SVG);
         lWriter.writeToFile(prof, "/temp/cross-sec-1.svg");
-        // to ASCII-file:
+        // and to ASCII-file:
         System.out.println("Exporting to ASCII-file...");
         lWriter.setFormatType(IoProfileWriter.ACGEO);
         lWriter.writeToFile(prof, "/temp/cross-sec-1.prf");

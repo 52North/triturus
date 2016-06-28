@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2007-2015 52°North Initiative for Geospatial Open Source
+ * Copyright (C) 2007-2016 52 North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it
@@ -18,16 +18,17 @@
  *
  * Therefore the distribution of the program linked with libraries licensed
  * under the aforementioned licenses, is permitted by the copyright holders
- * if the distribution is compliant with both the GNU General Public
- * icense version 2 and the aforementioned licenses.
+ * if the distribution is compliant with both the GNU General Public License 
+ * version 2 and the aforementioned licenses.
  *
  * This program is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
- * Public License for more details.
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY 
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License 
+ * for more details.
  *
- * Contact: Benno Schmidt & Martin May, 52 North Initiative for Geospatial Open Source
- * Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, Germany, info@52north.org
+ * Contact: Benno Schmidt and Martin May, 52 North Initiative for Geospatial 
+ * Open Source Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, 
+ * Germany, info@52north.org
  */
 package org.n52.v3d.triturus.survey;
 
@@ -37,17 +38,22 @@ import org.n52.v3d.triturus.vgis.T3dSRSException;
 import org.n52.v3d.triturus.core.T3dException;
 
 /**
- * Determination of German TK-Blattnummer identifers.<br /><br />
- * <i>German:</i> Klasse zur Ermittlung der Blattnummern der Topografischen Karten TK 25, TK 50, TK 100 der
- * bundesdeutschen Landesvermessungs&auml;mter.<br />
- * Bem.: Dem Blattschnitt der TK 25 liegt dabei eine Gradabteilungskarte mit Linien geografischer Koordinaten in
- * Abst�nden von 10 L�ngenminuten (10' entsprechend 1/6 Grad) und 6 Breitenminuten (6' entsprechend 1/10 Grad)
+ * Determination of German TK-Blattnummer identifers.
+ * <br /><br />
+ * <i>German:</i> Klasse zur Ermittlung der Blattnummern der Topografischen 
+ * Karten TK 25, TK 50, TK 100 der bundesdeutschen Landesvermessungs&auml;mter.
+ * <br />
+ * Bem.: Dem Blattschnitt der TK 25 liegt dabei eine Gradabteilungskarte mit 
+ * Linien geografischer Koordinaten in Abst&auml;nden von 10 L&auml;ngenminuten 
+ * (10' entsprechend 1/6 Grad) und 6 Breitenminuten (6' entsprechend 1/10 Grad)
  * zugrunde.
+ * 
  * @author Benno Schmidt
  */
 public class TKBlattLocator
 {
-	private HashMap mBlattnamen;
+	private HashMap<String, String> mBlattnamen;
+	
 	
 	/**
      * Constructor.
@@ -57,8 +63,11 @@ public class TKBlattLocator
 	}
 	 
 	/**
-     * returns the TK-identifier for a given point.<br /><br />
-	 * <i>German:</i> liefert die Nummer des TK-Blattes f&uuml;r den angegebenen Punkt.<br />
+     * returns the TK-identifier for a given point.
+     * <br /><br />
+	 * <i>German:</i> liefert die Nummer des TK-Blattes f&uuml;r den 
+	 * angegebenen Punkt.
+	 * 
 	 * @param pTKBez TK-Werk, z. B. <tt>"TK 25"</tt>, <tt>"TK 50"</tt> oder <tt>"TK 100"</tt>
 	 * @param pt Position gegeben in geografischen Koordinaten
 	 * @return Blattnummer
@@ -89,9 +98,13 @@ public class TKBlattLocator
     }
 
     /**
-     * formats the TK-Blattnummer.<br /><br />
-     * <i>German:</i> formatiert die TK-Blattnummer f&uuml;r die angegebene Nummern-Kombination.<br />
-     * Beispiel: <tt>blattnummer(47,9)</tt> liefert &quot;4709&quot; als Resultat.
+     * formats the TK-Blattnummer.
+     * <br /><br />
+     * <i>German:</i> formatiert die TK-Blattnummer f&uuml;r die angegebene 
+     * Nummern-Kombination.<br />
+     * Beispiel: <tt>blattnummer(47,9)</tt> liefert &quot;4709&quot; als 
+     * Resultat.
+     * 
      * @param i ersten beiden Ziffern der Blattnummer-Angabe als Ganzzahl
      * @param j letzten beiden Ziffern der Blattnummer-Angabe als Ganzzahl
      * @return Blattnummer
@@ -146,7 +159,7 @@ public class TKBlattLocator
 	
 	private void initBlattnamen() 
 	{
-		mBlattnamen = new HashMap();
+		mBlattnamen = new HashMap<String, String>();
         
 		mBlattnamen.put("4210", "L�dinghausen");
 		mBlattnamen.put("4211", "Ascheberg");
@@ -165,10 +178,12 @@ public class TKBlattLocator
 	}
 
 	/**
-     * returns the TK-Blatt name for a given TK-Blatt identifiert.<br /><br />
+     * returns the TK-Blatt name for a given TK-Blatt identifiert.
+     * <br /><br />
 	 * <i>German:</i> liefert den Namen des TK-Blatts mit der angegebenen Blattnummer.<br />
 	 * Bem.: Diese Methode ist nur f&uuml;r Teilgebiete Nordrhein-Westfalens realisiert; siehe private Methode
      * TkBlattLocator#initBlattnamen im Quellcoorg.n52.v3d.
+     * 
 	 * @param pBlattnummer Blattnummer, z. B. aus <tt>this.blattnummer()</tt>.
 	 * @return Blattname oder Leerstring, falls nicht vorliegend.
 	 */

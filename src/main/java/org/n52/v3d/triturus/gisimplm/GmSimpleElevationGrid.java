@@ -293,10 +293,11 @@ public class GmSimpleElevationGrid extends VgElevationGrid
     public double getValue(int pRow, int pCol) throws T3dException
     {
         try {
-            if (mIsSetFl[pRow][pCol])
+            if (mIsSetFl[pRow][pCol]) {
                 return mVal[pRow][pCol];
-            else
+            } else {
                 throw new T3dException("Tried to access unset grid element.");
+            }
         }
         catch (Exception e) {
             throw new T3dException(
@@ -304,6 +305,55 @@ public class GmSimpleElevationGrid extends VgElevationGrid
         }
     }
 
+    /** 
+     * gets the elevation-value for the georeferenced position <tt>pPos</tt>.
+     * Note that the method performs a <i>bilinear</i> interpolation. If the 
+     * given position is outside the elevation grid's extent, the method will 
+     * return <i>null</i>. If the position-points coordinate reference system 
+     * is not compatible to the elevation-grids reference system, a 
+     * {@link T3dSRSException} will be thrown.
+     * 
+     * @param pPos Position (x, y)
+     * @return Elevation (z) as {@link Double}-object or <i>null</i>
+     */
+    public Double getValue(VgPoint pPos) throws T3dSRSException
+    {
+    	if (pPos == null) {
+            return null;
+    	}
+    	
+    	if (!(pPos.getSRS() == null && mGeom.getSRS() == null)) {
+	    	if (!(pPos.getSRS().equalsIgnoreCase(mGeom.getSRS()))) {
+	            throw new T3dSRSException();
+	    	}
+    	}
+    	
+    	float[] idx = mGeom.getIndicesAsFloat(pPos);
+    	if (idx == null) {
+    		return null;
+    	}
+    	
+    	float is = idx[0], js = idx[1];
+    	int row = (int)idx[0], col = (int)idx[1];
+    	
+    	if (
+    		mIsSetFl[row][col] && 
+    		mIsSetFl[row + 1][col] &&
+    		mIsSetFl[row][col + 1] &&
+    		mIsSetFl[row + 1][col + 1])
+    	{
+        	double lambda = js - ((float)col), my = is - ((float)row);
+        	return 
+            	mVal[row][col] * (1.f - my) * (1.f - lambda) +
+            	mVal[row + 1][col] * my * (1.f - lambda) +
+            	mVal[row][col + 1] * (1.f - my) * lambda + 
+            	mVal[row + 1][col + 1] * my * lambda;    			
+    	}
+    	
+    	// else:
+    	return null;
+    }
+    
     /** 
      * returns the elevation grid's bounding-box. Note that this extent 
      * depends on the grid-type (vertex-based &quot;lattice&quot; mode or 

@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2007-2015 52°North Initiative for Geospatial Open Source
+ * Copyright (C) 2007-2016 52 North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it
@@ -18,16 +18,17 @@
  *
  * Therefore the distribution of the program linked with libraries licensed
  * under the aforementioned licenses, is permitted by the copyright holders
- * if the distribution is compliant with both the GNU General Public
- * icense version 2 and the aforementioned licenses.
+ * if the distribution is compliant with both the GNU General Public License 
+ * version 2 and the aforementioned licenses.
  *
  * This program is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
- * Public License for more details.
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY 
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License 
+ * for more details.
  *
- * Contact: Benno Schmidt & Martin May, 52 North Initiative for Geospatial Open Source
- * Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, Germany, info@52north.org
+ * Contact: Benno Schmidt and Martin May, 52 North Initiative for Geospatial 
+ * Open Source Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, 
+ * Germany, info@52north.org
  */
 package org.n52.v3d.triturus.survey;
 
@@ -45,16 +46,24 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * Tile identifier locator.<br /><br />
- * <i>German: </i>Klasse zur Ermittlung allgemeiner Kachelnummern ("Blattnummern"). Den Kacheln liegen stets Linien
- * geografischer Koordinaten in festen AbstAauml;nden zugrunde. Die Kachelnummern sind stets vierstellig in der Form
- * &quot;B1B2B3B4&quot; (wobei B1, B2, B3, B4 Zeichen im Bereich '0'...'9').<br />
- * Bem.: Ein Beispiel einer derartigen Kachelung ist der Blattschnitt der bundedeutschen TK 25.<br />
- * Die Zuordnungsvorschrift einer Blattnummer zu einer Kachel ergibt sich wie folgt:<p>
- * <tt>(B12, B34)T = A * (lambda, phi)T + b</tt>, wobei sich der Blattnummernteil BiBj aus Math.ceil(Bij) ergibt und
- * gegebenenfalls um eine f&uuml;hrende '0' erg�nzt wird (Bi = '0', falls Bij < 10). A ist eine 2x2-Matrix, b ein
- * 2x1-Vektor, transponierte Vektoren sind durch ein nachgestelltes T gekennzeichnet. Eine Kachelung ist hier somit
- * durch die 6 Parameter a11, a12, b1, a21, a22, b2 eindeutig festgelegt.
+ * Tile identifier locator.
+ * <br /><br />
+ * <i>German: </i>Klasse zur Ermittlung allgemeiner Kachelnummern 
+ * ("Blattnummern"). Den Kacheln liegen stets Linien geografischer Koordinaten 
+ * in festen Abst&auml;nden zugrunde. Die Kachelnummern sind stets vierstellig 
+ * in der Form &quot;B1B2B3B4&quot; (wobei B1, B2, B3, B4 Zeichen im Bereich 
+ * '0'...'9').<br />
+ * Bem.: Ein Beispiel einer derartigen Kachelung ist der Blattschnitt der 
+ * bundedeutschen TK 25.<br />
+ * Die Zuordnungsvorschrift einer Blattnummer zu einer Kachel ergibt sich wie 
+ * folgt:<br /> 
+ * <tt>(B12, B34)T = A * (lambda, phi)T + b</tt>, wobei sich der 
+ * Blattnummernteil <tt>BiBj</tt> aus <tt>Math.ceil(Bij)</tt> ergibt und 
+ * gegebenenfalls um eine f&uuml;hrende '0' erg&auml;zt wird (Bi = '0', falls 
+ * Bij < 10). A ist eine 2x2-Matrix, b ein 2x1-Vektor, transponierte Vektoren 
+ * sind durch ein nachgestelltes T gekennzeichnet. Eine Kachelung ist hier 
+ * somit durch die 6 Parameter a11, a12, b1, a21, a22, b2 eindeutig festgelegt.
+ *
  * @see TKBlattLocator
  * @author Benno Schmidt
  */
@@ -62,13 +71,15 @@ public class TileLocator
 {
     private Log sLogger = LogFactory.getLog(TileLocator.class);
 
-    private ArrayList mTileLocatorEntries = new ArrayList();
+    private ArrayList<TileLocatorEntry> 
+    	mTileLocatorEntries = new ArrayList<TileLocatorEntry>();
 
+    
     /**
      * Constructor.
      */
     public TileLocator() {
-        this.readProperties("tiledef.properties"); // Properties-Datei einlesen
+        this.readProperties("tiledef.properties");
     }
 
     /**
@@ -109,11 +120,13 @@ public class TileLocator
                 new double[] {2.,0.,22.,0.,2.,-62.});
             mTileLocatorEntries.add(lEntry5);
         }
-        else
-            this.readProperties("tiledef.properties"); // Properties-Datei einlesen
+        else {
+            this.readProperties("tiledef.properties"); 
+        }
     }
 
-    private void readProperties(String pFileName) {
+    private void readProperties(String pFileName) 
+    {
         PropertyLoader lPropLoader = PropertyLoader.getInstance();
         try {
             lPropLoader.loadPropertiesWithClassLoader(pFileName);
@@ -172,8 +185,10 @@ public class TileLocator
     }
 
     /**
-     * returns the tile identifier for a given position.<br /><br />
+     * returns the tile identifier for a given position.
+     * <br /><br />
      * <i>German:</i> liefert die vierstellige Kachelnummer f&uuml;r den angegebenen Punkt.<br />
+     * 
      * @param pTileId Bezeichner der verwendeten Kachelung, z. B. <tt>"TK25"</tt> oder <tt>"earth"</tt>
      * @param pt Position gegeben in geografischen Koordinaten
      * @return Kachelnummer
@@ -197,21 +212,25 @@ public class TileLocator
     }
 
     /**
-     * formats the tile identifier.<br /><br />
+     * formats the tile identifier.
+     * <br /><br />
      * <i>German:</i> formatiert die Kachelnummer f&uuml;r die angegebene Nummern-Kombination.<br />
      * Beispiel: <tt>blattnummer(47,9)</tt> liefert &quot;4709&quot; als Resultat.<p>
+     * 
      * @param i ersten beiden Ziffern der Blattnummer-Angabe als Ganzzahl
      * @param j letzten beiden Ziffern der Blattnummer-Angabe als Ganzzahl
      * @return Blattnummer
      */
     // todo engl. javadoc der Parameter
-    static public String blattnummer(int i, int j) {
+    static public String blattnummer(int i, int j) 
+    {
         String ret = "";
         if (i < 10) ret += "0";
         ret += "" + i;
         if (j < 10) ret += "0";
         ret += "" + j;
-        return ret;         // todo methode kann in basisklasse oder in TKBlattLocator diese methode nutzen um redundanz zu vermeiden
+        return ret; 
+        // todo methode kann in basisklasse oder in TKBlattLocator diese methode nutzen um redundanz zu vermeiden
     }
 
     private int mB12, mB34;
@@ -239,7 +258,7 @@ public class TileLocator
         double phi_min = inv21 * (B12 - par[2]) + inv22 * (B34 - par[5]);
         double lambda_max = inv11 * ((B12 + 1) - par[2]) + inv12 * ((B34 + 1) - par[5]);
         double phi_max = inv21 * ((B12 + 1) - par[2]) + inv22 * ((B34 + 1) - par[5]);
-        // todo: stimmt so nur f�r kacheln, f�r die B12, B34 gegen�ber lambda, phi monoton steigend
+        // todo: stimmt so nur fuer kacheln, fuer die B12, B34 gegenueber lambda, phi monoton steigend
 
         return new GmEnvelope(lambda_min, lambda_max, phi_min, phi_max, 0., 0.);
     }

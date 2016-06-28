@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2007-2015 52°North Initiative for Geospatial Open Source
+ * Copyright (C) 2007-2016 52 North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it
@@ -18,16 +18,17 @@
  *
  * Therefore the distribution of the program linked with libraries licensed
  * under the aforementioned licenses, is permitted by the copyright holders
- * if the distribution is compliant with both the GNU General Public
- * icense version 2 and the aforementioned licenses.
+ * if the distribution is compliant with both the GNU General Public License 
+ * version 2 and the aforementioned licenses.
  *
  * This program is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
- * Public License for more details.
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY 
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License 
+ * for more details.
  *
- * Contact: Benno Schmidt & Martin May, 52 North Initiative for Geospatial Open Source
- * Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, Germany, info@52north.org
+ * Contact: Benno Schmidt and Martin May, 52 North Initiative for Geospatial 
+ * Open Source Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, 
+ * Germany, info@52north.org
  */
 package org.n52.v3d.triturus.gisimplm;
 
@@ -39,9 +40,10 @@ import org.n52.v3d.triturus.vgis.VgLineString;
 import org.n52.v3d.triturus.vgis.VgPoint;
 
 /**
- * Writes cross-section data to a file or stream.<br /><br />
- * <i>German:</i> Schreiben von Profilen (Typ <tt>VgProfile</tt>) in Dateien oder Str&ouml;me.
- * <b>Bem.: SVG-Export nur protoypisch implementiert, aber lauff&auml;hig!</b>
+ * Writes cross-section data to a file or stream. Cross-section information, 
+ * which inside the Triturus framework is held in {@link VgProfile}-objects, 
+ * might be written to ASCII or SVG files. 
+ * 
  * @author Benno Schmidt
  */
 public class IoProfileWriter extends IoAbstractWriter
@@ -50,23 +52,25 @@ public class IoProfileWriter extends IoAbstractWriter
     private String mFormat;
 
     /**
-     * Identifier to render cross-sections to SVG (scalable vector graphics) documents.
+     * Identifier to render cross-sections to SVG (scalable vector graphics) 
+     * documents.
      */
     public static final String SVG = "SVG";
+    
     /**
      * Identifier to export cross-section information in ACADGEO format.
      */
     public static final String ACGEO = "AcGeo";
 
+    
     /**
-     * Constructor.<br /><br />
-     * <i>German:</i> Konstruktor. Als Parameter ist der Dateiformattyp zu setzen. Wird dieser nicht unterst&uuml;tzt,
-     * wird sp&auml;ter w&auml;hrend des Schreibvorgangs eine Ausnahme geworfen.<br />
-     * Es werden z. Zt. die folgenden Formate unterst�tzt:<p>
+     * Constructor. As an input parameter, the target format type identifier 
+     * must be specified. The supported formats are listed below:<br />
      * <ul>
-     * <li><i>AcGeo:</i> ACADGEO format for cross-sections (Profildatei)</li>
+     * <li><i>AcGeo:</i> ACADGEO format for cross-sections</li>
      * <li><i>SVG:</i> SVG file</li>
-     * </ul><p>
+     * </ul>
+     * 
      * @param pFormat Format-string, e.g. <tt>&quot;AcGeo&quot;</tt>
      */
     public IoProfileWriter(String pFormat) {
@@ -80,6 +84,7 @@ public class IoProfileWriter extends IoAbstractWriter
 
    /**
      * sets the format type.
+     * 
      * @param pFormat Format-string (e.g. <tt></tt>&quot;AcGeo&quot;</tt>)
      * @see IoProfileWriter#ACGEO
      * @see IoProfileWriter#SVG
@@ -89,25 +94,25 @@ public class IoProfileWriter extends IoAbstractWriter
     }
 
     /**
-     * writes cross-section data to a file.<br /><br />
-     * <i>German:</i> schreibt ein Profil in eine Datei. Wird der spezifizierte Formattyp nicht unterst&uuml;tzt, wirft
-     * die Methode eine <tt>T3dNotYetImplException</tt>.
+     * writes cross-section data to a file.
+     * 
      * @param pProfile Cross-section to be written
      * @param pFilename File path
      * @throws T3dException for framework-specific errors
      */
-    public void writeToFile(VgProfile pProfile, String pFilename) throws T3dException
+    public void writeToFile(VgProfile pProfile, String pFilename) 
+    	throws T3dException
     {
         int i = 0;
         if (mFormat.equalsIgnoreCase(ACGEO)) i = 1;
         if (mFormat.equalsIgnoreCase(SVG)) i = 2;
-        // --> hier ggf. weitere Typen erg�nzen...
+        // --> add more types here...
 
         try {
             switch (i) {
                 case 1: this.writeAcadGeoProfile(pProfile, pFilename); break;
                 case 2: this.writeSVG(pProfile, pFilename); break;
-                // --> hier ggf. weitere Typen erg�nzen...
+                // --> add more types here...
 
                 default: throw new T3dException("Unsupported file format.");
             }
@@ -117,7 +122,8 @@ public class IoProfileWriter extends IoAbstractWriter
         }
     }  
 
-    private void writeAcadGeoProfile(VgProfile pProfile, String pFilename) throws T3dException
+    private void writeAcadGeoProfile(VgProfile pProfile, String pFilename) 
+    	throws T3dException
     {
         try {
             BufferedWriter lDat = new BufferedWriter(new FileWriter(pFilename));
@@ -125,7 +131,7 @@ public class IoProfileWriter extends IoAbstractWriter
             lDat.write("PROFILE:");
             lDat.newLine();
 
-            // Schreiben der Stationen:
+            // Write the stations:
             VgLineString pDefLine = (VgLineString) pProfile.getGeometry();
             DecimalFormat dfXY = this.getDecimalFormatXY();
             lDat.write("STATIONS");
@@ -144,7 +150,7 @@ public class IoProfileWriter extends IoAbstractWriter
                 }                
             }
 
-            // Schreiben der z-Werte:
+            // Write the z-values:
             DecimalFormat dfZ = this.getDecimalFormatZ();
             lDat.write("DATA");
             lDat.newLine();
@@ -170,10 +176,11 @@ public class IoProfileWriter extends IoAbstractWriter
         }
     } // writeAcadGeoProfile()
 
-    private void writeSVG(VgProfile pProfile, String pFilename) throws T3dException
+    private void writeSVG(VgProfile pProfile, String pFilename) 
+    	throws T3dException
     {
-        int lImageWidth = 500;      // todo von au�en setzbar machen
-        int lImageHeight = 300;     // todo von au�en setzbar machen
+        int lImageWidth = 500;      // TODO better set from outside
+        int lImageHeight = 300;     // TODO better set from outside
         int lImageBorder = 10;
         int lAddInfoHeight1 = 30;
         int lAddInfoHeight2 = 20;
@@ -185,10 +192,11 @@ public class IoProfileWriter extends IoAbstractWriter
 
             lDat.write("<?xml version=\"1.0\" standalone=\"no\"?>");
             lDat.newLine();
-            lDat.write("<!DOCTYPE svg PUBLIC \"-/W3C//DTD SVG 20001102//EN\"");
-            lDat.write(" \"http://www.w3.org/TR/2000/CR-SVG-20001102/DTD/svg-20001102.dtd\">");
+            lDat.write("<!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\"");
+            lDat.write(" \"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\">");
             lDat.newLine();
-            lDat.write("<svg width=\"" + lImageWidth + "px\" height=\"" + lImageHeight + "px\">");
+            lDat.write("<svg width=\"" + lImageWidth + "px\" height=\"" + lImageHeight + "px\"");
+            lDat.write(" version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\">");
             lDat.newLine();
             lDat.write("  <desc>Triturus profile export</desc>");
             lDat.newLine();
@@ -211,7 +219,7 @@ public class IoProfileWriter extends IoAbstractWriter
                 this.setTZRange(
                     pProfile.tStart(), pProfile.tEnd(), zLevels[0], zLevels[zLevels.length - 1]);
 
-            // Kasten oben (�berschrift):
+            // Box top (headline):
             lDat.write("  <rect x=\"" + lImageBorder + "\" y=\"" + lImageBorder + "\" ");
             lDat.write("width=\"" + (mCanvPrfXMax - lImageBorder) + "\" ");
             lDat.write("height=\"" + lAddInfoHeight1 + "\" style=\"fill:rgb(200,200,200)\" rx=\"0\" ry=\"0\"/>");
@@ -224,7 +232,7 @@ public class IoProfileWriter extends IoAbstractWriter
             lDat.write("  </g>");
             lDat.newLine();
 
-            // K�sten f�r Beschriftungen:
+            // Box for text annotations:
             lDat.write("  <rect x=\"" + lImageBorder + "\" y=\"" + mCanvPrfYMin + "\" ");
             lDat.write("width=\"" + lZAnnotWidth + "\" ");
             lDat.write("height=\"" + (mCanvPrfYMax - mCanvPrfYMin) + "\" style=\"fill:rgb(227,227,227)\" rx=\"0\" ry=\"0\"/>");
@@ -238,7 +246,7 @@ public class IoProfileWriter extends IoAbstractWriter
             lDat.write("height=\"" + lTAnnotHeight + "\" style=\"fill:rgb(227,227,227)\" rx=\"0\" ry=\"0\"/>");
             lDat.newLine();
 
-            // Kasten unten (Copyright):
+            // Box bottom (copyright):
             lDat.write("  <rect x=\"" + lImageBorder + "\" y=\"" + (mCanvPrfYMax + lTAnnotHeight) + "\" ");
             lDat.write("width=\"" + (mCanvPrfXMax - lImageBorder) + "\" ");
             lDat.write("height=\"" + lAddInfoHeight2 + "\" style=\"fill:rgb(200,200,200)\" rx=\"0\" ry=\"0\"/>");
@@ -251,7 +259,7 @@ public class IoProfileWriter extends IoAbstractWriter
             lDat.write("  </g>");
             lDat.newLine();
 
-            // Stationen (vertikale Hilfslinien):
+            // Stations (vertical lines):
             VgLineString pDefLine = (VgLineString) pProfile.getGeometry();
             if (pDefLine.numberOfVertices() > 0) {
                 double t = 0.;
@@ -273,7 +281,7 @@ public class IoProfileWriter extends IoAbstractWriter
                 }                
             }
 
-            // H�henniveaus (horizontale Hilfslinien):
+            // Elevation levels (horizontal lines):
             if (zLevels != null) {
                 for (int i = 0; i < zLevels.length; i++) {
                     lDat.write("  <line ");
@@ -284,7 +292,7 @@ public class IoProfileWriter extends IoAbstractWriter
                 }
             }
 
-            // Beschriftungen t-Achse:
+            // Annotation t-axis:
             if (pDefLine.numberOfVertices() > 0) {
                 double t = 0.;
                 lDat.write("  <g style=\"font-family:sans-serif;font-size:10;fill:rgb(0,0,40)\">");
@@ -309,7 +317,7 @@ public class IoProfileWriter extends IoAbstractWriter
                 }
             }
 
-            // Beschriftungen z-Achse:
+            // Annotations z-axis:
              if (zLevels != null) {
                 for (int i = 0; i < zLevels.length; i++) {
                     String zText = "" + (int) Math.round((float) zLevels[i]);
@@ -323,7 +331,7 @@ public class IoProfileWriter extends IoAbstractWriter
                 }
             }
 
-            // Profilverlauf z(t):
+            // Profile path z(t):
             lDat.write("  <path d=\"");
             lDat.newLine();
             boolean first = true;
@@ -354,13 +362,19 @@ public class IoProfileWriter extends IoAbstractWriter
     
     private double mTMin, mTMax, mZMin, mZMax;
 
-    private void setTZRange(double pTMin, double pTMax, double pZMin, double pZMax) {
+    private void setTZRange(
+    		double pTMin, double pTMax, 
+    		double pZMin, double pZMax) 
+    {
         mTMin = pTMin; mTMax = pTMax; mZMin = pZMin; mZMax = pZMax;
     }
 
     private float mCanvPrfXMin, mCanvPrfXMax, mCanvPrfYMin, mCanvPrfYMax;
 
-    private void setCanvasPrf(float pXMin, float pXMax, float pYMin, float pYMax) {
+    private void setCanvasPrf(
+    		float pXMin, float pXMax, 
+    		float pYMin, float pYMax) 
+    {
         mCanvPrfXMin = pXMin; mCanvPrfXMax = pXMax; mCanvPrfYMin = pYMin; mCanvPrfYMax = pYMax;
     }
 
@@ -372,9 +386,10 @@ public class IoProfileWriter extends IoAbstractWriter
         return mCanvPrfYMax + (mCanvPrfYMin - mCanvPrfYMax) * (float)((z - mZMin) / (mZMax - mZMin));
     }
 
-    private double[] calculateZLevels(double pZMin, double pZMax) // Berechnung horizontaler Hilfslinien
+    // Compute horizontal lines:
+    private double[] calculateZLevels(double pZMin, double pZMax) 
     {
-        double[] res = null;
+    	double[] res = null;
 
         boolean lSimpleTest = false;
         if (lSimpleTest) {
@@ -386,7 +401,8 @@ public class IoProfileWriter extends IoAbstractWriter
         }
         else {
             int lNumberOfLevels = 0;
-            int lDoubledNumberOfZeroDigits = 7; // ungerade Werte f�r 5'er-Schritte
+            int lDoubledNumberOfZeroDigits = 7; 
+            	// unpaired values for 5'er-steps
             int lMin = 0, lMax = 0;
             int lDiv = 0;
             do {
