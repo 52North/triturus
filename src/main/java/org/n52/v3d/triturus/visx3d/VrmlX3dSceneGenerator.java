@@ -344,16 +344,15 @@ public class VrmlX3dSceneGenerator extends IoAbstractWriter
                 wl("    <meta http-equiv=\"X-UA-Compatible\" content=\"chrome=1\" />");
                 wl("    <meta http-equiv=\"Content-Type\" content=\"text/html;charset=utf-8\" />");
                 wl("    <title>" + lTitle + "</title>");
-                wl("    <link rel=\"stylesheet\" type=\"text/css\" href=\"http://www.x3dom.org/x3dom/release/x3dom.css\" />");
-                wl("    <script type=\"text/javascript\" src=\"http://www.x3dom.org/x3dom/release/x3dom.js\"></script>");
-	            wl("  </head>");
+                wl("<link rel=\"stylesheet\" type=\"text/css\" href=\"https://rawgit.com/kamakshidasan/triturus/master/src/main/resources/css/x3dom.css\" />");
+                wl("<script type=\"text/javascript\" src=\"https://rawgit.com/kamakshidasan/triturus/master/src/main/resources/js/x3dom-full.js\"></script>");    wl("  </head>");
                 wl("  <body>");
                 wl("    <h1>" + lTitle + "</h1>");
                 wl("    <p>");
                 wl("      This XHTML/X3DOM has been generated automatically by the 52N Triturus framework's VrmlX3dGenerator.");
                 wl("    <p>");
                 wl();
-                wl("<X3D xmlns=\"http://www.web3d.org/specifications/x3d-namespace\" showStat=\"false\" showLog=\"true\"");
+                wl("<X3D xmlns=\"http://www.web3d.org/specifications/x3d-namespace\" showStat=\"false\" showLog=\"true\" showAll=\"true\"");
                 wl("  x=\"0px\" y=\"0px\" width=\"400px\" height=\"400px\">");
             }
             else {

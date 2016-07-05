@@ -69,7 +69,7 @@ public class GridConvert
                 }
             }
 
-            // Write VRML output:
+            // Write X3DOM output:
 			IoElevationGridWriter writer = 
 				new IoElevationGridWriter(IoElevationGridWriter.X3DOM);
     		writer.writeToFile(grid, "data/test.html");

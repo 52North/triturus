@@ -49,10 +49,10 @@ import java.util.List;
 public class Gridding 
 {
     private String inputFile = "data/test.xyz";
-    private String outputFile = "data/test.asc";
+    private String outputFile = "data/test.html";
     private double cellSize = 50.;
     private short samplingMethod = 1;
-    private String outputFormat = IoElevationGridWriter.ARCINFO_ASCII_GRID;
+    private String outputFormat = IoElevationGridWriter.X3DOM;
 
     
     public static void main(String args[])

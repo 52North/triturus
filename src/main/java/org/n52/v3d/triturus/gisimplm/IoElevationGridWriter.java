@@ -784,7 +784,7 @@ public class IoElevationGridWriter extends IoAbstractWriter
                 lDat.write("<body>");
                 lDat.newLine();
             }
-            lDat.write("<X3D profile='Immersive' height='700px' width='700px'>");
+            lDat.write("<X3D profile='Immersive' height='400px' width='400px' showLog='true'>");
             lDat.newLine();
             lDat.write("  <Scene>");
             lDat.newLine();
@@ -793,6 +793,8 @@ public class IoElevationGridWriter extends IoAbstractWriter
             double px = lGeom.numberOfColumns() / 2. * lGeom.getDeltaX();
             double py = lGeom.numberOfRows() / 2. * lGeom.getDeltaY();
             double pz = (pGrid.maximalElevation() + pGrid.minimalElevation()) / 2.;
+            
+            System.out.println("Origin: "+lGeom.getOrigin());
 
             // Camera position and rotation point:
             lDat.write("    <navigationInfo type='\"EXAMINE\" \"WALK\" \"FLY\" \"ANY\"'></navigationInfo>");
@@ -801,10 +803,11 @@ public class IoElevationGridWriter extends IoAbstractWriter
             lDat.write("" + px + " " + (lExaggeration * 10. * pz) + " " + py);
             lDat.write("\" centerOfRotation=\"" + px + " " + (lExaggeration * pz) + " " + py + "\"></Viewpoint>");
             lDat.newLine();
+            System.out.println(lGeom.getOrigin().getX()+", "+lGeom.getOrigin().getY()+", "+lGeom.getOrigin().getZ());
+            System.out.println((-lGeom.getOrigin().getX())+", "+(-lGeom.getOrigin().getY())+", "+(-lGeom.getOrigin().getZ()));
             lDat.write("    <Transform id=\"elevationTransform\" scale=\"1 " + (lExaggeration) + " 1\">");
             lDat.newLine();
-
-            lDat.write("    <Shape onclick=\"handleClick(event)\">");
+            lDat.write("    <Shape>");
             lDat.newLine();
             lDat.write("      <Appearance>");
             lDat.newLine();
