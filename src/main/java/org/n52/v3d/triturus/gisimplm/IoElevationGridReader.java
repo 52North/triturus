@@ -723,7 +723,6 @@ public class IoElevationGridReader extends IoObject {
                     k++;
                 }
             }
-            System.out.println("Accessing element: "+mElevationGrid.getPoint(59, 0));
         }
 
         catch (Exception exception) {
