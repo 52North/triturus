@@ -352,7 +352,7 @@ public class VrmlX3dSceneGenerator extends IoAbstractWriter
                 wl("      This XHTML/X3DOM has been generated automatically by the 52N Triturus framework's VrmlX3dGenerator.");
                 wl("    <p>");
                 wl();
-                wl("<X3D xmlns=\"http://www.web3d.org/specifications/x3d-namespace\" showStat=\"false\" showLog=\"true\" showAll=\"true\"");
+                wl("<X3D xmlns=\"http://www.web3d.org/specifications/x3d-namespace\" showStat=\"false\" showLog=\"true\"");
                 wl("  x=\"0px\" y=\"0px\" width=\"400px\" height=\"400px\">");
             }
             else {

@@ -803,8 +803,15 @@ public class IoElevationGridWriter extends IoAbstractWriter
             lDat.write("" + px + " " + (lExaggeration * 10. * pz) + " " + py);
             lDat.write("\" centerOfRotation=\"" + px + " " + (lExaggeration * pz) + " " + py + "\"></Viewpoint>");
             lDat.newLine();
-            System.out.println(lGeom.getOrigin().getX()+", "+lGeom.getOrigin().getY()+", "+lGeom.getOrigin().getZ());
-            System.out.println((-lGeom.getOrigin().getX())+", "+(-lGeom.getOrigin().getY())+", "+(-lGeom.getOrigin().getZ()));
+            
+            lDat.write("<MetadataDouble DEF=\"origin\" name=\"elevation_origin\""+
+                    " value='"+
+                    (lGeom.envelope().getXMin() - lGeom.getDeltaX() / 2.)+", "+
+                    (lGeom.envelope().getYMin() - lGeom.getDeltaY() / 2.)+
+                    "' </MetadataDouble>");
+            
+            lDat.newLine();
+            
             lDat.write("    <Transform id=\"elevationTransform\" scale=\"1 " + (lExaggeration) + " 1\">");
             lDat.newLine();
             lDat.write("    <Shape>");
