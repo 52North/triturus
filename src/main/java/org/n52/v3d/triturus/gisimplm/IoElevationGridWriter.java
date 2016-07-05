@@ -804,11 +804,11 @@ public class IoElevationGridWriter extends IoAbstractWriter
             lDat.write("\" centerOfRotation=\"" + px + " " + (lExaggeration * pz) + " " + py + "\"></Viewpoint>");
             lDat.newLine();
             
-            lDat.write("<MetadataDouble DEF=\"origin\" name=\"elevation_origin\""+
+            lDat.write("    <MetadataDouble DEF=\"origin\" name=\"elevation_origin\""+
                     " value='"+
                     (lGeom.envelope().getXMin() - lGeom.getDeltaX() / 2.)+", "+
                     (lGeom.envelope().getYMin() - lGeom.getDeltaY() / 2.)+
-                    "' </MetadataDouble>");
+                    "'></MetadataDouble>");
             
             lDat.newLine();
             
