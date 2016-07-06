@@ -822,7 +822,7 @@ public class IoElevationGridWriter extends IoAbstractWriter
             lDat.newLine();
             lDat.write("      </Appearance>");
             lDat.newLine();
-            lDat.write("      <ElevationGrid solid=\"false\"");
+            lDat.write("      <ElevationGrid id=\"grid\" solid=\"false\"");
 
             // Grid parameters:
             lDat.write(" xDimension=\"" + lGeom.numberOfColumns());
