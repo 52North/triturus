@@ -784,9 +784,9 @@ public class IoElevationGridWriter extends IoAbstractWriter
                 lDat.write("<body>");
                 lDat.newLine();
             }
-            lDat.write("<X3D profile='Immersive' height='400px' width='400px' showLog='true'>");
+            lDat.write("<X3D profile='Immersive' height='400px' width='400px' showLog='false'>");
             lDat.newLine();
-            lDat.write("  <Scene>");
+            lDat.write("  <Scene id=\"root\">");
             lDat.newLine();
 
             // DEM center point:
