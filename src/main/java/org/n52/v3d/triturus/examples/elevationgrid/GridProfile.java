@@ -59,7 +59,7 @@ public class GridProfile
 				IoElevationGridReader.ARCINFO_ASCII_GRID);
 		GmSimpleElevationGrid grid = null;
 		try {
-			grid = reader.readFromFile("/data/test.grd");
+			grid = reader.readFromFile("data/test.asc");
 		}
 		catch (T3dException e) {
 			e.printStackTrace();
@@ -90,10 +90,11 @@ public class GridProfile
         // to SVG ...
         System.out.println("Writing SVG-file...");
         IoProfileWriter lWriter = new IoProfileWriter(IoProfileWriter.SVG);
-        lWriter.writeToFile(prof, "/temp/cross-sec-1.svg");
+        lWriter.writeToFile(prof, "data/cross-section.svg");
         // and to ASCII-file:
         System.out.println("Exporting to ASCII-file...");
         lWriter.setFormatType(IoProfileWriter.ACGEO);
-        lWriter.writeToFile(prof, "/temp/cross-sec-1.prf");
+        lWriter.writeToFile(prof, "data/cross-section.prf");
+        System.out.println("Success!");
     }
 }

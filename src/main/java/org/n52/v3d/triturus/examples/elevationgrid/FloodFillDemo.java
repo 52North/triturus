@@ -50,8 +50,8 @@ import org.n52.v3d.triturus.vgis.VgPoint;
 public class FloodFillDemo
 {
 	private String 
-		inputFile = "/data/example_dem.asc",
-		outputFile = "/data/example_dem_flood_2.asc";
+		inputFile = "data/test.asc",
+		outputFile = "data/test_flood.asc";
 
 	public static void main(String args[])
 	{
@@ -90,6 +90,7 @@ public class FloodFillDemo
 			
 			// Write result:
 			writer.writeToFile(targetGrd, outputFile);
+                        System.out.println("Success!");
 		}
 		catch (T3dException e) {
 			e.printStackTrace();

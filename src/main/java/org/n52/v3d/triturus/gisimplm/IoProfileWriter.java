@@ -195,7 +195,7 @@ public class IoProfileWriter extends IoAbstractWriter
             lDat.write("<!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\"");
             lDat.write(" \"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\">");
             lDat.newLine();
-            lDat.write("<svg width=\"" + lImageWidth + "px\" height=\"" + lImageHeight + "px\"");
+            lDat.write("<svg width=\"" + lImageWidth + "px\" height=\"" + lImageHeight + "px\" version=\"1.1\" id=\"Layer_1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xml:space=\"preserve\">");
             lDat.write(" version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\">");
             lDat.newLine();
             lDat.write("  <desc>Triturus profile export</desc>");

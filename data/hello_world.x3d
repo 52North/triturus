@@ -1,0 +1,16 @@
+<X3D profile='Immersive' height='700px' width='700px'>
+  <Scene>
+    <navigationInfo type='"EXAMINE" "WALK" "FLY" "ANY"'></navigationInfo>
+    <Viewpoint description="Top view" orientation="1 0 0 -1.57" position="500.0 5619.07882022656 500.0" centerOfRotation="500.0 561.907882022656 500.0"></Viewpoint>
+    <Transform id="elevationTransform" scale="1 7.0 1">
+    <Shape onclick="handleClick(event)">
+      <Appearance>
+        <Material/>
+      </Appearance>
+      <ElevationGrid solid="false" xDimension="10" xSpacing="100.0" zDimension="10" zSpacing="100.0"
+      height="58.36 66.71 70.72 79.34 84.60 82.76 80.29 71.64 65.19 64.22 65.00 69.13 70.59 79.71 83.02 88.95 89.59 78.38 71.08 67.77 73.02 75.51 78.35 87.14 90.25 95.44 94.70 81.48 76.98 71.23 77.80 78.11 85.94 91.80 94.38 100.12 90.84 86.43 86.27 81.37 75.25 89.94 94.20 96.90 97.35 102.74 97.92 97.11 87.73 81.28 77.22 84.71 87.38 91.49 96.47 103.51 94.59 92.26 82.04 80.87 71.58 77.66 77.38 88.42 92.60 90.01 92.80 88.29 84.82 79.19 68.02 65.48 76.64 81.44 81.48 88.15 82.39 80.78 70.12 68.55 61.63 69.91 70.13 75.73 82.40 83.93 82.94 73.74 71.04 61.14 58.14 57.03 60.70 72.19 77.47 75.61 78.59 70.18 69.74 64.60 ">
+      </ElevationGrid>
+    </Shape>
+    </Transform>
+  </Scene>
+</X3D>

@@ -773,26 +773,28 @@ public class IoElevationGridWriter extends IoAbstractWriter
                 lDat.newLine();
                 lDat.write("<head>");
                 lDat.newLine();
+                // @Adhitya: This should be later changed to links pointing to the actual repository
                 lDat.write("<link rel=\"stylesheet\" type=\"text/css\" href=\"https://rawgit.com/kamakshidasan/triturus/master/src/main/resources/css/x3dom.css\" />");
                 lDat.newLine();
                 lDat.write("<script type=\"text/javascript\" src=\"https://rawgit.com/kamakshidasan/triturus/master/src/main/resources/js/x3dom-full.js\"></script>");
-                lDat.newLine();
-                lDat.write("<script type=\"text/javascript\" src=\"https://rawgit.com/kamakshidasan/triturus/master/src/main/resources/js/select.js\"></script>");
+                //lDat.write("<script type=\"text/javascript\" src=\"../src/main/resources/js/select.js\"></script>");
                 lDat.newLine();
                 lDat.write("</head>");
                 lDat.newLine();
                 lDat.write("<body>");
                 lDat.newLine();
             }
-            lDat.write("<X3D profile='Immersive' height='800px' width='800px'>");
+            lDat.write("<X3D profile='Immersive' height='400px' width='400px' showLog='false'>");
             lDat.newLine();
-            lDat.write("  <Scene>");
+            lDat.write("  <Scene id=\"root\">");
             lDat.newLine();
 
             // DEM center point:
             double px = lGeom.numberOfColumns() / 2. * lGeom.getDeltaX();
             double py = lGeom.numberOfRows() / 2. * lGeom.getDeltaY();
             double pz = (pGrid.maximalElevation() + pGrid.minimalElevation()) / 2.;
+            
+            System.out.println("Origin: "+lGeom.getOrigin());
 
             // Camera position and rotation point:
             lDat.write("    <navigationInfo type='\"EXAMINE\" \"WALK\" \"FLY\" \"ANY\"'></navigationInfo>");
@@ -801,8 +803,18 @@ public class IoElevationGridWriter extends IoAbstractWriter
             lDat.write("" + px + " " + (lExaggeration * 10. * pz) + " " + py);
             lDat.write("\" centerOfRotation=\"" + px + " " + (lExaggeration * pz) + " " + py + "\"></Viewpoint>");
             lDat.newLine();
-
-            lDat.write("    <Shape onclick=\"handleClick(event)\">");
+            
+            lDat.write("    <MetadataDouble DEF=\"origin\" name=\"elevation_origin\""+
+                    " value='"+
+                    (lGeom.envelope().getXMin() - lGeom.getDeltaX() / 2.)+", "+
+                    (lGeom.envelope().getYMin() - lGeom.getDeltaY() / 2.)+
+                    "'></MetadataDouble>");
+            
+            lDat.newLine();
+            
+            lDat.write("    <Transform id=\"elevationTransform\" scale=\"1 " + (lExaggeration) + " 1\">");
+            lDat.newLine();
+            lDat.write("    <Shape>");
             lDat.newLine();
             lDat.write("      <Appearance>");
             lDat.newLine();
@@ -827,22 +839,23 @@ public class IoElevationGridWriter extends IoAbstractWriter
             // Elevation-values:
             for (int i = lGeom.numberOfRows() - 1; i >= 0; i--) {
                 for (int j = 0; j < lGeom.numberOfColumns(); j++) {
-                    lDat.write("" + dfZ.format(lExaggeration * pGrid.getValue(i, j)) + " ");
+                    lDat.write("" + dfZ.format(pGrid.getValue(i, j)) + " ");
                 }
             }
+            
             lDat.write("\">");
             lDat.newLine();
             lDat.write("      </ElevationGrid>");
             lDat.newLine();
             lDat.write("    </Shape>");
             lDat.newLine();
+            lDat.write("    </Transform>");
+            lDat.newLine();
             lDat.write("  </Scene>");
             lDat.newLine();
             lDat.write("</X3D>");
             lDat.newLine();
             if (isX3dom) {
-                lDat.write("<div id=\"insert\"></div>");
-                lDat.newLine();
                 lDat.write("</body>");
                 lDat.newLine();
                 lDat.write("</html>");
