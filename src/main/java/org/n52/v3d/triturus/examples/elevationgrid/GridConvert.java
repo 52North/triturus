@@ -54,7 +54,7 @@ public class GridConvert
 		try {
             // Read the elevation grid from file:
 			GmSimpleElevationGrid grid = 
-				reader.readFromFile("/data/example_dem.asc");
+				reader.readFromFile("data/test.asc");
 
             // This is just some control output:
 			System.out.println(grid);
@@ -69,10 +69,11 @@ public class GridConvert
                 }
             }
 
-            // Write VRML output:
+            // Write X3DOM output:
 			IoElevationGridWriter writer = 
-				new IoElevationGridWriter(IoElevationGridWriter.VRML2);
-    		writer.writeToFile(grid, "/data/example_dem.wrl");
+				new IoElevationGridWriter(IoElevationGridWriter.X3DOM);
+    		writer.writeToFile(grid, "data/test.html");
+                System.out.println("Success!");
 		}
 		catch (T3dException e) {
 			e.printStackTrace();

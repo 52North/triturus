@@ -61,8 +61,8 @@ public class MultiTerrainWithMarkers
 		try {
             // Read elevation grids:
 			GmSimpleElevationGrid
-                grid1 = reader.readFromFile("D:/data/dgm50/epsg_31466/dgm4309.asc"),
-                grid2 = reader.readFromFile("D:/data/dgm50/epsg_31466/dgm4310.asc");
+                grid1 = reader.readFromFile("data/test.asc"),
+                grid2 = reader.readFromFile("data/test_flood.asc");
 
             // Define some points:
             VgPoint
@@ -99,15 +99,13 @@ public class MultiTerrainWithMarkers
 
             // Export scene as VRML file:
             VrmlX3dSceneGenerator res = new VrmlX3dSceneGenerator(s);
-            String file1 = "/temp/result.wrl";
-            res.writeToVrmlFile(file1);
+            String file1 = "data/result.x3d";
+            res.writeToX3dFile(file1);
             System.out.println("Finished writing " + file1 + "...");
-            String file2 = "c:/temp/result.x3d";
-            res.writeToX3dFile(file2);
+            String file2 = "data/result.html";
+            res.writeToX3domFile(file2);
             System.out.println("Finished writing " + file2 + "...");
-            String file3 = "c:/temp/result.html";
-            res.writeToX3domFile(file3);
-            System.out.println("Finished writing " + file3 + "...");
+            System.out.println("Success!");
         }
 		catch (T3dException e) {
 			e.printStackTrace();

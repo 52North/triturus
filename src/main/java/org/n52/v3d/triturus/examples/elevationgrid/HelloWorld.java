@@ -45,7 +45,7 @@ import org.n52.v3d.triturus.vgis.VgPoint;
  */
 public class HelloWorld
 {
-	private final String filename = "/tmp/hello_world.wrl"; 
+	private final String filename = "data/hello_world.x3d"; 
 	// You might want to change this path.
 
 	
@@ -71,8 +71,9 @@ public class HelloWorld
         System.out.println(grid.maximalElevation());
 
         // Write VRML output:
-    	IoElevationGridWriter writer = new IoElevationGridWriter(IoElevationGridWriter.VRML2);
+    	IoElevationGridWriter writer = new IoElevationGridWriter(IoElevationGridWriter.X3D);
     	writer.writeToFile(grid, filename);
     	System.out.println("Wrote the VRML file \"" + filename + "\"...");
+        System.out.println("Success!");
     }
 }
