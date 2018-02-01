@@ -153,7 +153,7 @@ public class IoTINWriter extends IoAbstractWriter
 			e.printStackTrace();
 		}
 	}
-	    
+
     private void writeSimpleVrml(GmSimpleTINFeature tin, String filename) throws T3dException
     {
         try {
