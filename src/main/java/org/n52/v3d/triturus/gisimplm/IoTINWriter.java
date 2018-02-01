@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2007-2015 52°North Initiative for Geospatial Open Source
+ * Copyright (C) 2007-2018 52 North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it
@@ -39,69 +39,69 @@ import java.io.*;
 import java.text.DecimalFormat;
 
 /** 
- * Writing TINs to files or streams.<br /><br />
- * <i>German:</i> Schreiben von TINs (Typ <tt>GmSimpleTINFeature</tt>) in Dateien oder Str&ouml;me.
+ * Exporter which writes TINs to files or streams.
+ * 
  * @author Benno Schmidt
  */
 public class IoTINWriter extends IoAbstractWriter
 {
-    private String mLogString = "";
-    private String mFormat;
+    private String logString = "";
+    private String format;
 
     /**
-     * Constructor.<br /><br />
-     * <i>German:</i> Konstruktor. Als Parameter ist der Dateiformattyp zu setzen. Wird dieser nicht unterst&uuml;tzt,
-     * wird sp&auml;ter w&auml;hrend des Schreibvorgangs eine Ausnahme geworfen.<br />
-     * Es werden die folgenden Formate unterst&uuml;tzt:<br />
+     * Constructor. As a parameter, format type has to be set. For unsupported
+     * file formats, a <tt>T3dNotYetImplException</tt> will be thrown. Currently, 
+     * these formats are supported:<br />
      * <ul>
      * <li><i>AcGeo:</i> ACADGEO format</li>
      * <li><i>Vrml1:</i> VRML 1.0 scene (as triangle mesh)</li>
+     * <li><i>X3d:</i> X3D scene (as IndexedFaceSet)</li>
      * </ul>
-     * Bem.:<p>
-     * <b>Bislang ist keiner der Exporter getestet! F&uuml;r den VRML-Export ist die Orientierung der Dreiecke noch
-     * unber&uuml;cksichtigt!</b>
-     * @param pFormat Format-string (e.g. <tt></tt>&quot;AcGeo&quot;</tt>)
+     * 
+     * @param pFormat Format string (e.g. <tt></tt>&quot;AcGeo&quot;</tt>)
      */
-    public IoTINWriter(String pFormat) {
-        mLogString = this.getClass().getName();
-        this.setFormatType(pFormat);
+    public IoTINWriter(String format) {
+        logString = this.getClass().getName();
+        this.setFormatType(format);
     }
 
     public String log() {
-        return mLogString;
+        return logString;
     }
 
     /** 
      * sets the format type.
-     * @param pFormat Format-string (e.g. <tt></tt>&quot;AcGeo&quot;</tt>)
+     * 
+     * @param pFormat Format string (e.g. <tt></tt>&quot;AcGeo&quot;</tt>)
      */
-    public void setFormatType(String pFormat)
+    public void setFormatType(String format)
     {
-        mFormat = pFormat;
+        this.format = format;
     }
 
     /**
-     * writes a TIN to a file.<br /><br />
-     * <i>German:</i> schreibt ein TIN in eine Datei. Wird der spezifizierte Formattyp nicht unterst&uuml;tzt, wirft die
-     * Methode eine <tt>T3dNotYetImplException</tt>.
-     * @param pTIN TIN to be written
-     * @param pFilename File path
+     * writes the TIN to a file.
+     * 
+     * @param tin TIN to be written
+     * @param filename File path
      * @throws org.n52.v3d.triturus.core.T3dException
      * @throws org.n52.v3d.triturus.core.T3dNotYetImplException
      */
-    public void writeToFile(GmSimpleTINFeature pTIN, String pFilename) 
+    public void writeToFile(GmSimpleTINFeature tin, String filename) 
     	throws T3dException, T3dNotYetImplException
     {
         int i = 0;
-        if (mFormat.equalsIgnoreCase("AcGeo")) i = 1;
-        if (mFormat.equalsIgnoreCase("Vrml1")) i = 2;
-        // --> hier ggf. weitere Typen erg�nzen...
+        if (format.equalsIgnoreCase("AcGeo")) i = 1;
+        if (format.equalsIgnoreCase("Vrml1")) i = 2;
+        if (format.equalsIgnoreCase("X3d")) i = 3;
+        // --> add more formats here...
 
         try {
             switch (i) {
-                case 1: this.writeAcadGeoTIN(pTIN, pFilename); break;
-                case 2: this.writeSimpleVrml(pTIN, pFilename); break;
-                // --> hier ggf. weitere Typen erg�nzen...
+                case 1: this.writeAcadGeoTIN(tin, filename); break;
+                case 2: this.writeSimpleVrml(tin, filename); break;
+                case 3: this.writeSimpleX3d(tin, filename); break;
+                // --> add more formats here...
 
                 default: throw new T3dNotYetImplException("Unsupported file format");
             }
@@ -111,43 +111,43 @@ public class IoTINWriter extends IoAbstractWriter
         }
     }  
 
-	private void writeAcadGeoTIN(GmSimpleTINFeature pTIN, String pFilename) throws T3dException
+	private void writeAcadGeoTIN(GmSimpleTINFeature tin, String filename) throws T3dException
 	{
 		try {
-			FileWriter lFileWrite = new FileWriter(pFilename);
-			BufferedWriter lDat = new BufferedWriter(lFileWrite);
+			FileWriter fWriter = new FileWriter(filename);
+			BufferedWriter w = new BufferedWriter(fWriter);
 
-			//GmSimpleTINGeometry lGeom = (GmSimpleTINGeometry) pTIN.getGeometry();
-			VgIndexedTIN lGeom = (VgIndexedTIN) pTIN.getGeometry();
+			//GmSimpleTINGeometry geom = (GmSimpleTINGeometry) tin.getGeometry();
+			VgIndexedTIN geom = (VgIndexedTIN) tin.getGeometry();
 
-			lDat.write("TINBEGIN");
-			lDat.newLine();
-			lDat.write("FORMAT R=OFF C=OFF");
-			lDat.newLine();
-			lDat.write("TIN:");
-			lDat.newLine();
+			w.write("TINBEGIN");
+			w.newLine();
+			w.write("FORMAT R=OFF C=OFF");
+			w.newLine();
+			w.write("TIN:");
+			w.newLine();
 
             DecimalFormat dfXY = this.getDecimalFormatZ();
             DecimalFormat dfZ = this.getDecimalFormatZ();
 
-			lDat.write("POINTS "+lGeom.numberOfPoints()+"\n");
-			for (int i = 0; i < lGeom.numberOfPoints(); i++) {
-				lDat.write(dfXY.format(lGeom.getPoint(i).getX()) + " ");
-				lDat.write(dfXY.format(lGeom.getPoint(i).getY()) + " ");
-				lDat.write(dfZ.format(lGeom.getPoint(i).getZ()) + "\n");
+			w.write("POINTS " + geom.numberOfPoints() + "\n");
+			for (int i = 0; i < geom.numberOfPoints(); i++) {
+				w.write(dfXY.format(geom.getPoint(i).getX()) + " ");
+				w.write(dfXY.format(geom.getPoint(i).getY()) + " ");
+				w.write(dfZ.format(geom.getPoint(i).getZ()) + "\n");
 			}
 			
-			lDat.write("TRIANGLES "+lGeom.numberOfTriangles()+"\n");
-			for (int i = 0; i < lGeom.numberOfTriangles(); i++) {
-				lDat.write(lGeom.getTriangleVertexIndices(i)[0] + " ");
-				lDat.write(lGeom.getTriangleVertexIndices(i)[1] + " ");
-				lDat.write(lGeom.getTriangleVertexIndices(i)[2] + "\n");
+			w.write("TRIANGLES " + geom.numberOfTriangles()+"\n");
+			for (int i = 0; i < geom.numberOfTriangles(); i++) {
+				w.write(geom.getTriangleVertexIndices(i)[0] + " ");
+				w.write(geom.getTriangleVertexIndices(i)[1] + " ");
+				w.write(geom.getTriangleVertexIndices(i)[2] + "\n");
 			}
-			lDat.write("END");
-			lDat.newLine();
+			w.write("END");
+			w.newLine();
 			
-			lDat.close();
-			lFileWrite.close();
+			w.close();
+			fWriter.close();
 		}
 		catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -155,73 +155,73 @@ public class IoTINWriter extends IoAbstractWriter
 		}
 	}
 	    
-    private void writeSimpleVrml(GmSimpleTINFeature pTIN, String pFilename) throws T3dException
+    private void writeSimpleVrml(GmSimpleTINFeature tin, String filename) throws T3dException
     {
         try {
-            FileWriter lFileWrite = new FileWriter(pFilename);
-            BufferedWriter lDat = new BufferedWriter(lFileWrite);
+            FileWriter fWriter = new FileWriter(filename);
+            BufferedWriter w = new BufferedWriter(fWriter);
 
-            GmSimpleTINGeometry lGeom = (GmSimpleTINGeometry) pTIN.getGeometry();
+            GmSimpleTINGeometry geom = (GmSimpleTINGeometry) tin.getGeometry();
 
-            lDat.write("#VRML V1.0 ascii"); lDat.newLine();
-            lDat.newLine();
-            lDat.write("Separator {"); lDat.newLine();
-            lDat.newLine();
-            lDat.write("  DEF SceneInfo Info {\n"); lDat.newLine();
-            lDat.write("    string \"Generated by ACAD-GEO DGM v3.1\""); lDat.newLine();
-            lDat.write("  }"); lDat.newLine();
-            lDat.write("  ShapeHints {"); lDat.newLine();
-            lDat.write("    vertexOrdering CLOCKWISE"); lDat.newLine();
-            lDat.write("    shapeType SOLID"); lDat.newLine();
-            lDat.write("    faceType CONVEX"); lDat.newLine();
-            lDat.write("    creaseAngle 0.0"); lDat.newLine();
-            lDat.write("  }"); lDat.newLine();
-            lDat.newLine();
-            lDat.write("  DEF Green_DEM Separator {"); lDat.newLine();
-            lDat.write("    Material {\n");
-            lDat.write("      diffuseColor 0.0 1.0 0.0"); lDat.newLine();
-            lDat.write("      ambientColor 0.0 0.1 0.0"); lDat.newLine();
-            lDat.write("      specularColor 0.8 0.8 0.8"); lDat.newLine();
-            lDat.write("      shininess 0.1"); lDat.newLine();
-            lDat.write("    }"); lDat.newLine();
-            lDat.write("    Coordinate3 {"); lDat.newLine();
-            lDat.write("      point ["); lDat.newLine();
-
-            // VRML Teil 1 (Angabe der St�tzpunkte):
+            w.write("#VRML V1.0 ascii"); w.newLine();
+            w.newLine();
+            w.write("Separator {"); w.newLine();
+            w.newLine();
+            w.write("  DEF SceneInfo Info {"); w.newLine();
+            w.write("    string \"Generated by 52n Triturus\""); w.newLine();
+            w.write("  }"); w.newLine();
+            w.write("  ShapeHints {"); w.newLine();
+            w.write("    vertexOrdering CLOCKWISE"); w.newLine();
+            w.write("    shapeType SOLID"); w.newLine();
+            w.write("    faceType CONVEX"); w.newLine();
+            w.write("    creaseAngle 0.0"); w.newLine();
+            w.write("  }"); w.newLine();
+            w.newLine();
+            w.write("  DEF Green_DEM Separator {"); w.newLine();
+            w.write("    Material {\n");
+            w.write("      diffuseColor 0.0 1.0 0.0"); w.newLine();
+            w.write("      ambientColor 0.0 0.1 0.0"); w.newLine();
+            w.write("      specularColor 0.8 0.8 0.8"); w.newLine();
+            w.write("      shininess 0.1"); w.newLine();
+            w.write("    }"); w.newLine();
+            w.write("    Coordinate3 {"); w.newLine();
+            w.write("      point ["); w.newLine();
+            
+            // VRML Section 1 (vertices):
 
             DecimalFormat dfXY = this.getDecimalFormatZ();
             DecimalFormat dfZ = this.getDecimalFormatZ();
 
-            for (int i = 0; i < lGeom.numberOfPoints(); i++) {
-                GmPoint pt = new GmPoint(lGeom.getPoint(i));
-                lDat.write("        " + dfXY.format(pt.getX()) + " " + dfXY.format(pt.getY()) + " " + dfZ.format(pt.getZ()));
-                lDat.newLine();
+            for (int i = 0; i < geom.numberOfPoints(); i++) {
+                GmPoint pt = new GmPoint(geom.getPoint(i));
+                w.write("        " + dfXY.format(pt.getX()) + " " + dfXY.format(pt.getY()) + " " + dfZ.format(pt.getZ()));
+                w.newLine();
             }
 
-            lDat.write("      ]"); lDat.newLine();
-            lDat.write("    }"); lDat.newLine();
-            lDat.newLine();
+            w.write("      ]"); w.newLine();
+            w.write("    }"); w.newLine();
+            w.newLine();
 
-            // VRML Teil 2 (Vermaschung):
+            // VRML Section 2 (triangulation):
 
-            lDat.write("    IndexedFaceSet {"); lDat.newLine();
-            lDat.write("      coordIndex ["); lDat.newLine();
+            w.write("    IndexedFaceSet {"); w.newLine();
+            w.write("      coordIndex ["); w.newLine();
 
             int crn[];
-            for (int i = 0; i <= lGeom.numberOfTriangles(); i++) {
-            	crn = lGeom.getTriangleVertexIndices( i );
-                lDat.write("        " + crn[0] + ", " + crn[1] + ", " + crn[3] + ", -1,"); lDat.newLine();
+            for (int i = 0; i < geom.numberOfTriangles(); i++) {
+            	crn = geom.getTriangleVertexIndices(i);
+                w.write("        " + crn[0] + ", " + crn[1] + ", " + crn[2] + ", -1,"); w.newLine();
             }
 
-            lDat.write("      ]"); lDat.newLine();
-            lDat.write("    }"); lDat.newLine();
-            lDat.write("  }"); lDat.newLine();
-            lDat.write("}"); lDat.newLine();
+            w.write("      ]"); w.newLine();
+            w.write("    }"); w.newLine();
+            w.write("  }"); w.newLine();
+            w.write("}"); w.newLine();
 
-            lDat.close();
+            w.close();
         }
         catch (FileNotFoundException e) {
-            throw new T3dException("Could not access file \"" + pFilename + "\".");
+            throw new T3dException("Could not access file \"" + filename + "\".");
         }
         catch (IOException e) {
             throw new T3dException(e.getMessage());
@@ -229,5 +229,77 @@ public class IoTINWriter extends IoAbstractWriter
         catch (T3dException e) {
             throw new T3dException(e.getMessage());
         }
-    } // writeSimpleVrml()
+    }
+    
+    private void writeSimpleX3d(GmSimpleTINFeature tin, String filename) throws T3dException
+    {
+        try {
+            FileWriter fWriter = new FileWriter(filename);
+            BufferedWriter w = new BufferedWriter(fWriter);
+
+            GmSimpleTINGeometry geom = (GmSimpleTINGeometry) tin.getGeometry();
+
+            w.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>"); 
+            w.newLine();
+            w.write("<!DOCTYPE X3D PUBLIC \"ISO//Web3D//DTD X3D 3.2//EN\" \"http://www.web3d.org/specifications/x3d-3.2.dtd\">"); 
+            w.newLine();
+            w.write("<X3D profile=\"Interchange\">"); 
+            w.newLine();
+            w.write("  <Scene>"); 
+            w.newLine();
+            w.write("    <Shape>"); 
+            w.newLine();
+            w.write("      <Appearance><Material/></Appearance>"); 
+            w.newLine();
+            
+            w.write("        <IndexedFaceSet solid=\"TRUE\" coordIndex=\""); 
+            w.newLine();
+            int crn[];
+            for (int i = 0; i < geom.numberOfTriangles(); i++) {
+            	crn = geom.getTriangleVertexIndices(i);
+                w.write(crn[0] + " " + crn[1] + " " + crn[2] + " -1"); 
+            	if (i < geom.numberOfTriangles() - 1) 
+            		w.write(", "); 
+                w.newLine();
+            }
+            w.write("        \">"); 
+            w.newLine();
+             
+            w.write("          <Coordinate point=\""); 
+            w.newLine();
+            DecimalFormat dfXY = this.getDecimalFormatZ();
+            DecimalFormat dfZ = this.getDecimalFormatZ();
+            for (int i = 0; i < geom.numberOfPoints(); i++) {
+                GmPoint pt = new GmPoint(geom.getPoint(i));
+                w.write(dfXY.format(pt.getX()) + " " + dfXY.format(pt.getY()) + " " + dfZ.format(pt.getZ()));
+            	if (i < geom.numberOfPoints() - 1) 
+            		w.write(", "); 
+                w.newLine();
+            }
+            w.write("          \"/>"); 
+            w.newLine();
+            
+            w.write("        </Coordinate>"); 
+            w.newLine();
+            w.write("      </IndexedFaceSet>"); 
+            w.newLine();
+            w.write("    </Shape>"); 
+            w.newLine();
+            w.write("  </Scene>"); 
+            w.newLine();
+            w.write("</X3D>"); 
+            w.newLine();
+            
+            w.close();
+        }
+        catch (FileNotFoundException e) {
+            throw new T3dException("Could not access file \"" + filename + "\".");
+        }
+        catch (IOException e) {
+            throw new T3dException(e.getMessage());
+        }
+        catch (T3dException e) {
+            throw new T3dException(e.getMessage());
+        }
+    }
 }
