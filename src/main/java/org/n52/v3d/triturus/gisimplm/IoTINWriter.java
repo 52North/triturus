@@ -83,7 +83,7 @@ public class IoTINWriter extends IoAbstractWriter
      * <li><i>X3Dom:</i> X3D scene (as IndexedFaceSet without viewpoint setting)</li>
      * </ul>
      * 
-     * @param pFormat Format string (e.g. <tt></tt>&quot;AcGeo&quot;</tt>)
+     * @param format Format string (e.g. <tt></tt>&quot;AcGeo&quot;</tt>)
      * @see IoTINWriter#ACGEO
      * @see IoTINWriter#VRML1
      * @see IoTINWriter#X3D
@@ -101,7 +101,7 @@ public class IoTINWriter extends IoAbstractWriter
     /** 
      * sets the format type.
      * 
-     * @param pFormat Format string (e.g. <tt></tt>&quot;AcGeo&quot;</tt>)
+     * @param format Format string (e.g. <tt></tt>&quot;AcGeo&quot;</tt>)
      */
     public void setFormatType(String format)
     {
@@ -117,7 +117,7 @@ public class IoTINWriter extends IoAbstractWriter
      * @throws org.n52.v3d.triturus.core.T3dNotYetImplException
      */
     public void writeToFile(GmSimpleTINFeature tin, String filename) 
-    	throws T3dException, T3dNotYetImplException
+        throws T3dException, T3dNotYetImplException
     {
         int i = 0;
         if (format.equalsIgnoreCase(ACGEO)) i = 1;
@@ -140,52 +140,52 @@ public class IoTINWriter extends IoAbstractWriter
         catch (T3dException e) {
             throw e;
         }
-    }  
-
-	private void writeAcadGeoTIN(GmSimpleTINFeature tin, String filename) throws T3dException
-	{
-		try {
-			doc = new BufferedWriter(new FileWriter(filename));
-
-			//GmSimpleTINGeometry geom = (GmSimpleTINGeometry) tin.getGeometry();
-			VgIndexedTIN geom = (VgIndexedTIN) tin.getGeometry();
-
-			wl("TINBEGIN");
-			wl("FORMAT R=OFF C=OFF");
-			wl("TIN:");
-
+    }
+    
+    private void writeAcadGeoTIN(GmSimpleTINFeature tin, String filename) throws T3dException
+    {
+        try {
+            doc = new BufferedWriter(new FileWriter(filename));
+            
+            //GmSimpleTINGeometry geom = (GmSimpleTINGeometry) tin.getGeometry();
+            VgIndexedTIN geom = (VgIndexedTIN) tin.getGeometry();
+            
+            wl("TINBEGIN");
+            wl("FORMAT R=OFF C=OFF");
+            wl("TIN:");
+            
             DecimalFormat dfXY = this.getDecimalFormatZ();
             DecimalFormat dfZ = this.getDecimalFormatZ();
-
-			wl("POINTS " + geom.numberOfPoints());
-			for (int i = 0; i < geom.numberOfPoints(); i++) {
-				w(dfXY.format(geom.getPoint(i).getX()));
-				w(" " + dfXY.format(geom.getPoint(i).getY()));
-				wl(" " + dfZ.format(geom.getPoint(i).getZ()));
-			}
-			
-			wl("TRIANGLES " + geom.numberOfTriangles());
-			for (int i = 0; i < geom.numberOfTriangles(); i++) {
-				w("" + geom.getTriangleVertexIndices(i)[0]);
-				w(" " + geom.getTriangleVertexIndices(i)[1]);
-				wl(" " + geom.getTriangleVertexIndices(i)[2]);
-			}
-			wl("END");
-			
-			doc.close();
-		}
-		catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
+            
+            wl("POINTS " + geom.numberOfPoints());
+            for (int i = 0; i < geom.numberOfPoints(); i++) {
+                w(dfXY.format(geom.getPoint(i).getX()));
+                w(" " + dfXY.format(geom.getPoint(i).getY()));
+                wl(" " + dfZ.format(geom.getPoint(i).getZ()));
+            }
+            
+            wl("TRIANGLES " + geom.numberOfTriangles());
+            for (int i = 0; i < geom.numberOfTriangles(); i++) {
+                w("" + geom.getTriangleVertexIndices(i)[0]);
+                w(" " + geom.getTriangleVertexIndices(i)[1]);
+                wl(" " + geom.getTriangleVertexIndices(i)[2]);
+            }
+            wl("END");
+            
+            doc.close();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
     private void writeSimpleVrml(GmSimpleTINFeature tin, String filename) throws T3dException
-    {	
+    {
         try {
-			doc = new BufferedWriter(new FileWriter(filename));
-
+            doc = new BufferedWriter(new FileWriter(filename));
+            
             GmSimpleTINGeometry geom = (GmSimpleTINGeometry) tin.getGeometry();
-
+            
             wl("#VRML V1.0 ascii"); 
             wl();
             wl("Separator {"); 
@@ -211,35 +211,35 @@ public class IoTINWriter extends IoAbstractWriter
             wl("      point ["); 
             
             // VRML Section 1 (vertices):
-
+            
             DecimalFormat dfXY = this.getDecimalFormatZ();
             DecimalFormat dfZ = this.getDecimalFormatZ();
-
+            
             for (int i = 0; i < geom.numberOfPoints(); i++) {
                 GmPoint pt = new GmPoint(geom.getPoint(i));
                 wl("        " + dfXY.format(pt.getX()) + " " + dfXY.format(pt.getY()) + " " + dfZ.format(pt.getZ()));
             }
-
+            
             wl("      ]"); 
             wl("    }"); 
             wl();
-
+            
             // VRML Section 2 (triangulation):
-
+            
             wl("    IndexedFaceSet {"); 
             wl("      coordIndex ["); 
-
+            
             int crn[];
             for (int i = 0; i < geom.numberOfTriangles(); i++) {
-            	crn = geom.getTriangleVertexIndices(i);
+                crn = geom.getTriangleVertexIndices(i);
                 wl("        " + crn[0] + ", " + crn[1] + ", " + crn[2] + ", -1,"); 
             }
-
+            
             wl("      ]"); 
             wl("    }"); 
             wl("  }"); 
             wl("}"); 
-
+            
             doc.close();
         }
         catch (FileNotFoundException e) {
@@ -256,10 +256,10 @@ public class IoTINWriter extends IoAbstractWriter
     private void writeSimpleX3d(GmSimpleTINFeature tin, String filename) throws T3dException
     {
         try {
-			doc = new BufferedWriter(new FileWriter(filename));
-
+            doc = new BufferedWriter(new FileWriter(filename));
+            
             GmSimpleTINGeometry geom = (GmSimpleTINGeometry) tin.getGeometry();
-
+            
             wl("<?xml version=\"1.0\" encoding=\"UTF-8\"?>"); 
             wl("<!DOCTYPE X3D PUBLIC \"ISO//Web3D//DTD X3D 3.2//EN\" \"http://www.web3d.org/specifications/x3d-3.2.dtd\">"); 
             wl("<X3D profile=\"Interchange\">"); 
@@ -270,10 +270,10 @@ public class IoTINWriter extends IoAbstractWriter
             wl("        <IndexedFaceSet solid=\"TRUE\" coordIndex=\""); 
             int crn[];
             for (int i = 0; i < geom.numberOfTriangles(); i++) {
-            	crn = geom.getTriangleVertexIndices(i);
+                crn = geom.getTriangleVertexIndices(i);
                 w(crn[0] + " " + crn[1] + " " + crn[2] + " -1"); 
-            	if (i < geom.numberOfTriangles() - 1) 
-            		w(", "); 
+                if (i < geom.numberOfTriangles() - 1) 
+                     w(", "); 
                 wl();
             }
             wl("        \">"); 
@@ -284,8 +284,8 @@ public class IoTINWriter extends IoAbstractWriter
             for (int i = 0; i < geom.numberOfPoints(); i++) {
                 GmPoint pt = new GmPoint(geom.getPoint(i));
                 w(dfXY.format(pt.getX()) + " " + dfXY.format(pt.getY()) + " " + dfZ.format(pt.getZ()));
-            	if (i < geom.numberOfPoints() - 1) 
-            		w(", "); 
+                if (i < geom.numberOfPoints() - 1) 
+                    w(", "); 
                 wl();
             }
             wl("          \"/>"); 
@@ -310,72 +310,72 @@ public class IoTINWriter extends IoAbstractWriter
     }
     
     private void writeSimpleX3Dom(
-    		GmSimpleTINFeature tin, String filename) throws T3dException
+        GmSimpleTINFeature tin, String filename) throws T3dException
     {
-    	try {
-			doc = new BufferedWriter(new FileWriter(filename));
-	
-	        GmSimpleTINGeometry geom = (GmSimpleTINGeometry) tin.getGeometry();
-	
-	        wl("<html>"); 
-	        wl("  <head>"); 
-	        wl("    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\"/>"); 
-	        wl("    <title>52n Triturus TIN</title>"); 
-	        wl("    <script type='text/javascript' src='https://www.x3dom.org/download/x3dom.js'> </script>"); 
-	        wl("    <link rel='stylesheet' type='text/css' href='https://www.x3dom.org/download/x3dom.css'></link>"); 
-	        wl("  </head>"); 
-	        wl("  <body>"); 
-	        wl("    <h1>52n Triturus TIN export page</h1>"); 
-	        wl("    <p>This HTML page gives an interactive 3D scene inside (Internet connection required).</p>"); 
-	        wl("    <x3d width='500px' height='400px'>"); 
-	        wl("      <scene>"); 
-	        wl("        <shape>"); 
-	        wl("          <appearance>"); 
-	        wl("            <material diffuseColor='1 0 0'></material>"); 
-	        wl("          </appearance>"); 
-	        wl("          <IndexedFaceSet solid='false' coordIndex='"); 
-	 
-	        int crn[];
-	        for (int i = 0; i < geom.numberOfTriangles(); i++) {
-	        	crn = geom.getTriangleVertexIndices(i);
-	            w(crn[0] + " " + crn[1] + " " + crn[2]); 
-	        	if (i < geom.numberOfTriangles() - 1) 
-	        		w(" -1"); 
-	            wl();
-	        }
-	        wl("          '>"); 
-	         
-	        wl("            <Coordinate point='"); 
-	        DecimalFormat dfXY = this.getDecimalFormatZ();
-	        DecimalFormat dfZ = this.getDecimalFormatZ();
-	        for (int i = 0; i < geom.numberOfPoints(); i++) {
-	            GmPoint pt = new GmPoint(geom.getPoint(i));
-	            w(dfXY.format(pt.getX()) + " " + dfXY.format(pt.getY()) + " " + dfZ.format(pt.getZ()));
-	        	if (i < geom.numberOfPoints() - 1) 
-	        		w(" -1"); 
-	            wl();
-	        }
-	        wl("            '>"); 
-	        wl("            </Coordinate>");
-	        
-	        wl("          </IndexedFaceSet>"); 
-	        wl("        </shape>"); 
-	        wl("      </scene>"); 
-	        wl("    </x3d>"); 
-	        wl("  </body>"); 
-	        wl("</html>"); 
-	
-	        doc.close();
-	    }
-	    catch (FileNotFoundException e) {
-	        throw new T3dException("Could not access file \"" + filename + "\".");
-	    }
-	    catch (IOException e) {
-	        throw new T3dException(e.getMessage());
-	    }
-	    catch (T3dException e) {
-	        throw new T3dException(e.getMessage());
-	    }
+        try {
+            doc = new BufferedWriter(new FileWriter(filename));
+            
+            GmSimpleTINGeometry geom = (GmSimpleTINGeometry) tin.getGeometry();
+            
+            wl("<html>"); 
+            wl("  <head>"); 
+            wl("    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\"/>"); 
+            wl("    <title>52n Triturus TIN</title>"); 
+            wl("    <script type='text/javascript' src='https://www.x3dom.org/download/x3dom.js'> </script>"); 
+            wl("    <link rel='stylesheet' type='text/css' href='https://www.x3dom.org/download/x3dom.css'></link>"); 
+            wl("  </head>"); 
+            wl("  <body>"); 
+            wl("    <h1>52n Triturus TIN export page</h1>"); 
+            wl("    <p>This HTML page contains an interactive 3D scene (Internet connection required).</p>"); 
+            wl("    <x3d width='500px' height='400px'>"); 
+            wl("      <scene>"); 
+            wl("        <shape>"); 
+            wl("          <appearance>"); 
+            wl("            <material diffuseColor='1 0 0'></material>"); 
+            wl("          </appearance>"); 
+            wl("          <IndexedFaceSet solid='false' coordIndex='"); 
+ 
+            int crn[];
+            for (int i = 0; i < geom.numberOfTriangles(); i++) {
+                crn = geom.getTriangleVertexIndices(i);
+                w(crn[0] + " " + crn[1] + " " + crn[2]); 
+                if (i < geom.numberOfTriangles() - 1) 
+                    w(" -1"); 
+                wl();
+            }
+            wl("          '>"); 
+         
+            wl("            <Coordinate point='"); 
+            DecimalFormat dfXY = this.getDecimalFormatZ();
+            DecimalFormat dfZ = this.getDecimalFormatZ();
+            for (int i = 0; i < geom.numberOfPoints(); i++) {
+                GmPoint pt = new GmPoint(geom.getPoint(i));
+                w(dfXY.format(pt.getX()) + " " + dfXY.format(pt.getY()) + " " + dfZ.format(pt.getZ()));
+                if (i < geom.numberOfPoints() - 1) 
+                    w(" -1"); 
+                wl();
+            }
+            wl("            '>"); 
+            wl("            </Coordinate>");
+        
+            wl("          </IndexedFaceSet>"); 
+            wl("        </shape>"); 
+            wl("      </scene>"); 
+            wl("    </x3d>"); 
+            wl("  </body>"); 
+            wl("</html>"); 
+            
+            doc.close();
+        }
+        catch (FileNotFoundException e) {
+            throw new T3dException("Could not access file \"" + filename + "\".");
+        }
+        catch (IOException e) {
+            throw new T3dException(e.getMessage());
+        }
+        catch (T3dException e) {
+            throw new T3dException(e.getMessage());
+        }
     }
     
     private void w(String line) {
