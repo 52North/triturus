@@ -1,42 +1,37 @@
 /**
- * Copyright (C) 2007-2015 52°North Initiative for Geospatial Open Source
+ * Copyright (C) 2007-2018 52 North Initiative for Geospatial Open Source
  * Software GmbH
  *
- * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License version 2 as published by the
- * Free Software Foundation.
+ * This program is free software; you can redistribute it and/or modify it 
+ * under the terms of the GNU General Public License version 2 as published 
+ * by the Free Software Foundation.
  *
- * If the program is linked with libraries which are licensed under one of the
- * following licenses, the combination of the program with the linked library is
- * not considered a "derivative work" of the program:
+ * If the program is linked with libraries which are licensed under one of 
+ * the following licenses, the combination of the program with the linked 
+ * library is not considered a "derivative work" of the program:
  *
- * - Apache License, version 2.0 - Apache Software License, version 1.0 - GNU
- * Lesser General Public License, version 3 - Mozilla Public License, versions
- * 1.0, 1.1 and 2.0 - Common Development and Distribution License (CDDL),
- * version 1.0.
+ * - Apache License, version 2.0 
+ * - Apache Software License, version 1.0 
+ * - GNU Lesser General Public License, version 3 
+ * - Mozilla Public License, versions 1.0, 1.1 and 2.0 
+ * - Common Development and Distribution License (CDDL), version 1.0.
  *
  * Therefore the distribution of the program linked with libraries licensed
- * under the aforementioned licenses, is permitted by the copyright holders if
- * the distribution is compliant with both the GNU General Public icense version
- * 2 and the aforementioned licenses.
+ * under the aforementioned licenses, is permitted by the copyright holders 
+ * if the distribution is compliant with both the GNU General Public license 
+ * version 2 and the aforementioned licenses.
  *
- * This program is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
- * details.
+ * This program is distributed in the hope that it will be useful, but 
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY 
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License 
+ * for more details.
  *
- * Contact: Benno Schmidt & Martin May, 52 North Initiative for Geospatial Open
- * Source Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, Germany,
- * info@52north.org
+ * Contact: Benno Schmidt & Martin May, 52 North Initiative for Geospatial 
+ * Open Source Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, 
+ * Germany, info@52north.org
  */
 package org.n52.v3d.triturus.gisimplm;
 
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.StreamTokenizer;
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 import java.nio.channels.FileChannel;
@@ -44,6 +39,9 @@ import org.n52.v3d.triturus.core.IoObject;
 import org.n52.v3d.triturus.core.T3dException;
 import org.n52.v3d.triturus.core.T3dNotYetImplException;
 import org.n52.v3d.triturus.vgis.VgEnvelope;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -51,76 +49,77 @@ import java.util.Hashtable;
 import java.util.StringTokenizer;
 import java.net.URL;
 import java.net.MalformedURLException;
-import javax.swing.text.Document;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import org.w3c.dom.*;
-import javax.xml.parsers.*;
-import java.io.*;
 
 /**
- * Reading elevation grids (of type <tt>GmSimpleElevationGrid</tt>) from a file
- * or URL location.
+ * Reader to import elevation grids from various file formats or URL 
+ * locations. The result will be <tt>GmSimpleElevationGrid</tt> objects.
  *
- * @author Benno Schmidt, Martin May
+ * @author Benno Schmidt, Martin May, Adhitya Kamakshidasan
  */
-public class IoElevationGridReader extends IoObject {
+public class IoElevationGridReader extends IoObject 
+{
+    private String logString = "";
 
-    private String mLogString = "";
-
-    private String mFormat;
-    private GmSimpleElevationGrid mElevationGrid = null;
+    private String format;
+    private GmSimpleElevationGrid elevGrid = null;
 
     /**
-     * Identifier to be used to process elevation-grids in ArcInfo ASCII grid
-     * format.
+     * Identifier to be used to process elevation-grids in ArcInfo ASCII 
+     * grid format.
      */
     public static final String ARCINFO_ASCII_GRID = "ArcIGrd";
+    /**
+     * Identifier to be used to process X3DOM-encoded elevation-grids.
+     */
     public static final String X3DOM = "X3DOM";
 
     /**
      * Constructor. As parameter, a format type identifier has to be set.
-     * <p>
      * In case, the given format type is not supported, an exception will be
      * thrown. Currently, these formats are supported:
      * <ul>
      * <li><i>ArcIGrd:</i> ArcInfo ASCII grids</li>
      * <li><i>AcGeo:</i> ACADGEO format (lattice without color-information</li>
      * <li><i>BSQ:</i> Byte-sequential ESRI-format</li>
+     * <li><i>X3D:</i> X3D-encoded elevation grids</li>
      * </ul>
-     * <p>
-     * @param pFormat Format-string, e.g. <tt></tt>&quot;ArcIGrd&quot;</tt>
+     * 
+     * @param format Format-string, e.g. <tt></tt>&quot;ArcIGrd&quot;</tt>
      * @see IoElevationGridReader#ARCINFO_ASCII_GRID
      */
-    public IoElevationGridReader(String pFormat) {
-        mLogString = this.getClass().getName();
-        this.setFormatType(pFormat);
+    public IoElevationGridReader(String format) {
+        logString = this.getClass().getName();
+        this.setFormatType(format);
     }
 
     public String log() {
-        return mLogString;
+        return logString;
     }
 
     /**
      * sets the format type.
      *
-     * @param pFormat Format-string (e.g. <tt></tt>&quot;ArcIGrd&quot;</tt>)
+     * @param format Format-string (e.g. <tt></tt>&quot;ArcIGrd&quot;</tt>)
      * @see IoElevationGridReader#ARCINFO_ASCII_GRID
      */
-    public void setFormatType(String pFormat) {
-        mFormat = pFormat;
+    public void setFormatType(String format) {
+        this.format = format;
     }
 
     /**
-     * reads an elevation-grid from a file or URL location.<br /><br />
+     * reads an elevation-grid from a file or URL location.
      *
-     * @param pLocation File path or valid URL
+     * @param location File path or valid URL
      * @return Elevation-grid, or <i>null</i> if an error occurs
      * @throws org.n52.v3d.triturus.core.T3dNotYetImplException
      * @throws org.n52.v3d.triturus.core.T3dException
      */
-    public GmSimpleElevationGrid readFromFile(String pLocation) throws T3dException {
-        return this.read(pLocation);
+    public GmSimpleElevationGrid readFromFile(String location) 
+    	throws T3dException 
+    {
+        return this.read(location);
     }
 
     /**
@@ -130,39 +129,39 @@ public class IoElevationGridReader extends IoObject {
      * that hold absolute paths with "file" (todo: this remains to be tested).
      * Relative paths are supported (e.g.: <tt>"testdata/..."</tt>), too.
      *
-     * @param pLocation File path or valid URL
-     * @return Elevation-gridm, or <i>null</i> if an error occurs
+     * @param location File path or valid URL
+     * @return Elevation-grid, or <i>null</i> if an error occurs
      * @throws org.n52.v3d.triturus.core.T3dNotYetImplException
      * @throws org.n52.v3d.triturus.core.T3dException
      */
-    public GmSimpleElevationGrid read(String pLocation) throws T3dException {
+    public GmSimpleElevationGrid read(String location) throws T3dException {
         InputStream is;
         try {
-            if (pLocation.startsWith("http")) {
-                is = this.createInputStream(new URL(pLocation));
+            if (location.startsWith("http")) {
+                is = this.createInputStream(new URL(location));
             }
             else {
-                is = this.createInputStream(pLocation);
+                is = this.createInputStream(location);
             }
         }
         catch (MalformedURLException e) {
-            throw new T3dException("Couldn't read location \"" + pLocation + "\" (malformed URL).");
+            throw new T3dException("Couldn't read location \"" + location + "\" (malformed URL).");
         }
         catch (IOException e) {
-            throw new T3dException("Couldn't read location \"" + pLocation + "\" (IO error).");
+            throw new T3dException("Couldn't read location \"" + location + "\" (IO error).");
         }
 
         int i = 0;
-        if (mFormat.equalsIgnoreCase(ARCINFO_ASCII_GRID)) {
+        if (format.equalsIgnoreCase(ARCINFO_ASCII_GRID)) {
             i = 1;
         }
-        if (mFormat.equalsIgnoreCase("AcGeo")) {
+        if (format.equalsIgnoreCase("AcGeo")) {
             i = 2;
         }
-        if (mFormat.equalsIgnoreCase("BSQ")) {
+        if (format.equalsIgnoreCase("BSQ")) {
             i = 3;
         }
-        if (mFormat.equalsIgnoreCase("X3DOM")) {
+        if (format.equalsIgnoreCase(X3DOM)) {
             i = 4;
         }
         // --> add more types here...
@@ -176,10 +175,10 @@ public class IoElevationGridReader extends IoObject {
                     this.readAcadGeoGrid(this.createBufferedReader(is));
                     break;
                 case 3:
-                    this.readEsriBandSequential(pLocation);
+                    this.readEsriBandSequential(location);
                     break;
                 case 4:
-                    this.readX3D(pLocation);
+                    this.readX3D(location);
                     break;
                 // --> add more types here...
 
@@ -191,89 +190,101 @@ public class IoElevationGridReader extends IoObject {
             throw e;
         }
 
-        return mElevationGrid;
+        return elevGrid;
     }
 
     private InputStream createInputStream(URL url) throws IOException {
         return url.openConnection().getInputStream();
     }
 
-    private InputStream createInputStream(String pFilename) throws FileNotFoundException {
-        InputStream input = this.getClass().getClassLoader().getResourceAsStream(pFilename);
+    private InputStream createInputStream(String filename) 
+    	throws FileNotFoundException 
+    {
+        InputStream input = 
+        	this.getClass().getClassLoader().getResourceAsStream(filename);
         if (input == null) {
-            input = new FileInputStream(pFilename);
+            input = new FileInputStream(filename);
         }
         return input;
     }
 
-    private BufferedReader createBufferedReader(InputStream pInputStream) {
-        return new BufferedReader(new InputStreamReader(pInputStream));
+    private BufferedReader createBufferedReader(InputStream inputStream) {
+        return new BufferedReader(new InputStreamReader(inputStream));
     }
 
     /**
-     * reads a 2-D float array from a stream and generates a grid from it.
+     * reads a 2-D float array from an input stream and generates a grid from 
+     * it.
      *
-     * @param inputStream
+     * @param inputStream Stream to read data from
+     * @param env Bounding-box of target-grid
+     * @param width Number of grid-cells in x-direction (columns)
+     * @param height Number of grid-cells in y-direction (rows)
      * @throws IOException
      */
-    public GmSimpleElevationGrid readRawFloats(InputStream inputStream, VgEnvelope pEnv, int pWidth, int pHeight)
-            throws IOException {
-        int bufferSize = (pWidth + 1) * (pHeight + 1) * 4;
+    public GmSimpleElevationGrid readRawFloats(
+    	InputStream inputStream, VgEnvelope env, int width, int height) 
+    	throws IOException 
+    {
+        int bufferSize = (width + 1) * (height + 1) * 4;
         ByteBuffer bb = ByteBuffer.allocate(bufferSize);
         int k = 0;
-        byte[] bytes = new byte[50000]; //buffer
+        byte[] bytes = new byte[50000]; // buffer
         while ((k = inputStream.read(bytes)) != -1) {
             bb.put(bytes, 0, k);
             //System.out.println("read bytes:"+k+"/pos="+bb.position()+"/size="+bufferSize);
         }
 
-        // Konstruktion des Elevation-Grids:
-        mElevationGrid = new GmSimpleElevationGrid(
-                pWidth, pHeight,
-                new GmPoint(pEnv.getXMin(), pEnv.getYMin(), 0), // Ursprungspunkt
-                pEnv.getExtentX() / pWidth, // Gitterweite x-Richtung
-                pEnv.getExtentY() / pHeight); // Gitterweite y-Richtung
-        //System.out.println("Input: width: "+pWidth+ " height: "+pHeight+" env: "+pEnv+"\nElevationGrid: "+mElevationGrid);
+        // Elevation-grid construction:
+        elevGrid = new GmSimpleElevationGrid(
+                width, height,
+                new GmPoint(env.getXMin(), env.getYMin(), 0), // Origin
+                env.getExtentX() / width, // Cell-size x-direction
+                env.getExtentY() / height); // Cell-size y-direction
+        //System.out.println("Input: width: "+width+ " height: "+height+" env: "+env+"\nElevationGrid: "+elevationGrid);
 
         bb.rewind();
         FloatBuffer fb = bb.asFloatBuffer();
-        for (int i = pHeight - 1; i >= 0; i--) {
-            for (int j = 0; j < pWidth; j++) {
-                mElevationGrid.setValue(i, j, fb.get());
+        for (int i = height - 1; i >= 0; i--) {
+            for (int j = 0; j < width; j++) {
+                elevGrid.setValue(i, j, fb.get());
             }
             //System.out.println("Height: "+i+" heights="+fb.position());
         }
-        return mElevationGrid;
+        return elevGrid;
     }
 
-    private void readArcInfoAsciiGrid(BufferedReader pDatRead) throws T3dException {
+    private void readArcInfoAsciiGrid(BufferedReader datRead) 
+    	throws T3dException 
+    {
         try {
-            // Header lesen:
-            int nCols = this.parseInt("ncols", pDatRead.readLine());
-            int nRows = this.parseInt("nrows", pDatRead.readLine());
-            float xllcorner = this.parseFloat("xllcorner", pDatRead.readLine());
-            float yllcorner = this.parseFloat("yllcorner", pDatRead.readLine());
-            float cellSize = this.parseFloat("cellsize", pDatRead.readLine());
-            float NODATA_value = this.parseFloat("NODATA_value", pDatRead.readLine());
+            // Read header:
+            int nCols = this.parseInt("ncols", datRead.readLine());
+            int nRows = this.parseInt("nrows", datRead.readLine());
+            float xllcorner = this.parseFloat("xllcorner", datRead.readLine());
+            float yllcorner = this.parseFloat("yllcorner", datRead.readLine());
+            float cellSize = this.parseFloat("cellsize", datRead.readLine());
+            float NODATA_value = this.parseFloat("NODATA_value", datRead.readLine());
 
-            // Bounding-Box bestimmen:
-            double xFrom = xllcorner + cellSize / 2.; // da Lattice, nicht Grid!
-            double yFrom = yllcorner + cellSize / 2.; // da Lattice, nicht Grid!
+            // Determine bounding-box:
+            double xFrom = xllcorner + cellSize / 2.; 
+            double yFrom = yllcorner + cellSize / 2.; 
+            // Since it is a lattice (not a grid), half cell-sizes have to be added. 
 
-            // Konstruktion des Elevation-Grids:
-            mElevationGrid = new GmSimpleElevationGrid(
+            // Elevation-grid construction:
+            elevGrid = new GmSimpleElevationGrid(
                     nCols, nRows,
-                    new GmPoint(xFrom, yFrom, 0.), // Ursprungspunkt
-                    cellSize, // Gitterweite x-Richtung
-                    cellSize); // Gitterweite y-Richtung
-            mElevationGrid.setLatticeInterpretation(); // todo: okay? Konsequenzen?
+                    new GmPoint(xFrom, yFrom, 0.), // Origin
+                    cellSize, // Cell-size x-direction
+                    cellSize); // Cell-size y-direction
+            elevGrid.setLatticeInterpretation(); // todo: okay? Consequences?
 
-            // H�henwerte lesen und Belegen des Zielgitters:
+            // Read elevation values and populate target-grid:
             float z = 0.f;
             String line = null;
 
             for (int i = nRows - 1; i >= 0; i--) {
-                line = pDatRead.readLine();
+                line = datRead.readLine();
 
                 if (line != null) {
                     StringTokenizer st = new StringTokenizer(line);
@@ -285,7 +296,7 @@ public class IoElevationGridReader extends IoObject {
                             z = 0.f;
                         }
                         if (z != NODATA_value) {
-                            mElevationGrid.setValue(i, j, z);
+                            elevGrid.setValue(i, j, z);
                         }
                     }
                 }
@@ -299,7 +310,8 @@ public class IoElevationGridReader extends IoObject {
         }
     } // readArcInfoAsciiGrid()
 
-    // private Helfer, ben�tigt in readArcInfoAsciiGrid():
+    // Helpers for readArcInfoAsciiGrid():
+    
     private int parseInt(String check, String line) throws T3dException {
         StringTokenizer st = new StringTokenizer(line);
         String[] tokens = {"", ""};
@@ -342,25 +354,25 @@ public class IoElevationGridReader extends IoObject {
         }
     }
 
-    private void readAcadGeoGrid(BufferedReader pDatRead) throws T3dException {
+    private void readAcadGeoGrid(BufferedReader datRead) throws T3dException {
         String line = "";
         int lineNumber = 0;
 
         try {
             String tok1, tok2, tok3, tok4;
 
-            line = pDatRead.readLine(); // line 1
+            line = datRead.readLine(); // line 1
             lineNumber++;
             tok1 = this.getStrTok(line, 1, " ");
             if (!tok1.equalsIgnoreCase("GRID:")) {
                 throw new T3dException("Expected key-word GRID: in line " + lineNumber);
             }
 
-            line = pDatRead.readLine(); // line 2
+            line = datRead.readLine(); // line 2
             lineNumber++;
-            ; // "C=[ON|OFF]"; Anweisung wird ignoriert
+            ; // "C=[ON|OFF]"; will be ignored
 
-            line = pDatRead.readLine(); // line 3
+            line = datRead.readLine(); // line 3
             lineNumber++;
             tok1 = this.getStrTok(line, 1, " ");
             if (!tok1.equalsIgnoreCase("FROM")) {
@@ -371,7 +383,7 @@ public class IoElevationGridReader extends IoObject {
             double xFrom = this.toDouble(tok2);
             double yFrom = this.toDouble(tok3);
 
-            line = pDatRead.readLine(); // line 4
+            line = datRead.readLine(); // line 4
             lineNumber++;
             tok1 = this.getStrTok(line, 1, " ");
             if (!tok1.equalsIgnoreCase("TO")) {
@@ -382,7 +394,7 @@ public class IoElevationGridReader extends IoObject {
             double xTo = this.toDouble(tok2);
             double yTo = this.toDouble(tok3);
 
-            line = pDatRead.readLine(); // line 5
+            line = datRead.readLine(); // line 5
             lineNumber++;
             tok1 = this.getStrTok(line, 1, " ");
             if (!tok1.equalsIgnoreCase("SIZE")) {
@@ -397,36 +409,36 @@ public class IoElevationGridReader extends IoObject {
             int nCols = this.toInt(tok2);
             int nRows = this.toInt(tok4);
 
-            // Konstruktion des Elevation-Grids:
-            mElevationGrid = new GmSimpleElevationGrid(
+            // Elevation-grid construction:
+            elevGrid = new GmSimpleElevationGrid(
                     nCols, nRows,
                     new GmPoint(xFrom, yFrom, 0.), // Ursprungspunkt
                     (xTo - xFrom) / ((double) nCols - 1.), // Gitterweite x-Richtung
                     (yTo - yFrom) / ((double) nRows - 1.)); // Gitterweite y-Richtung
-            mElevationGrid.setLatticeInterpretation();
+            elevGrid.setLatticeInterpretation();
 
-            // Belegen der Gitterpunkte mit H�henwerten:
+            // Populate grid with elevation values:
             double z;
-            mElevationGrid.setZBoundsInvalid(); // Performanz!
+            elevGrid.setZBoundsInvalid(); // Performance!
 
             for (int j = 0; j < nCols; j++) {
                 for (int i = 0; i < nRows; i++) {
-                    line = pDatRead.readLine();
+                    line = datRead.readLine();
                     lineNumber++;
                     tok1 = this.getStrTok(line, 1, " ");
                     z = this.toDouble(tok1);
-                    mElevationGrid.setValue(i, j, z);
+                    elevGrid.setValue(i, j, z);
                 }
             }
 
-            line = pDatRead.readLine(); // letzte Zeile
+            line = datRead.readLine(); // last row
             lineNumber++;
             tok1 = this.getStrTok(line, 1, " ");
             if (!tok1.equalsIgnoreCase("END")) {
                 throw new T3dException("Expected key-word END in line " + lineNumber);
             }
 
-            pDatRead.close();
+            datRead.close();
         }
         catch (IOException e) {
             throw new T3dException(e.getMessage());
@@ -439,72 +451,72 @@ public class IoElevationGridReader extends IoObject {
         }
     } // readAcadGeoGrid()
 
-    // private Helfer, ben�tigt in readAcadGeoGrid():
-    // Extraktion des i-ten Tokens (i >= 1!, i max. = 4) aus einem String ('pSep" als Trenner):
-    private String getStrTok(String pStr, int i, String pSep) throws T3dException {
-        ArrayList lStrArr = new ArrayList();
-        lStrArr.add(pStr);
+    // Helpers for readAcadGeoGrid():
+    
+    // Extraction of i-th token (i >= 1!, i max. = 4) from a string ('pSep' as separator):
+    private String getStrTok(String str, int i, String sep) throws T3dException {
+        ArrayList<String> strArr = new ArrayList<String>();
+        strArr.add(str);
         int i0 = 0, i1 = 0, k = 0;
         while (k < 4 && i1 >= 0) {
-            i1 = pStr.indexOf(pSep, i0);
+            i1 = str.indexOf(sep, i0);
             if (i1 >= 0) {
                 if (k == 0) {
-                    lStrArr.set(0, pStr.substring(i0, i1));
+                    strArr.set(0, str.substring(i0, i1));
                 }
                 else {
-                    lStrArr.add(pStr.substring(i0, i1));
+                    strArr.add(str.substring(i0, i1));
                 }
                 i0 = i1 + 1;
                 k++;
             }
         }
         if (k <= 3) {
-            lStrArr.add(pStr.substring(i0));
+            strArr.add(str.substring(i0));
         }
         if (i < 1 || i > 4) {
             throw new T3dException("Logical parser error.");
         }
-        return (String) lStrArr.get(i - 1);
+        return (String) strArr.get(i - 1);
     }
 
-    // Konvertierung String -> Gleitpunktzahl:
-    private double toDouble(String pStr) {
-        return Double.parseDouble(pStr);
+    private double toDouble(String str) {
+        return Double.parseDouble(str);
     }
 
-    // Konvertierung String -> Ganzzahl:
-    private int toInt(String pStr) {
-        return Integer.parseInt(pStr);
+    private int toInt(String str) {
+        return Integer.parseInt(str);
     }
 
-    private void readEsriBandSequential(String pFilename) throws T3dException {
+    private void readEsriBandSequential(String filename) throws T3dException 
+    {
         try {
-            String bsqName = pFilename;
-            String hdrName = null;
-            String bqwName = null;
+            String bsqName = filename, hdrName = null, bqwName = null;
             boolean isFloat;
+            
             if (bsqName.toLowerCase().endsWith("bsq")) {
                 hdrName = bsqName.substring(0, bsqName.length() - 3) + "hdr";
                 bqwName = bsqName.substring(0, bsqName.length() - 3) + "bqw";
             }
             else {
-                throw new T3dException("File-Name not correct: " + pFilename);
+                throw new T3dException("File-name not correct: " + filename);
             }
 
-            //Header einlesen:
+            // Read header:
             FileReader hdrFileRead = new FileReader(hdrName);
             BufferedReader hdrDatRead = new BufferedReader(hdrFileRead);
             StreamTokenizer hdrTokRead = new StreamTokenizer(hdrDatRead);
-            hdrTokRead.lowerCaseMode(true);//alle Tokens in Kleinbuchstaben holen
-            hdrTokRead.commentChar(35);//Hash signalisiert Kommentar-Zeile...
-            hdrTokRead.eolIsSignificant(false);//Zeilenumbruch unwichtig
-            hdrTokRead.wordChars(65, 90);//Gro�buchstaben
-            hdrTokRead.wordChars(97, 122);//Kleinbuchstaben
+            hdrTokRead.lowerCaseMode(true); // fetch all tokens (in lower case)
+            hdrTokRead.commentChar(35); // Hashes mark comment lines...
+            hdrTokRead.eolIsSignificant(false); // line feeds are irrelevant
+            hdrTokRead.wordChars(65, 90); // upper-case characters
+            hdrTokRead.wordChars(97, 122); // lower-case characters
             int tokType = 0;
-            hdrTokRead.parseNumbers();//Die Nummern lesen wir 'direkt'
+            hdrTokRead.parseNumbers(); // The numbers are read 'directly'
             String valueName = "";
-            Hashtable header = new Hashtable();
-            //alles durchgehen und paarweise in Hashtable ablegen
+            Hashtable<String, Serializable> 
+            	header = new Hashtable<String, Serializable>();
+            // traverse everything and put it to the hash-table pairwise
             do {
                 tokType = hdrTokRead.nextToken();
                 if (tokType == StreamTokenizer.TT_WORD) {
@@ -520,7 +532,7 @@ public class IoElevationGridReader extends IoObject {
                 }
             } while (tokType != StreamTokenizer.TT_EOF);
 
-            //Einige Werte pr�fen:
+            // Check some values:
             if (header.get("pixeltype").equals("float")) {
                 isFloat = true;
             }
@@ -534,23 +546,23 @@ public class IoElevationGridReader extends IoObject {
                 throw new T3dException("Number of bands not supported: " + header.get("nbands"));
             }
 
-            //LowerLeft einlesen:
+            // Read lower-left:
             double LLx = 0;
             double LLy = 0;
             double Dx = 10;
             double Dy = 10;
-            int colOrder = 1;//Werte werden nach rechts
-            int rowOrder = 1;// und nach oben eingelesen
+            int colOrder = 1; // Values will be read to the left
+            int rowOrder = 1; // and to top
             FileReader bqwFileRead = new FileReader(bqwName);
             BufferedReader bqwDatRead = new BufferedReader(bqwFileRead);
             StreamTokenizer bqwTokRead = new StreamTokenizer(bqwDatRead);
-            bqwTokRead.lowerCaseMode(true);//alle Tokens in Kleinbuchstaben holen
-            bqwTokRead.commentChar(35);//Hash signalisiert Kommentar-Zeile...
-            bqwTokRead.eolIsSignificant(false);//Zeilenumbruch unwichtig
-            bqwTokRead.wordChars(65, 90);//Gro�buchstaben
-            bqwTokRead.wordChars(97, 122);//Kleinbuchstaben
+            bqwTokRead.lowerCaseMode(true); // fetch all tokens (in lower case)
+            bqwTokRead.commentChar(35); // Hashes mark comment-lines...
+            bqwTokRead.eolIsSignificant(false); // line feeds are irrelevant
+            bqwTokRead.wordChars(65, 90); // upper-case characters
+            bqwTokRead.wordChars(97, 122); // lower-case characters
             tokType = 0;
-            bqwTokRead.parseNumbers();//Die Nummern lesen wir 'direkt'
+            bqwTokRead.parseNumbers(); // The numbers are read 'directly'
             tokType = bqwTokRead.nextToken();
             if (tokType == StreamTokenizer.TT_NUMBER) {
                 Dx = bqwTokRead.nval;
@@ -570,7 +582,7 @@ public class IoElevationGridReader extends IoObject {
                 LLy = bqwTokRead.nval;
             }
 
-            //Korrektur des Ursprungs nach LL (falls n�tig)
+            // Origin correction to LL (if necessary)
             if (Dx < 0) {
                 LLx = LLx + Dx * ((Integer) header.get("ncols")).intValue();
                 Dx = 0 - Dx;
@@ -582,40 +594,40 @@ public class IoElevationGridReader extends IoObject {
                 rowOrder = -1;
             }
 
-            // Konstruktion des Elevation-Grids:
-            mElevationGrid = new GmSimpleElevationGrid(
+            // Elevation-grid construction:
+            elevGrid = new GmSimpleElevationGrid(
                     ((Integer) header.get("nrows")).intValue(), ((Integer) header.get("ncols")).intValue(),
-                    new GmPoint(LLx, LLy, 0.), // Ursprungspunkt
-                    Dx, // Gitterweite x-Richtung
-                    Dy); // Gitterweite y-Richtung
-            mElevationGrid.setLatticeInterpretation();
-            mElevationGrid.setZBoundsInvalid(); // Performanz!
+                    new GmPoint(LLx, LLy, 0.), // Origin
+                    Dx, // Cell-size x-direction
+                    Dy); // Cell-size y-direction
+            elevGrid.setLatticeInterpretation();
+            elevGrid.setZBoundsInvalid(); // Performance!
 
             FileInputStream bsqFS = new FileInputStream(bsqName);
 
-            // Belegen der Gitterpunkte mit H�henwerten:
+            // Populate grid with elevation-values:
             int startrow, startcol;
             if (rowOrder == -1) {
-                startrow = mElevationGrid.numberOfRows() - 1;
+                startrow = elevGrid.numberOfRows() - 1;
             }
             else {
                 startrow = 0;
             }
             if (colOrder == -1) {
-                startcol = mElevationGrid.numberOfColumns() - 1;
+                startcol = elevGrid.numberOfColumns() - 1;
             }
             else {
                 startcol = 0;
             }
 
             System.out.println("i(rows): " + startrow + " j(cols): " + startcol + " rowOrder: " + rowOrder + " colOrder: " + colOrder);
-            ByteBuffer lBBuf = ByteBuffer.allocateDirect(mElevationGrid.numberOfColumns() * 4);
+            ByteBuffer lBBuf = ByteBuffer.allocateDirect(elevGrid.numberOfColumns() * 4);
             FloatBuffer lBuf = lBBuf.asFloatBuffer();
             FileChannel fc = bsqFS.getChannel();
 
-            for (int i = startrow; i >= 0 && i < mElevationGrid.numberOfRows(); i = i + rowOrder) { // Reihenfolge?
+            for (int i = startrow; i >= 0 && i < elevGrid.numberOfRows(); i = i + rowOrder) { // Reihenfolge?
                 fc.read(lBBuf);
-                for (int j = startcol; j >= 0 && j < mElevationGrid.numberOfColumns(); j = j + colOrder) {
+                for (int j = startcol; j >= 0 && j < elevGrid.numberOfColumns(); j = j + colOrder) {
 //					int zRaw = 0;
 //					zRaw = bsqFS.read();
 //					zRaw = zRaw<<8;
@@ -628,11 +640,12 @@ public class IoElevationGridReader extends IoObject {
 //						float z = Float.intBitsToFloat(zRaw);
                         float z = lBuf.get(j);
                         if (z > -8000) {
-                            mElevationGrid.setValue(i, j, z);//Man k�nnte auf NaN pr�fen, aber...
+                            elevGrid.setValue(i, j, z);
+                            // Here, one could check for NaN, but...
                         }
                     }
                     else {
-                        mElevationGrid.setValue(i, j, lBuf.get(j));
+                        elevGrid.setValue(i, j, lBuf.get(j));
                     }
                 }
                 System.out.println("Reihe: " + i);
@@ -642,7 +655,7 @@ public class IoElevationGridReader extends IoObject {
             bsqFS.close();
         }
         catch (FileNotFoundException e) {
-            throw new T3dException("Could not access file \"" + pFilename + "\".");
+            throw new T3dException("Could not access file \"" + filename + "\".");
         }
         catch (IOException e) {
             throw new T3dException(e.getMessage());
@@ -651,15 +664,15 @@ public class IoElevationGridReader extends IoObject {
             throw new T3dException(e.getMessage());
         }
         catch (Exception e) {
-            throw new T3dException("Read error in \"" + pFilename + "\".");
+            throw new T3dException("Read error in \"" + filename + "\".");
         }
     } // readEsriBandSequential()
 
-    private void readX3D(String pFilename) throws T3dException {
+    private void readX3D(String filename) throws T3dException {
         try {
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-            org.w3c.dom.Document doc = dBuilder.parse(pFilename);
+            org.w3c.dom.Document doc = dBuilder.parse(filename);
 
             //read this - http://stackoverflow.com/questions/13786607/normalization-in-dom-parsing-with-java-how-does-it-work
             doc.getDocumentElement().normalize();
@@ -697,21 +710,22 @@ public class IoElevationGridReader extends IoObject {
             int nRows = Integer.parseInt(element.getAttribute("zDimension"));
             double xSpacing = Double.parseDouble(element.getAttribute("xSpacing"));
             double zSpacing = Double.parseDouble(element.getAttribute("zSpacing"));
-            String [] height = element.getAttribute("height").split(" ");
+            String[] height = element.getAttribute("height").split(" ");
             
             System.out.println(nCols + " " + nRows + " " + xSpacing + " " + zSpacing + " " + xllcorner + " " + yllcorner);
             
-            double xFrom = xllcorner + xSpacing / 2.; // da Lattice, nicht Grid!
-            double yFrom = yllcorner + zSpacing / 2.; // da Lattice, nicht Grid!
-            
-            mElevationGrid = new GmSimpleElevationGrid(
+            double xFrom = xllcorner + xSpacing / 2.; 
+            double yFrom = yllcorner + zSpacing / 2.; 
+            // Since it is a lattice (not a grid), half cell-sizes have to be added. 
+
+            elevGrid = new GmSimpleElevationGrid(
                     nCols, nRows,
-                    new GmPoint(xFrom, yFrom, 0.), // Ursprungspunkt
-                    xSpacing, // Gitterweite x-Richtung
-                    zSpacing); // Gitterweite y-Richtung
+                    new GmPoint(xFrom, yFrom, 0.), // Origin point
+                    xSpacing, // Cell-size x-direction
+                    zSpacing); // Cell-size y-direction
             
-            mElevationGrid.setLatticeInterpretation();
-            mElevationGrid.setZBoundsInvalid(); 
+            elevGrid.setLatticeInterpretation();
+            elevGrid.setZBoundsInvalid(); 
 
             float z = 0.f;
             int k = 0;
@@ -719,15 +733,13 @@ public class IoElevationGridReader extends IoObject {
             for (int i = nRows - 1; i >= 0; i--) {
                 for (int j = 0; j < nCols; j++) {
                     z = Float.parseFloat(height[k]);
-                    mElevationGrid.setValue(i, j, z);
+                    elevGrid.setValue(i, j, z);
                     k++;
                 }
             }
         }
-
         catch (Exception exception) {
             System.out.println(exception.getMessage());
         }
-    }
-
+    } // readX3D()
 }
