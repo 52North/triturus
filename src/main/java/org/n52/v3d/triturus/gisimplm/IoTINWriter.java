@@ -352,7 +352,7 @@ public class IoTINWriter extends IoAbstractWriter
                 GmPoint pt = new GmPoint(geom.getPoint(i));
                 w(dfXY.format(pt.getX()) + " " + dfXY.format(pt.getY()) + " " + dfZ.format(pt.getZ()));
                 if (i < geom.numberOfPoints() - 1) 
-                    w(" -1"); 
+                    w(","); 
                 wl();
             }
             wl("            '>"); 
