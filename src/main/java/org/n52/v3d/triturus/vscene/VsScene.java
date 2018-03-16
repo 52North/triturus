@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2007-2015 52°North Initiative for Geospatial Open Source
+ * Copyright (C) 2007-2015 52North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it
@@ -39,7 +39,7 @@ import java.util.ArrayList;
  * framework, this class allows to abstract from the concrete visualization-environment that is used.
  * <p>
  * Examples for concrete implementations of this class would be generic scene-graphs or concrete scene-descriptions
- * encoded using Java 3D, Xith3D, VRML, GeoVRML, X3D, AVS/Express networks, POV-Ray-scenes, etc.
+ * encoded using Java 3D, Xith3D, VRML, GeoVRML, X3D, HTML5/X3DOM, POV-Ray-scenes, etc.
  *
  * @author Benno Schmidt
  */
@@ -47,22 +47,23 @@ abstract public class VsScene
 {
 	private double mExaggeration = 1.;
 	
-	private ArrayList mCameras = null;
+	private ArrayList<VsCamera> mCameras = null;
 	private int mCurrentCamera = -1;
 	
-	private ArrayList mLights = null;
+	private ArrayList<VsLightSource> mLights = null;
 	
 	/**
 	 * sets the initial exaggeration value (vertical height scale) of the scene. The default-value is set to 1.0.
      *
-	 * @param pExaggeration z-factor
+	 * @param exaggeration z-factor
 	 */	
-	public void setDefaultExaggeration(double pExaggeration) {
-		mExaggeration = pExaggeration;
+	public void setDefaultExaggeration(double exaggeration) {
+		mExaggeration = exaggeration;
 	}
 
 	/**
      * gets the initial exaggeration value (vertical height scale) of the scene.
+     * 
 	 * @return z-factor
 	 */	
 	public double getDefaultExaggeration() {
@@ -70,21 +71,19 @@ abstract public class VsScene
 	}
 
 	/**
-	 * adds a camera to the scene.
-     * <p>
-     * A <tt>VsScene</tt> might consist of multiple cameras. By default, the first camera that has been added to the
-     * scene, will be used when starting the visualization.
+	 * adds a camera to the scene. A <tt>VsScene</tt> might consist of multiple cameras. By default, 
+	 * the first camera that has been added to the scene, will be used when starting the visualization.
      *
-	 * @param pCamera Camera-definition
+	 * @param cam Camera-definition
 	 * @see VsScene#setCurrentCamera
 	 */
-	public void addCamera(VsCamera pCamera) 
+	public void addCamera(VsCamera cam) 
 	{
 		if (mCameras == null) {
-		    mCameras = new ArrayList();
+		    mCameras = new ArrayList<VsCamera>();
 		    mCurrentCamera = 0;
 		}
-		mCameras.add(pCamera);
+		mCameras.add(cam);
 	}
 
 	/**
@@ -112,7 +111,8 @@ abstract public class VsScene
      *
 	 * @return Number &gt;= 0
 	 */
-	public int numberOfCameras() {
+	public int numberOfCameras() 
+	{
 		if (mCameras == null)
 			return 0;
 		else
@@ -149,8 +149,8 @@ abstract public class VsScene
 	}
 
 	/**
-	 * returns the current viewpoint of the scene. This viewpoint corresponds to the current viewpoint of the current
-     * camera.
+	 * returns the current viewpoint of the scene. This viewpoint corresponds to the current viewpoint of 
+	 * the current camera.
      *
 	 * @return Viewpoint
 	 * @throws T3dException if an unrepairable error occurs
@@ -177,13 +177,13 @@ abstract public class VsScene
      * <p>
      * A <tt>VsScene</tt> might consist of multiple light-sources.
      *
-	 * @param pLight Light-source definition
+	 * @param light Light-source definition
 	 */
-	public void addLightSource(VsLightSource pLight) 
+	public void addLightSource(VsLightSource light) 
 	{
 		if (mLights == null)
-		    mLights = new ArrayList();
-		mLights.add(pLight);
+		    mLights = new ArrayList<VsLightSource>();
+		mLights.add(light);
 	}
 
 	/**
@@ -211,7 +211,8 @@ abstract public class VsScene
      *
      * @return Number &gt;= 0
 	 */
-	public int numberOfLightSources() {
+	public int numberOfLightSources() 
+	{
 		if (mLights == null)
 			return 0;
 		else
@@ -228,6 +229,7 @@ abstract public class VsScene
     }
 
 	/**
+	 * @deprecated
      * generates the scene-description according to the settings of the objects that have been added to the current
      * scene. A call to this method might result in a scene description file (which not necessarily refers to a
      * scene-graph-based format), or a scene-graph object.

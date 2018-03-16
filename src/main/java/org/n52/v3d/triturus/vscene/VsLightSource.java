@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2007-2015 52°North Initiative for Geospatial Open Source
+ * Copyright (C) 2007-2015 52North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it
@@ -32,10 +32,9 @@
 package org.n52.v3d.triturus.vscene;
 
 /**
- * todo engl. JavaDoc
- * Abstrakte Basisklasse f�r Lichtquellen-Definitionen. Die Klasse dient innerhalb des Rahmenwerks dazu, 
- * Lichtquellen unabh�ngig von der konkret eingesetzten Rendering-/Visualisierungsumgebung spezifizieren
- * zu k�nnen.<p>
+ * Abstract based class for light-source definitions. In the scope of the Triturus framework, this class
+ * allows to specify lighting situations independently from a concrete rendering environment. 
+ * 
  * @author Benno Schmidt
  */
 abstract public class VsLightSource

@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2007-2016 52 North Initiative for Geospatial Open Source
+ * Copyright (C) 2007-2016 52North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it
@@ -105,24 +105,24 @@ public class MultiTerrainScene extends VsScene
      * not support triangulated irregular networks (TINs) yet (although it 
      * should be easy to implement this).
      *
-     * @param pTerrain Elevation-model
+     * @param terrain Elevation-model
      */
-    public void addTerrain(VgElevationGrid pTerrain)
+    public void addTerrain(VgElevationGrid terrain)
     {
         if (mTerrains == null)
             mTerrains = new ArrayList<VgElevationGrid>();
 
-        if (pTerrain != null) {
-            mTerrains.add(pTerrain);
+        if (terrain != null) {
+            mTerrains.add(terrain);
 
             // Determine new Bounding-box:
             VgEnvelope lBBox = new GmEnvelope(
-                    pTerrain.getGeometry().envelope().getXMin(),
-                    pTerrain.getGeometry().envelope().getXMax(),
-                    pTerrain.getGeometry().envelope().getYMin(),
-                    pTerrain.getGeometry().envelope().getYMax(),
-                    pTerrain.minimalElevation(),
-                    pTerrain.maximalElevation());
+                    terrain.getGeometry().envelope().getXMin(),
+                    terrain.getGeometry().envelope().getXMax(),
+                    terrain.getGeometry().envelope().getYMin(),
+                    terrain.getGeometry().envelope().getYMax(),
+                    terrain.minimalElevation(),
+                    terrain.maximalElevation());
 
             if (mBBox == null) {
                 // Since mTerrains must not be empty (after calls to 
@@ -149,11 +149,11 @@ public class MultiTerrainScene extends VsScene
     /**
      * removes an elevation-model from the current scene.
      *
-     * @param pTerrain Elevation-model object to be removed
+     * @param terrain Elevation-model object to be removed
      */
-    public void removeTerrain(VgElevationGrid pTerrain)
+    public void removeTerrain(VgElevationGrid terrain)
     {
-        mTerrains.remove(pTerrain);
+        mTerrains.remove(terrain);
         mBBox = null; // i.e., BBox is invalid, requires calculation
     }
 
@@ -200,15 +200,15 @@ public class MultiTerrainScene extends VsScene
     /**
      * adds a marker to be visualized to the current scene.
      *
-     * @param pMarker Marker specification
+     * @param marker Marker specification
      */
-    public void addMarker(T3dSymbolInstance pMarker)
+    public void addMarker(T3dSymbolInstance marker)
     {
         if (mMarkers == null)
             mMarkers = new ArrayList<T3dSymbolInstance>();
 
-        if (pMarker != null)
-            mMarkers.add(pMarker);
+        if (marker != null)
+            mMarkers.add(marker);
     }
 
     /**
@@ -246,14 +246,14 @@ public class MultiTerrainScene extends VsScene
      * @return Point in normalized coordinate space
      * @see MultiTerrainScene#denorm
      */
-    public T3dVector norm(VgPoint pGeoPos)
+    public T3dVector norm(VgPoint geoPos)
     {
         // todo: Method is identical to VsSimpleScene#norm - maybe this should be refactored...
 
         return new T3dVector(
-            pGeoPos.getX() * mScale + mOffset.getX(),
-            pGeoPos.getY() * mScale + mOffset.getY(),
-            pGeoPos.getZ() * mScale);
+            geoPos.getX() * mScale + mOffset.getX(),
+            geoPos.getY() * mScale + mOffset.getY(),
+            geoPos.getZ() * mScale);
     }
 
     /**
@@ -262,19 +262,19 @@ public class MultiTerrainScene extends VsScene
      * (@link MultiTerrainScene}-specific) normalized coordinates into 
      * geo-coordinates.
      *
-	 * @param pNormPos Georeferenced point
+	 * @param normPos Georeferenced point
 	 * @return Point in normalized coordinate space
 	 * @see MultiTerrainScene#norm
 	 */
-	public VgPoint denorm(T3dVector pNormPos)
+	public VgPoint denorm(T3dVector normPos)
 	{
         // todo: Method is identical to VsSimpleScene#denorm 
 		// - maybe this should be refactored in the future...
 
 		return new GmPoint(
-		    (pNormPos.getX() - mOffset.getX()) / mScale,
-		    (pNormPos.getY() - mOffset.getY()) / mScale,
-		    pNormPos.getZ() / mScale);
+		    (normPos.getX() - mOffset.getX()) / mScale,
+		    (normPos.getY() - mOffset.getY()) / mScale,
+		    normPos.getZ() / mScale);
 	}
 
     private void calculateNormTransformation()
@@ -392,10 +392,10 @@ public class MultiTerrainScene extends VsScene
      * assigned to the scene.
      *
      * @see this#setHypsometricColorMapper(org.n52.v3d.triturus.t3dutil.MpHypsometricColor)
-     * @param pColor Relief-color
+     * @param col Relief-color
      */
-    public void setDefaultReliefColor(T3dColor pColor) {
-        mDefaultReliefColor = pColor;
+    public void setDefaultReliefColor(T3dColor col) {
+        mDefaultReliefColor = col;
     }
 
     /**
@@ -411,10 +411,10 @@ public class MultiTerrainScene extends VsScene
      * sets the bounding-box color. By default, a white bounding-box will be drawn.
      *
      * @see this#drawBBoxShape
-     * @param pColor Bounding-box color
+     * @param col Bounding-box color
      */
-    public void setBBoxColor(T3dColor pColor) {
-        mBBoxColor = pColor;
+    public void setBBoxColor(T3dColor col) {
+        mBBoxColor = col;
     }
 
     /**
@@ -430,10 +430,10 @@ public class MultiTerrainScene extends VsScene
      * controls, if the 3D-bounding-box corresponding to the elevation-model 
      * will be visible.
      *
-     * @param pDrawBBox <i>true</i>, to add the bounding-box shape to the scene
+     * @param drawBBox <i>true</i>, to add the bounding-box shape to the scene
      */
-    public void drawBBoxShape(boolean pDrawBBox) {
-        mDrawBBox = pDrawBBox;
+    public void drawBBoxShape(boolean drawBBox) {
+        mDrawBBox = drawBBox;
     }
 
     protected boolean drawBBox() {
@@ -445,10 +445,10 @@ public class MultiTerrainScene extends VsScene
      * If no coloring shall be carried out, call the method with a 
      * <i>null</i>-value for <tt>pColMap</tt>.
      *
-     * @param pColMap Hypsometric color-assignment or <i>null</i>
+     * @param colMap Hypsometric color-assignment or <i>null</i>
      */
-    public void setHypsometricColorMapper(MpHypsometricColor pColMap) {
-    	mHypsometricColMap = pColMap;
+    public void setHypsometricColorMapper(MpHypsometricColor colMap) {
+    	mHypsometricColMap = colMap;
     }
 
     /**
