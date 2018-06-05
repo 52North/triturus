@@ -73,7 +73,7 @@ public class HelloWorld
         // Write VRML output:
     	IoElevationGridWriter writer = new IoElevationGridWriter(IoElevationGridWriter.X3D);
     	writer.writeToFile(grid, filename);
-    	System.out.println("Wrote the VRML file \"" + filename + "\"...");
+    	System.out.println("Wrote the X3D file \"" + filename + "\"...");
         System.out.println("Success!");
     }
 }
