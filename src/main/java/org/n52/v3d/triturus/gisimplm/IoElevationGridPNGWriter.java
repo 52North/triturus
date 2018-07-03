@@ -10,6 +10,8 @@ import org.n52.v3d.triturus.core.IoObject;
 import org.n52.v3d.triturus.core.T3dException;
 import org.n52.v3d.triturus.core.T3dNotYetImplException;
 
+// TODO Test application is still missing.
+
 /**
  * 
  * @author Jatzek
