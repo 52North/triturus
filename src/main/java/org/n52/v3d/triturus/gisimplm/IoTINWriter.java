@@ -67,6 +67,11 @@ public class IoTINWriter extends IoAbstractWriter
      * description.
      */
     public static final String X3DOM = "X3Dom";
+    
+    /**
+     * File-format type identifier to be used for OBJ export.
+     */
+    public static final String OBJ = "Obj";
 
     private String logString = "";
     private String format;
@@ -124,6 +129,7 @@ public class IoTINWriter extends IoAbstractWriter
         if (format.equalsIgnoreCase(VRML1)) i = 2;
         if (format.equalsIgnoreCase(X3D)) i = 3;
         if (format.equalsIgnoreCase(X3DOM)) i = 4;
+        if (format.equalsIgnoreCase(OBJ)) i = 5;
         // --> add more formats here...
 
         try {
@@ -132,6 +138,7 @@ public class IoTINWriter extends IoAbstractWriter
                 case 2: this.writeSimpleVrml(tin, filename); break;
                 case 3: this.writeSimpleX3d(tin, filename); break;
                 case 4: this.writeSimpleX3Dom(tin, filename); break;
+                case 5: this.writeSimpleObj(tin, filename); break;
                 // --> add more formats here...
 
                 default: throw new T3dNotYetImplException("Unsupported file format");
@@ -309,8 +316,7 @@ public class IoTINWriter extends IoAbstractWriter
         }
     }
     
-    private void writeSimpleX3Dom(
-        GmSimpleTINFeature tin, String filename) throws T3dException
+    private void writeSimpleX3Dom(GmSimpleTINFeature tin, String filename) throws T3dException
     {
         try {
             doc = new BufferedWriter(new FileWriter(filename));
@@ -376,6 +382,61 @@ public class IoTINWriter extends IoAbstractWriter
         catch (T3dException e) {
             throw new T3dException(e.getMessage());
         }
+    }
+    
+    private void writeSimpleObj(GmSimpleTINFeature tin, String filename) throws T3dException
+    {
+        try {
+        	doc = new BufferedWriter(new FileWriter(filename));
+        	
+            GmSimpleTINGeometry geom = (GmSimpleTINGeometry) tin.getGeometry();
+            
+            double scale;
+            double offsetX;
+            double offsetY;
+              
+//          get the bounding-box
+            double dx = geom.envelope().getExtentX();
+            double dy = geom.envelope().getExtentY();
+              
+//          see calculateNormTransformation() of VsSimpleScene
+            if(Math.abs(dx) > Math.abs(dy)){
+          	  scale = 2./dx; 
+          	  offsetX = -(geom.envelope().getXMin()+geom.envelope().getXMax())/dx;
+              offsetY = -(geom.envelope().getYMin()+geom.envelope().getYMax())/dx;
+            }
+            else{
+            	scale = 2./dy; 
+            	offsetX = -(geom.envelope().getXMin()+geom.envelope().getXMax())/dy;
+                offsetY = -(geom.envelope().getYMin()+geom.envelope().getYMax())/dy;
+            }
+            
+            wl("# test file");
+            wl("o TIN");
+            
+//          vertices
+//          DecimalFormat dfXY = this.getDecimalFormatXY();
+//          DecimalFormat dfZ = this.getDecimalFormatZ();
+            for (int i=0; i<geom.numberOfPoints(); i++){
+            	GmPoint pt = new GmPoint(geom.getPoint(i));
+            	wl("v "+ (pt.getX()*scale+offsetX) + " " + (pt.getY()*scale+offsetY) + " " + (pt.getZ()*scale*100) );
+
+            }
+            
+//          smoothing
+            wl("s off");
+            
+//          triangles
+            int crn[];
+            for(int i = 0; i < geom.numberOfTriangles(); i++){
+            	crn = geom.getTriangleVertexIndices(i);
+            	wl("f " + (crn[0]+1) + " " + (crn[1]+1) + " " + (crn[2]+1));
+            }
+            
+			doc.close();
+		} catch (IOException e) {
+			throw new T3dException(e.getMessage());
+		}
     }
     
     private void w(String line) {
