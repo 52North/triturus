@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2007-2015 52°North Initiative for Geospatial Open Source
+ * Copyright (C) 2007-2018 52North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it
@@ -19,65 +19,73 @@
  * Therefore the distribution of the program linked with libraries licensed
  * under the aforementioned licenses, is permitted by the copyright holders
  * if the distribution is compliant with both the GNU General Public
- * icense version 2 and the aforementioned licenses.
+ * license version 2 and the aforementioned licenses.
  *
  * This program is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
  * Public License for more details.
  *
- * Contact: Benno Schmidt & Martin May, 52 North Initiative for Geospatial Open Source
- * Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, Germany, info@52north.org
+ * Contact: Benno Schmidt & Martin May, 52 North Initiative for Geospatial 
+ * Open Source Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, 
+ * Germany, info@52north.org
  */
 package org.n52.v3d.triturus.vgis;
 
 import org.n52.v3d.triturus.core.T3dException;
 
 /**
- * Class to hold TINs (&quot;triangulated irregular networks&quot;).<br /><br />
- * <i>German:</i> Bem.: In <tt>VgTIN</tt>-Objekten ist die Verwendung indizierter Vertizes nicht notwendig (hierdurch
- * werden die Anforderungen an die nutzbaren Implementierungen kleinstm�glich gehalten!). Die spezialisierte
- * Schnittstelle <tt>VgIndexedTIN</tt> erm�glicht stattdessen den Zugriff auf indizierte Vertizes.
+ * Class to hold TINs ('triangulated irregular networks'). Note that 
+ * <tt>VgTIN</tt>-objects do not use indexed vertices. (This way, the 
+ * requirements for concrete implementations are kept low.) Instead, the 
+ * specialized interface <tt>VgIndexedTIN</tt> allows to access indexed 
+ * vertices.
+ * 
  * @see VgIndexedTIN
  * @author Benno Schmidt
  */
 abstract public class VgTIN extends VgGeomObject2d 
 {
 	/**
-     * returns the number of points that are part of the TIN (<i>vertices</i>).
-     * @return Number of vertices
-     */
+	 * returns the number of points ('vertices') that are part of the TIN.
+	 * 
+	 * @return Number of vertices
+	 */
 	abstract public int numberOfPoints();
-
+	
 	/**
-     * returns the number of triangles that are part of the TIN (<i>facets</i>).
-     * @return Number of facets
-     */
+	 * returns the number of triangles ('facets') that are part of the TIN.
+	 * 
+	 * @return Number of facets
+	 */
 	abstract public int numberOfTriangles();
-
+	
 	/**
-	 * returns the i-th point (vertex) of the TIN structure.<br /><br />
-     * <i>German:</i> Es ist stets die Bedingung 0 &lt;<= i &lt; <tt>this.numberOfPoints()</tt> einzuhalten;
-	 * anderenfalls wird eine <tt>T3dException</tt> geworfen.
-     * @param i Point index
-     * @return Vertex object
+	 * returns the i-th point (vertex) of the TIN structure. The assertion
+	 * 0 &lt;<= i &lt; <tt>this.numberOfPoints()</tt> must hold; otherwise
+	 * a <tt>T3dException</tt> will be thrown.
+	 * 
+	 * @param i Point index
+	 * @return Vertex object
 	 */
 	abstract public VgPoint getPoint(int i) throws T3dException;
 
 	/**
-     * returns the i-th triangle (facet) of the TIN structure.<br /><br />
-     * <i>German:</i> Es ist stets die Bedingung 0 &lt;<= i &lt; <tt>this.numberOfTriangles()</tt> einzuhalten;
-     * anderenfalls wird eine <tt>T3dException</tt> geworfen.
-     * @return Triangle object
+	 * returns the i-th triangle (facet) of the TIN structure. The assertion
+	 * 0 &lt;<= i &lt; <tt>this.numberOfTriangles()</tt> must hold; otherwise
+	 * a <tt>T3dException</tt> will be thrown.
+	 * 
+	 * @return Triangle object
 	 */
 	abstract public VgTriangle getTriangle(int i) throws T3dException;
-
+	
 	/**
-     * returns the TIN's surface area.
-     * @return Area value
+	 * returns the TIN's surface area.
+	 * 
+	 * @return Area value
 	 * @see VgGeomObject#getSRS
 	 */
-    public double area()
+	public double area()
 	{
 		double sum = 0.;
 		VgTriangle tri;
@@ -87,7 +95,7 @@ abstract public class VgTIN extends VgGeomObject2d
 		}
 		return sum;
 	}
-	
+
 	public String toString() {
 		return "[" +
 			"(# " + this.numberOfPoints() + " vertices), " +
