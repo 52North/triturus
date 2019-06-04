@@ -209,28 +209,21 @@ public class IoPointListReader extends IoObject
 
     // private helpers, used by readPlainAscii():
 
-    // Extraction of the i-th token (i >= 1!, i max. = 4) from a string ('pSep" as separator):
-    private String getStrTok(String pStr, int i, String pSep) throws T3dException
+    // Extraction of the i-th token from a string ('sep' as separator):
+    private String getStrTok(String str, int i, String sep) throws T3dException
     {
-        ArrayList<String> lStrArr = new ArrayList<String>(); 
-        lStrArr.add(pStr);
-        int i0 = 0, i1 = 0, k = 0;
-        while (k < 4 && i1 >= 0) {
-           i1 = pStr.indexOf(pSep, i0);
-           if (i1 >= 0) {
-               if (k == 0)
-                   lStrArr.set(0, pStr.substring(i0, i1));
-               else
-                   lStrArr.add(pStr.substring(i0, i1));
-               i0 = i1 + 1;
-               k++;
-           }
-        }
-        if (k <= 3)
-            lStrArr.add(pStr.substring(i0));
-        if (i < 1 || i > 4)
-            throw new T3dException("Logical parser error.");
-        return (String) lStrArr.get(i - 1);
+		String[] tok = str.split("[" + sep + "]+");
+		if (tok != null) {
+			boolean empty1 = tok[0].length() == 0 ? true : false; // preceding empty token 
+			if (empty1) {
+				if (i < tok.length)
+					return tok[i]; 
+			} else {
+				if (i - 1 < tok.length)
+					return tok[i - 1];
+			}
+		} 
+		throw new T3dException("Logical parser error.");
     } 
 
     // Convert String to floating-point number:
