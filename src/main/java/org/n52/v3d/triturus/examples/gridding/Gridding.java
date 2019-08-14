@@ -48,11 +48,13 @@ import java.util.List;
  */
 public class Gridding 
 {
-    private String inputFile = "data/test.xyz";
-    private String outputFile = "data/test.html";
-    private double cellSize = 50.;
+	private String inputFile; 
+    private String inputFile1 = "Z:\\\\Schmidt\\\\run\\\\citygml2vrml\\\\DGM\\\\dgm1_32378_5700_2_nw.xyz";
+    private String inputFile2 = "Z:\\\\Schmidt\\\\run\\\\citygml2vrml\\\\DGM\\\\dgm1_32380_5700_2_nw.xyz";
+    private String outputFile = "Z:\\\\Schmidt\\\\run\\\\citygml2vrml\\\\DGM\\\\BO.wrl";
+    private double cellSize = 5.;
     private short samplingMethod = 1;
-    private String outputFormat = IoElevationGridWriter.X3DOM;
+    private String outputFormat = IoElevationGridWriter.VRML2;
 
     
     public static void main(String args[])
@@ -61,6 +63,8 @@ public class Gridding
 
         List<VgPoint> points = app.readPointCloud();
         GmSimpleElevationGrid elevGrid = app.performGridding(points);
+        System.out.println(elevGrid);
+        System.out.println(elevGrid.envelope());
         app.writeOutputFile(elevGrid);
     }
 
@@ -86,13 +90,24 @@ public class Gridding
     public List<VgPoint> readPointCloud() 
     {
         IoPointListReader reader = new IoPointListReader("Plain");
-
-        ArrayList<VgPoint> pointList = null;
+        
+        ArrayList<VgPoint> pointList1 = null, pointList2 = null;
 
         try {
-            pointList = reader.readFromFile(inputFile);
-            int N = pointList.size();
-            System.out.println("Number of read points: " + N);
+            pointList1 = reader.readFromFile(inputFile1);
+            int N1 = pointList1.size();
+            System.out.println("Number of read points: " + N1);
+            pointList2 = reader.readFromFile(inputFile2);
+            int N2 = pointList2.size();
+            System.out.println("Number of read points: " + N2);
+            pointList1.addAll(pointList2);
+            N1 = pointList1.size();
+            System.out.println("Number of merged points: " + N1);
+for (int i = 0; i < N1; i++) {
+	VgPoint pt = pointList1.get(i);
+	pt.setX(pt.getX() - 32000000.);
+	pointList1.set(i, pt);
+}
         }
         catch (T3dException e) {
             e.printStackTrace();
@@ -101,7 +116,7 @@ public class Gridding
             e.printStackTrace();
         }    
         
-        return pointList;
+        return pointList1;
     }
        
     /**
