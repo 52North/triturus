@@ -47,38 +47,38 @@ public class GridConvertApp
 	{
 		if (args.length == 0 || args.length > 4) {
 			System.out.println(
-                    "Usage: java GridConvertApp <filename> [AcGeo|ArcIGrd|BSQ] [<outfilename>] [AcGeo|ArcIGrd|XYZ|AcGeoTIN|Vrml2]");
+		            "Usage: java GridConvertApp <filename> [AcGeo|ArcIGrd|BSQ] [<outfilename>] [AcGeo|ArcIGrd|XYZ|AcGeoTIN|Vrml2]");
 			return;
 		}
-
-        IoElevationGridReader reader = null;
+		
+		IoElevationGridReader reader = null;
 		if (args.length == 1)
 			reader = new IoElevationGridReader("ArcIGrd");
 		if (args.length >= 2)
 			reader = new IoElevationGridReader(args[1]);
-
+		
 		GmSimpleElevationGrid grid;
-
+		
 		try {
 			grid = reader.readFromFile(args[0]);
-
+			
 			System.out.println(grid);
-            System.out.print("The elevation grid's bounding-box: ");
+			System.out.print("The elevation grid's bounding-box: ");
 			System.out.println(grid.envelope().toString());
-
-            for (int j = 0; j < grid.numberOfColumns(); j++) {
-                for (int i = 0; i < grid.numberOfRows(); i++) {
-                    if (! grid.isSet(i, j))
-                        grid.setValue(i, j, 0.0);
-                }
-            }
-
+		
+			for (int j = 0; j < grid.numberOfColumns(); j++) {
+			    for (int i = 0; i < grid.numberOfRows(); i++) {
+			        if (! grid.isSet(i, j))
+			            grid.setValue(i, j, 0.0);
+			    }
+			}
+			
 			if (args.length > 2) {
 				IoElevationGridWriter writer;
 				if (args.length==4)
-                    writer = new IoElevationGridWriter(args[3]);
+			        writer = new IoElevationGridWriter(args[3]);
 				else
-                    writer = new IoElevationGridWriter("Vrml2");
+			        writer = new IoElevationGridWriter("Vrml2");
 				writer.writeToFile(grid,args[2]);
 			}
 		}

@@ -50,8 +50,8 @@ import org.n52.v3d.triturus.core.T3dNotYetImplException;
  *
  * @author Nico Jatzek
  */
-public class IoElevationGridPNGWriter extends IoObject {
-
+public class IoElevationGridPNGWriter extends IoObject 
+{
 	private String mFormat = "TYPE_USHORT_GRAY";
 	private String mLogString = "";
 	private Color mNoDataValue = new Color(0, 0, 0);
@@ -78,12 +78,12 @@ public class IoElevationGridPNGWriter extends IoObject {
     }
     
 	public String log() {
-        return mLogString;
-    }
+	    return mLogString;
+	}
 
 	public void setFormatType(String format) {
-        mFormat = format;
-    }
+	    mFormat = format;
+	}
 	
 	public void writeToFile(GmSimpleElevationGrid grid, String filename) 
 			throws T3dException, T3dNotYetImplException
@@ -112,11 +112,11 @@ public class IoElevationGridPNGWriter extends IoObject {
         
     	GmSimple2dGridGeometry geom = (GmSimple2dGridGeometry) grid.getGeometry();
 
-    	if (Math.abs((geom.getDeltaX() - geom.getDeltaY()) / geom.getDeltaX()) >= 0.001)
-    	    throw new T3dException( "Grid requires equal cell-sizes in x- and y-direction." );
+		if (Math.abs((geom.getDeltaX() - geom.getDeltaY()) / geom.getDeltaX()) >= 0.001)
+		    throw new T3dException( "Grid requires equal cell-sizes in x- and y-direction." );
 		// TODO: Check file name extension, must be .png!
 
-    	int width = geom.numberOfColumns();
+		int width = geom.numberOfColumns();
 		int height = geom.numberOfRows();
 		BufferedImage img = new BufferedImage(width, height, BufferedImage.TYPE_USHORT_GRAY);
 
@@ -129,22 +129,21 @@ public class IoElevationGridPNGWriter extends IoObject {
             for (int y = 0; y < height; y++) {
             	
                 if (grid.isSet(height - y - 1, x)) {	
-                    float greyVal = (float) ((grid.getValue(height - y - 1, x) - zMin) / dz);
-                    int p = new Color(greyVal, greyVal, greyVal).getRGB();
-        			img.setRGB(x, y, p);
+					float greyVal = (float) ((grid.getValue(height - y - 1, x) - zMin) / dz);
+					int p = new Color(greyVal, greyVal, greyVal).getRGB();
+					img.setRGB(x, y, p);
                 }
                 else {
-                	int p = mNoDataValue.getRGB();
-                	img.setRGB(x, y, p);
+					int p = mNoDataValue.getRGB();
+					img.setRGB(x, y, p);
                 }
             }
         }
         
         // Write image file (.png):
         try {
-        	File file = new File(filename);
-			ImageIO.write(img, "png", file);
-			
+			File file = new File(filename);
+			ImageIO.write(img, "png", file);			
 		} catch (IOException e) {
 			throw new T3dException(e.getMessage());
 		}
