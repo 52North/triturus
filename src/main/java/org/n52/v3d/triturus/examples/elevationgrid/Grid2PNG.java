@@ -49,12 +49,12 @@ public class Grid2PNG
 	public static void main(String args[])
 	{
 		IoElevationGridReader reader = 
-			new IoElevationGridReader(IoElevationGridReader.ARCINFO_ASCII_GRID);
+				new IoElevationGridReader(IoElevationGridReader.ARCINFO_ASCII_GRID);
 		
 		try {
 			// Read the elevation grid from file:
 			GmSimpleElevationGrid grid = 
-				reader.readFromFile("../data/test.asc");
+			reader.readFromFile("../data/test.asc");
 			
 			// This is just some control output:
 			System.out.println(grid);
@@ -63,20 +63,20 @@ public class Grid2PNG
 			
 			// If some grid cell's have NODATA values, assign a value...
 			for (int j = 0; j < grid.numberOfColumns(); j++) {
-			    for (int i = 0; i < grid.numberOfRows(); i++) {
-			        if (!grid.isSet(i, j))
-			            grid.setValue(i, j, 0.0);
-			    }
+				for (int i = 0; i < grid.numberOfRows(); i++) {
+					if (!grid.isSet(i, j))
+						grid.setValue(i, j, 0.0);
+				}
 			}
 			
 			// Write PNG image file:
 			IoElevationGridPNGWriter writer = 
-				new IoElevationGridPNGWriter(IoElevationGridPNGWriter.TYPE_USHORT_GRAY);
+					new IoElevationGridPNGWriter(IoElevationGridPNGWriter.TYPE_USHORT_GRAY);
 			writer.writeToFile(grid, "../data/test.png");
 			System.out.println("Finished operation.");
 		}
 		catch (T3dException e) {
 			e.printStackTrace();
 		}
-    }
+	}
 }
