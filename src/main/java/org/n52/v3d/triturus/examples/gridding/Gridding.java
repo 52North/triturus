@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2007-2016 52 North Initiative for Geospatial Open Source
+ * Copyright (C) 2007-2019 52 North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it
@@ -44,18 +44,16 @@ import java.util.List;
  * constructs an elevation-grid (lattice model), and writes the result to a 
  * X3DOM scene.
  *
- * @author Benno Schmidt, Adhitya Kamakshidasan
+ * @author Benno Schmidt
  */
 public class Gridding 
 {
-	private String inputFile; 
-    private String inputFile1 = "Z:\\\\Schmidt\\\\run\\\\citygml2vrml\\\\DGM\\\\dgm1_32378_5700_2_nw.xyz";
-    private String inputFile2 = "Z:\\\\Schmidt\\\\run\\\\citygml2vrml\\\\DGM\\\\dgm1_32380_5700_2_nw.xyz";
-    private String outputFile = "Z:\\\\Schmidt\\\\run\\\\citygml2vrml\\\\DGM\\\\BO.wrl";
-    private double cellSize = 5.;
-    private short samplingMethod = 1;
-    private String outputFormat = IoElevationGridWriter.VRML2;
-
+	private String inputFile = "../data/test.xyz";
+    private double cellSize = 50.;
+    private short samplingMethod = FltPointSet2ElevationGrid.cNearestNeighbor;
+    private String outputFormat = IoElevationGridWriter.X3D;
+    private String outputFile = "../data/test.x3d";
+    
     
     public static void main(String args[])
     {
@@ -91,23 +89,12 @@ public class Gridding
     {
         IoPointListReader reader = new IoPointListReader("Plain");
         
-        ArrayList<VgPoint> pointList1 = null, pointList2 = null;
+        ArrayList<VgPoint> pointList = null;
 
         try {
-            pointList1 = reader.readFromFile(inputFile1);
-            int N1 = pointList1.size();
-            System.out.println("Number of read points: " + N1);
-            pointList2 = reader.readFromFile(inputFile2);
-            int N2 = pointList2.size();
-            System.out.println("Number of read points: " + N2);
-            pointList1.addAll(pointList2);
-            N1 = pointList1.size();
-            System.out.println("Number of merged points: " + N1);
-for (int i = 0; i < N1; i++) {
-	VgPoint pt = pointList1.get(i);
-	pt.setX(pt.getX() - 32000000.);
-	pointList1.set(i, pt);
-}
+            pointList = reader.readFromFile(inputFile);
+            int N = pointList.size();
+            System.out.println("Number of read points: " + N);
         }
         catch (T3dException e) {
             e.printStackTrace();
@@ -116,7 +103,7 @@ for (int i = 0; i < N1; i++) {
             e.printStackTrace();
         }    
         
-        return pointList1;
+        return pointList;
     }
        
     /**
