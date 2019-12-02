@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2007-2016 52 North Initiative for Geospatial Open Source
+ * Copyright (C) 2007-2019 52 North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it
@@ -44,16 +44,16 @@ import java.util.List;
  * constructs an elevation-grid (lattice model), and writes the result to a 
  * X3DOM scene.
  *
- * @author Benno Schmidt, Adhitya Kamakshidasan
+ * @author Benno Schmidt
  */
 public class Gridding 
 {
-    private String inputFile = "data/test.xyz";
-    private String outputFile = "data/test.html";
+	private String inputFile = "../data/test.xyz";
     private double cellSize = 50.;
-    private short samplingMethod = 1;
-    private String outputFormat = IoElevationGridWriter.X3DOM;
-
+    private short samplingMethod = FltPointSet2ElevationGrid.cNearestNeighbor;
+    private String outputFormat = IoElevationGridWriter.X3D;
+    private String outputFile = "../data/test.x3d";
+    
     
     public static void main(String args[])
     {
@@ -61,6 +61,8 @@ public class Gridding
 
         List<VgPoint> points = app.readPointCloud();
         GmSimpleElevationGrid elevGrid = app.performGridding(points);
+        System.out.println(elevGrid);
+        System.out.println(elevGrid.envelope());
         app.writeOutputFile(elevGrid);
     }
 
@@ -86,7 +88,7 @@ public class Gridding
     public List<VgPoint> readPointCloud() 
     {
         IoPointListReader reader = new IoPointListReader("Plain");
-
+        
         ArrayList<VgPoint> pointList = null;
 
         try {
