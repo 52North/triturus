@@ -396,11 +396,11 @@ public class IoTINWriter extends IoAbstractWriter
             double 
             	scale = 1.0,
             	offsetX = 0.0,
-            	offsetY = 0.0;
-              
+            	offsetY = 0.0;  
+/*
             double extX = geom.envelope().getExtentX();
             double extY = geom.envelope().getExtentY();              
-/*
+
             // see calculateNormTransformation() of VsSimpleScene
             if (Math.abs(extX) > Math.abs(extY)) {
           	  scale = 2./extX; 
@@ -422,7 +422,7 @@ public class IoTINWriter extends IoAbstractWriter
             // DecimalFormat dfZ = this.getDecimalFormatZ();
             for (int i = 0; i < geom.numberOfPoints(); i++){
             	GmPoint pt = new GmPoint(geom.getPoint(i));
-            	wl("v "+ (pt.getX() * scale+offsetX) + " " + (pt.getY() * scale+offsetY) + " " + (pt.getZ() * scale) );
+            	wl("v "+ (pt.getX() * scale + offsetX) + " " + (pt.getY() * scale + offsetY) + " " + (pt.getZ() * scale) );
 
             }
             
@@ -430,9 +430,9 @@ public class IoTINWriter extends IoAbstractWriter
             
             // Write triangle face information:
             int crn[];
-            for(int i = 0; i < geom.numberOfTriangles(); i++){
+            for (int i = 0; i < geom.numberOfTriangles(); i++){
             	crn = geom.getTriangleVertexIndices(i);
-            	wl("f " + (crn[0]+1) + " " + (crn[1]+1) + " " + (crn[2]+1));
+            	wl("f " + (crn[0] + 1) + " " + (crn[1] + 1) + " " + (crn[2] + 1));
             }
             
 			doc.close();
