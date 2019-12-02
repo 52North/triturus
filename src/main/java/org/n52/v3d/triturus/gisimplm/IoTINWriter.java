@@ -69,7 +69,7 @@ public class IoTINWriter extends IoAbstractWriter
     public static final String X3DOM = "X3Dom";
     
     /**
-     * File-format type identifier to be used for OBJ export.
+     * File-format type identifier to be used for Wavefront OBJ export.
      */
     public static final String OBJ = "Obj";
 
@@ -86,6 +86,7 @@ public class IoTINWriter extends IoAbstractWriter
      * <li><i>Vrml1:</i> VRML 1.0 scene (as plain triangle mesh)</li>
      * <li><i>X3d:</i> X3D scene (as IndexedFaceSet without viewpoint setting)</li>
      * <li><i>X3Dom:</i> X3D scene (as IndexedFaceSet without viewpoint setting)</li>
+     * <li><i>Obj:</i> Wavefront OBJ file</li>
      * </ul>
      * 
      * @param format Format string (e.g. <tt></tt>&quot;AcGeo&quot;</tt>)
@@ -93,6 +94,7 @@ public class IoTINWriter extends IoAbstractWriter
      * @see IoTINWriter#VRML1
      * @see IoTINWriter#X3D
      * @see IoTINWriter#X3DOM
+     * @see IoTINWriter#OBJ
      */
     public IoTINWriter(String format) {
         logString = this.getClass().getName();
@@ -391,42 +393,42 @@ public class IoTINWriter extends IoAbstractWriter
         	
             GmSimpleTINGeometry geom = (GmSimpleTINGeometry) tin.getGeometry();
             
-            double scale;
-            double offsetX;
-            double offsetY;
+            double 
+            	scale = 1.0,
+            	offsetX = 0.0,
+            	offsetY = 0.0;
               
-//          get the bounding-box
-            double dx = geom.envelope().getExtentX();
-            double dy = geom.envelope().getExtentY();
-              
-//          see calculateNormTransformation() of VsSimpleScene
-            if(Math.abs(dx) > Math.abs(dy)){
-          	  scale = 2./dx; 
-          	  offsetX = -(geom.envelope().getXMin()+geom.envelope().getXMax())/dx;
-              offsetY = -(geom.envelope().getYMin()+geom.envelope().getYMax())/dx;
+            double extX = geom.envelope().getExtentX();
+            double extY = geom.envelope().getExtentY();              
+/*
+            // see calculateNormTransformation() of VsSimpleScene
+            if (Math.abs(extX) > Math.abs(extY)) {
+          	  scale = 2./extX; 
+          	  offsetX = -(geom.envelope().getXMin() + geom.envelope().getXMax()) / extX;
+              offsetY = -(geom.envelope().getYMin() + geom.envelope().getYMax()) / extX;
             }
             else{
-            	scale = 2./dy; 
-            	offsetX = -(geom.envelope().getXMin()+geom.envelope().getXMax())/dy;
-                offsetY = -(geom.envelope().getYMin()+geom.envelope().getYMax())/dy;
+            	scale = 2./extY; 
+            	offsetX = -(geom.envelope().getXMin() + geom.envelope().getXMax()) / extY;
+                offsetY = -(geom.envelope().getYMin() + geom.envelope().getYMax()) / extY;
             }
+*/
             
             wl("# test file");
             wl("o TIN");
             
-//          vertices
-//          DecimalFormat dfXY = this.getDecimalFormatXY();
-//          DecimalFormat dfZ = this.getDecimalFormatZ();
-            for (int i=0; i<geom.numberOfPoints(); i++){
+            // Write vertex information:
+            // DecimalFormat dfXY = this.getDecimalFormatXY();
+            // DecimalFormat dfZ = this.getDecimalFormatZ();
+            for (int i = 0; i < geom.numberOfPoints(); i++){
             	GmPoint pt = new GmPoint(geom.getPoint(i));
-            	wl("v "+ (pt.getX()*scale+offsetX) + " " + (pt.getY()*scale+offsetY) + " " + (pt.getZ()*scale*100) );
+            	wl("v "+ (pt.getX() * scale+offsetX) + " " + (pt.getY() * scale+offsetY) + " " + (pt.getZ() * scale) );
 
             }
             
-//          smoothing
-            wl("s off");
+            wl("s off"); // disable smoothing 
             
-//          triangles
+            // Write triangle face information:
             int crn[];
             for(int i = 0; i < geom.numberOfTriangles(); i++){
             	crn = geom.getTriangleVertexIndices(i);
