@@ -32,7 +32,6 @@
 package org.n52.v3d.triturus.gisimplm;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -47,55 +46,71 @@ import org.n52.v3d.triturus.core.IoObject;
 import org.n52.v3d.triturus.core.T3dException;
 import org.n52.v3d.triturus.core.T3dNotYetImplException;
 
-import java.io.*;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 import java.util.Vector;
 
 /**
- * Reading TINs from a file.<br /><br />
- * <i>German:</i> Einlesen von TINs (Typ <tt>GmSimpleTINFeature</tt>) aus Dateien.
+ * Reader to import triangulated irregular networks (TIN) from various file 
+ * formats or URL locations. The result will be <tt>GmSimpleTINFeature</tt> objects.
+ * 
  * @author Benno Schmidt, Martin May
  */
 public class IoTINReader extends IoObject
 {
-    private String mLogString = "";
+    private String logString = ""; 
 
-    private String mFormat;
-    private GmSimpleTINFeature mTIN = null;
-
+    private String format;
+    private GmSimpleTINFeature tin = null;
+ 
     /**
-     * Constructor.<br /><br />
-     * <i>German:</i> Konstruktor. Als Parameter ist der Dateiformattyp zu setzen. Wird dieser nicht unterst&uuml;tzt,
-     * wird sp&auml;ter w&auml;hrend des Lesevorgangs eine Ausnahme geworfen.<br />
-     * Es werden die folgenden Formate unterst&uuml;tzt:<br />
+     * File-format type identifier to be used to process TINs in ACADGEO format.
+     */
+    public static final String ACGEO = "AcGeo";
+    /**
+     * File-format type identifier to be used for (old-fashioned) VRML2 import.
+     */
+    public static final String VRML2 = "Vrml2";
+    /**
+     * File-format type identifier for ESRI TIN format.
+     */
+    public static final String ESRI_TIN = "ArcTIN";
+    
+    /**
+     * Constructor. As a parameter, a format type identifier has to be set. 
+     * In case, the given format type is not supported, an exception will be 
+     * thrown. Currently, these formats are supported:
      * <ul>
      * <li><i>AcGeo:</i> ACADGEO format</li>
 	 * <li><i>Vrml2:</i> VRML 2</li>
 	 * <li><i>ArcTIN:</i> ESRI TIN format</li>
 	 * <li><i>GMT_TIN:</i> ...</li>
      * </ul>
-     * Bem.: 1. Der Reader f&uuml;r das Format <i>VRML2</i> ist noch methodisch zu testen: Was passiert, wenn mehrere
-     * TINs in VRML-Datei (z. B. pro Farbe ein Teil-TIN, Geb&auml;ude als TIN, ...)? 2. Ist der <i>ArcTIN</i>-Reader
-     * wirklich ein Arc- bzw. ESRI-Format? 3. Ist der <i>GMT_TIN</i>-Reader getestet? Was f&uuml;r ein Format ist das?
-     * @param pFormat Format-String, e.g. <tt>&quot;AcGeo&quot;</tt>
+     * 
+     * @param format Format-string, e.g. <tt></tt>&quot;Vrml2&quot;</tt>
      */
-    public IoTINReader(String pFormat) {
-        mLogString = this.getClass().getName();
-        this.setFormatType( pFormat );
+    // Bem.: 1. Der Reader f&uuml;r das Format <i>VRML2</i> ist noch 
+    // methodisch zu testen: Was passiert, wenn mehrere TINs in VRML-Datei 
+    // (z. B. pro Farbe ein Teil-TIN, Geb&auml;ude als TIN, ...)? 2. Ist der 
+    // <i>ArcTIN</i>-Reader wirklich ein Arc- bzw. ESRI-Format? 3. Ist der 
+    // <i>GMT_TIN</i>-Reader getestet? Was f&uuml;r ein Format ist das?
+    public IoTINReader(String format) {
+        logString = this.getClass().getName();
+        this.setFormatType(format);
     }
 
     public String log() {
-        return mLogString;
+        return logString;
     }
 
     /**
      * sets the format type.
-     * @param pFormat Format-string (e.g. <tt></tt>&quot;AcGeo&quot;</tt>)
+     * 
+     * @param format Format-string (e.g. <tt></tt>&quot;AcGeo&quot;</tt>)
      */
-    public void setFormatType(String pFormat)
+    public void setFormatType(String format)
     {
-        mFormat = pFormat;
+        this.format = format;
     }
 
     /**
@@ -115,9 +130,8 @@ public class IoTINReader extends IoObject
     }
 
     /**
-     * reads a TIN from a file or URL location.<br /><br />
-     * <i>German:</i> liest ein TIN aus einer Datei ein oder &uuml;ber die Angabe eines URLs ein. Wird der spezifizierte
-     * Formattyp nicht unterst&uuml;tzt, wirft die Methode eine <tt>T3dNotYetImplException</tt>.
+     * reads a TIN from a file or URL location.
+     * 
      * @param pLocation File path or valid URL
      * @return TIN, or <i>null</i> if an error occurs
      * @throws org.n52.v3d.triturus.core.T3dException
@@ -126,11 +140,11 @@ public class IoTINReader extends IoObject
     public GmSimpleTINFeature read(String pLocation)
     {
         int i = 0;
-        if (mFormat.equalsIgnoreCase("AcGeo")) i = 1;
-        if (mFormat.equalsIgnoreCase("Vrml2")) i = 2;
-		if (mFormat.equalsIgnoreCase("ArcTIN")) i = 3;
-		if (mFormat.equalsIgnoreCase("GMT_TIN")) i = 4;
-        // --> hier ggf. weitere Typen erg�nzen...
+        if (format.equalsIgnoreCase(ACGEO)) i = 1;
+        if (format.equalsIgnoreCase(VRML2)) i = 2;
+		if (format.equalsIgnoreCase(ESRI_TIN)) i = 3;
+		if (format.equalsIgnoreCase("GMT_TIN")) i = 4;
+        // --> add more types here...
 
         BufferedReader reader = null;
         try {
@@ -140,20 +154,27 @@ public class IoTINReader extends IoObject
         		reader = createBufferedReader(pLocation);
 
         	switch (i) {
-                case 1: this.readAcadGeoTIN(reader, pLocation); break;
-                case 2: this.readVRML2(pLocation); break;
-                case 3: this.readARCTin(pLocation); break;
-                case 4: String xyzFilename="", tinFilename="";
-					    if (pLocation.endsWith("tin")) {
-							tinFilename = pLocation;
-							int dot = tinFilename.lastIndexOf(".");
-							xyzFilename = tinFilename.substring(0, dot);
-							xyzFilename = xyzFilename + ".xyz";
-						}
-						//System.out.println("Load GMT file: " + xyzFilename+ " "+ tinFilename);
-						this.readGMTTin(xyzFilename, tinFilename);
-						break;
-                // --> hier ggf. weitere Typen erg�nzen...
+                case 1: 
+                	this.readAcadGeoTIN(reader, pLocation); 
+                	break;
+                case 2: 
+                	this.readVRML2(pLocation); 
+                	break;
+                case 3: 
+                	this.readARCTin(pLocation); 
+                	break;
+                case 4: 
+                	String xyzFilename="", tinFilename="";
+					if (pLocation.endsWith("tin")) {
+						tinFilename = pLocation;
+						int dot = tinFilename.lastIndexOf(".");
+						xyzFilename = tinFilename.substring(0, dot);
+						xyzFilename = xyzFilename + ".xyz";
+					}
+					//System.out.println("Load GMT file: " + xyzFilename+ " "+ tinFilename);
+					this.readGMTTin(xyzFilename, tinFilename);
+					break;
+				// --> add more types here...
 
                 default: throw new T3dNotYetImplException("Unsupported file format");
             }
@@ -164,7 +185,7 @@ public class IoTINReader extends IoObject
 			e1.printStackTrace();
 		}
 
-        return mTIN;
+        return tin;
     }
 
     private BufferedReader createBufferedReader(URL url) {
@@ -246,8 +267,8 @@ public class IoTINReader extends IoObject
 
             // Konstruktion des TINs:
 
-            mTIN = new GmSimpleTINFeature();
-            GmSimpleTINGeometry lTINGeom = (GmSimpleTINGeometry) mTIN.getGeometry();
+            tin = new GmSimpleTINFeature();
+            GmSimpleTINGeometry lTINGeom = (GmSimpleTINGeometry) tin.getGeometry();
             lTINGeom.newPointList(nPoints);
 
             // Belegen der TIN-Punkte:
@@ -315,7 +336,7 @@ public class IoTINReader extends IoObject
         }
     } // readAcadGeoTIN()
 
-    // private Helfer, die in readAcadGeoTIN() ben�tigt werden:
+    // private Helfer, die in readAcadGeoTIN() benoetigt werden:
 
     // Extraktion des i-ten Tokens (i >= 1!, i max. = 4) aus einem String ('pSep' als Trenner):
     private String getStrTok(String pStr, int i, String pSep) throws T3dException
@@ -428,8 +449,8 @@ public class IoTINReader extends IoObject
 			}
 			if((countO % 3 != 0)||(countI % 3 != 0)) throw new T3dException("Enexpected error." + countO + " " + countI);
 			
-			mTIN = new GmSimpleTINFeature();
-			GmSimpleTINGeometry lTINGeom = (GmSimpleTINGeometry) mTIN.getGeometry();
+			tin = new GmSimpleTINFeature();
+			GmSimpleTINGeometry lTINGeom = (GmSimpleTINGeometry) tin.getGeometry();
 			lTINGeom.newPointList(countO/3);
 			
 			//mTIN.setBoundsInvalid(); // Performanz!
@@ -465,34 +486,34 @@ public class IoTINReader extends IoObject
 	
 	private void readARCTin(String pFilename)
     {
-		mTIN = new GmSimpleTINFeature();
-//		mTIN.setBoundsInvalid(); // Performanz!  // todo: versuchen, wieder reinzunehmem!
-		GmSimpleTINGeometry lTINGeom = (GmSimpleTINGeometry) mTIN.getGeometry();
-		int vertexCount=0;
-		int triangleCount=0;
-		double xmin=0, ymin=0, zmin=0, xmax=0, ymax=0, zmax=0;
+		tin = new GmSimpleTINFeature();
+//		tin.setBoundsInvalid(); // Performanz!  // todo: versuchen, wieder reinzunehmem!
+		GmSimpleTINGeometry tinGeom = (GmSimpleTINGeometry) tin.getGeometry();
+		int vertexCount = 0;
+		int triangleCount = 0;
+		double xmin = 0, ymin = 0, zmin = 0, xmax = 0, ymax = 0, zmax = 0;
 
-		FileReader lFileRead;
+		FileReader reader;
 		try {
-			lFileRead = new FileReader(pFilename);
-            BufferedReader lDatRead = new BufferedReader(lFileRead);
-			StreamTokenizer lTokRead = new StreamTokenizer(lDatRead);
-			lTokRead.lowerCaseMode(true); //alle Tokens in Kleinbuchstaben holen
+			reader = new FileReader(pFilename);
+            BufferedReader bufReader = new BufferedReader(reader);
+			StreamTokenizer tokenizer = new StreamTokenizer(bufReader);
+			tokenizer.lowerCaseMode(true); // alle Tokens in Kleinbuchstaben holen
 
-			String line="";
+			String line = "";
 			//read first three lines
-			line=lDatRead.readLine();
-			line=lDatRead.readLine();
-			line=lDatRead.readLine();
+			line = bufReader.readLine();
+			line = bufReader.readLine();
+			line = bufReader.readLine();
 
-			StringTokenizer token=new StringTokenizer(line);
+			StringTokenizer token = new StringTokenizer(line);
 			token.nextToken();
 			vertexCount = toInt(token.nextToken());
 //			System.out.println("number of vertizes: " + vertexCount);
 
-			lTINGeom.newPointList(vertexCount);
-			for (int i=0; i<vertexCount; i++) {
-				line=lDatRead.readLine();
+			tinGeom.newPointList(vertexCount);
+			for (int i = 0; i < vertexCount; i++) {
+				line=bufReader.readLine();
 				if (line==null || line.startsWith("TRI"))
 					break;
 				token=new StringTokenizer(line);
@@ -502,7 +523,7 @@ public class IoTINReader extends IoObject
 					toDouble(token.nextToken())
 				);
 
-				lTINGeom.setPoint(i, point);
+				tinGeom.setPoint(i, point);
 				
 //				if (i==0) {
 //					xmin = xmax = point.getX();
@@ -520,21 +541,21 @@ public class IoTINReader extends IoObject
 
 			}
 
-			//now the triangles
-			line=lDatRead.readLine();
-			token=new StringTokenizer(line);
+			// now the triangles:
+			line = bufReader.readLine();
+			token = new StringTokenizer(line);
 
 			token.nextToken();
 			triangleCount = toInt(token.nextToken());
 //			System.out.println("number of triangles: " + triangleCount);
 
-			lTINGeom.newTriangleList(triangleCount);
-			for (int i=0; i<triangleCount; i++) {
-				line=lDatRead.readLine();
+			tinGeom.newTriangleList(triangleCount);
+			for (int i = 0; i < triangleCount; i++) {
+				line = bufReader.readLine();
 				if (line.endsWith("ENDT") )
 					break;
-				token=new StringTokenizer(line);
-				lTINGeom.setTriangle(
+				token = new StringTokenizer(line);
+				tinGeom.setTriangle(
 					i,
 					toInt(token.nextToken())-1,
 					toInt(token.nextToken())-1,
@@ -545,7 +566,7 @@ public class IoTINReader extends IoObject
 //		System.out.println("Finished reading file : " + pFilename
 //			+ "\nPoints:"+ lTINGeom.numberOfPoints()
 //			+ "\nTriangles: " + lTINGeom.numberOfTriangles());
-		lDatRead.close();
+		bufReader.close();
 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -554,33 +575,33 @@ public class IoTINReader extends IoObject
 	}
 
 	// reads gmt xyz / tin file; not optimized
-	private void readGMTTin(String xyzFilename, String tinFilename) {
-		mTIN = new GmSimpleTINFeature();
-		mTIN.setBoundsInvalid(); // Performanz!
-		GmSimpleTINGeometry lTINGeom = (GmSimpleTINGeometry) mTIN.getGeometry();
+	private void readGMTTin(String xyzFilename, String filename) {
+		tin = new GmSimpleTINFeature();
+		tin.setBoundsInvalid(); // Performance!
+		GmSimpleTINGeometry tinGeom = (GmSimpleTINGeometry) tin.getGeometry();
 		Vector pointVec = new Vector(2000);
 		Vector indexVec = new Vector(2000);
 		
-		FileReader lFileRead;
+		FileReader fileReader;
 		try {
-			lFileRead = new FileReader(xyzFilename);
-			BufferedReader lDatRead = new BufferedReader(lFileRead);
-			StreamTokenizer lTokRead = new StreamTokenizer(lDatRead);
-			lTokRead.lowerCaseMode(true);//alle Tokens in Kleinbuchstaben holen
-			lTokRead.eolIsSignificant(false);
+			fileReader = new FileReader(xyzFilename);
+			BufferedReader bufReader = new BufferedReader(fileReader);
+			StreamTokenizer tokenizer = new StreamTokenizer(bufReader);
+			tokenizer.lowerCaseMode(true); // alle Tokens in Kleinbuchstaben holen
+			tokenizer.eolIsSignificant(false);
 			
-			while (lTokRead.ttype != StreamTokenizer.TT_EOF) {		
+			while (tokenizer.ttype != StreamTokenizer.TT_EOF) {		
 				double x,y,z;
-				lTokRead.nextToken();
-				x = lTokRead.nval;
-				lTokRead.nextToken();
-				y = lTokRead.nval;
-				lTokRead.nextToken();
-				z = lTokRead.nval;
+				tokenizer.nextToken();
+				x = tokenizer.nval;
+				tokenizer.nextToken();
+				y = tokenizer.nval;
+				tokenizer.nextToken();
+				z = tokenizer.nval;
 				pointVec.add(new GmPoint(x,y,z));
 			}
 						
-			lDatRead.close();
+			bufReader.close();
 		}
         catch (IOException e) {
 			System.out.println("Error reading GMT xyz file.");
@@ -588,25 +609,25 @@ public class IoTINReader extends IoObject
 		}
 		
 		try {
-			lFileRead = new FileReader(tinFilename);
-			BufferedReader lDatRead = new BufferedReader(lFileRead);
-			StreamTokenizer lTokRead = new StreamTokenizer(lDatRead);
-			lTokRead.lowerCaseMode(true);//alle Tokens in Kleinbuchstaben holen
-			lTokRead.eolIsSignificant(false);
+			fileReader = new FileReader(filename);
+			BufferedReader bufReader = new BufferedReader(fileReader);
+			StreamTokenizer tokenizer = new StreamTokenizer(bufReader);
+			tokenizer.lowerCaseMode(true); // alle Tokens in Kleinbuchstaben holen
+			tokenizer.eolIsSignificant(false);
 	
-			while (lTokRead.ttype != StreamTokenizer.TT_EOF) {		
+			while (tokenizer.ttype != StreamTokenizer.TT_EOF) {		
 				int xIndex,yIndex,zIndex;
-				lTokRead.nextToken();
-				xIndex = (int) lTokRead.nval;
-				lTokRead.nextToken();
-				yIndex = (int) lTokRead.nval;
-				lTokRead.nextToken();
-				zIndex = (int) lTokRead.nval;
+				tokenizer.nextToken();
+				xIndex = (int) tokenizer.nval;
+				tokenizer.nextToken();
+				yIndex = (int) tokenizer.nval;
+				tokenizer.nextToken();
+				zIndex = (int) tokenizer.nval;
 				indexVec.add(new int[]{xIndex,yIndex,zIndex});
 			}
 	
 			
-			lDatRead.close();
+			bufReader.close();
 		}
         catch (IOException e) {
 			System.out.println("Error reading GMT tin file.");
@@ -614,15 +635,15 @@ public class IoTINReader extends IoObject
 		}
 
 		System.out.println("Points: " + pointVec.size() + " / " + indexVec.size());
-		lTINGeom.newPointList(pointVec.size());
-		for (int i=0; i<pointVec.size();i++) {
-			lTINGeom.setPoint(i, (GmPoint)pointVec.get(i));
+		tinGeom.newPointList(pointVec.size());
+		for (int i = 0; i < pointVec.size(); i++) {
+			tinGeom.setPoint(i, (GmPoint) pointVec.get(i));
 		}
 		
-		lTINGeom.newTriangleList(indexVec.size());
-		for (int i=0; i<indexVec.size();i++) {
+		tinGeom.newTriangleList(indexVec.size());
+		for (int i = 0; i < indexVec.size(); i++) {
 			int[] triangle = (int[]) indexVec.get(i);
-			lTINGeom.setTriangle(i, triangle[0],triangle[1],triangle[2]);
+			tinGeom.setTriangle(i, triangle[0], triangle[1], triangle[2]);
 		}				
 	}
 }

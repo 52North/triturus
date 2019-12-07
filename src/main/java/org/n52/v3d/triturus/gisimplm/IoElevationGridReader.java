@@ -109,6 +109,7 @@ public class IoElevationGridReader extends IoObject
     }
 
     /**
+     * @deprecated
      * reads an elevation-grid from a file or URL location.
      *
      * @param location File path or valid URL
@@ -152,18 +153,10 @@ public class IoElevationGridReader extends IoObject
         }
 
         int i = 0;
-        if (format.equalsIgnoreCase(ARCINFO_ASCII_GRID)) {
-            i = 1;
-        }
-        if (format.equalsIgnoreCase("AcGeo")) {
-            i = 2;
-        }
-        if (format.equalsIgnoreCase("BSQ")) {
-            i = 3;
-        }
-        if (format.equalsIgnoreCase(X3DOM)) {
-            i = 4;
-        }
+        if (format.equalsIgnoreCase(ARCINFO_ASCII_GRID)) i = 1;
+        if (format.equalsIgnoreCase("AcGeo")) i = 2;
+        if (format.equalsIgnoreCase("BSQ")) i = 3;
+        if (format.equalsIgnoreCase(X3DOM)) i = 4;
         // --> add more types here...
 
         try {
