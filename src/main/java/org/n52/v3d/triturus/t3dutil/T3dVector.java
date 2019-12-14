@@ -74,7 +74,7 @@ public class T3dVector
     	this.assign(pPnt);
     }
 
-	/**
+    /**
      * sets the vector's x-component.
      */
     public void setX(double pX) { 
@@ -170,7 +170,7 @@ public class T3dVector
     	mZ = pVec1.getZ() + pVec2.getZ();
     }
 
-	/**
+    /**
      * returns the scalar product of the vectors <tt>this</tt> and <tt>pVec</tt>.
      */
 	public double scalarProd(T3dVector pVec) {
@@ -186,7 +186,7 @@ public class T3dVector
     	mZ = pVec1.getX() * pVec2.getY() - pVec1.getY() * pVec2.getX();
 	}
   
-  	/**
+    /**
      * returns the absolute value (length) of the vector.
      */
     public double length() {
@@ -209,11 +209,11 @@ public class T3dVector
 	}
 
 	/**
-     * returns a vector with length 1 with same direction as <tt>this</tt>.<br /><<br />
+	 * returns a vector with length 1 with same direction as <tt>this</tt>.<br /><<br />
 	 * <i>German:</i> liefert einen zu dem Objekt geh&ouml;rigen Vektor mit der L&auml;nge 1.<br />
-     * Wird die Methode f&uuml;r den Nullvektor aufgerufen, wird eine T3dException geworfen.
-     * @see T3dVector#doNorm
-     */
+	 * Wird die Methode f&uuml;r den Nullvektor aufgerufen, wird eine T3dException geworfen.
+	 * @see T3dVector#doNorm
+	 */
 	public T3dVector norm() throws T3dException {
 		double len = this.length();
 		if (len == 0.)
@@ -222,14 +222,14 @@ public class T3dVector
 	}
 
 	/**
-     * assigns an orthogonal normalized vector to the current vector object.<br /><br />
-     * <i>German:</i> weist dem Objekt einen zu <tt>pVec1</tt> und <tt>pVec2</tt> orthogonalen, normierten Vektor zu.
-     * <br />
+	 * assigns an orthogonal normalized vector to the current vector object.<br /><br />
+	 * <i>German:</i> weist dem Objekt einen zu <tt>pVec1</tt> und <tt>pVec2</tt> orthogonalen, normierten Vektor zu.
+	 * <br />
 	 * Bem.: Der Ergebnisvektor ist eindeutig bestimmt (Rechte-Hand-Regel: <tt>pVec1</tt> = Daumen, <tt>pVec2</tt> =
-     * Zeigefinger, Ergebnisvektor = Daumen).<br />
-     * Kann kein Vektor berechnet werden, wird eine T3dException geworfen.
-     * @throws T3dException
-     */
+	 * Zeigefinger, Ergebnisvektor = Daumen).<br />
+	 * Kann kein Vektor berechnet werden, wird eine T3dException geworfen.
+	 * @throws T3dException
+	 */
     public void ortho(T3dVector pVec1, T3dVector pVec2) {
     	this.assignCrossProd(pVec1, pVec2);
     	this.doNorm();
@@ -261,31 +261,33 @@ public class T3dVector
     }
 
 	/**
-     * returns the angle between the position vectors <tt>pVec1</tt>, <tt>this</tt>, and <tt>pVec2</tt>.<br /><br />
-	 * <i>German:</i> berechnet den durch die Ortsvektoren <tt>pVec1</tt>, <tt>this</tt> und <tt>pVec2</tt>
-	 * festgelegten Winkel. Das aktuelle Objekt enth&auml;lt den Scheitelpunkt des Winkels.<br />
-	 * Bem.: <tt>pVec1</tt>, <tt>pVec2</tt> und <tt>this</tt> m&uuml;ssen voneinander verschieden sein! Anderenfalls
-     * wird stets der Wert 0 zur&uuml;ckgegeben.
-	 * <b>TODO: Funktion ist nmoch nicht getestet.</b>
-     * todo engl. JavaDoc für Parameter
-	 * @return Winkel im Bogenma� (im Bereich 0 ... <tt>this.PI</tt>)
+	 * returns the angle between the position vectors <tt>pVec1</tt>, 
+	 * <tt>this</tt> (as apex), and <tt>pVec2</tt>. 
+	 * <br />
+	 * Note: <tt>pVec1</tt>, <tt>pVec2</tt> and <tt>this</tt> must be different
+	 * from one another, otherwise the result will be 0 here.
+	 * 
+	 * @param pos1 Position 
+	 * @param pos2 Position 
+	 * @return Angle given in radians (in the range 0 ... <tt>Math.PI</tt>)
 	 */
-	public double angle(T3dVector pVec1, T3dVector pVec2)
+	public double angle(T3dVector pos1, T3dVector pos2)
 	{   
-   		T3dVector v01 = new T3dVector();
-   		v01.assignDiff(pVec1, this);
-   		T3dVector v02 = new T3dVector();
-   		v01.assignDiff(pVec2, this);
-   		T3dVector v12 = new T3dVector();
-   		v01.assignDiff(pVec2, pVec1);
-   		
-   		double l01 = v01.length();
-   		double l02 = v02.length();
-   		double l12 = v12.length();
-   		if (l01 == 0. || l02 == 0. || l02 == 0.)
+   		T3dVector 
+   			v10 = new T3dVector(),
+   			v20 = new T3dVector(),
+   			v21 = new T3dVector();
+   		v10.assignDiff(pos1, this);
+   		v20.assignDiff(pos2, this);
+   		v21.assignDiff(pos2, pos1);
+   		double 
+   			l10 = v10.length(),
+   			l20 = v20.length(),
+   			l21 = v21.length();
+   		if (l10 == 0. || l20 == 0. || l21 == 0.)
       		return 0.;
-   		
-   		double cosPhi = (l01*l01 + l12*l12 - l02*l02) / (2. * l01 * l12);  
+   		double cosPhi =
+   				(l10 * l10 + l21 * l21 - l20 * l20) / (2. * l10 * l21);
    		return Math.acos(cosPhi);
 	}
 	
