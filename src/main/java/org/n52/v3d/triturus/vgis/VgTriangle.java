@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2007-2018 52North Initiative for Geospatial Open Source
+ * Copyright (C) 2007-2019 52North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it
@@ -52,12 +52,6 @@ abstract public class VgTriangle extends VgGeomObject2d
 	abstract public void setCornerPoints(VgPoint pCorner1, VgPoint pCorner2, VgPoint pCorner3);
 	
 	/** 
-	 * @deprecated
-	 * <i>TODO: Method does not work correct in gisimplm...</i><p>
-	 */
-	abstract public void getCornerPoints(VgPoint pCorner1, VgPoint pCorner2, VgPoint pCorner3);
-	
-	/** 
 	 * returns the triangle's corner-points.
 	 * 
 	 * @return Array consisting of three elements holding the corner-points
@@ -72,8 +66,8 @@ abstract public class VgTriangle extends VgGeomObject2d
 	 */
 	public double area()
 	{
-		VgPoint p1 = null, p2 = null, p3 = null;
-		this.getCornerPoints(p1, p2, p3);
+		VgPoint[] p = this.getCornerPoints();
+		VgPoint p1 = p[0], p2 = p[1], p3 = p[2];
 		
 		double l12 = p2.distance(p1); // TODO: Here a NullPointerException night be thrown!
 		double l13 = p3.distance(p1);
@@ -84,50 +78,54 @@ abstract public class VgTriangle extends VgGeomObject2d
 	}
 
 	/**
-	 * returns the triangle's circumference referring to the assigned coordinate reference system.
+	 * returns the triangle's circumference referring to the assigned 
+	 * coordinate reference system. Note that the calculation is done 
+	 * in "3D" considering z-coordinates.
 	 * 
 	 * @return Area value
 	 * @see VgGeomObject#getSRS
 	 */
-	public double circumference()
-	{
-		VgPoint p1 = null, p2 = null, p3 = null;
-		this.getCornerPoints(p1, p2, p3);
-		
-		double sum = p2.distance(p1);
-		sum += p3.distance(p2);
-		sum += p1.distance(p3);
+	public double circumference() {
+		VgPoint[] p = this.getCornerPoints();
+		double sum = p[1].distance(p[0]);
+		sum += p[2].distance(p[1]);
+		sum += p[0].distance(p[2]);
 		return sum;
 	}
 
 	/**
-	 * performs z-value interpolation at a given position. The method provides a 
-	 * result, even if the given position 'pt' lies outside the triangle (extrapolation). 
-	 * If necessary, check this case before calling the method, e.g. using <tt>this.isInside()</tt>. 
-	 * Note: The z-coordinate of 'pt' will be ignored.
+	 * performs z-value interpolation at a given position. The method provides 
+	 * a result, even if the given position 'pt' lies outside the triangle 
+	 * (extrapolation). If necessary, check this case before calling the 
+	 * method, e.g. using <tt>this.isInside()</tt>.
+	 * <br /> 
+	 * Notes: 1. The z-coordinate of 'pt' will be ignored.<br />
+	 * 2. If the triangle area is 0, a <tt>T3dException</tt> might be thrown
+	 * ("Division by zero error").
 	 * 
 	 * @param pt Position
 	 * @return z-value
 	 * @see VgTriangle#isInsideXY
+	 * @see T3dException
 	 */
 	public double interpolateZ(VgPoint pt) 
 	{
-		VgPoint[] t = this.getCornerPoints();
+		VgPoint[] p = this.getCornerPoints();
 		
 		T3dVector dir0 = new T3dVector();
-		dir0.assignDiff(t[0], t[2]);
+		dir0.assignDiff(p[0], p[2]);
 		T3dVector dir1 = new T3dVector();
-		dir1.assignDiff(t[1], t[2]);
+		dir1.assignDiff(p[1], p[2]);
 		
-		// Solve plane equation t[2] + s0 * (t[0] - t[2]) + s1 * (t[1] - t[2]) = 0 
+		// Solve plane equation p[2] + s0 * (p[0] - p[2]) + s1 * (p[1] - p[2]) = 0 
 		// using Cramer's rule:
 		double detNum =
-			- dir0.getX() * dir1.getY() * t[2].getZ()
-			+ dir1.getX() * (pt.getY() - t[2].getY()) * dir0.getZ()
-			+ (pt.getX() - t[2].getX()) * dir0.getY() * dir1.getZ()
-			- dir0.getZ() * dir1.getY() * (pt.getX() - t[2].getX())
-			- dir1.getZ() * (pt.getY() - t[2].getY()) * dir0.getX()
-			+ t[2].getZ() * dir0.getY() * dir1.getX();		    
+			- dir0.getX() * dir1.getY() * p[2].getZ()
+			+ dir1.getX() * (pt.getY() - p[2].getY()) * dir0.getZ()
+			+ (pt.getX() - p[2].getX()) * dir0.getY() * dir1.getZ()
+			- dir0.getZ() * dir1.getY() * (pt.getX() - p[2].getX())
+			- dir1.getZ() * (pt.getY() - p[2].getY()) * dir0.getX()
+			+ p[2].getZ() * dir0.getY() * dir1.getX();		    
 		double detDenom = -dir0.getX() * dir1.getY() + dir0.getY() * dir1.getX();
 		//System.out.println("tri = " + this);
 		//System.out.println("dir0 = " + dir0);
@@ -143,32 +141,36 @@ abstract public class VgTriangle extends VgGeomObject2d
 	}
 
 	/**
-	 * checks, with respect to the x-y-plane, if 'pt' is inside the triangle. If in <tt>pEdge</tt> 
-	 * a <i>true</i> value is passed, the method provides <i>true</i> as result, even if 'pt' 
-	 * lies on one of the triangle's edges (boundary).
-	 * Note: The z-coordinate of 'pt' will be ignored, since the computation will be done inside
-	 * the x-y-plane.
-	 * <b>TODO: Method has not been tested yet (taken from old C++ project...)</b>
+	 * checks, with respect to the x-y-plane, if 'pt' is inside the triangle. 
+	 * If in <tt>pEdge</tt> a <i>true</i> value is passed, the method provides 
+	 * <i>true</i> as result, even if 'pt' lies on one of the triangle's edges 
+	 * (boundary).
+	 * <br />
+	 * Notes: 1. The z-coordinate of 'pt' will be ignored, since the 
+	 * computation will be done inside the x-y-plane.<br />
+	 * 2. If the triangle area is 0, a <tt>T3dException</tt> might be thrown
+	 * ("Division by zero error").
 	 * 
 	 * @param pt
 	 * @param pEdge
 	 * @return <i>true</i>, if <tt>pt</tt> lies inside the triangle, else <i>false</i>
+	 * @see T3dEception
 	 */
 	public boolean isInsideXY(VgPoint pt, boolean pEdge)
 	{
-		VgPoint[] t = this.getCornerPoints();
+		VgPoint[] p = this.getCornerPoints();
 		
 		T3dVector dir0 = new T3dVector();
-		dir0.assignDiff(t[0], t[2]);
+		dir0.assignDiff(p[0], p[2]);
 		T3dVector dir1 = new T3dVector();
-		dir1.assignDiff(t[1], t[2]);
+		dir1.assignDiff(p[1], p[2]);
 		   
-		// The equation t[2] + s0 * (t[0]-t[2]) + s1 * (t[1]-t[2]) = 0, 0 < s0, s1 < 1 
+		// The equation p[2] + s0 * (p[0] - p[2]) + s1 * (p[1] - t[2]) = 0, 0 < s0, s1 < 1 
 		// gives the set of all points that lie inside the parallelogram given by 
-		// (t[0]-t[2]), (t[1]-t[2]).
+		// (p[0] - p[2]), (p[1] - p[2]).
 		   
-		double detNum0 = (pt.getX() - t[2].getX()) * dir1.getY() - (pt.getY() - t[2].getY()) * dir1.getX();
-		double detNum1 = dir0.getX() * (pt.getY() - t[2].getY()) - dir0.getY() * (pt.getX() - t[2].getX());
+		double detNum0 = (pt.getX() - p[2].getX()) * dir1.getY() - (pt.getY() - p[2].getY()) * dir1.getX();
+		double detNum1 = dir0.getX() * (pt.getY() - p[2].getY()) - dir0.getY() * (pt.getX() - p[2].getX());
 		double detDenom = dir0.getX() * dir1.getY() - dir0.getY() * dir1.getX();
 		   
 		if (Math.abs(detDenom) < 0.000001)
@@ -188,7 +190,7 @@ abstract public class VgTriangle extends VgGeomObject2d
 	}
 	
 	public String toString() {
-		VgPoint x[] = this.getCornerPoints();
-		return "[" + x[0].toString() + ", " + x[1].toString() + ", " + x[2].toString() + "]";
+		VgPoint[] p = this.getCornerPoints();
+		return "[" + p[0].toString() + ", " + p[1].toString() + ", " + p[2].toString() + "]";
 	}
 }
