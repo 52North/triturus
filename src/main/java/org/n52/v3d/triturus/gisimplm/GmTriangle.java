@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2007-2015 52°North Initiative for Geospatial Open Source
+ * Copyright (C) 2007-2019 52 North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it
@@ -18,91 +18,108 @@
  *
  * Therefore the distribution of the program linked with libraries licensed
  * under the aforementioned licenses, is permitted by the copyright holders
- * if the distribution is compliant with both the GNU General Public
- * icense version 2 and the aforementioned licenses.
+ * if the distribution is compliant with both the GNU General Public License 
+ * version 2 and the aforementioned licenses.
  *
  * This program is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
- * Public License for more details.
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY 
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License 
+ * for more details.
  *
- * Contact: Benno Schmidt & Martin May, 52 North Initiative for Geospatial Open Source
- * Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, Germany, info@52north.org
+ * Contact: Benno Schmidt, 52 North Initiative for Geospatial Open Source 
+ * Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, Germany, 
+ * b.schmidt@52north.org
  */
 package org.n52.v3d.triturus.gisimplm;
 
 import org.n52.v3d.triturus.vgis.*;
 
 /**
- * Implementing class to manage triangles with arbitrary orientation in 3-D space.<br /><br />
- * <i>German:</i> Implementierende Klasse zur Verwaltung (beliebig im Raum orientierter) Dreiecke.
+ * Implementing class to manage triangles with arbitrary orientation in 3D 
+ * space.
+ * 
  * @author Benno Schmidt
  */
 public class GmTriangle extends VgTriangle 
 {
-    GmPoint mP1, mP2, mP3;
-    private GmEnvelope mEnv = null;
-    private boolean mEnvIsCalculated = false;
+    GmPoint p1, p2, p3;
+    private GmEnvelope env = null;
+    private boolean envHasBeenCalculated = false;
 
     /* 
      * Constructor.
+     * 
+     * @param p1 First corner point
+     * @param p2 Second corner point
+     * @param p3 Third corner point
      */
-    public GmTriangle(VgPoint pCorner1, VgPoint pCorner2, VgPoint pCorner3) 
+    public GmTriangle(VgPoint p1, VgPoint p2, VgPoint p3) 
     {
-        this.setCornerPoints(pCorner1, pCorner2, pCorner3); 
+        this.setCornerPoints(p1, p2, p3); 
     }
 
-    public void setCornerPoints(VgPoint pCorner1, VgPoint pCorner2, VgPoint pCorner3)
+    public void setCornerPoints(VgPoint p1, VgPoint p2, VgPoint p3)
     {
-        mP1 = new GmPoint(pCorner1);
-        this.assertSRS(pCorner2); 
-        mP2 = new GmPoint(pCorner2);
-        this.assertSRS(pCorner3); 
-        mP3 = new GmPoint(pCorner3);
-        mEnvIsCalculated = false;
+        this.p1 = new GmPoint(p1);
+        this.assertSRS(p2); 
+        this.p2 = new GmPoint(p2);
+        this.assertSRS(p3); 
+        this.p3 = new GmPoint(p3);
+        envHasBeenCalculated = false;
     }
-    
-	public void getCornerPoints(VgPoint pCorner1, VgPoint pCorner2, VgPoint pCorner3) {
-		pCorner1 = mP1;
-		pCorner2 = mP2;
-		pCorner3 = mP3;
-	}
 
     /**
      * returns the triangle's corner-points.
+     * 
      * @return Array consisting of three <tt>GmPoint</tt>-objects holding the corner-points
      */
     public VgPoint[] getCornerPoints() {
     	GmPoint[] res = new GmPoint[3];
-        res[0] = mP1; res[1] = mP2; res[2] = mP3;
+        res[0] = p1; res[1] = p2; res[2] = p3;
         return res;
     }
 
+    /**
+     * returns the triangles center point.
+     * 
+     * @return Center point
+     */
+	public VgPoint getCenterPoint() {		
+		GmPoint res = new GmPoint(
+			(p1.getX() + p2.getX() + p3.getX()) / 3.,
+			(p1.getY() + p2.getY() + p3.getY()) / 3.,
+			(p1.getZ() + p2.getZ() + p3.getZ()) / 3.);
+		res.setSRS(p1.getSRS());
+		return res;
+	}
+
     /** 
      * returns the TIN-geometry's bounding-box.
+     * 
      * @return Bounding-box
      */
     public VgEnvelope envelope() 
     {
-        if (!mEnvIsCalculated) {
-             mEnv = new GmEnvelope( 
-                 mP1.getX(), mP1.getX(),
-                 mP1.getY(), mP1.getY(),
-                 mP1.getZ(), mP1.getZ() );
-             mEnv.letContainPoint(mP2);
-             mEnv.letContainPoint(mP3);
+        if (!envHasBeenCalculated) {
+             env = new GmEnvelope( 
+                 p1.getX(), p1.getX(),
+                 p1.getY(), p1.getY(),
+                 p1.getZ(), p1.getZ() );
+             env.letContainPoint(p2);
+             env.letContainPoint(p3);
         }
-        return mEnv;
+        return env;
     }
     
 	/**
      * returns the TIN's footprint.
+     * 
      * @return Footprint as <tt>GmTriangle</tt>-object
   	 */
 	public VgGeomObject footprint() {
 		return new GmTriangle(
-			(VgPoint) mP1.footprint(), 
-			(VgPoint) mP2.footprint(), 
-			(VgPoint) mP3.footprint());
+			(VgPoint) p1.footprint(), 
+			(VgPoint) p2.footprint(), 
+			(VgPoint) p3.footprint());
 	}
 }
