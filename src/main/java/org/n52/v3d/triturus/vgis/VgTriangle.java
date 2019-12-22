@@ -36,7 +36,7 @@ import org.n52.v3d.triturus.t3dutil.T3dVector;
 import org.n52.v3d.triturus.core.T3dException;
 
 /**
- * Class to hold a triangle that might be arbitrarily oriented in 3-D space.
+ * Class to hold a triangle that might be arbitrarily oriented in 3D space.
  * 
  * @author Benno Schmidt
  */
@@ -45,11 +45,11 @@ abstract public class VgTriangle extends VgGeomObject2d
 	/** 
 	 * sets the triangle's corner-points.
 	 * 
-	 * @param pCorner1 first corner point
-	 * @param pCorner2 second corner point
-	 * @param pCorner3 third corner point
+	 * @param p1 First corner point
+	 * @param p2 Second corner point
+	 * @param p3 Third corner point
 	 */
-	abstract public void setCornerPoints(VgPoint pCorner1, VgPoint pCorner2, VgPoint pCorner3);
+	abstract public void setCornerPoints(VgPoint p1, VgPoint p2, VgPoint p3);
 	
 	/** 
 	 * returns the triangle's corner-points.
@@ -95,11 +95,11 @@ abstract public class VgTriangle extends VgGeomObject2d
 
 	/**
 	 * performs z-value interpolation at a given position. The method provides 
-	 * a result, even if the given position 'pt' lies outside the triangle 
-	 * (extrapolation). If necessary, check this case before calling the 
-	 * method, e.g. using <tt>this.isInside()</tt>.
-	 * <br /> 
-	 * Notes: 1. The z-coordinate of 'pt' will be ignored.<br />
+	 * a result, even if the given position <tt>pt</tt> lies outside the 
+	 * triangle (extrapolation). If necessary, check this case before calling 
+	 * the method, e.g. using <tt>this.isInside()</tt>.
+	 * <br/> 
+	 * Notes: 1. The z-coordinate of <tt>pt</tt> will be ignored.<br/>
 	 * 2. If the triangle area is 0, a <tt>T3dException</tt> might be thrown
 	 * ("Division by zero error").
 	 * 
@@ -141,22 +141,22 @@ abstract public class VgTriangle extends VgGeomObject2d
 	}
 
 	/**
-	 * checks, with respect to the x-y-plane, if 'pt' is inside the triangle. 
-	 * If in <tt>pEdge</tt> a <i>true</i> value is passed, the method provides 
-	 * <i>true</i> as result, even if 'pt' lies on one of the triangle's edges 
-	 * (boundary).
-	 * <br />
-	 * Notes: 1. The z-coordinate of 'pt' will be ignored, since the 
-	 * computation will be done inside the x-y-plane.<br />
+	 * checks, with respect to the x-y-plane, if <tt>pt</tt> is inside the 
+	 * triangle. If in <tt>edge</tt> a <i>true</i> value is passed, the method
+	 * provides <i>true</i> as result, even if <tt>pt</tt> lies on one of the 
+	 * triangle's edges (boundary).
+	 * <br/>
+	 * Notes: 1. The z-coordinate of <tt>pt</tt> will be ignored, since the 
+	 * computation will be done inside the x-y-plane.<br/>
 	 * 2. If the triangle area is 0, a <tt>T3dException</tt> might be thrown
 	 * ("Division by zero error").
 	 * 
-	 * @param pt
-	 * @param pEdge
+	 * @param pt Point (z-coordinate will be ignored)
+	 * @param edge Flag directing edge check mode
 	 * @return <i>true</i>, if <tt>pt</tt> lies inside the triangle, else <i>false</i>
 	 * @see T3dEception
 	 */
-	public boolean isInsideXY(VgPoint pt, boolean pEdge)
+	public boolean isInsideXY(VgPoint pt, boolean edge)
 	{
 		VgPoint[] p = this.getCornerPoints();
 		
@@ -183,8 +183,8 @@ abstract public class VgTriangle extends VgGeomObject2d
 		if (s0 < 0. || s0 < 0. || s0 > 1. || s0 > 1.)
 			return false; // point outside parallelogram
 		if (s0 + s1 < 1.)
-			return true; // point conmpletely inside triangle
-		if (s0 + s1 == 1. && pEdge)
+			return true; // point completely inside triangle
+		if (s0 + s1 == 1. && edge)
 			return true; // point on boundary
 		return false; // point inside parallelogram and not inside triangle
 	}
