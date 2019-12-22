@@ -69,7 +69,7 @@ abstract public class VgTriangle extends VgGeomObject2d
 		VgPoint[] p = this.getCornerPoints();
 		VgPoint p1 = p[0], p2 = p[1], p3 = p[2];
 		
-		double l12 = p2.distance(p1); // TODO: Here a NullPointerException night be thrown!
+		double l12 = p2.distance(p1); // TODO: Here a NullPointerException might be thrown!
 		double l13 = p3.distance(p1);
 		double l23 = p3.distance(p2);
 		
@@ -186,7 +186,7 @@ abstract public class VgTriangle extends VgGeomObject2d
 			return true; // point conmpletely inside triangle
 		if (s0 + s1 == 1. && pEdge)
 			return true; // point on boundary
-		return false; // point inside parallelogram and nort inside triangle
+		return false; // point inside parallelogram and not inside triangle
 	}
 	
 	public String toString() {
