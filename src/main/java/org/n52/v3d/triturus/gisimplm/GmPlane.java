@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2007-2015 52°North Initiative for Geospatial Open Source
+ * Copyright (C) 2007-2019 52 North Initiative for Geospatial Open Source 
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it
@@ -18,16 +18,17 @@
  *
  * Therefore the distribution of the program linked with libraries licensed
  * under the aforementioned licenses, is permitted by the copyright holders
- * if the distribution is compliant with both the GNU General Public
- * icense version 2 and the aforementioned licenses.
+ * if the distribution is compliant with both the GNU General Public License 
+ * version 2 and the aforementioned licenses.
  *
  * This program is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
- * Public License for more details.
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY 
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License 
+ * for more details.
  *
- * Contact: Benno Schmidt & Martin May, 52 North Initiative for Geospatial Open Source
- * Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, Germany, info@52north.org
+ * Contact: Benno Schmidt and Martin May, 52 North Initiative for Geospatial 
+ * Open Source Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, 
+ * Germany, info@52north.org
  */
 package org.n52.v3d.triturus.gisimplm;
 
@@ -38,17 +39,19 @@ import org.n52.v3d.triturus.vgis.VgTriangle;
 import org.n52.v3d.triturus.core.T3dException;
 
 /** 
- * <tt>VgPlane</tt>-implementation to hold planes in 3-D space.<br />
- * <i>todo: Klasse ist noch nicht getestet.</i>
+ * <tt>VgPlane</tt> implementation to hold planes in 3D space.<br/>
+ * <i>TODO: Klasse ist noch nicht getestet.</i>
+ * 
  * @author Benno Schmidt
  */
 public class GmPlane extends VgPlane
 {
-    private double mA, mB, mC, mD; // Ebenengleichung A*x + B*y + C*z + D = 0
+    private double mA, mB, mC, mD; // Plane equation A*x + B*y + C*z + D = 0
 
     /** 
-     * Constructor. The plane will be constructed by three given points. For collinear points, a <tt>T3dException</tt>
-     * will be thrown.
+     * Constructor. The plane will be constructed by three given points. For 
+     * collinear points, a <tt>T3dException</tt> will be thrown.
+     * 
      * @param pt1 Point that is lying on the plane
      * @param pt2 Another point that is lying on the plane
      * @param pt3 And another point that is lying on the plane
@@ -61,26 +64,27 @@ public class GmPlane extends VgPlane
     }
 
     /** 
-     * Constructor. The plane will be constructed by a triangle's corner-points. If the triangle's surface area is 0,
-     * a <tt>T3dException</tt> will be thrown.
-     * @param pTriangle Triangle that is lying on the plane
+     * Constructor. The plane will be constructed by a triangle's 
+     * corner-points. If the triangle's surface area is 0, a 
+     * <tt>T3dException</tt> will be thrown.
+     * 
+     * @param tri Triangle that is lying on the plane
      */
-	public GmPlane(VgTriangle pTriangle) {
-		this.init(pTriangle);
+	public GmPlane(VgTriangle triangle) {
+		this.init(triangle);
 	}
 	
-	private void init(VgTriangle pTriangle) throws T3dException
+	private void init(VgTriangle triangle) throws T3dException
 	{
-		if (pTriangle.area() < .000001)
+		if (triangle.area() < .000001)
 			throw new T3dException("Plane instantiation failed. Maybe the definition points are collinear.");
 			
-		VgPoint pt1 = null, pt2 = null, pt3 = null;
-		pTriangle.getCornerPoints(pt1, pt2, pt3);		
+		VgPoint[] pt = triangle.getCornerPoints();
 		
 		T3dVector v1 = new T3dVector();
-		v1.assignDiff(pt2, pt1);
+		v1.assignDiff(pt[1], pt[0]);
 		T3dVector v2 = new T3dVector();
-		v1.assignDiff(pt3, pt1);
+		v1.assignDiff(pt[2], pt[0]);
 
 		T3dVector normal = new T3dVector();
 		normal.assignCrossProd(v1, v2);
@@ -88,7 +92,7 @@ public class GmPlane extends VgPlane
 		mA = normal.getX();
 		mB = normal.getY();
 		mC = normal.getZ();
-		mD = -1. * (mA * pt1.getX() + mB * pt1.getY() + mC * pt1.getZ());		
+		mD = -1. * (mA * pt[0].getX() + mB * pt[0].getY() + mC * pt[0].getZ());		
 	}
 
 	public VgPoint getNormal()
@@ -124,8 +128,9 @@ public class GmPlane extends VgPlane
 	}
 	
 	/**
-	 * projects a point <tt>pt</tt> in z-direction to the x-y-plane. If the plane is parallel to the z-axis, a
-     * <tt>T3dException</tt> will be thrown.
+	 * projects a point <tt>pt</tt> in z-direction to the x-y plane. If the 
+	 * plane is parallel to the z-axis, a <tt>T3dException</tt> will be thrown.
+	 * 
 	 * @return <tt>GmPoint</tt> with same x- and y-coordinate as <tt>pt</tt>
 	 * @throws T3dException
 	 */
@@ -138,7 +143,7 @@ public class GmPlane extends VgPlane
 			ret.setZ( (-mD - mA*pt.getX() - mB*pt.getY()) / mC); 
 			return ret;
 		}
-		// sonst: C = 0:
+		// else: C = 0:
 		throw new T3dException("Numerical error. Can't get unique z-value for vertical plane.");
 	}
 }
