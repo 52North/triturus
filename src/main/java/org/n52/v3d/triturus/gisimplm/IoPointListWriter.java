@@ -49,6 +49,9 @@ public class IoPointListWriter extends IoObject
 {
     private String logString = "";
     private String format;
+    
+    private boolean writeHeaderLine = false;
+    private String[] fieldNames = new String[]{"X", "Y", "Z"};
 
     
     /**
@@ -93,8 +96,39 @@ public class IoPointListWriter extends IoObject
     {
         this.format = format;
     }
+ 
+    /** 
+     * sets the directive to add a header line holding the field names to the 
+     * generated point file. Note that this mode is available for ASCII formats
+     * such as {@link #PLAIN} and {@link #CSV} only. If this method is not 
+     * called explicitly, by default no header line will be written, i.e. 
+     * <tt>writeHeaderLine</tt> = <i>false</i>.
+     *  
+     * @param writeHeaderLine <i>true</i> to add header, else <i>false</i>
+     */
+ 	public void writeHeaderLine(boolean writeHeaderLine) {
+		this.writeHeaderLine = writeHeaderLine;
+	}
 
-    /**
+ 	/**
+ 	 * overwrite the default field names "X", "Y", "Z", which are written
+ 	 * to the output file's header line, if the <tt>writeHeaderLine</tt> 
+ 	 * directive is enabled.
+ 	 * 
+ 	 * @param xFieldName Field name for x-coordinate
+ 	 * @param yFieldName Field name for y-coordinate
+ 	 * @param zFieldName Field name for z-coordinate
+ 	 * @see this{@link #writeHeaderLine(boolean)}
+ 	 */
+ 	public void setFieldNames(
+ 		String xFieldName, String yFieldName, String zFieldName) 
+ 	{
+ 		this.fieldNames[0] = xFieldName;
+ 		this.fieldNames[1] = yFieldName;
+ 		this.fieldNames[2] = zFieldName; 		
+ 	}
+ 	
+	/**
      * writes a set of 3-d points to a file. 
      * 
      * @param {@link List} consisting of {@link VgPoint} objects to be written
@@ -140,13 +174,20 @@ public class IoPointListWriter extends IoObject
     	// TODO: Keep configurable: Separator, x-y-z order, number of written digits,
     	// bounding-box filter, skip point-identifiers etc.
         try {
-            BufferedWriter lDat = new BufferedWriter(new FileWriter(filename));
+            BufferedWriter doc = new BufferedWriter(new FileWriter(filename));
             String sep = commaSeparated ? "," : " ";
-            for (VgPoint p : points) {
-                lDat.write(p.getX() + sep + p.getY() + sep + p.getZ());
-                lDat.newLine();           	
+            
+            if (writeHeaderLine) {
+                doc.write(fieldNames[0] + sep + fieldNames[1] + sep + fieldNames[2]);
+                doc.newLine();           	            	
             }
-            lDat.close();
+            
+            for (VgPoint p : points) {
+                doc.write(p.getX() + sep + p.getY() + sep + p.getZ());
+                doc.newLine();           	
+            }
+            
+            doc.close();
         }
         catch (FileNotFoundException e) {
             throw new T3dException("Could not access file \"" + filename + "\".");
