@@ -51,23 +51,19 @@ public class IoTINWriter extends IoAbstractWriter
      * File-format type identifier to be used for export in ACADGEO format.
      */
     public static final String ACGEO = "AcGeo";
-    
     /**
      * File-format type identifier to be used for (old-fashioned) VRML1 export.
      */
     public static final String VRML1 = "Vrml1";
-    
     /**
      * File-format type identifier to be used for X3D export.
      */
     public static final String X3D = "X3d";
-    
     /**
      * File-format type identifier to be used for export to a HTML5/X3DOM 
      * description.
      */
     public static final String X3DOM = "X3Dom";
-    
     /**
      * File-format type identifier to be used for Wavefront OBJ export.
      */
