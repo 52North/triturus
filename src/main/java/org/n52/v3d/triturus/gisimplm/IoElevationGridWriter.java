@@ -809,10 +809,15 @@ public class IoElevationGridWriter extends IoAbstractWriter
             // Write vertex information:
             // DecimalFormat dfXY = this.getDecimalFormatXY();
             // DecimalFormat dfZ = this.getDecimalFormatZ();
+            GmPoint pt;
             for (int j = 0; j < geom.numberOfColumns(); j++) {
                 for (int i = 0; i < geom.numberOfRows(); i++) 
                 {
-                	GmPoint pt = new GmPoint(grid.getPoint(i, j));
+                	if (grid.isSet(i, j))
+                		pt = new GmPoint(grid.getPoint(i, j));
+                	else
+                		pt = new GmPoint(0., 0., 0.); // dummy values
+                	
                 	wl("v "+ (pt.getX() * scale + offsetX) + " " + (pt.getY() * scale + offsetY) + " " + (pt.getZ() * scale) );
                 }
             }
