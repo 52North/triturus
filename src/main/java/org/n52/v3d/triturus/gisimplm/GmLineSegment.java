@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2007-2015 52°North Initiative for Geospatial Open Source
+ * Copyright (C) 2007-2019 52 North Initiative for Geospatial Open Source 
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it
@@ -18,68 +18,73 @@
  *
  * Therefore the distribution of the program linked with libraries licensed
  * under the aforementioned licenses, is permitted by the copyright holders
- * if the distribution is compliant with both the GNU General Public
- * icense version 2 and the aforementioned licenses.
+ * if the distribution is compliant with both the GNU General Public License 
+ * version 2 and the aforementioned licenses.
  *
  * This program is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
- * Public License for more details.
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY 
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License 
+ * for more details.
  *
- * Contact: Benno Schmidt & Martin May, 52 North Initiative for Geospatial Open Source
- * Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, Germany, info@52north.org
+ * Contact: Benno Schmidt and Martin May, 52 North Initiative for Geospatial 
+ * Open Source Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, 
+ * Germany, info@52north.org
  */
 package org.n52.v3d.triturus.gisimplm;
 
 import org.n52.v3d.triturus.vgis.*;
 
 /**
- * <tt>VgLineSegment</tt>-implementation. Object information will be kept in main memory.<br />
- * x- and y-values have to be given with respect to the spatial reference system (SRS) that has been set for the
- * geometric object.<br /><br />
+ * <tt>VgLineSegment</tt>-implementation. Note that x- and y-values have to be
+ * given with respect to the spatial reference system (SRS) that has been set 
+ * for the geometric object.
+ * 
  * @author Benno Schmidt
  */
 public class GmLineSegment extends VgLineSegment
 {
-    private GmPoint mPStart = new GmPoint(0., 0., 0.);
-    private GmPoint mPEnd = new GmPoint(0., 0., 0.);
+    private GmPoint mStart = new GmPoint(0., 0., 0.);
+    private GmPoint mEnd = new GmPoint(0., 0., 0.);
 
     /**
      * Constructor
+     * 
+     * @param pStart Start point
+     * @param pEnd End point
      */
-    public GmLineSegment(VgPoint pPStart, VgPoint pPEnd) {
-        mPStart.set(pPStart);
-        mPEnd.set(pPEnd);
+    public GmLineSegment(VgPoint pStart, VgPoint pEnd) {
+        mStart.set(pStart);
+        mEnd.set(pEnd);
     }
 
-    public void setStartPoint(VgPoint pPStart) {
-    	this.assertSRS(pPStart);
-        mPStart.set(pPStart);
+    public void setStartPoint(VgPoint pStart) {
+    	this.assertSRS(pStart);
+        mStart.set(pStart);
     }
 
     public VgPoint getStartPoint() {
-        return mPStart;
+        return mStart;
     }
 
-    public void setEndPoint( VgPoint pPEnd ) {
-    	this.assertSRS(pPEnd);
-        mPEnd.set( pPEnd );
+    public void setEndPoint(VgPoint pEnd) {
+    	this.assertSRS(pEnd);
+        mEnd.set(pEnd);
     }
 
     public VgPoint getEndPoint() {
-        return mPEnd;
+        return mEnd;
     }
 
     public VgEnvelope envelope()
     {
-        GmEnvelope mEnv = new GmEnvelope(mPStart);
-        mEnv.letContainPoint(mPEnd);
-        return mEnv;
+        GmEnvelope env = new GmEnvelope(mStart);
+        env.letContainPoint(mEnd);
+        return env;
     }
 
 	/** 
-	 * returns the object's footprint geometry (projection to the x-y-plane).<br /><br />
-	 * <i>German:</i> liefert das zugeh�rige "Footprint"-Liniensegment.<p>
+	 * returns the object's footprint geometry (projection to the x-y plane).
+	 * 
 	 * @return "Footprint" as <tt>GmLineSegment</tt>-object
   	 */
 	public VgGeomObject footprint() {
