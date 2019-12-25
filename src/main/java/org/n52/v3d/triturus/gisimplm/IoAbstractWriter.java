@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2007-2015 52°North Initiative for Geospatial Open Source
+ * Copyright (C) 2007-2019 52 North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it
@@ -18,44 +18,42 @@
  *
  * Therefore the distribution of the program linked with libraries licensed
  * under the aforementioned licenses, is permitted by the copyright holders
- * if the distribution is compliant with both the GNU General Public
- * icense version 2 and the aforementioned licenses.
+ * if the distribution is compliant with both the GNU General Public License 
+ * version 2 and the aforementioned licenses.
  *
  * This program is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
- * Public License for more details.
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY 
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License 
+ * for more details.
  *
- * Contact: Benno Schmidt & Martin May, 52 North Initiative for Geospatial Open Source
- * Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, Germany, info@52north.org
+ * Contact: Benno Schmidt and Martin May, 52 North Initiative for Geospatial 
+ * Open Source Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, 
+ * Germany, info@52north.org
  */
 package org.n52.v3d.triturus.gisimplm;
 
 import org.n52.v3d.triturus.core.IoObject;
-import org.n52.v3d.triturus.core.T3dNotYetImplException;
 import org.n52.v3d.triturus.core.T3dException;
-import org.n52.v3d.triturus.vgis.VgPoint;
 
-import java.io.*;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 
 /**
- * Abstract base-class for I/O objects that write geo-data to files or streams.<br /><br />
- * <i>German:</i> Abstrakte Basisklasse f&uuml;r I/O-Objekte, welche Geodaten in Dateien oder Str&ouml;me schreiben.
- * <br />
- * Bem.: Bez&uuml;glich des Formats der geschriebenen x-, y- und z-Koordinaten sind ggf. die Rechner-spezifischen
- * Locale-Einstellungen zu ber&uuml;cksichtigen!
+ * Abstract base-class for I/O objects that write geo-data to files or streams.
+ * Note that machine-specific locale settings might affect the way coordinates 
+ * will be written to files.
+ * 
  * @author Benno Schmidt
  */
 abstract public class IoAbstractWriter extends IoObject
 {
-    private int mPrecisionXY = 2; // # zu schreibender Nachkommastellen f�r x- und y-Koordinaten
-    private int mPrecisionZ = 2; // # zu schreibender Nachkommastellen f�r z-Koordinaten
+    private int mPrecisionXY = 2; // # positions after decimal point for x- und y-coordinates
+    private int mPrecisionZ = 2; // # positions after decimal point for z-coordinates
 
     /**
-     * returns the number of decimal places (after decimal point) for x- and y-coordinates to be written.<br /><br />
-     * <i>German:</i> liefert die Anzahl der f&uuml;r x- und y-Koordinaten zu schreibenden Nachkommastellen.
+     * returns the number of decimal places (after decimal point) for x- and 
+     * y-coordinates to be written.
+     * 
      * @return Number of decimal places (after decimal point)
      */
     public int getPrecisionXY() {
@@ -63,20 +61,21 @@ abstract public class IoAbstractWriter extends IoObject
     }
 
     /**
-     * sets the number of decimal places (after decimal point) for x- and y-coordinates to be written.<br /><br />
-     * <i>German:</i> setzt die Anzahl der f&uuml;r x- und y-Koordinaten zu schreibenden Nachkommastellen.
-     * Voreinstellungsgem&auml;&szlig; ist der Wert 2 gesetzt.
-     * @param pPrec Number of decimal places (after decimal point)
+     * sets the number of decimal places (after decimal point) for x- and 
+     * y-coordinates to be written. By default, a value of 2 is set.
+     * 
+     * @param prec Number of decimal places (after decimal point)
      */
-    public void setPrecisionXY(int pPrec) {
-        if (pPrec < 0)
-            throw new T3dException("Invalid value for precision (" + pPrec + ").");
-        mPrecisionXY = pPrec;
+    public void setPrecisionXY(int prec) {
+        if (prec < 0)
+            throw new T3dException("Invalid value for precision (" + prec + ").");
+        mPrecisionXY = prec;
     }
 
     /**
-     * returns the number of decimal places (after decimal point) for z-coordinates to be written.<br /><br />
-     * <i>German:</i> liefert die Anzahl der f&uuml;r z-Koordinaten zu schreibenden Nachkommastellen.
+     * returns the number of decimal places (after decimal point) for 
+     * z-coordinates to be written.
+     * 
      * @return Number of decimal places (after decimal point)
      */
     public int getPrecisionZ() {
@@ -84,23 +83,23 @@ abstract public class IoAbstractWriter extends IoObject
     }
 
     /**
-     * sets the number of decimal places (after decimal point) for z-coordinates to be written.<br /><br />
-     * <i>German:</i> setzt die Anzahl der f&uuml;r z-Koordinaten zu schreibenden Nachkommastellen.
-     * Voreinstellungsgem&auml;&szlig; ist der Wert 2 gesetzt.
-     * @param pPrec Number of decimal places (after decimal point) &gt;= 0
+     * sets the number of decimal places (after decimal point) for 
+     * z-coordinates to be written. By default, a value of 2 is set.
+     * 
+     * @param prec Number of decimal places (after decimal point) &gt;= 0
      */
-    public void setPrecisionZ(int pPrec) {
-        if (pPrec < 0)
-            throw new T3dException("Invalid value for precision (" + pPrec + ").");
-        mPrecisionZ = pPrec;
+    public void setPrecisionZ(int prec) {
+        if (prec < 0)
+            throw new T3dException("Invalid value for precision (" + prec + ").");
+        mPrecisionZ = prec;
     }
 
     /**
-     * provides the <tt>DecimalFormat</tt>-object according to the precision that has been set for x- and y-coordinates.
-     * <br /><br />
-     * <i>German:</i>liefert das der gesetzten Nachkommastellen-Anzahl f&uuml;r x- und y-Koordinaten entsprechende
-     * <tt>DecimalFormat</tt>-Objekt. Als Dezimalpunkt wird dabei stets das Zeichen '.' verwendet.
-     * @return <tt>DecimalFormat</tt>-object
+     * provides the <tt>DecimalFormat</tt>-object according to the precision 
+     * that has been set for x- and y-coordinates. As decimal point, the '.' 
+     * character will be used.
+     * 
+     * @return <tt>DecimalFormat</tt> object
      */
     protected DecimalFormat getDecimalFormatXY() {
         String format = "0";
@@ -112,11 +111,11 @@ abstract public class IoAbstractWriter extends IoObject
     }
 
     /**
-     * provides the <tt>DecimalFormat</tt>-object according to the precision that has been set for z-coordinates.
-     * <br /><br />
-     * <i>German:</i>liefert das der gesetzten Nachkommastellen-Anzahl f&uuml;r z-Koordinaten entsprechende
-     * <tt>DecimalFormat</tt>-Objekt. Als Dezimalpunkt wird dabei stets das Zeichen '.' verwendet.
-     * @return <tt>DecimalFormat</tt>-object
+     * provides the <tt>DecimalFormat</tt>-object according to the precision
+     * that has been set for z-coordinates. As decimal point, the '.' character
+     * will be used.
+     * 
+     * @return <tt>DecimalFormat</tt> object
      */
     protected DecimalFormat getDecimalFormatZ() {
         String format = "0";
