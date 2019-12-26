@@ -32,6 +32,7 @@
  */
 package org.n52.v3d.triturus.examples.elevationgrid;
 
+import org.n52.v3d.triturus.core.IoFormatType;
 import org.n52.v3d.triturus.core.T3dException;
 import org.n52.v3d.triturus.gisimplm.*;
 
@@ -44,7 +45,7 @@ public class DifferenceGrid
 {
 	public static void main(String args[])
 	{
-        IoElevationGridReader reader = new IoElevationGridReader(IoElevationGridReader.ARCINFO_ASCII_GRID);
+        IoElevationGridReader reader = new IoElevationGridReader(IoFormatType.ARCINFO_ASCII_GRID);
 
         try {
             // Read the source grids:
@@ -60,7 +61,7 @@ public class DifferenceGrid
             System.out.println(res.envelope().toString());
 
             // Write VRML output:
-            IoElevationGridWriter writer = new IoElevationGridWriter(IoElevationGridWriter.VRML2);
+            IoElevationGridWriter writer = new IoElevationGridWriter(IoFormatType.VRML2);
             writer.writeToFile(grid1, "/data/grd1.wrl");
             writer.writeToFile(grid2, "/data/grd2.wrl");
             writer.writeToFile(res, "/data/grd_diff.wrl");

@@ -48,17 +48,16 @@ import java.util.List;
  */
 public class Gridding 
 {
-	private String inputFile = "../data/test.xyz";
-    private double cellSize = 50.;
-    private short samplingMethod = FltPointSet2ElevationGrid.cNearestNeighbor;
-    private String outputFormat = IoElevationGridWriter.X3D;
-    private String outputFile = "../data/test.x3d";
+	private String inputFile = "/projects/Triturus/data/2018-02-09_Coesfeld_1m_DHHN16.xyz";
+    private double cellSize = 1.;
+    private short samplingMethod = FltPointSet2ElevationGrid.cInverseDist;
+    private String outputFormat = IoElevationGridPNGWriter.TYPE_USHORT_GRAY;
+    private String outputFile = "/projects/Triturus/data/2018-02-09_Coesfeld_1m_DHHN16.png";
     
     
     public static void main(String args[])
     {
         Gridding app = new Gridding();
-
         List<VgPoint> points = app.readPointCloud();
         GmSimpleElevationGrid elevGrid = app.performGridding(points);
         System.out.println(elevGrid);
@@ -156,6 +155,9 @@ public class Gridding
         try {
             int N = pointList.size();
             if (N > 0) {
+                // for (int i = 0; i < N; i++) {
+                //	pointList.get(i).setZ(-1.0 * pointList.get(i).getZ());;
+                // }
                 GmEnvelope env = new GmEnvelope((GmPoint) pointList.get(0));
                 for (int i = 1; i < N; i++) {
                     env.letContainPoint((GmPoint) pointList.get(i));
@@ -171,7 +173,7 @@ public class Gridding
                     new GmPoint(env.getXMin(), env.getYMin(), 0.), // lower left corner
                     cellSize, cellSize); // Cell-sizes in x- and y-direction
 
-                double searchRadius = 0.9 * cellSize; // well...
+                double searchRadius = 5.0; // well...
                 System.out.println("Search radius: " + searchRadius);
 
                 FltPointSet2ElevationGrid gridder = 
@@ -224,8 +226,8 @@ public class Gridding
         try {
             System.out.println("Writing result file...");
 
-            IoElevationGridWriter gridWriter 
-            	= new IoElevationGridWriter(outputFormat);
+            IoElevationGridPNGWriter gridWriter 
+            	= new IoElevationGridPNGWriter(outputFormat);
             gridWriter.writeToFile(elevGrid, outputFile);
             
             System.out.println("Success!");

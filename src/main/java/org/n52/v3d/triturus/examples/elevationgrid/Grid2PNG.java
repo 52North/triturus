@@ -32,6 +32,7 @@
  */
 package org.n52.v3d.triturus.examples.elevationgrid;
 
+import org.n52.v3d.triturus.core.IoFormatType;
 import org.n52.v3d.triturus.core.T3dException;
 import org.n52.v3d.triturus.gisimplm.GmSimpleElevationGrid;
 import org.n52.v3d.triturus.gisimplm.IoElevationGridPNGWriter;
@@ -49,7 +50,7 @@ public class Grid2PNG
 	public static void main(String args[])
 	{
 		IoElevationGridReader reader = 
-				new IoElevationGridReader(IoElevationGridReader.ARCINFO_ASCII_GRID);
+			new IoElevationGridReader(IoFormatType.ARCINFO_ASCII_GRID);
 		
 		try {
 			// Read the elevation grid from file:

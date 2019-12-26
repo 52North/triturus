@@ -32,6 +32,7 @@
  */
 package org.n52.v3d.triturus.examples.elevationgrid;
 
+import org.n52.v3d.triturus.core.IoFormatType;
 import org.n52.v3d.triturus.core.T3dException;
 import org.n52.v3d.triturus.gisimplm.FltElevationGridFloodFill;
 import org.n52.v3d.triturus.gisimplm.GmPoint;
@@ -62,9 +63,9 @@ public class FloodFillDemo
 	public void run() 
 	{
 		IoElevationGridReader reader = new IoElevationGridReader(
-			IoElevationGridReader.ARCINFO_ASCII_GRID);
+			IoFormatType.ARCINFO_ASCII_GRID);
 		IoElevationGridWriter writer = new IoElevationGridWriter(
-			IoElevationGridWriter.ARCINFO_ASCII_GRID);
+			IoFormatType.ARCINFO_ASCII_GRID);
 		
 		GmSimpleElevationGrid srcGrd, targetGrd;
 		

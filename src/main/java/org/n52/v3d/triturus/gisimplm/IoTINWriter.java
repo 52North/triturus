@@ -32,6 +32,7 @@
  */
 package org.n52.v3d.triturus.gisimplm;
 
+import org.n52.v3d.triturus.core.IoFormatType;
 import org.n52.v3d.triturus.core.T3dException;
 import org.n52.v3d.triturus.core.T3dNotYetImplException;
 import org.n52.v3d.triturus.vgis.VgIndexedTIN;
@@ -48,26 +49,9 @@ import java.text.DecimalFormat;
 public class IoTINWriter extends IoAbstractWriter
 {
     /**
-     * File-format type identifier to be used for export in ACADGEO format.
-     */
-    public static final String ACGEO = "AcGeo";
-    /**
      * File-format type identifier to be used for (old-fashioned) VRML1 export.
      */
-    public static final String VRML1 = "Vrml1";
-    /**
-     * File-format type identifier to be used for X3D export.
-     */
-    public static final String X3D = "X3d";
-    /**
-     * File-format type identifier to be used for export to a HTML5/X3DOM 
-     * description.
-     */
-    public static final String X3DOM = "X3Dom";
-    /**
-     * File-format type identifier to be used for Wavefront OBJ export.
-     */
-    public static final String OBJ = "Obj";
+    public static final String VRML1 = "VRML1";
 
     private String logString = "";
     private String format;
@@ -79,18 +63,18 @@ public class IoTINWriter extends IoAbstractWriter
      * these formats are supported:<br />
      * <ul>
      * <li><i>AcGeo:</i> ACADGEO format</li>
-     * <li><i>Vrml1:</i> VRML 1.0 scene (as plain triangle mesh)</li>
-     * <li><i>X3d:</i> X3D scene (as IndexedFaceSet without viewpoint setting)</li>
-     * <li><i>X3Dom:</i> X3D scene (as IndexedFaceSet without viewpoint setting)</li>
-     * <li><i>Obj:</i> Wavefront OBJ file</li>
+     * <li><i>VRML1:</i> VRML 1.0 scene (as plain triangle mesh)</li>
+     * <li><i>X3D:</i> X3D scene (as IndexedFaceSet without viewpoint setting)</li>
+     * <li><i>X3DOM:</i> X3D scene (as IndexedFaceSet without viewpoint setting)</li>
+     * <li><i>OBJ:</i> Wavefront OBJ file</li>
      * </ul>
      * 
      * @param format Format string (e.g. <tt></tt>&quot;AcGeo&quot;</tt>)
-     * @see IoTINWriter#ACGEO
+     * @see IoFormatType#ACGEO
      * @see IoTINWriter#VRML1
-     * @see IoTINWriter#X3D
-     * @see IoTINWriter#X3DOM
-     * @see IoTINWriter#OBJ
+     * @see IoFormatType#X3D
+     * @see IoFormatType#X3DOM
+     * @see IoFormatType#OBJ
      */
     public IoTINWriter(String format) {
         logString = this.getClass().getName();
@@ -123,11 +107,11 @@ public class IoTINWriter extends IoAbstractWriter
         throws T3dException, T3dNotYetImplException
     {
         int i = 0;
-        if (format.equalsIgnoreCase(ACGEO)) i = 1;
+        if (format.equalsIgnoreCase(IoFormatType.ACGEO)) i = 1;
         if (format.equalsIgnoreCase(VRML1)) i = 2;
-        if (format.equalsIgnoreCase(X3D)) i = 3;
-        if (format.equalsIgnoreCase(X3DOM)) i = 4;
-        if (format.equalsIgnoreCase(OBJ)) i = 5;
+        if (format.equalsIgnoreCase(IoFormatType.X3D)) i = 3;
+        if (format.equalsIgnoreCase(IoFormatType.X3DOM)) i = 4;
+        if (format.equalsIgnoreCase(IoFormatType.OBJ)) i = 5;
         // --> add more formats here...
 
         try {

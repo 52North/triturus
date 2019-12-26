@@ -32,6 +32,7 @@
  */
 package org.n52.v3d.triturus.examples.gridding;
 
+import org.n52.v3d.triturus.core.IoFormatType;
 import org.n52.v3d.triturus.core.T3dException;
 import org.n52.v3d.triturus.gisimplm.*;
 import org.n52.v3d.triturus.vgis.VgElevationGrid;
@@ -49,9 +50,9 @@ import org.n52.v3d.triturus.vgis.VgPoint;
 public class TIN2Grid 
 {
 	private String inputFile = "/projects/Triturus/data/s_geologie_Rotliegend_ts.tin";
-    private String inputFormat = IoTINReader.ACGEO; 
+    private String inputFormat = IoFormatType.ACGEO; 
     private String outputFile = "/projects/Triturus/data/s_geologie_Rotliegend_ts.obj";
-    private String outputFormat = IoElevationGridWriter.OBJ;
+    private String outputFormat = IoFormatType.OBJ;
     //private String outputFile = "/projects/Triturus/data/s_geologie_Rotliegend_ts.x3d";
     //private String outputFormat = IoElevationGridWriter.X3D;
     private double cellSize = 200.;
@@ -124,7 +125,7 @@ public class TIN2Grid
     public void writeOutputFile(VgElevationGrid grd) 
     {
         try {
-            System.out.println("Writing result file...");
+            System.out.println("Writing result file \"" + outputFile + "\"...");
 
             IoElevationGridWriter writer = new IoElevationGridWriter(outputFormat);
             writer.writeToFile((GmSimpleElevationGrid) grd, outputFile);

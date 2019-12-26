@@ -32,13 +32,11 @@
  */
 package org.n52.v3d.triturus.examples.elevationgrid;
 
+import org.n52.v3d.triturus.core.IoFormatType;
 import org.n52.v3d.triturus.core.T3dException;
-import org.n52.v3d.triturus.gisimplm.FltElevationGridFloodFill;
-import org.n52.v3d.triturus.gisimplm.GmPoint;
 import org.n52.v3d.triturus.gisimplm.GmSimpleElevationGrid;
 import org.n52.v3d.triturus.gisimplm.IoElevationGridReader;
 import org.n52.v3d.triturus.gisimplm.IoElevationGridWriter;
-import org.n52.v3d.triturus.vgis.VgPoint;
 
 /** 
  * Triturus example application: Reads an elevation grid in ArcInfo ASCII grid 
@@ -60,9 +58,9 @@ public class PurgeUnsetValues
 	public void run() 
 	{
 		IoElevationGridReader reader = new IoElevationGridReader(
-			IoElevationGridReader.ARCINFO_ASCII_GRID);
+			IoFormatType.ARCINFO_ASCII_GRID);
 		IoElevationGridWriter writer = new IoElevationGridWriter(
-			IoElevationGridWriter.ARCINFO_ASCII_GRID);
+			IoFormatType.ARCINFO_ASCII_GRID);
 		
 		GmSimpleElevationGrid grd;
 		

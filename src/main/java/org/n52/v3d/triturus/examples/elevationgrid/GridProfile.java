@@ -32,6 +32,7 @@
  */
 package org.n52.v3d.triturus.examples.elevationgrid;
 
+import org.n52.v3d.triturus.core.IoFormatType;
 import org.n52.v3d.triturus.core.T3dException;
 import org.n52.v3d.triturus.gisimplm.*;
 import org.n52.v3d.triturus.vgis.VgLineString;
@@ -56,7 +57,7 @@ public class GridProfile
 	{
         // Read the elevation grid from file:
 		IoElevationGridReader reader = new IoElevationGridReader(
-				IoElevationGridReader.ARCINFO_ASCII_GRID);
+				IoFormatType.ARCINFO_ASCII_GRID);
 		GmSimpleElevationGrid grid = null;
 		try {
 			grid = reader.readFromFile("data/test.asc");

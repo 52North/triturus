@@ -32,6 +32,7 @@
  */
 package org.n52.v3d.triturus.examples.elevationgrid;
 
+import org.n52.v3d.triturus.core.IoFormatType;
 import org.n52.v3d.triturus.core.T3dException;
 import org.n52.v3d.triturus.gisimplm.GmPoint;
 import org.n52.v3d.triturus.gisimplm.GmSimpleElevationGrid;
@@ -72,7 +73,7 @@ public class HelloWorld
         System.out.println(grid.maximalElevation());
 
         // Write VRML output:
-    	IoElevationGridWriter writer = new IoElevationGridWriter(IoElevationGridWriter.X3D);
+    	IoElevationGridWriter writer = new IoElevationGridWriter(IoFormatType.X3D);
     	writer.writeToFile(grid, filename);
     	System.out.println("Wrote the X3D file \"" + filename + "\"...");
         System.out.println("Success!");

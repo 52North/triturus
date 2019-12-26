@@ -37,6 +37,7 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import org.n52.v3d.triturus.core.IoFormatType;
 import org.n52.v3d.triturus.core.T3dNotYetImplException;
 import org.n52.v3d.triturus.core.T3dException;
 import org.n52.v3d.triturus.vgis.VgPoint;
@@ -54,33 +55,6 @@ import java.text.DecimalFormat;
  */
 public class IoElevationGridWriter extends IoAbstractWriter 
 {
-    /**
-     * File-format type identifier to be used for export in ArcInfo ASCII 
-     * grid format.
-     */
-    public static final String ARCINFO_ASCII_GRID = "ArcIGrd";
-    /**
-     * File-format type identifier to be used for export in ACADGEO format.
-     */
-    public static final String ACGEO = "AcGeo";
-    /**
-     * File-format type identifier to be used for VRML2 export.
-     */
-    public static final String VRML2 = "Vrml2";
-    /**
-     * File-format type identifier to be used for X3D export.
-     */
-    public static final String X3D = "X3d";
-    /**
-     * File-format type identifier to be used for export to a 
-     * X3DOM description.
-     */
-    public static final String X3DOM = "X3Dom";
-    /**
-     * File-format type identifier to be used for Wavefront OBJ export.
-     */
-    public static final String OBJ = "Obj";
-
     private String logString = "";
     private String format;
     private BufferedWriter doc;
@@ -96,12 +70,12 @@ public class IoElevationGridWriter extends IoAbstractWriter
      * <li><i>ArcIGrd:</i> ArcInfo ASCII grids (cell-based)</li>
      * <li><i>AcGeo:</i> ACADGEO format, lattice without color information</li>
      * <li><i>AcGeoTIN:</i> ACADGEO-TIN format</li>
-     * <li><i>Vrml1:</i> VRML 1.0 scene (non-optimized triangle mesh)</li>
-     * <li><i>Vrml2:</i> VRML 2.0 scene (type ElevationGrid)</li>
-     * <li><i>X3d:</i> X3D scene</li>
-     * <li><i>X3Dom:</i> HTML5 with embedded X3DOM description</li>
+     * <li><i>VRML1:</i> VRML 1.0 scene (non-optimized triangle mesh)</li>
+     * <li><i>VRML2:</i> VRML 2.0 scene (type ElevationGrid)</li>
+     * <li><i>X3D:</i> X3D scene</li>
+     * <li><i>X3DOM:</i> HTML5 with embedded X3DOM description</li>
      * <li><i>XYZ:</i> plain ASCII-file with coordinates of the elevation points</li>
-     * <li><i>Obj:</i> Wavefront OBJ file</li>
+     * <li><i>OBJ:</i> Wavefront OBJ file</li>
      * </ul><br/>
      * Notes:<br/>
      * 1. For ArcInfo ASCII grids, cell-sizes in x- and y-direction must be
@@ -132,12 +106,12 @@ public class IoElevationGridWriter extends IoAbstractWriter
      * sets the format type.
      *
      * @param format Format-string (e.g. <tt>&quot;ArcIGrd&quot;</tt>)
-     * @see IoElevationGridWriter#ARCINFO_ASCII_GRID
-     * @see IoElevationGridWriter#ACGEO
-     * @see IoElevationGridWriter#VRML2
-     * @see IoElevationGridWriter#X3D
-     * @see IoElevationGridWriter#X3DOM
-     * @see IoElevationGridWriter#OBJ
+     * @see IoFormatType#ARCINFO_ASCII_GRID
+     * @see IoFormatType#ACGEO
+     * @see IoFormatType#VRML2
+     * @see IoFormatType#X3D
+     * @see IoFormatType#X3DOM
+     * @see IoFormatType#OBJ
      */
     public void setFormatType(String format) {
         this.format = format;
@@ -155,15 +129,15 @@ public class IoElevationGridWriter extends IoAbstractWriter
     		throws T3dException, T3dNotYetImplException 
     {
         int i = 0;
-        if (format.equalsIgnoreCase(ARCINFO_ASCII_GRID)) i = 1;
-        if (format.equalsIgnoreCase(ACGEO)) i = 2;
+        if (format.equalsIgnoreCase(IoFormatType.ARCINFO_ASCII_GRID)) i = 1;
+        if (format.equalsIgnoreCase(IoFormatType.ACGEO)) i = 2;
         if (format.equalsIgnoreCase("AcGeoTIN")) i = 3;
-        if (format.equalsIgnoreCase("Vrml1")) i = 4;
-        if (format.equalsIgnoreCase(VRML2)) i = 5;
-        if (format.equalsIgnoreCase(X3D)) i = 6;
+        if (format.equalsIgnoreCase("VRML1")) i = 4;
+        if (format.equalsIgnoreCase(IoFormatType.VRML2)) i = 5;
+        if (format.equalsIgnoreCase(IoFormatType.X3D)) i = 6;
         if (format.equalsIgnoreCase("XYZ")) i = 7;
-        if (format.equalsIgnoreCase(X3DOM)) i = 8;
-        if (format.equalsIgnoreCase(OBJ)) i = 9;
+        if (format.equalsIgnoreCase(IoFormatType.X3DOM)) i = 8;
+        if (format.equalsIgnoreCase(IoFormatType.OBJ)) i = 9;
         // --> add more types here...
 
         switch (i) {

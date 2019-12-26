@@ -42,6 +42,7 @@ import java.io.StreamTokenizer;
 import java.net.URL;
 import java.net.MalformedURLException;
 
+import org.n52.v3d.triturus.core.IoFormatType;
 import org.n52.v3d.triturus.core.IoObject;
 import org.n52.v3d.triturus.core.T3dException;
 import org.n52.v3d.triturus.core.T3dNotYetImplException;
@@ -64,14 +65,6 @@ public class IoTINReader extends IoObject
     private GmSimpleTINFeature tin = null;
  
     /**
-     * File-format type identifier to be used to process TINs in ACADGEO format.
-     */
-    public static final String ACGEO = "AcGeo";
-    /**
-     * File-format type identifier to be used for (old-fashioned) VRML2 import.
-     */
-    public static final String VRML2 = "Vrml2";
-    /**
      * File-format type identifier for ESRI TIN format.
      */
     public static final String ESRI_TIN = "ArcTIN";
@@ -82,7 +75,7 @@ public class IoTINReader extends IoObject
      * thrown. Currently, these formats are supported:
      * <ul>
      * <li><i>AcGeo:</i> ACADGEO format</li>
-	 * <li><i>Vrml2:</i> VRML 2</li>
+	 * <li><i>VRML2:</i> VRML 2</li>
 	 * <li><i>ArcTIN:</i> ESRI TIN format</li>
 	 * <li><i>GMT_TIN:</i> ...</li>
      * </ul>
@@ -140,8 +133,8 @@ public class IoTINReader extends IoObject
     public GmSimpleTINFeature read(String pLocation)
     {
         int i = 0;
-        if (format.equalsIgnoreCase(ACGEO)) i = 1;
-        if (format.equalsIgnoreCase(VRML2)) i = 2;
+        if (format.equalsIgnoreCase(IoFormatType.ACGEO)) i = 1;
+        if (format.equalsIgnoreCase(IoFormatType.VRML2)) i = 2;
 		if (format.equalsIgnoreCase(ESRI_TIN)) i = 3;
 		if (format.equalsIgnoreCase("GMT_TIN")) i = 4;
         // --> add more types here...

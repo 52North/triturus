@@ -35,6 +35,8 @@ package org.n52.v3d.triturus.gisimplm;
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 import java.nio.channels.FileChannel;
+
+import org.n52.v3d.triturus.core.IoFormatType;
 import org.n52.v3d.triturus.core.IoObject;
 import org.n52.v3d.triturus.core.T3dException;
 import org.n52.v3d.triturus.core.T3dNotYetImplException;
@@ -49,6 +51,7 @@ import java.util.Hashtable;
 import java.util.StringTokenizer;
 import java.net.URL;
 import java.net.MalformedURLException;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
@@ -64,16 +67,6 @@ public class IoElevationGridReader extends IoObject
 
     private String format;
     private GmSimpleElevationGrid elevGrid = null;
-
-    /**
-     * Identifier to be used to process elevation-grids in ArcInfo ASCII 
-     * grid format.
-     */
-    public static final String ARCINFO_ASCII_GRID = "ArcIGrd";
-    /**
-     * Identifier to be used to process X3DOM-encoded elevation-grids.
-     */
-    public static final String X3DOM = "X3DOM";
 
     /**
      * Constructor. As parameter, a format type identifier has to be set.
@@ -153,10 +146,10 @@ public class IoElevationGridReader extends IoObject
         }
 
         int i = 0;
-        if (format.equalsIgnoreCase(ARCINFO_ASCII_GRID)) i = 1;
-        if (format.equalsIgnoreCase("AcGeo")) i = 2;
+        if (format.equalsIgnoreCase(IoFormatType.ARCINFO_ASCII_GRID)) i = 1;
+        if (format.equalsIgnoreCase(IoFormatType.ACGEO)) i = 2;
         if (format.equalsIgnoreCase("BSQ")) i = 3;
-        if (format.equalsIgnoreCase(X3DOM)) i = 4;
+        if (format.equalsIgnoreCase(IoFormatType.X3D)) i = 4;
         // --> add more types here...
 
         try {
