@@ -148,17 +148,37 @@ abstract public class VgTriangle extends VgGeomObject2d
 	 * <br/>
 	 * Notes: 1. The z-coordinate of <tt>pt</tt> will be ignored, since the 
 	 * computation will be done inside the x-y-plane.<br/>
-	 * 2. If the triangle area is 0, a <tt>T3dException</tt> might be thrown
-	 * ("Division by zero error").
+	 * 2. If the area of the triangle projected to the x-y plane is 0, a 
+	 * <tt>T3dException</tt> might be thrown ("Division by zero error."). Note
+	 * that this exception would not occur for <tt>edge</tt> = <i>false</i>.
 	 * 
 	 * @param pt Point (z-coordinate will be ignored)
 	 * @param edge Flag directing edge check mode
 	 * @return <i>true</i>, if <tt>pt</tt> lies inside the triangle, else <i>false</i>
-	 * @see T3dEception
+	 * @see T3dException
 	 */
 	public boolean isInsideXY(VgPoint pt, boolean edge)
 	{
 		VgPoint[] p = this.getCornerPoints();
+		
+		if (this.area() == 0.0) {
+			System.out.println("Warning: Area if triangle " + this + " is 0 ");
+			if (edge) {
+				if (pt.distance(p[0]) < 0.000001) // TODO introduce general eps?
+					return true;
+				else
+					return false;
+			} else
+				return false;
+		}
+		
+		if (this.areaXY() == 0.0) { // vertical triangle
+			System.out.println("Hint: Processing vertical triangle " + this + "...");
+			// TODO:
+			// Abstand pt von strecken(p[0] - p[1], p[1] - p[2] und p[2] - p[0] berechnen
+			// Wenn einer der Abstände = 0: return true; sonst:
+			return false;
+		}
 		
 		T3dVector dir0 = new T3dVector();
 		dir0.assignDiff(p[0], p[2]);
@@ -173,8 +193,11 @@ abstract public class VgTriangle extends VgGeomObject2d
 		double detNum1 = dir0.getX() * (pt.getY() - p[2].getY()) - dir0.getY() * (pt.getX() - p[2].getX());
 		double detDenom = dir0.getX() * dir1.getY() - dir0.getY() * dir1.getX();
 		   
-		if (Math.abs(detDenom) < 0.000001)
+		if (Math.abs(detDenom) < 0.000001) {
+System.out.println("XY: " + this.areaXY() + " - XYZ: " + this.area());
+if (this.area() < 0.000001) System.out.println(">" + this);
 			throw new T3dException("Divison by zero error."); // should not occur
+		}
 		
 		double s0 = detNum0 / detDenom;
 		double s1 = detNum1 / detDenom;
