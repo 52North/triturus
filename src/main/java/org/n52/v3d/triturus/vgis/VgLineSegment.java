@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2007-2015 52°North Initiative for Geospatial Open Source
+ * Copyright (C) 2007-2019 52 North Initiative for Geospatial Open Source 
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it
@@ -18,21 +18,23 @@
  *
  * Therefore the distribution of the program linked with libraries licensed
  * under the aforementioned licenses, is permitted by the copyright holders
- * if the distribution is compliant with both the GNU General Public
- * icense version 2 and the aforementioned licenses.
+ * if the distribution is compliant with both the GNU General Public License 
+ * version 2 and the aforementioned licenses.
  *
  * This program is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
- * Public License for more details.
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY 
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License 
+ * for more details.
  *
- * Contact: Benno Schmidt & Martin May, 52 North Initiative for Geospatial Open Source
- * Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, Germany, info@52north.org
+ * Contact: Benno Schmidt and Martin May, 52 North Initiative for Geospatial 
+ * Open Source Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, 
+ * Germany, info@52north.org
  */
 package org.n52.v3d.triturus.vgis;
 
 /**
- * Class to hold line-segments in 3-D space.
+ * Class to hold line-segments in 3D space.
+ * 
  * @author Benno Schmidt
  */
 abstract public class VgLineSegment extends VgGeomObject1d 
@@ -66,8 +68,10 @@ abstract public class VgLineSegment extends VgGeomObject1d
 	abstract public VgPoint getEndPoint();
 
 	/**
-     * returns the line segment's length referring to the assigned coordinate reference system with respect to
-     * the x-y plane (&quot;footprint length&quot;).
+     * returns the line segment's length referring to the assigned 
+     * coordinate reference system. (Note that usually this method will 
+     * not provide the length of the line projected to the x-y plane 
+     * (&quot;footprint length&quot;), but the &quot;3D length&quot;.
      *
      * @return Distance value
 	 * @see VgGeomObject#getSRS

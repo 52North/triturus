@@ -100,8 +100,8 @@ abstract public class VgTriangle extends VgGeomObject2d
 	 * the method, e.g. using <tt>this.isInside()</tt>.
 	 * <br/> 
 	 * Notes: 1. The z-coordinate of <tt>pt</tt> will be ignored.<br/>
-	 * 2. If the triangle area is 0, a <tt>T3dException</tt> might be thrown
-	 * ("Division by zero error").
+	 * 2. If the area of the triangle projected to the x-y plane is 0, a 
+	 * <tt>T3dException</tt> might be thrown ("Division by zero error."). TODO
 	 * 
 	 * @param pt Position
 	 * @return z-value
