@@ -162,7 +162,7 @@ abstract public class VgTriangle extends VgGeomObject2d
 		VgPoint[] p = this.getCornerPoints();
 		
 		if (this.area() == 0.0) {
-			System.out.println("Warning: Area if triangle " + this + " is 0 ");
+			System.out.println("Warning: Area of triangle " + this + " is 0 ");
 			if (edge) {
 				if (pt.distance(p[0]) < 0.000001) // TODO introduce general eps?
 					return true;
