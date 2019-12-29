@@ -212,6 +212,32 @@ if (this.area() < 0.000001) System.out.println(">" + this);
 		return false; // point inside parallelogram and not inside triangle
 	}
 	
+	/**
+	 * return the triangle's orientation, i.e. the normal vector of length 1,
+	 * where a counter-clockwise sequence of the triangle vertices <tt>p1</tt>,
+	 * <tt>p2</tt>, <tt>p3</tt> is assumed for a result vector directing to 
+	 * the observer. I.e., the normal vector will be directed in positive 
+	 * z-direction for an observer at position (0, 0, +MAXNUM).
+	 * 
+	 * @return Normal vector
+	 */
+	public T3dVector normal() {
+		VgPoint[] p = this.getCornerPoints();
+		T3dVector 
+			p0 = new T3dVector(p[0]),
+			p1 = new T3dVector(p[1]),
+			p2 = new T3dVector(p[2]);
+		T3dVector 
+			orient = new T3dVector(),
+			v1 = new T3dVector(),
+			v2 = new T3dVector();
+		v1.assignDiff(p1, p0);
+		v2.assignDiff(p2, p0);
+		orient.assignCrossProd(v1, v2);
+		orient.doNorm();
+		return orient;
+	}
+	
 	public String toString() {
 		VgPoint[] p = this.getCornerPoints();
 		return "[" + p[0].toString() + ", " + p[1].toString() + ", " + p[2].toString() + "]";
