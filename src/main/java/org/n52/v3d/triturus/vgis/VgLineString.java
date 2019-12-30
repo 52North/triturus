@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2007-2015 52°North Initiative for Geospatial Open Source
+ * Copyright (C) 2007-2019 52North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it
@@ -19,36 +19,38 @@
  * Therefore the distribution of the program linked with libraries licensed
  * under the aforementioned licenses, is permitted by the copyright holders
  * if the distribution is compliant with both the GNU General Public
- * icense version 2 and the aforementioned licenses.
+ * license version 2 and the aforementioned licenses.
  *
  * This program is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
  * Public License for more details.
  *
- * Contact: Benno Schmidt & Martin May, 52 North Initiative for Geospatial Open Source
- * Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, Germany, info@52north.org
+ * Contact: Benno Schmidt & Martin May, 52 North Initiative for Geospatial 
+ * Open Source Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, 
+ * Germany, info@52north.org
  */
 package org.n52.v3d.triturus.vgis;
 
 import org.n52.v3d.triturus.core.T3dException;
 
 /**
- * Class to hold line-strings (polylines) in 3-D space.
+ * Class to hold line-strings (polylines) in 3D space.
  *
  * @author Benno Schmidt
  */
 abstract public class VgLineString extends VgGeomObject1d 
 {
    /**
-    * returns the number of points that are part of the polyline (<i>vertices</i>).
+    * returns the number of points that are part of the polyline 
+    * (<i>vertices</i>).
     */
 	abstract public int numberOfVertices();
 
 	/**
-	 * returns the i-th point (vertex) of the polyline structure.<br /><br />
-     * <i>German:</i> Es ist stets die Bedingung 0 &lt;<= i &lt; <tt>this.numberOfVertices()</tt> einzuhalten;
-	 * anderenfalls wird eine <tt>T3dException</tt> geworfen.
+	 * returns the i-th point (vertex) of the polyline structure. Note that the
+	 * condition 0 &lt;<= i &lt; <tt>this.numberOfVertices()</tt> always must 
+	 * hold; otherwise a <tt>T3dException</tt> will be thrown.
      *
      * @param i Point index
      * @return Vertex object
@@ -56,7 +58,8 @@ abstract public class VgLineString extends VgGeomObject1d
 	abstract public VgPoint getVertex(int i) throws T3dException;
 	
 	/**
-	 * returns the polyline's length referring to the assigned coordinate reference system.
+	 * returns the polyline's length referring to the assigned coordinate 
+	 * reference system.
      *
 	 * @see VgGeomObject#getSRS
      * @return Distance value
@@ -65,7 +68,7 @@ abstract public class VgLineString extends VgGeomObject1d
 	{
 		double sum = 0.;
 		for (int i = 0; i < this.numberOfVertices() - 1; i++)
-			sum += this.getVertex(i + 1).distance( this.getVertex(i) );
+			sum += this.getVertex(i + 1).distance(this.getVertex(i));
 		return sum;
 	}
 
