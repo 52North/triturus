@@ -62,13 +62,13 @@ public class GmSimpleTINGeometry extends VgIndexedTIN
 	 */
 	public GmSimpleTINGeometry(int pNumberOfPoints, int pNumberOfTriangles)
     {
+		mNumberOfPoints = pNumberOfPoints;
 		mNumberOfTriangles = pNumberOfTriangles;
+
 		mPoints = new GmPoint[mNumberOfPoints];
 		this.allocateStorage();
-
-		mNumberOfPoints = pNumberOfPoints;
 		mTriangles = new int[mNumberOfTriangles][3];
-
+		
 		mEnv = null;
 	}
 
