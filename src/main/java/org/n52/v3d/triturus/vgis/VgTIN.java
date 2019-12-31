@@ -98,7 +98,7 @@ abstract public class VgTIN extends VgGeomObject2d
 
 	public String toString() {
 		return "[" +
-			"(# " + this.numberOfPoints() + " vertices), " +
-			"(# " + this.numberOfTriangles() + " triangles)]";
+			"(" + this.numberOfPoints() + " vertices), " +
+			"(" + this.numberOfTriangles() + " triangles)]";
 	}
 }
