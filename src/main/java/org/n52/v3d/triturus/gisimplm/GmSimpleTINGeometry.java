@@ -297,6 +297,7 @@ public class GmSimpleTINGeometry extends VgIndexedTIN
 	}
 
 	/**
+	 * @deprecated
      * provides a mesh generated from the TIN structure.
      * 
      * TODO ???

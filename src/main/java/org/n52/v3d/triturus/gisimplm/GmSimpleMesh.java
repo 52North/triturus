@@ -38,6 +38,7 @@ import org.n52.v3d.triturus.core.T3dNotYetImplException;
 import java.util.Vector;
 
 /**
+ * @deprecated
  * @author Martin May
  */
 public class GmSimpleMesh extends VgMesh {
