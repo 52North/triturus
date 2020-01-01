@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2007-2015 52°North Initiative for Geospatial Open Source
+ * Copyright (C) 2007-2015 52North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it
@@ -19,15 +19,16 @@
  * Therefore the distribution of the program linked with libraries licensed
  * under the aforementioned licenses, is permitted by the copyright holders
  * if the distribution is compliant with both the GNU General Public
- * icense version 2 and the aforementioned licenses.
+ * license version 2 and the aforementioned licenses.
  *
  * This program is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
  * Public License for more details.
  *
- * Contact: Benno Schmidt & Martin May, 52 North Initiative for Geospatial Open Source
- * Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, Germany, info@52north.org
+ * Contact: Benno Schmidt & Martin May, 52North Initiative for Geospatial 
+ * Open Source Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, 
+ * Germany, info@52north.org
  */
 package org.n52.v3d.triturus.gisimplm;
 
@@ -39,16 +40,17 @@ import org.n52.v3d.triturus.core.T3dException;
 import java.util.ArrayList;
 
 /**
- * Implementation for attributed geometric objects. Attributes will be held in main memory.
+ * Implementation for attributed geometric objects. Attributes will be held in 
+ * main memory.
  *
  * @author Benno Schmidt
  */
 public class GmAttrFeature extends VgAttrFeature
 {
     private VgGeomObject mGeom = null;
-    private ArrayList mAttrNames = new ArrayList();
-    private ArrayList mAttrValues = new ArrayList();
-    private ArrayList mAttrTypes = new ArrayList();
+    private ArrayList<String> mAttrNames = new ArrayList<String>();
+    private ArrayList<Object> mAttrValues = new ArrayList<Object>();
+    private ArrayList<String> mAttrTypes = new ArrayList<String>();
     
     public GmAttrFeature() {
     	mAttrNames.clear();
@@ -72,10 +74,10 @@ public class GmAttrFeature extends VgAttrFeature
      * myFeature.setGeometry(new GmPoint(1000., 1500., 0.));
      * </pre>
      *
-     * @param pGeom geometric object
+     * @param geom geometric object
      */
-    public void setGeometry(VgGeomObject pGeom) {
-        mGeom = pGeom;
+    public void setGeometry(VgGeomObject geom) {
+        mGeom = geom;
     }
 
     public VgFeature getFeature(int i) throws T3dException
@@ -102,28 +104,30 @@ public class GmAttrFeature extends VgAttrFeature
     }
 
 	/**
-	 * defines a thematic attribute. Attribute name, data-type and initial value have to be given. If an attribute
-     * already exists, an exception will be thrown.
-     * <p>
+	 * defines a thematic attribute. Attribute name, data-type and initial 
+	 * value have to be given. If an attribute already exists, an exception 
+	 * will be thrown.
+     * <br/>
      * Example:
      * <pre>
      * GmAttrFeature myFeature = new GmAttrFeature();
      * myFeature.addAttribute("FEATURE_ID", "java.lang.String", "p1545");
      * </pre>
      *
-	 * @param pAttrName Attribute name
-	 * @param pAttrType Attribute type as Java class-name
-     * @param pVal Attribute value
+	 * @param attrName Attribute name
+	 * @param attrType Attribute type as Java class-name
+     * @param val Attribute value
      * @throws T3dException if an error occurs
      */
-    public void addAttribute(String pAttrName, String pAttrType, Object pVal) throws T3dException
+    public void addAttribute(String attrName, String attrType, Object val) 
+    	throws T3dException
     {
-    	if (this.hasAttribute(pAttrName))
-    	    throw new T3dException("The attribute \"" + pAttrName + "\" is already present.");
+    	if (this.hasAttribute(attrName))
+    	    throw new T3dException("The attribute \"" + attrName + "\" is already present.");
     	// else:    
-    	mAttrNames.add(pAttrName);
-    	mAttrTypes.add(pAttrType);
-    	mAttrValues.add(pVal);
+    	mAttrNames.add(attrName);
+    	mAttrTypes.add(attrType);
+    	mAttrValues.add(val);
     }
 
     public String[] getAttributeNames() {
@@ -136,49 +140,50 @@ public class GmAttrFeature extends VgAttrFeature
     /** 
      * checks if the given attribute has been defined.
      *
-     * @param pAttrName Attribute name
+     * @param attrName Attribute name
      * @return <i>true</i> if an attribute has been defined
      */
-    public boolean hasAttribute(String pAttrName) 
+    public boolean hasAttribute(String attrName) 
     {
-    	return (this.internalAttributePos(pAttrName) >= 0);
+    	return (this.internalAttributePos(attrName) >= 0);
     }
 
-    private int internalAttributePos(String pAttrName) {
+    private int internalAttributePos(String attrName) {
     	for (int i = 0; i < mAttrNames.size(); i++) {
-    	    if (((String) mAttrNames.get(i)).equalsIgnoreCase( pAttrName ))
+    	    if (((String) mAttrNames.get(i)).equalsIgnoreCase(attrName))
     	        return i;
     	}
     	return -1;
     }
     	     
 	/**
-	 * returns a thematic attribute's value. If the given attribute is not defined, a <tt>T3dException</tt> will be
-     * thrown.
-     * <p>
+	 * returns a thematic attribute's value. If the given attribute is not 
+	 * defined, a <tt>T3dException</tt> will be thrown.
+     * <br/>
      * Query example for a String-valued attribute:
      * <pre>
      * String val = myFeature.getAttributeValue("FEATURE_ID");
-     * System.out.println("The value of the attributs \"FEATURE_ID\" is: " + val );
+     * System.out.println("The value of the attribute \"FEATURE_ID\" is: " + val );
      * </pre>
      *
-	 * @param pAttrName Name of the queried attribute
+	 * @param attrName Name of the queried attribute
 	 * @return Object of type of the queried attribute
 	 * @throws T3dException
 	 */
-    public Object getAttributeValue(String pAttrName) throws T3dException
+    public Object getAttributeValue(String attrName) throws T3dException
     {
-    	int i = this.internalAttributePos(pAttrName);
+    	int i = this.internalAttributePos(attrName);
     	if (i < 0)
-    	    throw new T3dException("Tried to access non-present attribute \"" + pAttrName + "\".");
+    	    throw new T3dException("Tried to access non-present attribute \"" + attrName + "\".");
     	// else:
     	return mAttrValues.get(i);
     }    	
 
     /**
-     * sets a thematic attribute's value. If the attribute has not been defined, or the given object types can not be
-     * mapped on each other, a <tt>T3dException</tt> will be thrown.
-     * <p>
+     * sets a thematic attribute's value. If the attribute has not been 
+     * defined, or the given object types can not be mapped on each other, 
+     * a <tt>T3dException</tt> will be thrown.
+     * <br/>
      * Example:
      * <pre>
      * GmAttrFeature myFeature = new GmAttrFeature();
@@ -186,24 +191,25 @@ public class GmAttrFeature extends VgAttrFeature
      * myFeature.setAttributeValue("FEATURE_ID", "p1546");
      * </pre>
      *
-     * @param pAttrName Attribute name
-     * @param pVal Value to be set
+     * @param attrName Attribute name
+     * @param val Value to be set
      * @throws T3dException
      */
-    public void setAttributeValue(String pAttrName, Object pVal) throws T3dException
+    public void setAttributeValue(String attrName, Object val) 
+    	throws T3dException
     {
-    	int i = this.internalAttributePos(pAttrName);
+    	int i = this.internalAttributePos(attrName);
     	if (i <= 0)
-    	    throw new T3dException("Tried to access non-present attribute \"" + pAttrName + "\".");
+    	    throw new T3dException("Tried to access non-present attribute \"" + attrName + "\".");
     	// else:
-    	mAttrValues.set(i, pVal);
+    	mAttrValues.set(i, val);
     }
 
-    public String getAttributeType(String pAttrName)
+    public String getAttributeType(String attrName)
     {
-    	int i = this.internalAttributePos(pAttrName);
+    	int i = this.internalAttributePos(attrName);
     	if (i < 0)
-    	    throw new T3dException("Tried to access non-present attribute \"" + pAttrName + "\".");
+    	    throw new T3dException("Tried to access non-present attribute \"" + attrName + "\".");
     	// else:
     	return (String) mAttrTypes.get(i);
     }
