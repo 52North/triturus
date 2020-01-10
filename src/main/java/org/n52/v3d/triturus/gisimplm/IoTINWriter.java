@@ -58,9 +58,9 @@ public class IoTINWriter extends IoAbstractWriter
     private BufferedWriter doc;
     
     /**
-     * Constructor. As a parameter, format type has to be set. For unsupported
-     * file formats, a <tt>T3dNotYetImplException</tt> will be thrown. Currently, 
-     * these formats are supported:<br />
+     * Constructor. As a parameter, the format type has to be set. For 
+     * unsupported file formats, a <tt>T3dNotYetImplException</tt> will be 
+     * thrown. Currently, these formats are supported:<br />
      * <ul>
      * <li><i>AcGeo:</i> ACADGEO format</li>
      * <li><i>VRML1:</i> VRML 1.0 scene (as plain triangle mesh)</li>

@@ -38,8 +38,8 @@ import org.n52.v3d.triturus.core.T3dException;
  * Class to hold TINs ('triangulated irregular networks'). Note that 
  * <tt>VgTIN</tt>-objects do not use indexed vertices. (This way, the 
  * requirements for concrete implementations are kept low.) Instead, the 
- * specialized interface <tt>VgIndexedTIN</tt> allows to access indexed 
- * vertices.
+ * specialized interface <tt>VgIndexedTIN</tt> allows to access structures 
+ * consisting of indexed vertices.
  * 
  * @see VgIndexedTIN
  * @author Benno Schmidt

@@ -80,7 +80,7 @@ public class GmTriangle extends VgTriangle
     }
 
     /**
-     * returns the triangles center point.
+     * returns the triangle's center point.
      * 
      * @return Center point
      */

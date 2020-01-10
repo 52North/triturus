@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2007-2015 52°North Initiative for Geospatial Open Source
+ * Copyright (C) 2007-2015 52North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it
@@ -26,7 +26,7 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
  * Public License for more details.
  *
- * Contact: Benno Schmidt & Martin May, 52 North Initiative for Geospatial Open Source
+ * Contact: Benno Schmidt & Martin May, 52North Initiative for Geospatial Open Source
  * Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, Germany, info@52north.org
  */
 package org.n52.v3d.triturus.gisimplm;
@@ -38,7 +38,9 @@ import org.n52.v3d.triturus.vgis.*;
 import java.util.Arrays;
 
 /**
- * todo: Kommentar
+ * Implementation of indexed triangulated irregular networks (TINs) with 
+ * additional topological information.
+ * 
  * @author Martin May, Ilja Abramovic
  */
 public class GmTopoTIN extends VgIndexedTIN {
@@ -48,8 +50,8 @@ public class GmTopoTIN extends VgIndexedTIN {
 	private int numberOfTriangles = 0;
 
 	private VgPoint[] vertices;
-	private int[] edges; //referenzen auf die vertices, pairs
-	private int[] triangles; //referenzen auf die kanten, triples
+	private int[] edges; // references to vertices, pairs
+	private int[] triangles; // references to edges, triples
 
 	public GmTopoTIN(GmSimpleTINGeometry sTinGeom) {
 //		long sTime = System.currentTimeMillis();
@@ -304,5 +306,4 @@ public class GmTopoTIN extends VgIndexedTIN {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 }

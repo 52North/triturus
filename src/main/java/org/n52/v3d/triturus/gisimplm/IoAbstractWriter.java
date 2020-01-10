@@ -131,5 +131,5 @@ abstract public class IoAbstractWriter extends IoObject
         DecimalFormatSymbols ret = new DecimalFormatSymbols();
         ret.setDecimalSeparator('.');
         return ret;
-    }
+    }    
 }

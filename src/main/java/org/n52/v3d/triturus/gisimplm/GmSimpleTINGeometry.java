@@ -130,10 +130,9 @@ public class GmSimpleTINGeometry extends VgIndexedTIN
 
 	/**
      * sets the i-th triangle (facet) of the TIN structure. <tt>pPntIdx1</tt>, 
-     * <tt></tt>pPntIdx2</tt>, and <tt>pPntIdx3</tt> give the indices triangle 
-     * indices. Assert that the condition 0 &lt;<= i &lt; 
-     * <tt>this.numberOfTriangles()</tt> holds; otherwise a <tt>T3dException</tt>
-     * will be thrown.
+     * <tt>pPntIdx2</tt>, and <tt>pPntIdx3</tt> give the triangle's indices. 
+     * Assert that the condition 0 &lt;<= i &lt; <tt>this.numberOfTriangles()</tt> 
+     * holds; otherwise a <tt>T3dException</tt> will be thrown.
 	 */
     public void setTriangle(int i, int pPntIdx1, int pPntIdx2, int pPntIdx3)
 		throws T3dException 
@@ -280,7 +279,7 @@ public class GmSimpleTINGeometry extends VgIndexedTIN
      * &quot;moved&quot;!<br/>
      * Assert that the condition <i>0 &lt;= i &lt; this.numberOfTriangles()</i>
      * holds; otherweise a <tt>T3dException</tt> will be thrown.<br/>
-     * TODO: This method deserves to be improvement! 
+     * TODO: This method deserves to be improved! 
      * 
 	 * @param i Index of the triangle to be deleted
 	 * @throws T3dException
