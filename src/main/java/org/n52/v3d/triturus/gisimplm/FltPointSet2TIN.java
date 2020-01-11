@@ -35,7 +35,7 @@ package org.n52.v3d.triturus.gisimplm;
 import org.n52.v3d.triturus.core.T3dProcFilter;
 import org.n52.v3d.triturus.core.T3dException;
 import org.n52.v3d.triturus.core.T3dNotYetImplException;
-import org.n52.v3d.triturus.t3dutil.DelaunayTutsNichtMehr;
+import org.n52.v3d.triturus.t3dutil.SimpleDelaunay;
 import org.n52.v3d.triturus.vgis.VgPoint;
 import org.n52.v3d.triturus.vgis.VgTIN;
 import org.n52.v3d.triturus.xtin.XTIN;
@@ -82,7 +82,7 @@ public class FltPointSet2TIN extends T3dProcFilter
     	
     	switch (mAlgorithm) {
     		case cSimpleDelaunay:
-    	        int[] res = DelaunayTutsNichtMehr.triangulate(points);
+    	        int[] res = SimpleDelaunay.triangulate(points);
     	        tin = new XTIN();
     	        for (int i = 0; i < points.size(); i++) {
     	        	((XTIN) tin).addLocation(i, points.get(i));
