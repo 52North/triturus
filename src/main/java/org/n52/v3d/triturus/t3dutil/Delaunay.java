@@ -63,4 +63,8 @@ public class Delaunay
 	public int getNumPoints() { 		
 		throw new T3dNotYetImplException(deprMsg);		
 	}
+	/** @deprecated */
+	public int[] getIndices() {
+		throw new T3dNotYetImplException(deprMsg);		
+	}
 }

@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2007-2015 52°North Initiative for Geospatial Open Source
+ * Copyright (C) 2007-2015 52North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it
@@ -19,35 +19,38 @@
  * Therefore the distribution of the program linked with libraries licensed
  * under the aforementioned licenses, is permitted by the copyright holders
  * if the distribution is compliant with both the GNU General Public
- * icense version 2 and the aforementioned licenses.
+ * license version 2 and the aforementioned licenses.
  *
  * This program is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
  * Public License for more details.
  *
- * Contact: Benno Schmidt & Martin May, 52 North Initiative for Geospatial Open Source
- * Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, Germany, info@52north.org
- */
-/*
- * Created on 21.01.2004
- *
+ * Contact: Benno Schmidt & Martin May, 52North Initiative for Geospatial 
+ * Open Source Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, 
+ * Germany, info@52north.org
  */
 package org.n52.v3d.triturus.t3dutil;
 
 import java.util.ArrayList;
 
 /**
- * Diese Klasse verbindet Profile und allgemeine Liniensegmente zu einem TIN.
- * Zur Triangulierung wird intern bis jetzt nur ein 2D Delaunay Algorithmus 
- * verwendet.
- * Die 3D Punkte der Profile werden f�r jedes Profil einzelnd und nacheinander
- * �bergeben. Dabei ist es m�glich ein Profil auch segmentiert, d.h. in verschiedenen
- * Bereiche (z.B. Uferbereich, Hang und Flussbett) aufgeteilt anzugeben. Diese Bereiche
- * werden dann getrennt voneinander mit dem darauffolgenden Profil trianguliert.
+ * @deprecated
+ * The <tt>ProfileTriangulator</tt> allows to triangulate "profiles" (e.g., 
+ * given cross-section data) and common line segments. 
+ * 
  * @author Torsten Heinen
  */
-public class ProfileTriangulator {
+public class ProfileTriangulator 
+{
+	// Diese Klasse verbindet Profile und allgemeine Liniensegmente zu einem TIN.
+	// Zur Triangulierung wird intern bis jetzt nur ein 2D Delaunay Algorithmus 
+	// verwendet.
+	// Die 3D Punkte der Profile werden f�r jedes Profil einzelnd und nacheinander
+	// �bergeben. Dabei ist es m�glich ein Profil auch segmentiert, d.h. in verschiedenen
+	// Bereiche (z.B. Uferbereich, Hang und Flussbett) aufgeteilt anzugeben. Diese Bereiche
+	// werden dann getrennt voneinander mit dem darauffolgenden Profil trianguliert.
+
 	public final int DELAUNAY = 0;
 	private int triangulationType;
 	
@@ -67,10 +70,9 @@ public class ProfileTriangulator {
 	}
 	
 	/**
-	 * Diese Methode gibt die bei der Triangulierung verwendeten Punkte
-	 * zur�ck. Diese sind die gleich der Eingabepunkte.
+	 * provides the vertex points used to set-up the triangulation.
 	 * 
-	 * @return Array der verwendeten 3D Punkte x1,y1,z1,...xn,yn,zn
+	 * @return Array if used 3-D points x1,y1,z1,...xn,yn,zn
 	 */
 	public double[] resultPoints() {
 		double[] ret = new double[tinPoints.size()];
@@ -82,36 +84,33 @@ public class ProfileTriangulator {
 	}
 
 	/**
-	 * Mit Hilfe dieser Methode kann man sich die Indizes des erzeugten TINs
-	 * zur�ckgeben lassen. 
-	 * @return Indizes des TINs (t1_1, t1_2, t1_3, t2_1 ...)
+	 * provides the triangle indices if the result TIN.
+	 * 
+	 * @return Array holding triangle indices (t1_1, t1_2, t1_3, t2_1 ...)
 	 */
 	public int[] resultIndizes() {
 		int[] ret = new int[tinIndizes.size()];
-		for (int i=0; i<tinIndizes.size();i++) {
-			ret[i] = ((Integer)tinIndizes.get(i)).intValue();
+		for (int i = 0; i < tinIndizes.size(); i++) {
+			ret[i] = ((Integer) tinIndizes.get(i)).intValue();
 		}
 		return ret;			
 	}
 	
 	/**
-	 * F�gt die zu triangulierenden Profile hinzu. Sie m�ssen in 
-	 * der richtigen Reihenfolge hinzugef�gt werden. 
-	 * Das �bergebende Array kann (muss aber nicht) Punkte in verschiedenen Segmenten
-	 * beinhalten. Diese Segmente werden getrennt voneinander mit dem n�chsten Profil 
-	 * trianguliert.
-	 * 
-	 * WICHTIG: Alle �bergebenen Profile m�ssen die gleiche Anzahl von
-	 * Segmenten enthalten! 
-	 * 
-	 * Beispiel:
-	 * double[0][x1,y1,z1,...xn,yn,zn] = Punkte eines Profils vom linken Uferbereich
-	 * double[1][x1,y1,z1,...xn,yn,zn] = Punkte des Flussbettes
-	 * double[2][x1,y1,z1,...xn,yn,zn] = Punkte eines Profils vom rechten Uferbereich
-	 * 
-	 * oder:
-	 * double[0][x1,y1,z1,...xn,yn,zn] = Punkte eines Profils
-	 * 
+	 * adds "profiles" to be triangulated. Note that the order in which the 
+	 * profiles are given is relevant. The array <tt>points</tt> may contain 
+	 * from different segments. These segments will be triangulated 
+	 * independently from each other and will be connected to the next profile.
+	 * <br/> 
+	 * <b>Important note:</b> All given profiles must consist of the same 
+	 * number of segments! 
+	 * <br/>
+	 * Example:<br/>
+	 * double[0][x1,y1,z1,...xn,yn,zn] = Points of a profile from the left waterside
+	 * double[1][x1,y1,z1,...xn,yn,zn] = Points of the river bed
+	 * double[2][x1,y1,z1,...xn,yn,zn] = Points of a profile from the right waterside
+	 * <br/>or:</br/>
+	 * double[0][x1,y1,z1,...xn,yn,zn] = Points of a single profile 
 	 */
 	public void addSegmentedProfiles(double[][] points) {
 		if (numProfiles!=0) {
@@ -126,24 +125,24 @@ public class ProfileTriangulator {
 	
 	private void storePoints(double[][] p) {
 		prevPoints = new double[p.length][];
-		for (int i=0; i<p.length; i++) {
-			prevPoints[i]= new double[p[i].length];
+		for (int i = 0; i < p.length; i++) {
+			prevPoints[i] = new double[p[i].length];
 			System.arraycopy(p[i], 0, prevPoints[i], 0, p[i].length);
 			//tinPoints.add(p);				
 		}
 	}
 	
 	private void triangulate(double[][] prevPoints, double[][] points) {		
-		// f�r jeden Satz von Punkten...
+		// for each set of points...
 		for (int i=0; i<points.length; i++) {
-			// konvertieren von 3D nach 2D ...
+			// convert from 3-D to 2-D...
 			double[] points2D;
 			try {
 				points2D = mergeAndConvert(i, prevPoints, points);
 				if (points2D.length != 0) {
 					//System.out.println("Triangulating 3D PointSet " + i + " / 2D points: "+points2D.length/2 + " / new 3D Points: " + points[i].length/3 + " / old 3D Points: " + prevPoints[i].length/3);
 					del = new Delaunay(points2D);
-					addIndizes(del.getIndices(), prevPoints[i].length/3);
+					addIndizes(del.getIndices(), prevPoints[i].length / 3);
 					add3DPoints(prevPoints[i]);
 					add3DPoints(points[i]);
 				}
@@ -152,15 +151,18 @@ public class ProfileTriangulator {
 	}
 	
 	/**
-	 * F�gt die beiden 3D Array vom aktuellen und letzten Profil zusammen.
-	 * Dabei wird eine Konvertierung von den 3D Koordinaten in 2D Koordinaten
-	 * unter Ausschluss des Z Wertes durchgef�hrt. (x1, y1, z1)->(x1, y1)
+	 * merges 3-D arrays holding the current and the last profile. Here, 3-D
+	 * coordinates will be converted to 2-D coordinates excluding the z-value
+	 * (x1, y1, z1)->(x1, y1)
 	 * 
 	 * @param prevPoints
 	 * @param points
 	 * @return
 	 */
-	private double[] mergeAndConvert(int segmentIndex, double[][] prevPoints, double[][] points) throws Exception {
+	private double[] mergeAndConvert(
+		int segmentIndex, double[][] prevPoints, double[][] points) 
+		throws Exception 
+	{
 		if (prevPoints.length != points.length) {
 			throw new Exception("Number of Segments must be equal."); 
 		}
@@ -169,36 +171,34 @@ public class ProfileTriangulator {
 		int pointCount2D = pointCount-pointCount/3;
 		int prevPointCount2D = prevPointCount-prevPointCount/3;
 		
-		double[] points2D = new double[pointCount2D + prevPointCount2D]; // reserviere 2/3 speicherplatz 
+		double[] points2D = new double[pointCount2D + prevPointCount2D]; // allocate 2/3 storage
 		if (pointCount + prevPointCount != 0) {
-//			System.out.println("Points (p+pp): " +(pointCount + prevPointCount));
-//			System.out.println("Points (array): " +points2D.length);
+//			System.out.println("Points (p+pp): " + (pointCount + prevPointCount));
+//			System.out.println("Points (array): " + points2D.length);
 //			System.out.println("Points2D: " + pointCount2D);
 //			System.out.println("Prev2D  : " + prevPointCount2D);
 			if (prevPoints[segmentIndex].length != 0) {
-				for (int j=0; j < prevPointCount2D; j=j+2) {
-//					System.out.println("konvertiere Prev: " + j + "/"+prevPoints[segmentIndex].length);
-//					System.out.println("konvertiere Prev: " + (j+0) + "->" + (j/2+j+0) + " UND " + (j+1) +"->" + (j/2+j+1));
-					points2D[j+0] = prevPoints[segmentIndex][j/2+j+0]; 
-					points2D[j+1] = prevPoints[segmentIndex][j/2+j+1];
+				for (int j = 0; j < prevPointCount2D; j = j + 2) {
+//					System.out.println("convert Prev: " + j + "/" + prevPoints[segmentIndex].length);
+//					System.out.println("convert Prev: " + (j+0) + "->" + (j/2+j+0) + " AND " + (j+1) +"->" + (j/2+j+1));
+					points2D[j + 0] = prevPoints[segmentIndex][j/2 + j + 0]; 
+					points2D[j + 1] = prevPoints[segmentIndex][j/2 + j + 1];
 				}
 			} 
 			if (points[segmentIndex].length != 0) {
-				for (int j=0; j < pointCount2D; j=j+2) {
-//					System.out.println("konvertiere Point: " + j + "/"+points[segmentIndex].length);
-//					System.out.println("konvertiere Point: " + (prevPointCount2D+j+0) + "->" +(j/2+j+0) + " UND " + (prevPointCount2D+j+1) +"->" + (j/2+j+1));
-					points2D[prevPointCount2D+j+0] = points[segmentIndex][j/2 +j+0]; 
-					points2D[prevPointCount2D+j+1] = points[segmentIndex][j/2 +j+1];
+				for (int j = 0; j < pointCount2D; j = j + 2) {
+//					System.out.println("convert Point: " + j + "/"+points[segmentIndex].length);
+//					System.out.println("convert Point: " + (prevPointCount2D+j+0) + "->" +(j/2+j+0) + " UND " + (prevPointCount2D+j+1) +"->" + (j/2+j+1));
+					points2D[prevPointCount2D + j + 0] = points[segmentIndex][j/2 + j + 0]; 
+					points2D[prevPointCount2D + j + 1] = points[segmentIndex][j/2 + j + 1];
 				}
 			} 
-		
 		}
 		return points2D;
 	}
 
 	private void addIndizes(int[] ind, int numPrevPoints) {
-		// hier noch nach Dreiecken suchen, die alle Punkte auf
-		// einem Profil haben...		
+		// hier noch nach Dreiecken suchen, die alle Punkte auf einem Profil haben...		
 		for (int i=0; i<ind.length;i=i+3) {
 			if (i<ind.length-2 && ind[i]<numPrevPoints && ind[i+1]<numPrevPoints && ind[i+2]<numPrevPoints) {
 				// ignoriere das Dreieck
@@ -215,6 +215,7 @@ public class ProfileTriangulator {
 			}
 		}	
 	}
+	
 	private void add3DPoints(double[] p3d) {
 		for (int i=0; i<p3d.length;i++) {
 			tinPoints.add(new Double(p3d[i]));
@@ -228,32 +229,21 @@ public class ProfileTriangulator {
 				"\nTIN Points: " + tinPoints.size()/3 +
 				"\nTIN Triangles: " + tinIndizes.size()/3 +		 
 				"\nTIN Indizes: " + tinIndizes.size() + "\n";
-		for (int i=0; i<tinPoints.size();i=i+3) {
+		for (int i = 0; i < tinPoints.size(); i = i + 3) {
 			ret = ret + i/3 + ") = " + (Double) tinPoints.get(i) + "/" + (Double) tinPoints.get(i+1) + "/" + (Double) tinPoints.get(i+2) + "\n"; 
 		}
 		return ret;
 	}
 
-	/**
-	 * @return
-	 */
 	public int getNumPoints() {
 		return tinPoints.size()/3;
 	}	
 	
-	/**
-	* @return
-	*/
    	public int getNumProfiles() {
 	   return numProfiles;
    	}
 
-	/**
-	 * @return
-	 */
 	public int getNumFaces() {
 		return tinIndizes.size()/3;
 	}
-
-
 }
