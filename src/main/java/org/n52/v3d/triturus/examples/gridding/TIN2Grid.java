@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2007-2019 52 North Initiative for Geospatial Open Source 
+ * Copyright (C) 2007-2019 52North Initiative for Geospatial Open Source 
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it
@@ -32,12 +32,15 @@
  */
 package org.n52.v3d.triturus.examples.gridding;
 
+import java.util.List;
+
 import org.n52.v3d.triturus.core.IoFormatType;
 import org.n52.v3d.triturus.core.T3dException;
 import org.n52.v3d.triturus.gisimplm.*;
 import org.n52.v3d.triturus.vgis.VgElevationGrid;
 import org.n52.v3d.triturus.vgis.VgEnvelope;
 import org.n52.v3d.triturus.vgis.VgEquidistGrid;
+import org.n52.v3d.triturus.vgis.VgLineSegment;
 import org.n52.v3d.triturus.vgis.VgPoint;
 
 /**
@@ -50,13 +53,11 @@ import org.n52.v3d.triturus.vgis.VgPoint;
 public class TIN2Grid 
 {
 	private String inputFile = "/projects/Triturus/data/s_geologie_Rotliegend_ts.tin";
-    private String inputFormat = IoFormatType.ACGEO; 
-    private String outputFile = "/projects/Triturus/data/s_geologie_Rotliegend_ts.obj";
-    private String outputFormat = IoFormatType.OBJ;
-    //private String outputFile = "/projects/Triturus/data/s_geologie_Rotliegend_ts.x3d";
-    //private String outputFormat = IoElevationGridWriter.X3D;
-    private double cellSize = 200.;
-
+	private String inputFormat = IoFormatType.ACGEO; 
+	private String outputFile = "/projects/Triturus/data/s_geologie_Rotliegend_ts.obj";
+	private String outputFormat = IoFormatType.OBJ;
+	private double cellSize = 200.;
+	private String conflictFile = "/projects/Triturus/data/s_geologie_Rotliegend_ts_conflicts.vtk";
     
     public static void main(String args[]) 
     {
@@ -77,52 +78,47 @@ public class TIN2Grid
         app.writeOutputFile(grd);
         System.out.println(grd.minimalElevation());
         System.out.println(grd.maximalElevation());
+        
+        if (trans.conflicts().size() > 0) {
+        	System.out.println("Detected " + trans.conflicts().size() + " non-unique z-values.");
+        	app.writeConflictOutputFile(trans.conflicts());
+        }
     }
 
-    private VgEquidistGrid setUpGeometry(VgEnvelope bbox) 
+	private VgEquidistGrid setUpGeometry(VgEnvelope bbox) 
     {
-        VgPoint origin = new GmPoint(bbox.getXMin(), bbox.getYMin(), 0.0);
-        // TODO: origin ist noch ein schraeger Wert -> ist zu runden gemaess cellSize!
-        
-        int nrows = (int)(Math.floor(bbox.getExtentY() / cellSize)) + 1;
-        int ncols = (int)(Math.floor(bbox.getExtentX() / cellSize)) + 1;
-        
-        return new GmSimple2dGridGeometry(
-        		ncols, nrows, origin, cellSize, cellSize);
+		VgPoint origin = new GmPoint(bbox.getXMin(), bbox.getYMin(), 0.0);
+		// TODO: origin ist noch ein schraeger Wert -> ist zu runden gemaess cellSize!
+		
+		int nrows = (int)(Math.floor(bbox.getExtentY() / cellSize)) + 1;
+		int ncols = (int)(Math.floor(bbox.getExtentX() / cellSize)) + 1;
+		        
+		return new GmSimple2dGridGeometry(
+				ncols, nrows, origin, cellSize, cellSize);
 	}
 
-	/**
-     * reads the input TIN using the input format specified by 
-     * {@link inputFormat}.
-     * 
-     * @return TIN
-     */
-    public GmSimpleTINFeature readInputFile() {
-    	GmSimpleTINFeature tin = null; 
-        try {
-            System.out.println("Reading input file...");
-
-            IoTINReader reader = new IoTINReader(inputFormat);
-            tin = reader.read(inputFile);
-            
-            System.out.println("Success!");
-        }
-        catch (T3dException e) {
-            e.printStackTrace();
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
+	// read the input TIN:
+    private GmSimpleTINFeature readInputFile() {
+		GmSimpleTINFeature tin = null; 
+		try {
+		    System.out.println("Reading input file...");
+		
+		    IoTINReader reader = new IoTINReader(inputFormat);
+		    tin = reader.read(inputFile);
+		    
+		    System.out.println("Success!");
+		}
+		catch (T3dException e) {
+		    e.printStackTrace();
+		}
+		catch (Exception e) {
+		    e.printStackTrace();
+		}
 		return tin;
     }
 
-    /**
-     * writes the resulting elevation grid using the output format specified by 
-     * {@link outputFormat}.
-     * 
-     * @param grd Elevation grid
-     */
-    public void writeOutputFile(VgElevationGrid grd) 
+    // write the resulting elevation grid:
+    private void writeOutputFile(VgElevationGrid grd) 
     {
         try {
             System.out.println("Writing result file \"" + outputFile + "\"...");
@@ -139,4 +135,22 @@ public class TIN2Grid
             e.printStackTrace();
         }
     }
+    
+    // write conflict locations to VTK line dataset:
+    private void writeConflictOutputFile(List<VgLineSegment> conflicts) {
+        try {
+            System.out.println("Writing conflicts to file \"" + conflictFile + "\"...");
+
+        	IoLineSegmentWriter writer = new IoLineSegmentWriter(IoFormatType.VTK_DATASET);
+            writer.writeToFile(conflicts, conflictFile);
+            
+            System.out.println("Success!");
+        }
+        catch (T3dException e) {
+            e.printStackTrace();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }		 
+	}
 }

@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2007-2016 52 North Initiative for Geospatial Open Source
+ * Copyright (C) 2007-2016 52North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it
@@ -26,7 +26,7 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License 
  * for more details.
  *
- * Contact: Benno Schmidt and Martin May, 52 North Initiative for Geospatial 
+ * Contact: Benno Schmidt and Martin May, 52North Initiative for Geospatial 
  * Open Source Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, 
  * Germany, info@52north.org
  */
@@ -69,21 +69,21 @@ public class GmSimpleElevationGrid extends VgElevationGrid
     		VgPoint pOrigin, 
     		double pDeltaX, double pDeltaY)
     {
-        mGeom = new GmSimple2dGridGeometry(
-        		pCols, pRows, 
-        		pOrigin, 
-        		pDeltaX, pDeltaY);
-        
-        mVal = new double[pRows][pCols]; 
-        mIsSetFl = new boolean[pRows][pCols]; 
-        for (int i = 0; i < pRows; i++) {
-            for (int j = 0; j < pCols; j++) {
-                mIsSetFl[i][j] = false;
-            }
-        }
-        
-        this.setName("unnamed elevation grid");
-    }
+		mGeom = new GmSimple2dGridGeometry(
+			pCols, pRows, 
+			pOrigin, 
+			pDeltaX, pDeltaY);
+	
+		mVal = new double[pRows][pCols]; 
+		mIsSetFl = new boolean[pRows][pCols]; 
+		for (int i = 0; i < pRows; i++) {
+		    for (int j = 0; j < pCols; j++) {
+		        mIsSetFl[i][j] = false;
+		    }
+		}
+		
+		this.setName("unnamed elevation grid");
+}
 
     /**
      * Constructor. This will generate a grid will all elements unset.
@@ -115,9 +115,9 @@ public class GmSimpleElevationGrid extends VgElevationGrid
      */
     public ArrayList<String> getThematicAttributes() 
     {
-        ArrayList<String> lList = new ArrayList<String>();
-        lList.add(mTheme);
-        return lList;
+        ArrayList<String> list = new ArrayList<String>();
+        list.add(mTheme);
+        return list;
     }
     
     /** 
@@ -365,11 +365,11 @@ public class GmSimpleElevationGrid extends VgElevationGrid
      */
     public VgEnvelope envelope()
     {
-       VgEnvelope lEnv = this.getGeometry().envelope();
-       double xMin = lEnv.getXMin();
-       double xMax = lEnv.getXMax();
-       double yMin = lEnv.getYMin();
-       double yMax = lEnv.getYMax();
+       VgEnvelope env = this.getGeometry().envelope();
+       double xMin = env.getXMin();
+       double xMax = env.getXMax();
+       double yMin = env.getYMin();
+       double yMax = env.getYMax();
 
        if (!mLatticeMode) {
            double dx = 0.5 * this.getDeltaX();
@@ -481,39 +481,39 @@ public class GmSimpleElevationGrid extends VgElevationGrid
         throw new T3dException("Tried to access empty elevation grid.");
     }
 
-	/** 
-	 * returns the corresponding footprint geometry.
-	 * 
-	 * @return Footprint as {@link GmSimple2dGridGeometry}-object
-  	 */
-	public VgGeomObject footprint() {
-		return mGeom.footprint();
-	}
-
 	/**
-     * returns the coordinates of a point that is part of the elevation-grid.
-     * If there is no z-value assigned to the grid point, the return-value 
-     * will be <i>null</i>.
-     * 
-     * @param pRow Row-index
-     * @param pCol Column-index
-     * @return Elevation-Point 
+	 * returns the coordinates of a point that is part of the elevation-grid.
+	 * If there is no z-value assigned to the grid point, the return-value 
+	 * will be <i>null</i>.
+	 * 
+	 * @param pRow Row-index
+	 * @param pCol Column-index
+	 * @return Elevation-Point 
 	 */
 	public VgPoint getPoint(int pRow, int pCol) 
 	{
 		double x = mGeom.getOrigin().getX() + pCol * this.getDeltaX();
-        double y = mGeom.getOrigin().getY() + pRow * this.getDeltaY();
-        double z;
-        if (! this.isSet(pRow, pCol))
-            return null;
-        z = this.getValue(pRow, pCol);
+	    double y = mGeom.getOrigin().getY() + pRow * this.getDeltaY();
+	    double z;
+	    if (!this.isSet(pRow, pCol))
+	        return null;
+	    z = this.getValue(pRow, pCol);
 		return new GmPoint(x, y, z);
-    }
-
-    public String toString() {
-        String strGeom = "<empty geometry>";
-        if (mGeom != null)
-            strGeom = mGeom.toString(); 
-        return "[" + mTheme + ", \"" + strGeom + "\"]";
-    }
+	}
+	
+	/** 
+	 * returns the corresponding footprint geometry.
+	 * 
+	 * @return Footprint as {@link GmSimple2dGridGeometry}-object
+	 */
+	public VgGeomObject footprint() {
+		return mGeom.footprint();
+	}
+	
+	public String toString() {
+	    String strGeom = "<empty geometry>";
+		if (mGeom != null)
+			strGeom = mGeom.toString(); 
+		return "[" + mTheme + ", \"" + strGeom + "\"]";
+	}
 }
