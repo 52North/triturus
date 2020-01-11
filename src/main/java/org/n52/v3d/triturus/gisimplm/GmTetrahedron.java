@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2020 52 North Initiative for Geospatial Open Source
+ * Copyright (C) 2020 52North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it
@@ -26,17 +26,18 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License 
  * for more details.
  *
- * Contact: Benno Schmidt, 52 North Initiative for Geospatial Open Source 
+ * Contact: Benno Schmidt, 52North Initiative for Geospatial Open Source 
  * Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, Germany, 
  * b.schmidt@52north.org
  */
 package org.n52.v3d.triturus.gisimplm;
 
-import org.n52.v3d.triturus.core.T3dNotYetImplException;
-import org.n52.v3d.triturus.vgis.*;
+import org.n52.v3d.triturus.vgis.VgEnvelope;
+import org.n52.v3d.triturus.vgis.VgPoint;
+import org.n52.v3d.triturus.vgis.VgTetrahedron;
 
 /**
- * Implementing class to manage a tetrahedronal geometry.
+ * Tetrahedronal geometry implementation.
  * 
  * @author Benno Schmidt
  */
@@ -114,22 +115,4 @@ public class GmTetrahedron extends VgTetrahedron
         }
         return env;
     }
-
-	@Override
-	public double volume() {
-		// TODO
-		throw new T3dNotYetImplException();
-	}
-
-	@Override
-	public double surface() {
-		// TODO
-		throw new T3dNotYetImplException();
-	}
-
-	@Override
-	public VgGeomObject footprint() {
-		// TODO
-		throw new T3dNotYetImplException();
-	}    
 }

@@ -32,8 +32,11 @@
  */
 package org.n52.v3d.triturus.vgis;
 
+import org.n52.v3d.triturus.core.T3dNotYetImplException;
+import org.n52.v3d.triturus.t3dutil.T3dVector;
+
 /**
- * Class to hold a tetrahedronal geometry.
+ * Abstract base class to hold a tetrahedronal geometry.
  * 
  * @author Benno Schmidt
  */
@@ -57,6 +60,34 @@ abstract public class VgTetrahedron extends VgGeomObject3d
 	 */
 	abstract public VgPoint[] getCornerPoints();
 
+	@Override
+	public double surface() {
+		// TODO
+		throw new T3dNotYetImplException();
+	}
+
+	@Override
+	public VgGeomObject footprint() {
+		// TODO
+		throw new T3dNotYetImplException();
+	}    
+
+	@Override
+	public double volume() {
+		// TODO Method has not been tested yet.
+		VgPoint[] p = this.getCornerPoints();
+		T3dVector 
+			v3 = new T3dVector(),
+			v2 = new T3dVector(),
+			v1 = new T3dVector(),
+			v23 = new T3dVector();
+		v3.assignDiff(p[3], p[0]);
+		v2.assignDiff(p[2], p[0]);
+		v1.assignDiff(p[1], p[0]);
+		v23.assignCrossProd(v3, v2);
+		return Math.abs(v1.scalarProd(v23)) / 6.;
+	}
+	
 	public String toString() {
 		VgPoint[] p = this.getCornerPoints();
 		return "[" + 
