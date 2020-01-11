@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2020 52 North Initiative for Geospatial Open Source 
+ * Copyright (C) 2020 52North Initiative for Geospatial Open Source 
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it
@@ -52,7 +52,7 @@ import org.n52.v3d.triturus.xtin.XTIN;
 public class RandomTINApp 
 {
 	private String outFilename = "/projects/Triturus/data/randomtin.obj"; 
-    private String outputFormat = IoFormatType.OBJ; 
+	private String outputFormat = IoFormatType.OBJ; 
 
     private int N = 3000; 
     private double 
