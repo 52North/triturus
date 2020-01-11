@@ -69,20 +69,22 @@ public class XTIN extends VgTIN
 	}
 	
 	protected class EdgL {
-		protected ArrayList<VtxTri> vTo; // edges starting from the i-th 
+		protected ArrayList<VtxTri> vOut; // edges starting from the i-th 
 			// vertex directing to edg.get(i). As second pair component, the
 			// incident triangle's index will be stored.
 			// Note that some list elements might be empty, if the TIN consists
 			// of unreferenced vertices.
+		protected ArrayList<VtxTri> vIn; // edges directing to the i-th vertex
 		public EdgL() {
-			vTo = new ArrayList<VtxTri>();
+			vOut = new ArrayList<VtxTri>();
+			vIn = new ArrayList<VtxTri>();
 		}
 	}
 
 	// Lists of vertices, edges, and triangles, 
 	// all implicitly numbered by the ArrayList's indices:
-	private ArrayList<Vtx3> tri_vtx; // triangle -> 3 vertices
-	private ArrayList<EdgL> vtx_edg; // vertex -> 0..n outgoing edges 
+	protected ArrayList<Vtx3> tri_vtx; // triangle -> 3 vertices
+	protected ArrayList<EdgL> vtx_edg; // vertex -> 0..n outgoing edges 
 	// .incTri: edge -> 1..n incident triangles (with respect to the edge's 
 	// direction)
 			
@@ -106,9 +108,15 @@ public class XTIN extends VgTIN
 //		System.out.println("add <" + v1 + " " + v2 + " " + v3 + ">");
 		tri_vtx.add(new Vtx3(v1, v2, v3));
 		int idxTri = tri_vtx.size() - 1; // index of added triangle
-		insertEdg(v1, v2, idxTri);
-		insertEdg(v2, v3, idxTri);
-		insertEdg(v3, v1, idxTri);
+
+		insertOutEdg(v1, v2, idxTri);
+		insertInEdg(v2, v1, idxTri);
+
+		insertOutEdg(v2, v3, idxTri);
+		insertInEdg(v3, v2, idxTri);
+
+		insertOutEdg(v3, v1, idxTri);
+		insertInEdg(v1, v3, idxTri);
 	}
 
 	private void assureVtxListSize(int size) {
@@ -122,12 +130,19 @@ public class XTIN extends VgTIN
 		}
 	} 
 	
-	private void insertEdg(int v1, int v2, int tri) {
+	private void insertOutEdg(int v1, int v2, int tri) {
 //		System.out.println("add [" + v1 + " " + v2 + "]");
 		if (vtx_edg.get(v1) == null) {
 			vtx_edg.set(v1, new EdgL());
 		}
-		vtx_edg.get(v1).vTo.add(new VtxTri(v2, tri));
+		vtx_edg.get(v1).vOut.add(new VtxTri(v2, tri));
+	}
+
+	private void insertInEdg(int v1, int v2, int tri) {
+		if (vtx_edg.get(v1) == null) {
+			vtx_edg.set(v1, new EdgL());
+		}
+		vtx_edg.get(v1).vIn.add(new VtxTri(v2, tri));
 	}
 
 	public void addLocation(int i, VgPoint pos) {
@@ -181,7 +196,7 @@ public class XTIN extends VgTIN
 			ctUsedIndices++;
 			if (x != null) {
 				ctReferenced++;
-				if (x.vTo.size() > 0)
+				if (x.vOut.size() > 0)
 					ctTopologyParts++;
 			}
 		}
@@ -191,7 +206,7 @@ public class XTIN extends VgTIN
 			if (vtx_loc.get(i) != null)
 				ctLocations++;
 		}
-		System.out.println(">> " + ctUsedIndices + " " + ctReferenced + " " + ctTopologyParts + " " + ctLocations);	
+		//System.out.println(">> " + ctUsedIndices + " " + ctReferenced + " " + ctTopologyParts + " " + ctLocations);	
 		return new int[]{ctUsedIndices, ctReferenced, ctTopologyParts, ctLocations};
 	}
 
@@ -208,7 +223,7 @@ public class XTIN extends VgTIN
 	public int numberOfEdges() {
 		int ct = 0;
 		for (int i = 0; i < vtx_edg.size(); i++) {
-			ct += vtx_edg.get(i).vTo.size();
+			ct += vtx_edg.get(i).vOut.size();
 		}
 		return ct;
 	}
