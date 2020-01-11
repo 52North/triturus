@@ -67,17 +67,18 @@ public class TIN2Grid
         System.out.println(tin);
         
         VgEnvelope bbox = tin.envelope();
-        System.out.println(bbox);
         VgEquidistGrid grdGeom = app.setUpGeometry(bbox);
-        System.out.println(grdGeom);
         
         FltTIN2ElevationGrid trans = new FltTIN2ElevationGrid();
         trans.setGridGeometry(grdGeom);
+        trans.setZConflictHandler(
+        	FltTIN2ElevationGrid.CONFLICT_TAKE_MAX_Z);
+
         VgElevationGrid grd = trans.transform(tin);
   
         app.writeOutputFile(grd);
-        System.out.println(grd.minimalElevation());
-        System.out.println(grd.maximalElevation());
+        System.out.println("z_min = " + grd.minimalElevation());
+        System.out.println("z_max = " + grd.maximalElevation());
         
         if (trans.conflicts().size() > 0) {
         	System.out.println("Detected " + trans.conflicts().size() + " non-unique z-values.");
@@ -87,14 +88,18 @@ public class TIN2Grid
 
 	private VgEquidistGrid setUpGeometry(VgEnvelope bbox) 
     {
+        System.out.println(bbox);
+
 		VgPoint origin = new GmPoint(bbox.getXMin(), bbox.getYMin(), 0.0);
 		// TODO: origin ist noch ein schraeger Wert -> ist zu runden gemaess cellSize!
 		
 		int nrows = (int)(Math.floor(bbox.getExtentY() / cellSize)) + 1;
 		int ncols = (int)(Math.floor(bbox.getExtentX() / cellSize)) + 1;
 		        
-		return new GmSimple2dGridGeometry(
-				ncols, nrows, origin, cellSize, cellSize);
+		GmSimple2dGridGeometry res = new GmSimple2dGridGeometry(
+			ncols, nrows, origin, cellSize, cellSize);
+        System.out.println(res);
+        return res;
 	}
 
 	// read the input TIN:
