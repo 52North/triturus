@@ -26,7 +26,7 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
  * Public License for more details.
  *
- * Contact: Benno Schmidt & Martin May, 52 North Initiative for Geospatial 
+ * Contact: Benno Schmidt & Martin May, 52North Initiative for Geospatial 
  * Open Source Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, 
  * Germany, info@52north.org
  */
@@ -36,7 +36,7 @@ import org.n52.v3d.triturus.t3dutil.T3dVector;
 import org.n52.v3d.triturus.core.T3dException;
 
 /**
- * Class to hold a triangle that might be arbitrarily oriented in 3D space.
+ * Class to hold a triangle that might be arbitrarily oriented in 3-D space.
  * 
  * @author Benno Schmidt
  */
@@ -69,7 +69,7 @@ abstract public class VgTriangle extends VgGeomObject2d
 		VgPoint[] p = this.getCornerPoints();
 		VgPoint p1 = p[0], p2 = p[1], p3 = p[2];
 		
-		double l12 = p2.distance(p1); // TODO: Here a NullPointerException might be thrown!
+		double l12 = p2.distance(p1); // here a NullPointerException might be thrown...
 		double l13 = p3.distance(p1);
 		double l23 = p3.distance(p2);
 		
@@ -79,8 +79,8 @@ abstract public class VgTriangle extends VgGeomObject2d
 
 	/**
 	 * returns the triangle's circumference referring to the assigned 
-	 * coordinate reference system. Note that the calculation is done 
-	 * in "3D" considering z-coordinates.
+	 * coordinate reference system. Note that the calculation is done in 
+	 * "3-D" considering z-coordinates.
 	 * 
 	 * @return Area value
 	 * @see VgGeomObject#getSRS
@@ -101,7 +101,7 @@ abstract public class VgTriangle extends VgGeomObject2d
 	 * <br/> 
 	 * Notes: 1. The z-coordinate of <tt>pt</tt> will be ignored.<br/>
 	 * 2. If the area of the triangle projected to the x-y plane is 0, a 
-	 * <tt>T3dException</tt> might be thrown ("Division by zero error."). TODO
+	 * <tt>T3dException</tt> might be thrown ("Division by zero error."). 
 	 * 
 	 * @param pt Position
 	 * @return z-value
@@ -147,10 +147,9 @@ abstract public class VgTriangle extends VgGeomObject2d
 	 * triangle's edges (boundary).
 	 * <br/>
 	 * Notes: 1. The z-coordinate of <tt>pt</tt> will be ignored, since the 
-	 * computation will be done inside the x-y-plane.<br/>
-	 * 2. If the area of the triangle projected to the x-y plane is 0, a 
-	 * <tt>T3dException</tt> might be thrown ("Division by zero error."). Note
-	 * that this exception would not occur for <tt>edge</tt> = <i>false</i>.
+	 * computation will be done inside the x-y plane.<br/>
+	 * 2. Make sure, your application behaves correct, if the area of the 
+	 * triangle projected to the x-y plane is 0.
 	 * 
 	 * @param pt Point (z-coordinate will be ignored)
 	 * @param edge Flag directing edge check mode
@@ -189,13 +188,14 @@ abstract public class VgTriangle extends VgGeomObject2d
 		// gives the set of all points that lie inside the parallelogram given by 
 		// (p[0] - p[2]), (p[1] - p[2]).
 		   
-		double detNum0 = (pt.getX() - p[2].getX()) * dir1.getY() - (pt.getY() - p[2].getY()) * dir1.getX();
-		double detNum1 = dir0.getX() * (pt.getY() - p[2].getY()) - dir0.getY() * (pt.getX() - p[2].getX());
-		double detDenom = dir0.getX() * dir1.getY() - dir0.getY() * dir1.getX();
+		double 
+			detNum0 = (pt.getX() - p[2].getX()) * dir1.getY() - (pt.getY() - p[2].getY()) * dir1.getX(),
+			detNum1 = dir0.getX() * (pt.getY() - p[2].getY()) - dir0.getY() * (pt.getX() - p[2].getX()),
+			detDenom = dir0.getX() * dir1.getY() - dir0.getY() * dir1.getX();
 		   
 		if (Math.abs(detDenom) < 0.000001) {
-System.out.println("XY: " + this.areaXY() + " - XYZ: " + this.area());
-if (this.area() < 0.000001) System.out.println(">" + this);
+			// System.out.println("XY: " + this.areaXY() + " - XYZ: " + this.area());
+			// if (this.area() < 0.000001) System.out.println(">" + this);
 			throw new T3dException("Divison by zero error."); // should not occur
 		}
 		
@@ -203,7 +203,7 @@ if (this.area() < 0.000001) System.out.println(">" + this);
 		double s1 = detNum1 / detDenom;
 		
 		// pt is inside the triangle, if 0 < s0 + s1 < 1:
-		if (s0 < 0. || s0 < 0. || s0 > 1. || s0 > 1.)
+		if (s0 < 0. || s1 < 0. || s0 > 1. || s1 > 1.)
 			return false; // point outside parallelogram
 		if (s0 + s1 < 1.)
 			return true; // point completely inside triangle
