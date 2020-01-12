@@ -143,17 +143,22 @@ public class GmSimpleTetrMesh extends VgIndexedTetrMesh
 	}
 
 	@Override
-	public double area() {
-		throw new T3dNotYetImplException(); // TODO
-	}
-
-	@Override
 	public VgEnvelope envelope() {
-		throw new T3dNotYetImplException(); // TODO
+		throw new T3dNotYetImplException(); 
 	}
 
 	@Override
 	public VgGeomObject footprint() {
-		throw new T3dNotYetImplException(); // TODO
+		throw new T3dNotYetImplException(); 
+	}
+
+	@Override
+	public double volume() {
+		throw new T3dNotYetImplException(); 
+	}
+
+	@Override
+	public double surface() {
+		throw new T3dNotYetImplException(); 
 	}
 }
