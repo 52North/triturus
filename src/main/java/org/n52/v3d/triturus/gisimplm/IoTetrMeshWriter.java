@@ -51,6 +51,10 @@ public class IoTetrMeshWriter extends IoAbstractWriter
     private String format;
     private BufferedWriter doc;
     
+    public boolean 
+    	exportTetrId = false, 
+    	exportVerticalThickness = false; 
+
     /**
      * Constructor. As a parameter, the format type has to be set. For 
      * unsupported file formats, a <tt>T3dNotYetImplException</tt> will be 
@@ -79,6 +83,21 @@ public class IoTetrMeshWriter extends IoAbstractWriter
     public void setFormatType(String format)
     {
         this.format = format;
+    }
+
+    /**
+     * instructs the writer to export tetrahedron IDs to the target file.
+     */
+    public void generateTetrIds() {
+    	this.exportTetrId = true;
+    }
+
+    /**
+     * instructs the writer to export vertical thickness values as numerical 
+     * tetrahedron attributes to the target file.
+     */
+    public void generateVerticalThicknessAttr() {
+    	this.exportVerticalThickness = true;
     }
 
     /**
@@ -143,26 +162,50 @@ public class IoTetrMeshWriter extends IoAbstractWriter
                 wl("10"); // VTK type number
             }
 
-          	wl("CELL_DATA " + mesh.numberOfTetrahedrons());            	
-
-        	wl("SCALARS TETR_ID int 1");
-        	wl("LOOKUP_TABLE default");
-            for (int i = 0; i < mesh.numberOfTetrahedrons(); i++) {
-                wl("" + i);
+            if (this.exportTetrId || this.exportVerticalThickness) {
+	          	wl("CELL_DATA " + mesh.numberOfTetrahedrons());            	
+	
+	          	if (this.exportTetrId) {
+		        	wl("SCALARS TETR_ID int 1");
+		        	wl("LOOKUP_TABLE default");
+		            for (int i = 0; i < mesh.numberOfTetrahedrons(); i++) {
+		                wl("" + i);
+		            }
+	          	}
+	          	
+	          	if (this.exportVerticalThickness) {
+		        	wl("SCALARS VERTICAL_THICKNESS float 1");
+		        	wl("LOOKUP_TABLE default");
+		            for (int i = 0; i < mesh.numberOfTetrahedrons(); i++) {
+		                int[] v = mesh.getTetrahedronVertexIndices(i);
+		                double
+		                	z0 = mesh.getPoint(v[0]).getZ(),
+		                	z1 = mesh.getPoint(v[1]).getZ(),
+		                	z2 = mesh.getPoint(v[2]).getZ(),
+		                	z3 = mesh.getPoint(v[3]).getZ();
+		                double dz = this.max(z0,  z1, z2, z3) - this.min(z0, z1, z2, z3);
+		                wl("" + Math.abs(dz));
+		            }
+	            }
             }
-
-            /* 
-        	wl("SCALARS GROUP_ID int 1");
-        	wl("LOOKUP_TABLE default");
-            for (int i = 0; i < mesh.numberOfTetrahedrons(); i++) {
-                wl("1");
-            } */           	
-
+            
             doc.close();
         }
         catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private double min(double z0, double z1, double z2, double z3) {
+    	double min = z0 < z1 ? z0 : z1;
+    	min = z2 < min ? z2 : min;
+    	return z3 < min ? z3 : min;
+    }
+
+    private double max(double z0, double z1, double z2, double z3) {
+    	double max = z0 > z1 ? z0 : z1;
+    	max = z2 > max ? z2 : max;
+    	return z3 > max ? z3 : max;
     }
 
     private void w(String line) {
