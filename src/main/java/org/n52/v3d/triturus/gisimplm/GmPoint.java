@@ -18,15 +18,15 @@
  *
  * Therefore the distribution of the program linked with libraries licensed
  * under the aforementioned licenses, is permitted by the copyright holders
- * if the distribution is compliant with both the GNU General Public
- * license version 2 and the aforementioned licenses.
+ * if the distribution is compliant with both the GNU General Public License 
+ * version 2 and the aforementioned licenses.
  *
  * This program is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
- * Public License for more details.
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY 
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License 
+ * for more details.
  *
- * Contact: Benno Schmidt & Martin May, 52North Initiative for Geospatial 
+ * Contact: Benno Schmidt and Martin May, 52North Initiative for Geospatial 
  * Open Source Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, 
  * Germany, info@52north.org
  */
@@ -52,6 +52,10 @@ public class GmPoint extends VgPoint
 
     /**
      * Constructor.
+     * 
+     * @param x x-coordinate (referring to a spatial reference system)
+     * @param y y-coordinate (referring to a spatial reference system)
+     * @param z z-coordinate
      */
     public GmPoint(double x, double y, double z) {
         mX = x;
@@ -70,6 +74,8 @@ public class GmPoint extends VgPoint
 
     /**
      * Constructor. x, y and z will be set to the coordinates of the given point.
+     * 
+     * @param p Point object
      */
     public GmPoint(VgPoint p) {
     	this.set(p);
@@ -101,54 +107,48 @@ public class GmPoint extends VgPoint
             mZ = 0.;
     }
 
-	/**
-     * sets the point's x-component.
-     * <br/>
-	 * Note: For <i>geographic coordinates</i> (EPSG:4326), geographic latitude
-	 * should be given as x-value. For <i>Gauss-Krueger coordinates</i> the 
-	 * Rechtswert.
-	 */
+    @Override
     public void setX(double x) { 
         mX = x; 
     }
 
+    @Override
     public double getX() {
         return mX;
     }
 
-    /*
-     * sets the point's y-component.
-     * <br/>
-	 * Note: For <i>geographic coordinates</i> (EPSG:4326), geographic 
-	 * longitude should be given as y-value. For <i>Gauss-Krueger coordinates</i>
-	 * the Hochwert.
-     */
+    @Override
     public void setY(double y) {
         mY = y; 
     }
 
+    @Override
     public double getY() {
         return mY;
     }
 
+    @Override
     public void setZ(double z) {
         mZ = z;
     }
 
+    @Override
     public double getZ() {
         return mZ;
     }
 
+    @Override
     public VgEnvelope envelope() {
         VgEnvelope lEnv = new GmEnvelope(mX, mX, mY, mY, mZ, mZ);
         return lEnv;
     }
 
 	/** 
-     * returns the object's footprint geometry (projection to the x-y-plane).
-     * 
+	 * returns the object's footprint geometry (projection to the x-y plane).
+	 * 
 	 * @return "Footprint" as <tt>GmPoint</tt> object
-  	 */
+	 */
+    @Override
 	public VgGeomObject footprint() {
 		return new GmPoint(mX, mY, 0.);
 	}
@@ -164,44 +164,47 @@ public class GmPoint extends VgPoint
      */
     public double distance2d(GmPoint p) throws T3dException
     {
-       if (!this.getSRS().equalsIgnoreCase(p.getSRS()))
-          throw new T3dException("Spatial reference systems are incompatible.");
-
-       if (this.getSRS().equalsIgnoreCase("EPSG:31411") // GKK3
-           || this.getSRS().equalsIgnoreCase("EPSG:31412") // GKK4
-           || this.getSRS().equalsIgnoreCase("EPSG:31413")) // GKK5
-       {
-           double dx = p.getX() - this.getX();
-           double dy = p.getY() - this.getY();
-           return Math.sqrt(dx * dx + dy * dy);
-       }
-       // else:
-       throw new T3dSRSException("Spatial reference systems is not supported (yet).");
+		if (!this.getSRS().equalsIgnoreCase(p.getSRS()))
+			throw new T3dException("Spatial reference systems are incompatible.");
+		if (
+			this.getSRS().equalsIgnoreCase("EPSG:31411") || // GKK3
+			this.getSRS().equalsIgnoreCase("EPSG:31412") || // GKK4
+			this.getSRS().equalsIgnoreCase("EPSG:31413")) // GKK5
+		{
+			double 
+				dx = p.getX() - this.getX(),
+				dy = p.getY() - this.getY();
+			return Math.sqrt(dx*dx + dy*dy);
+		}
+		// else:
+		throw new T3dSRSException("Spatial reference systems is not supported (yet).");
     }
 
     /** 
      * @deprecated
-     * returns the distance between two points with respect in 3-D space. If 
-     * the points refer to different coordinate reference systems, a 
+     * returns the distance between two points with respect in 3-D space.
+     * If the points refer to different coordinate reference systems, a 
      * <tt>T3dSRSException</tt> will be thrown.
      * 
-     * @throws T3dSRSException
+     * @throws org.n52.v3d.triturus.vgis.T3dSRSException
      * @see VgPoint#distance
      */
     public double distance3d(GmPoint p) throws T3dSRSException
     {
-       if (!this.getSRS().equalsIgnoreCase(p.getSRS()))
-          throw new T3dSRSException("Spatial reference systems are incompatible.");
-       if (this.getSRS().equalsIgnoreCase("EPSG:31411") // GKK3
-           || this.getSRS().equalsIgnoreCase("EPSG:31412") // GKK4
-           || this.getSRS().equalsIgnoreCase("EPSG:31413")) // GKK5
-       {
-           double dx = p.getX() - this.getX();
-           double dy = p.getY() - this.getY();
-           double dz = p.getZ() - this.getZ();
-           return Math.sqrt(dx * dx + dy * dy + dz * dz);
-       }
-       // else:
-       throw new T3dSRSException("Spatial reference systems is not supported (yet).");
+		if (!this.getSRS().equalsIgnoreCase(p.getSRS()))
+			throw new T3dSRSException("Spatial reference systems are incompatible.");
+		if (
+			this.getSRS().equalsIgnoreCase("EPSG:31411") || // GKK3
+			this.getSRS().equalsIgnoreCase("EPSG:31412") || // GKK4
+			this.getSRS().equalsIgnoreCase("EPSG:31413")) // GKK5
+		{
+			double 
+				dx = p.getX() - this.getX(),
+				dy = p.getY() - this.getY(),
+				dz = p.getZ() - this.getZ();
+			return Math.sqrt(dx*dx + dy*dy + dz*dz);
+		}
+		// else:
+		throw new T3dSRSException("Spatial reference systems is not supported (yet).");
     }
 }
