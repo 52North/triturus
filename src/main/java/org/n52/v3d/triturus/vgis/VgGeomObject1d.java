@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2007-2015 52°North Initiative for Geospatial Open Source
+ * Copyright (C) 2007-2015 52North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it
@@ -19,39 +19,43 @@
  * Therefore the distribution of the program linked with libraries licensed
  * under the aforementioned licenses, is permitted by the copyright holders
  * if the distribution is compliant with both the GNU General Public
- * icense version 2 and the aforementioned licenses.
+ * license version 2 and the aforementioned licenses.
  *
  * This program is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
  * Public License for more details.
  *
- * Contact: Benno Schmidt & Martin May, 52 North Initiative for Geospatial Open Source
- * Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, Germany, info@52north.org
+ * Contact: Benno Schmidt & Martin May, 52 North Initiative for Geospatial 
+ * Open Source Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, 
+ * Germany, info@52north.org
  */
 package org.n52.v3d.triturus.vgis;
 
 /**
- * Abstract base class for 1-dimensional geometric objects. This class extends <tt>VgGeomObject</tt> by definitions
- * to access <i>metric</i> geometric properties.
+ * Abstract base class for one-dimensional geometric objects. This class 
+ * extends <tt>VgGeomObject</tt> by definitions to access <i>metric</i> 
+ * geometric properties.
  *
  * @author Benno Schmidt
  */
 abstract public class VgGeomObject1d extends VgGeomObject 
 {
 	/**
-	 * returns the geometric object's length referring to the assigned coordinate reference system.
-     *
+	 * returns the geometric object's length referring to the assigned 
+	 * coordinate reference system.
+	 *
 	 * @see VgGeomObject#getSRS
-     * @return Distance value
+	 * @return Distance value
 	 */
 	abstract public double length();
-
+	
 	/**
-     * returns the geometric object's length referring to the assigned coordinate reference system with respect to
-     * the x-y plane (&quot;footprint length&quot;).
-     *
-     * @return Distance velue
+	 * returns the geometric object's length referring to the assigned 
+	 * coordinate reference system with respect to the x-y plane 
+	 * (&quot;footprint length&quot;).
+	 *
+	 * @return Distance value
 	 * @see VgGeomObject#getSRS
 	 */
 	public double lengthXY() {

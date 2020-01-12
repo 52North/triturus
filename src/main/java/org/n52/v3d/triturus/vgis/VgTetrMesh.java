@@ -44,7 +44,7 @@ import org.n52.v3d.triturus.core.T3dException;
  * @see VgIndexedTetrMesh
  * @author Benno Schmidt
  */
-abstract public class VgTetrMesh extends VgGeomObject2d 
+abstract public class VgTetrMesh extends VgGeomObject3d 
 {
 	/**
 	 * returns the number of points ('vertices') that are part of the mesh.
