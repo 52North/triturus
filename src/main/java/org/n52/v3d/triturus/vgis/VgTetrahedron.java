@@ -43,7 +43,7 @@ import org.n52.v3d.triturus.t3dutil.T3dVector;
 abstract public class VgTetrahedron extends VgGeomObject3d 
 {
 	/** 
-	 * sets the tetrahedrons's corner-points.
+	 * sets the tetrahedron's corner-points.
 	 * 
 	 * @param p1 First corner point
 	 * @param p2 Second corner point

@@ -68,7 +68,7 @@ public class GmTetrahedron extends VgTetrahedron
         this.assertSRS(p3); 
         this.p3 = new GmPoint(p3);
         this.assertSRS(p4); 
-        this.p3 = new GmPoint(p4);
+        this.p4 = new GmPoint(p4);
         envHasBeenCalculated = false;
     }
 

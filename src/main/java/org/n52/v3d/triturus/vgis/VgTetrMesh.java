@@ -75,7 +75,7 @@ abstract public class VgTetrMesh extends VgGeomObject3d
 	 * 0 &lt;<= i &lt; <tt>this.numberOfTetrahedrons()</tt> must hold; 
 	 * otherwise a <tt>T3dException</tt> will be thrown.
 	 * 
-	 * @return Triangle object
+	 * @return Tetrahedron object
 	 */
 	abstract public VgTetrahedron getTetrahedron(int i) throws T3dException;
 	

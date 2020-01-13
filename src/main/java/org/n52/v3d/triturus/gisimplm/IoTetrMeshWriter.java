@@ -53,7 +53,8 @@ public class IoTetrMeshWriter extends IoAbstractWriter
     
     public boolean 
     	exportTetrId = false, 
-    	exportVerticalThickness = false; 
+    	exportVerticalThickness = false, 
+    	exportZ = false; 
 
     /**
      * Constructor. As a parameter, the format type has to be set. For 
@@ -93,11 +94,21 @@ public class IoTetrMeshWriter extends IoAbstractWriter
     }
 
     /**
-     * instructs the writer to export vertical thickness values as numerical 
-     * tetrahedron attributes to the target file.
+     * instructs the writer to export <i>vertical thickness</i> values (i.e.,
+     * z-value differences) as numerical tetrahedron attributes to the target 
+     * file. Note that the absolute value (which is always greater or equal to
+     * 0) will be exported.
      */
     public void generateVerticalThicknessAttr() {
     	this.exportVerticalThickness = true;
+    }
+
+    /**
+     * instructs the writer to export z-values as numerical vertex attributes 
+     * to the target file.
+     */
+    public void generateZAttr() {
+    	this.exportZ = true;
     }
 
     /**
@@ -129,7 +140,7 @@ public class IoTetrMeshWriter extends IoAbstractWriter
     }
     
     private void writeVTKUnstructuredGrid(VgIndexedTetrMesh mesh, String filename) 
-        	throws T3dException
+        throws T3dException
     {
         try {
             doc = new BufferedWriter(new FileWriter(filename));
@@ -162,7 +173,8 @@ public class IoTetrMeshWriter extends IoAbstractWriter
                 wl("10"); // VTK type number
             }
 
-            if (this.exportTetrId || this.exportVerticalThickness) {
+            if (this.exportTetrId || this.exportVerticalThickness) 
+            {
 	          	wl("CELL_DATA " + mesh.numberOfTetrahedrons());            	
 	
 	          	if (this.exportTetrId) {
@@ -183,12 +195,23 @@ public class IoTetrMeshWriter extends IoAbstractWriter
 		                	z1 = mesh.getPoint(v[1]).getZ(),
 		                	z2 = mesh.getPoint(v[2]).getZ(),
 		                	z3 = mesh.getPoint(v[3]).getZ();
-		                double dz = this.max(z0,  z1, z2, z3) - this.min(z0, z1, z2, z3);
+		                double dz = this.max(z0, z1, z2, z3) - this.min(z0, z1, z2, z3);
 		                wl("" + Math.abs(dz));
 		            }
-	            }
+	            }            
             }
             
+          	if (this.exportZ)
+          	{
+	          	wl("POINT_DATA " + mesh.numberOfPoints());            	
+
+	        	wl("SCALARS Z float 1");
+	        	wl("LOOKUP_TABLE default");
+	            for (int i = 0; i < mesh.numberOfPoints(); i++) {
+	                wl("" + mesh.getPoint(i).getZ());
+	            }
+            }
+
             doc.close();
         }
         catch (IOException e) {

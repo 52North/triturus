@@ -269,11 +269,11 @@ public class T3dVector
 	}
 
 	/**
-	 * returns the angle between the position vectors <tt>v1</tt>, 
-	 * <tt>this</tt> (as apex), and <tt>v2</tt>. 
+	 * returns the angle between the position vectors <tt>pos1</tt>, 
+	 * <tt>this</tt> (as apex), and <tt>pos2</tt>. 
 	 * <br/>
-	 * Note: <tt>v1</tt>, <tt>v2</tt> and <tt>this</tt> must be different from 
-	 * one another, otherwise the result will be 0 here.
+	 * Note: <tt>pos1</tt>, <tt>pos2</tt> and <tt>this</tt> must be different
+	 * from one another, otherwise the result will be 0 here.
 	 * 
 	 * @param pos1 Position 
 	 * @param pos2 Position 
