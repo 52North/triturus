@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2007-2015 52°North Initiative for Geospatial Open Source
+ * Copyright (C) 2007-2015 52 North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it
@@ -18,16 +18,17 @@
  *
  * Therefore the distribution of the program linked with libraries licensed
  * under the aforementioned licenses, is permitted by the copyright holders
- * if the distribution is compliant with both the GNU General Public
- * icense version 2 and the aforementioned licenses.
+ * if the distribution is compliant with both the GNU General Public License 
+ * version 2 and the aforementioned licenses.
  *
  * This program is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
- * Public License for more details.
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY 
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License 
+ * for more details.
  *
- * Contact: Benno Schmidt & Martin May, 52 North Initiative for Geospatial Open Source
- * Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, Germany, info@52north.org
+ * Contact: Benno Schmidt and Martin May, 52 North Initiative for Geospatial 
+ * Open Source Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, 
+ * Germany, info@52north.org
  */
 package org.n52.v3d.triturus.gisimplm;
 
@@ -38,27 +39,33 @@ import java.util.Collections;
 import java.lang.Comparable;
 
 /**
- * <tt>VgProfile</tt>-implementation. Object information will be kept in main memory.<br />
- * x- and y-values have to be given with respect to the spatial reference system (SRS) that has been set for the
- * geometric object. z-values might be provided for the object's vertices.<br /><br />
- * <i>German:</i> <tt>VgProfile</tt>-Implementierung, bei der die Profil-Geometrie im Speicher vorgehalten wird.<br />
- * Bem.: Die vorliegende Implementierung liegt eine vereinfachte ACAD-GEO-Modellierung zugrunde (Beschr&auml;nkung
- * auf einen Werteverlauf z(t) pro Definitionslinie, keine Ber&uuml;cksichtigung visueller Attribute).<br />
+ * <tt>VgProfile</tt>-implementation. Object information will be kept in main
+ * memory.
+ * <br/>
+ * x- and y-values have to be given with respect to the spatial reference 
+ * system (SRS) that has been set for the geometric object. z-values might be
+ * provided for the object's vertices.
+ * <br/>
+ * Note: This implementierung is based on a simplified ACAD-GEO model 
+ * (limitation to a single value chart z(t) per definition line and no 
+ * consideration of visual attributes).
+ * 
  * @see GmProfile.TZPair
  * @author Benno Schmidt
  */
 public class GmProfile extends VgProfile
 {
-    private ArrayList mProfileData = null;
+    private ArrayList<TZPair> mProfileData = null;
     private boolean mOrdered;
     
     /**
      * Constructor.
-     * @param pGeom <tt>VgLineString</tt>-object holding defining base-line
+     * 
+     * @param geom <tt>VgLineString</tt>-object holding defining base-line
      */
-    public GmProfile(VgLineString pGeom) {
-    	this.setGeometry(pGeom);
-    	mProfileData = new ArrayList();
+    public GmProfile(VgLineString geom) {
+    	this.setGeometry(geom);
+    	mProfileData = new ArrayList<TZPair>();
     	mOrdered = true;
     }
     
@@ -79,22 +86,25 @@ public class GmProfile extends VgProfile
     }
     
     /**
-     * adds a point to the cross-section.<br /><br />
-     * <i>German:</i> f&uuml;gt dem Profil eine Stationsstelle hinzu. Das erste Element des Parameterfeldes enth&auml;lt
-     * die Stationierung t, das zweite Element den zugeh&ouml;rigen z-Wert. Durch die Operation erh&ouml;ht sich der
-     * Wert f&uuml;r <tt>this.numberOfTZPairs()</tt> um 1.<br />
-     * Bem.: Der Fall, dass f&uuml;r die angegebenen Station t bereits ein z-Wert im Profilverlauf enthalten ist, wird
-     * nicht abgefangen.
-     * @param pVal Array consisting of two elements holding the values for t and z(t)
+     * adds a point to the cross-section.
+     * <br/>
+     * The first element of the parameter field holds the station-value t, the
+     * second element the z-value belonging to this station. By calling this 
+     * operation the value of <tt>this.numberOfTZPairs()</tt> will be incremented.
+     * <br/>
+     * Note: The case that for the given station t a z-value is already present 
+     * will not be caught.
+     * 
+     * @param val Array consisting of two elements holding the values for t and z(t)
      */
-    public void addTZPair(double[] pVal) throws T3dException
+    public void addTZPair(double[] val) throws T3dException
     {
-        mProfileData.add(new TZPair(pVal[0], pVal[1]));
+        mProfileData.add(new TZPair(val[0], val[1]));
         if (mProfileData.size() >= 2) {
-            if (pVal[0] <= ((TZPair) mProfileData.get(mProfileData.size() - 2)).getT())
+            if (val[0] <= ((TZPair) mProfileData.get(mProfileData.size() - 2)).getT())
                 mOrdered = false; 
             else
-                ; // mOrdered wie vor addTZPair-Aufruf belassen
+                ; // leave mOrdered unchanged (value before addTZPair-call)
         }
     }
 
@@ -114,7 +124,7 @@ public class GmProfile extends VgProfile
 
     public double zMin()
     {
-        this.provideOrder(); // da t-Werte doppelt vorkommen k�nnen
+        this.provideOrder(); // since t-values might occur twice
 
         if (this.numberOfTZPairs() <= 0)
             return 0.;
@@ -128,15 +138,16 @@ public class GmProfile extends VgProfile
     }
 
     /**
-     * returns the cross-section's maximal z-value.<br /><br />
-     * <i>German:</> liefert den maximalen z-Wert des Profils.<br />
-     * Bem.: Falls <tt>this.numberOfTZPairs()</tt> = 0 ist, wird der Wert 0.0 als Ergebnis zur&uuml;ckgegeben. Dieser
-     * Fall ist von der aufrufenden Anwendung explizit abzufangen.
+     * returns the cross-section's maximum z-value.
+     * <br/>
+     * Note: If <tt>this.numberOfTZPairs()</tt> = 0, the result will be 0.0. 
+     * This case has to be handeld by the calling application.
+     * 
      * @return Maximum of all z(t)
      */
     public double zMax()
     {
-        this.provideOrder(); // da t-Werte doppelt vorkommen k�nnen
+        this.provideOrder(); // since t-values might occur twice
 
         if (this.numberOfTZPairs() <= 0)
             return 0.;
@@ -153,7 +164,9 @@ public class GmProfile extends VgProfile
         String strGeom = "<empty geometry>";
         if (this.getGeometry() != null)
             strGeom = this.getGeometry().toString(); 
-        return "[" + this.getName() + ", {# " + this.numberOfTZPairs() + " t-z-pairs}, " + strGeom + "]";
+        return "[" + 
+            this.getName() + 
+            ", {# " + this.numberOfTZPairs() + " t-z-pairs}, " + strGeom + "]";
     }
 
     private void provideOrder() 
@@ -198,32 +211,27 @@ public class GmProfile extends VgProfile
     	public TZPair(double t, double z) { mT = t; mZ = z; };
     	
     	/**
-         * returns t.<br /><br />
-         * <i>German:</i> liefert den Stationierungsparameter.
+         * returns t ("Stationierungsparameter").
          */
     	public double getT() { return mT; }
 
     	/**
-         * sets t.<br /><br />
-         * <i>German:</i> setzt den Stationierungsparameter.
+         * sets t ("Stationierungsparameter").
          */
     	public void setT(double t) { mT = t; }
 
     	/**
-         * returns z.<br /><br />
-         * <i>German:</i> liefert den H&ouml;henwert.
+         * returns z (elevation value).
          */
     	public double getZ() { return mZ; }
 
     	/**
-         * sets z.<br /><br />
-         * <i>German:</i> setzt den H&ouml;henwert.
+         * sets z (elevation value).
          */
     	public void setZ(double z) { mZ = z; }
     	
     	/**
-         * defines an order-realtion on t-z value-pairs.<br /><br />
-         * <i>German:</i> definiert eine Ordnung auf t-z-Wertepaaren.
+         * defines an order-realation on t-z value-pairs.
          */
     	public int compareTo(Object tzp) {
     	    if (mT > ((TZPair) tzp).getT()) return 1;
