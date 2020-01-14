@@ -188,11 +188,11 @@ public class IoProfileWriter extends IoAbstractWriter
             wl("<svg " + 
             	" width=\"" + lImageWidth + "px\"" + 
             	" height=\"" + lImageHeight + "px\"" + 
-            	" version=\"1.1\" id=\"Layer_1\"" + 
-            	" xmlns=\"http://www.w3.org/2000/svg\"" + 
+            	" id=\"Layer_1\"" + 
+            	" version=\"1.1\"" + 
             	" xmlns:xlink=\"http://www.w3.org/1999/xlink\"" + 
             	" xml:space=\"preserve\"" +
-            	" version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\">");
+            	" xmlns=\"http://www.w3.org/2000/svg\">");
             wl("  <desc>Triturus profile export</desc>");
             wl("  <rect" + 
             	" width=\"" + lImageWidth + "\"" + 
