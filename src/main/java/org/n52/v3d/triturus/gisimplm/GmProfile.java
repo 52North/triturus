@@ -46,7 +46,7 @@ import java.lang.Comparable;
  * system (SRS) that has been set for the geometric object. z-values might be
  * provided for the object's vertices.
  * <br/>
- * Note: This implementierung is based on a simplified ACAD-GEO model 
+ * Note: This implementation is based on a simplified ACAD-GEO model 
  * (limitation to a single value chart z(t) per definition line and no 
  * consideration of visual attributes).
  * 

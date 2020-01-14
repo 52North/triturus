@@ -68,13 +68,13 @@ public class IoProfileWriter extends IoAbstractWriter
      * Constructor. As an input parameter, the target format type identifier 
      * must be specified. The supported formats are listed below:<br/>
      * <ul>
-     * <li><i>AcGeo:</i> ACADGEO format for cross-sections</li>
+     * <li><i>AcGeo:</i> ACAD-GEO format for cross-sections</li>
      * <li><i>SVG:</i> SVG file</li>
      * </ul>
      * 
      * @param format Format-string, e.g. <tt>&quot;AcGeo&quot;</tt>
      */
-    public IoProfileWriter(String format) {
+    public IoProfileWriter(String format) { 
         logString = this.getClass().getName();
         this.setFormatType(format);
     }
