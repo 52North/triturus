@@ -128,8 +128,8 @@ public class TIN2Grid
         try {
             System.out.println("Writing result file \"" + outputFile + "\"...");
 
-            IoElevationGridWriter writer = new IoElevationGridWriter(outputFormat);
-            writer.writeToFile((GmSimpleElevationGrid) grd, outputFile);
+            //IoElevationGridWriter writer = new IoElevationGridWriter(outputFormat);
+            //writer.writeToFile((GmSimpleElevationGrid) grd, outputFile);
             
             System.out.println("Success!");
         }

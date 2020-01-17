@@ -94,7 +94,7 @@ public class GridProfile
         lWriter.writeToFile(prof, "data/cross-section.svg");
         // and to ASCII-file:
         System.out.println("Exporting to ASCII-file...");
-        lWriter.setFormatType(IoProfileWriter.ACGEO);
+        // lWriter.setFormatType(IoProfileWriter.ACGEO);
         lWriter.writeToFile(prof, "data/cross-section.prf");
         System.out.println("Success!");
     }
