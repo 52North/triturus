@@ -37,23 +37,24 @@ import org.n52.v3d.triturus.core.T3dException;
 /**
  * Abstract base class for geo-referenced cross-sections.
  * <br/>
- * in the scope of the Triturus framework, a <i>profile</i> is a line-string 
+ * In the scope of the Triturus framework, a <i>profile</i> is a line-string 
  * geometry (2-D polyline as <i>definition line</i>), along thats run-length a
- * station parameter t will be managed ("Stationierungsparameter"). Inside the
- * parameter range, unique z-values f(t) can be assigned to t-values.
+ * station parameter <i>t</i> will be managed ("Stationierungsparameter"). 
+ * Inside the parameter range, unique z-values <i>f(t)</i> can be assigned to 
+ * t-values.
  * <br/>
- * Often f(t) will give elevation values. Thus, these values are denoted as 
- * z-values inside the framework. The <i>parameter range</i> denotes the range
- * where z-values are present for the given definition line. Here this range 
- * is limited to intervals of the form [t_min, t_max] (make sure this is 
- * sufficient for your application). The case of ranges where no z-values 
- * are available ("unset values") might occur, if parts of the profile's 
- * definition line lie outside of an elevation-grid and consequently no z-value 
- * interpolation is possible there.
+ * Often <i>f(t)</i> will give elevation values. Thus, these values are denoted 
+ * as z-values inside the framework. The <i>parameter range</i> denotes the 
+ * range where z-values are present for the given definition line. Here this 
+ * range is limited to intervals of the form [<i>t_min</i>, <i>t_max</i>] (make 
+ * sure this is sufficient for your application). The case of ranges where
+ * no z-values are available ("unset values") might occur, if parts of the 
+ * profile's definition line lie outside of an elevation-grid and consequently 
+ * no z-value interpolation is possible there.
  * <br/>
  * Note: It will be postulated that the sequence of t-z value pairs (which is
  * available via the method <tt>getTZPair</tt>) grows monotonous with respect 
- * to t. Make sure this condition holds for your application.
+ * to <i>t</i>. Make sure this condition holds for your application.
  * <br/>
  * <i>TODO: The current model allows to manage a single value chart z(t) per 
  * profile only. Future implementations might overcome this limitation.

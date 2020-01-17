@@ -61,21 +61,25 @@ public class FltElevationGrid2Profile extends T3dProcFilter
     /** 
      * computes the cross-section ("profile") for a given elevation-grid.
      * 
-     * @param grid Elevation grid
-     * @param defLine 2-D defnition line ("base line")
+     * @param grid Elevation-grid
+     * @param defLine 2-D definition line ("base line")
      * @return 3-D cross-section
      */
-    public VgProfile transform(GmSimpleElevationGrid grid, VgLineString defLine) 
+    public VgProfile transform(
+    	GmSimpleElevationGrid grid, VgLineString defLine) 
     	throws T3dException
     {
         if (defLine.numberOfVertices() <= 0)
             return null;
+        if (grid == null)
+        	return null;
         
         // set grid parameters (member variables):
-    	xll = grid.getGeometry().envelope().getXMin();
-    	yll = grid.getGeometry().envelope().getYMin();
-    	xur = grid.getGeometry().envelope().getXMax();
-    	yur = grid.getGeometry().envelope().getYMax();
+        VgEnvelope env = grid.getGeometry().envelope();
+    	xll = env.getXMin();
+    	yll = env.getYMin();
+    	xur = env.getXMax();
+    	yur = env.getYMax();
         nx = ((GmSimple2dGridGeometry) grid.getGeometry()).numberOfColumns();
     	ny = ((GmSimple2dGridGeometry) grid.getGeometry()).numberOfRows();
         this.grid = grid;

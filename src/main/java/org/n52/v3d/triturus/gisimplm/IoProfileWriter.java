@@ -354,7 +354,8 @@ public class IoProfileWriter extends IoAbstractWriter
         			//wl();
         		}
             }
-            wl("\" style=\"stroke:rgb(255,0,0);fill:none\"/>");
+            wl("\"");
+            wl("   style=\"stroke:rgb(255,0,0);fill:none\"/>");
 
             wl("</svg>");
             doc.close();
