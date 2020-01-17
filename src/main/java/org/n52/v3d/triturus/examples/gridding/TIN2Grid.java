@@ -146,8 +146,8 @@ public class TIN2Grid
         try {
             System.out.println("Writing conflicts to file \"" + conflictFile + "\"...");
 
-        	IoLineSegmentWriter writer = new IoLineSegmentWriter(IoFormatType.VTK_DATASET);
-            writer.writeToFile(conflicts, conflictFile);
+        	//IoLineSegmentWriter writer = new IoLineSegmentWriter(IoFormatType.VTK_DATASET);
+            //writer.writeToFile(conflicts, conflictFile);
             
             System.out.println("Success!");
         }
