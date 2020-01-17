@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2007-2015 52 North Initiative for Geospatial Open Source
+ * Copyright (C) 2007-2020 52 North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it
@@ -37,25 +37,26 @@ import org.n52.v3d.triturus.core.T3dException;
 /**
  * Abstract base class for geo-referenced cross-sections.
  * <br/>
- * in the scope of the Triturus framework, a <i>profile</i> is a line-segment 
- * geometrie (2-D polyline as <i>definition line</i>), along thats run-length a
+ * in the scope of the Triturus framework, a <i>profile</i> is a line-string 
+ * geometry (2-D polyline as <i>definition line</i>), along thats run-length a
  * station parameter t will be managed ("Stationierungsparameter"). Inside the
  * parameter range, unique z-values f(t) can be assigned to t-values.
  * <br/>
- * Often these values f(t) will be elevation values. Thus, the are named as 
+ * Often f(t) will give elevation values. Thus, these values are denoted as 
  * z-values inside the framework. The <i>parameter range</i> denotes the range
  * where z-values are present for the given definition line. Here this range 
- * is limited to an interval of the form [t_min, t_max] (make sure this is 
- * sufficient for your application). The case of unset ranges might occur, if a 
- * parts of the profile's definition line lie outside of an elevation-grid and 
- * consequqntly no z-value interpolation is possible there.
+ * is limited to intervals of the form [t_min, t_max] (make sure this is 
+ * sufficient for your application). The case of ranges where no z-values 
+ * are available ("unset values") might occur, if parts of the profile's 
+ * definition line lie outside of an elevation-grid and consequently no z-value 
+ * interpolation is possible there.
  * <br/>
  * Note: It will be postulated that the sequence of t-z value pairs (which is
  * available via the method <tt>getTZPair</tt>) grows monotonous with respect 
- * to t. Make sure this condition  holds for your application.
+ * to t. Make sure this condition holds for your application.
  * <br/>
  * <i>TODO: The current model allows to manage a single value chart z(t) per 
- * profile only. Future implementation might overcome this limitation.
+ * profile only. Future implementations might overcome this limitation.
  * 
  * @author Benno Schmidt
  */
@@ -65,9 +66,8 @@ abstract public class VgProfile extends VgFeature
     	// modelling of VgProfile as VgLineString-decorator
 
     /**
-     * sets the base-line.
-     * <br/>
-     * Note: the geometry's z-value will be considered.
+     * sets the definition line ("base-line"). Note that the z-values of the 
+     * definition line's vertices will not be relevant here.
      * 
      * @param geom <tt>VgLineString</tt> object
      */
@@ -76,7 +76,7 @@ abstract public class VgProfile extends VgFeature
     }
     
     /** 
-     * returns the base-line (definition line of the profile).
+     * returns the definition line ("base-line" of the profile).
      * 
      * @return <tt>VgLineString</tt> object
      */
@@ -85,34 +85,35 @@ abstract public class VgProfile extends VgFeature
     }  
 
     /**
-     * returns the number of position vertices ("Stationsstellen ") for that 
-     * z(t)-values are present.
+     * returns the number of position vertices ("Stationsstellen") for that 
+     * z(t)-values or null-values are present. Here, <tt>null</tt>-values are
+     * used to mark unset profile positions.
      * 
      * @return Number of position vertices
      */
     abstract public int numberOfTZPairs();
     
     /**
-     * returns the values of the i-th position point. The first element of the 
-     * result array holds the position t ("Stationierung"), the second element 
-     * the corresponding z-value.
+     * returns the value pair of the i-th position point. The first element of 
+     * the result array holds the position t ("Stationierung"), the second 
+     * element the corresponding z-value.
      * <br/>
-     * The sequqnce of t-z value-pairs grows monotonous with respect to t, i.e.
+     * The sequence of t-z value-pairs grows monotonous with respect to t, i.e.
      * for all i the following condition must hold: 
-     * <i>getTZPair(i)[i] &lt;= getTZPair(i)[i + 1] </i>.
+     * <i>getTZPair(i)[0] &lt;= getTZPair(i + 1)[0]</i>.
      * <br/>
-     * The condition <i>0 &lt;= i &lt; this.numberOfTZPairs()</i> must hold; 
-     * otherwise a <tt>T3dException</tt> will be thrown.
+     * The condition <i>0 &lt;= i &lt; this.numberOfTZPairs()</i> also must 
+     * hold; otherwise a <tt>T3dException</tt> will be thrown.
      * 
      * @param i Vertex index
-     * @return Array with two element containing the values for t and z(t)
+     * @return Array with two elements containing the values for t and z(t)
      * @throws T3dException
      */
-    abstract public double[] getTZPair(int i) throws T3dException;
+    abstract public Double[] getTZPair(int i) throws T3dException;
 
     /**
      * returns the value of the position parameter t ("Stationierungsparameter") 
-     * for the start-point of the base-line (definition line of the profile).
+     * for the start-point of the definition line ("base-line" of the profile).
      * 
      * @return t-value, here = 0
      */
@@ -122,7 +123,7 @@ abstract public class VgProfile extends VgFeature
 
     /**
      * returns the value of the position parameter t ("Stationierungsparameter")
-     * for the end-point of the base-line (definition line of the profile).
+     * for the end-point of the definition line ("base-line" of the profile).
      * 
      * @return Base-line length
      */
@@ -131,36 +132,54 @@ abstract public class VgProfile extends VgFeature
     }
 
     /**
-     * returns the value of the position parameter t for the begin of the base-line section that is providing
-     * z-values.<br /><br />
-     * <i>German:</> liefert den Wert des Stationierungsparameters t f&uuml;r den Anfang des Belegungsbereichs des
-     * Profils.
+     * returns the value of the position parameter t for the begin of the 
+     * definition line range that is providing z-values. 
+     * <br/>
+     * Note that the return value may be <tt>null</tt>, if no z-values are 
+     * given at all (e.g., for a definition line which is situated in unset 
+     * areas of an elevation grid). This case has to be handled by the calling 
+     * application.
+     * 
      * @return t-value &gt;= 0
      */
-    abstract public double tMin();
+    abstract public Double tMin();
 
     /**
-     * returns the value of the position parameter t ("Stationierungsparameter") 
-     * for the end of the base-line section that is providing z-values (i.e., 
-     * the "parameter range" of the profile).
+     * returns the value of the position parameter t for the end of the 
+     * definition line range that is providing z-values. 
+     * <br/>
+     * Note that the return value may be <tt>null</tt>, if no z-values are 
+     * given at all (e.g., for a definition line which is situated in unset 
+     * areas of an elevation grid). This case has to be handled by the calling 
+     * application.
      * 
      * @return t-value &lt;= <tt>this.tEnd()</tt>
      */
-    abstract public double tMax();
+    abstract public Double tMax();
 
     /**
-     * returns the cross-section's minimal z-value.
+     * returns the cross-section's minimum z-value.
+     * <br/>
+     * Note that the return value may be <tt>null</tt>, if no z-values are 
+     * given at all (e.g., for a definition line which is situated in unset 
+     * areas of an elevation grid). This case has to be handled by the calling 
+     * application.
      * 
      * @return Minimum of all z(t)
      */
-    abstract public double zMin();
+    abstract public Double zMin();
 
     /**
-     * returns the cross-section's maximal z-value.
+     * returns the cross-section's maximum z-value.
+     * <br/>
+     * Note that the return value may be <tt>null</tt>, if no z-values are 
+     * given at all (e.g., for a definition line which is situated in unset 
+     * areas of an elevation grid). This case has to be handled by the calling 
+     * application.
      * 
      * @return Maximum of all z(t)
      */
-    abstract public double zMax();
+    abstract public Double zMax();
     
 	/**
 	 * always returns <i>false</i>, since a cross-section describes no 

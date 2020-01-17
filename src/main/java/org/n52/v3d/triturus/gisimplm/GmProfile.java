@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2007-2015 52 North Initiative for Geospatial Open Source
+ * Copyright (C) 2007-2020 52 North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it
@@ -34,21 +34,22 @@ package org.n52.v3d.triturus.gisimplm;
 
 import org.n52.v3d.triturus.vgis.*;
 import org.n52.v3d.triturus.core.T3dException;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.lang.Comparable;
 
 /**
- * <tt>VgProfile</tt>-implementation. Object information will be kept in main
- * memory.
+ * <tt>VgProfile</tt>-implementation. Basically, <i>profile</i> provide
+ * cross-section data as defined by a {@link VgProfile}.
  * <br/>
  * x- and y-values have to be given with respect to the spatial reference 
  * system (SRS) that has been set for the geometric object. z-values might be
  * provided for the object's vertices.
  * <br/>
- * Note: This implementation is based on a simplified ACAD-GEO model 
+ * Note: This implementation is based on a simplified ACADGEO model 
  * (limitation to a single value chart z(t) per definition line and no 
- * consideration of visual attributes).
+ * consideration of visual attributes). TODO multiple curves for SVG
  * 
  * @see GmProfile.TZPair
  * @author Benno Schmidt
@@ -59,9 +60,10 @@ public class GmProfile extends VgProfile
     private boolean mOrdered;
     
     /**
-     * Constructor.
+     * Constructor. As a parameter, a <tt>VgLineString</tt>-object holding the
+     * definition line ("base-line") of the profile must be given.
      * 
-     * @param geom <tt>VgLineString</tt>-object holding defining base-line
+     * @param geom Definition line 
      */
     public GmProfile(VgLineString geom) {
     	this.setGeometry(geom);
@@ -69,24 +71,26 @@ public class GmProfile extends VgProfile
     	mOrdered = true;
     }
     
+    @Override
     public int numberOfTZPairs() {
         this.provideOrder();
         return mProfileData.size();
     }
 
-    public double[] getTZPair(int i) throws T3dException
+    @Override
+    public Double[] getTZPair(int i) throws T3dException
     {
         this.provideOrder();
         if (i < 0 || i >= this.numberOfTZPairs())
             throw new T3dException("Index out of bounds.");
-        double[] ret = new double[2];
+        Double[] ret = new Double[2];
         ret[0] = ((TZPair) mProfileData.get(i)).getT();
         ret[1] = ((TZPair) mProfileData.get(i)).getZ();
         return ret;
     }
     
     /**
-     * adds a point to the cross-section.
+     * adds a point to the profile.
      * <br/>
      * The first element of the parameter field holds the station-value t, the
      * second element the z-value belonging to this station. By calling this 
@@ -97,7 +101,7 @@ public class GmProfile extends VgProfile
      * 
      * @param val Array consisting of two elements holding the values for t and z(t)
      */
-    public void addTZPair(double[] val) throws T3dException
+    public void addTZPair(Double[] val) throws T3dException
     {
         mProfileData.add(new TZPair(val[0], val[1]));
         if (mProfileData.size() >= 2) {
@@ -108,58 +112,69 @@ public class GmProfile extends VgProfile
         }
     }
 
-    public double tMin() {
-        if (mProfileData.size() > 0)
-            return ((TZPair) mProfileData.get(0)).getT();
-        else
-            return 0.;
+    @Override
+    public Double tMin() {
+    	if (mProfileData == null || mProfileData.size() == 0) 
+    		return null;
+    	Double ret = ((TZPair) mProfileData.get(0)).getT();
+    	int i = 1;
+        while (ret == null && i < mProfileData.size()) {
+        	ret = ((TZPair) mProfileData.get(i)).getT();
+        	i++;
+        }
+        return ret;
     }
 
-    public double tMax() {
-        if (mProfileData.size() > 0)
-            return ((TZPair) mProfileData.get(mProfileData.size() - 1)).getT();
-        else
-            return 0.;
+    @Override
+    public Double tMax() {
+    	if (mProfileData == null || mProfileData.size() == 0) 
+    		return null;
+    	Double ret = ((TZPair) mProfileData.get(mProfileData.size() - 1)).getT();
+    	int i = mProfileData.size() - 2;
+        while (ret == null && i >= 0) {
+        	ret = ((TZPair) mProfileData.get(i)).getT();
+        	i--;
+        }
+        return ret;
     }
 
-    public double zMin()
+    @Override
+    public Double zMin()
     {
         this.provideOrder(); // since t-values might occur twice
 
         if (this.numberOfTZPairs() <= 0)
-            return 0.;
+            return null;
     
-        double z, zMin = ((TZPair) mProfileData.get(0)).getZ();
+        Double z, zMin = ((TZPair) mProfileData.get(0)).getZ();
         for (int i = 1; i < this.numberOfTZPairs(); i++) {
             z = ((TZPair) mProfileData.get(i)).getZ();
-            if (z < zMin) zMin = z;
+            if (z != null) {
+            	if (zMin == null || z < zMin) zMin = z;
+            }
         }
         return zMin;
     }
 
-    /**
-     * returns the cross-section's maximum z-value.
-     * <br/>
-     * Note: If <tt>this.numberOfTZPairs()</tt> = 0, the result will be 0.0. 
-     * This case has to be handeld by the calling application.
-     * 
-     * @return Maximum of all z(t)
-     */
-    public double zMax()
+    @Override
+    public Double zMax()
     {
         this.provideOrder(); // since t-values might occur twice
 
         if (this.numberOfTZPairs() <= 0)
-            return 0.;
+            return  null;
     
-        double z, zMax = ((TZPair) mProfileData.get(0)).getZ();
+        Double z, zMax = ((TZPair) mProfileData.get(0)).getZ();
         for (int i = 1; i < this.numberOfTZPairs(); i++) {
             z = ((TZPair) mProfileData.get(i)).getZ();
-            if (z > zMax) zMax = z;
+            if (z != null) {
+            	if (zMax == null || z > zMax) zMax = z;
+            }
         }
         return zMax;
     }
     
+    @Override
     public String toString() {
         String strGeom = "<empty geometry>";
         if (this.getGeometry() != null)
@@ -169,29 +184,38 @@ public class GmProfile extends VgProfile
             ", {# " + this.numberOfTZPairs() + " t-z-pairs}, " + strGeom + "]";
     }
 
-    private void provideOrder() 
+	private void provideOrder() 
     {
         if (mOrdered || mProfileData.size() < 2) 
             return;
         else {
             Collections.sort(mProfileData);
-            int ct = 1;
             double t0, t1;
             for (int i = 0; i < mProfileData.size() - 1; i++) {
                 t0 = ((TZPair) mProfileData.get(i)).getT();
                 t1 = ((TZPair) mProfileData.get(i + 1)).getT();
-                if (t0 == t1) {
-                    double z0, z1;
+                if (t0 == t1) { 
+                	// determine unique value z(t) for station t:
+                    Double z0, z1;
                     z0 = ((TZPair) mProfileData.get(i)).getZ();
                     z1 = ((TZPair) mProfileData.get(i + 1)).getZ();
-                    ct++;
-                    double avg = ((double) (ct - 1))/((double) ct) * z0 + 1./((double) ct) * z1;                  
-                    ((TZPair) mProfileData.get(i)).setZ(avg);
+                    Double newZ = null;
+                    if (z0 == null) {
+                    	if (z1 != null) 
+                    		newZ = z1; 
+                    	else
+                    		;
+                    } else {
+                    	if (z1 == null) 
+                    		newZ = z0;
+                    	else {
+                            newZ = new Double((z0 + z1) / 2.);                  
+                    	}
+                    }
+                    ((TZPair) mProfileData.get(i)).setZ(newZ);
                     mProfileData.remove(i + 1);
                     i--;
                 }
-                else
-                    ct = 1;
             }
             mOrdered = true;
         }
@@ -200,15 +224,15 @@ public class GmProfile extends VgProfile
     /** 
      * Inner class to hold t-z value pairs.
      */
-    public class TZPair implements Comparable
+    public class TZPair implements Comparable<Object>
     {
     	private double mT;
-    	private double mZ;
+    	private Double mZ;
     	
     	/**
          * Constructor.
          */
-    	public TZPair(double t, double z) { mT = t; mZ = z; };
+    	public TZPair(double t, Double z) { mT = t; mZ = z; };
     	
     	/**
          * returns t ("Stationierungsparameter").
@@ -221,17 +245,17 @@ public class GmProfile extends VgProfile
     	public void setT(double t) { mT = t; }
 
     	/**
-         * returns z (elevation value).
+         * returns z (e.g., elevation value).
          */
-    	public double getZ() { return mZ; }
+    	public Double getZ() { return mZ; }
 
     	/**
-         * sets z (elevation value).
+         * sets z (e.g., elevation value).
          */
-    	public void setZ(double z) { mZ = z; }
+    	public void setZ(Double z) { mZ = z; }
     	
     	/**
-         * defines an order-realation on t-z value-pairs.
+         * defines an order-relation on t-z value-pairs.
          */
     	public int compareTo(Object tzp) {
     	    if (mT > ((TZPair) tzp).getT()) return 1;

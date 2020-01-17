@@ -18,15 +18,15 @@
  *
  * Therefore the distribution of the program linked with libraries licensed
  * under the aforementioned licenses, is permitted by the copyright holders
- * if the distribution is compliant with both the GNU General Public
- * license version 2 and the aforementioned licenses.
+ * if the distribution is compliant with both the GNU General Public License 
+ * version 2 and the aforementioned licenses.
  *
  * This program is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
- * Public License for more details.
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY 
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License 
+ * for more details.
  *
- * Contact: Benno Schmidt & Martin May, 52 North Initiative for Geospatial 
+ * Contact: Benno Schmidt and Martin May, 52North Initiative for Geospatial 
  * Open Source Software GmbH, Martin-Luther-King-Weg 24, 48155 Muenster, 
  * Germany, info@52north.org
  */
@@ -143,7 +143,7 @@ public class GmLineString extends VgLineString
 		GmLineString res = new GmLineString();
 		VgPoint v = null;
 		for (int i = 0; i < this.numberOfVertices(); i++) {
-			v = new GmPoint( this.getVertex(i) );
+			v = new GmPoint(this.getVertex(i));
 			v.setZ(0.);
 			this.addVertex(v);
 		}	

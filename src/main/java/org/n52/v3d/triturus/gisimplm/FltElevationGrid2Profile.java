@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2007-2015 52North Initiative for Geospatial Open Source
+ * Copyright (C) 2007-2020 52North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it
@@ -37,19 +37,17 @@ import org.n52.v3d.triturus.core.T3dProcFilter;
 import org.n52.v3d.triturus.core.T3dException;
 
 /**
- * Filter to compute cross-sections for equidistant elevation-grids that are 
- * parallel to the x- and y-axis.
+ * Filter to compute cross-sections ("profiles") for equidistant elevation-grids
+ * that are parallel to the x- and y-axis.
  * 
  * @author Benno Schmidt
  */
 public class FltElevationGrid2Profile extends T3dProcFilter
 {
     private String logString = "";
-
     private GmSimpleElevationGrid grid = null;
     private double xll, yll, xur, yur;
     private int nx, ny;
-
     private VgProfile res = null;
     
     public FltElevationGrid2Profile() {
@@ -61,11 +59,11 @@ public class FltElevationGrid2Profile extends T3dProcFilter
     }
 
     /** 
-     * computes the cross-section for an elevation-grid.
+     * computes the cross-section ("profile") for a given elevation-grid.
      * 
      * @param grid Elevation grid
-     * @param defLine 2D base-line
-     * @return 3D cross-section
+     * @param defLine 2-D defnition line ("base line")
+     * @return 3-D cross-section
      */
     public VgProfile transform(GmSimpleElevationGrid grid, VgLineString defLine) 
     	throws T3dException
@@ -86,17 +84,14 @@ public class FltElevationGrid2Profile extends T3dProcFilter
 
         // 1. Determine z-value for start-point of 1st segment
         VgPoint ip = this.projectToSurface(defLine.getVertex(0));
-        if (ip != null)
-            this.registerVertex(ip, 0.);
+        this.registerVertex(0., ip);
 
     	double iFromFp, jFromFp, iToFp, jToFp;
     	int iFrom, jFrom, iTo, jTo;
-
         double t = 0.;
-        for (int k = 0; k < defLine.numberOfVertices() - 1; k++) 
-        {    
+        
+        for (int k = 0; k < defLine.numberOfVertices() - 1; k++) {    
             // Handle k-th line segment:
-            
             VgLineSegment seg = 
             	new GmLineSegment(defLine.getVertex(k), defLine.getVertex(k + 1));
 
@@ -121,19 +116,18 @@ public class FltElevationGrid2Profile extends T3dProcFilter
             iTo = (int) Math.round(Math.floor(iToFp));
             for (int jj = jFrom; jj <= jTo; jj++) {
                 ip = this.grdIntersectVert(seg, jj);
-                if (ip != null)
-                    this.registerVertex(ip, t + ip.distanceXY(seg.getStartPoint()));
+                if (ip != null) // Note: ip might be an UnsetPoint object.
+                	this.registerVertex(t + ip.distanceXY(seg.getStartPoint()), ip);
             }
             for (int ii = iFrom; ii <= iTo; ii++) {
                 ip = this.grdIntersectHoriz(seg, ii);
-                if (ip != null)
-                    this.registerVertex(ip, t + ip.distanceXY(seg.getStartPoint()));
+                if (ip != null) // Note: ip might be an UnsetPoint object.
+                	this.registerVertex(t + ip.distanceXY(seg.getStartPoint()), ip);
             }
             
             // 3. Determine z-value for segment end-point
             ip = this.projectToSurface(seg.getEndPoint());
-            if (ip != null)
-                this.registerVertex(ip, t + ((VgLineSegment) seg.footprint()).length());
+            this.registerVertex(t + ((VgLineSegment) seg.footprint()).length(), ip);
             
             t += seg.length();
         }
@@ -150,11 +144,11 @@ public class FltElevationGrid2Profile extends T3dProcFilter
         return (pt.getY() - yll) / (yur - yll) * (double)(ny - 1);
     }    
     
-    // Compute intersection point of line-segment and vertical grid line:
+    // Compute intersection point of line-segment and grid line in y-direction
+    // ("vertical" grid line): 
     private VgPoint grdIntersectVert(VgLineSegment seg, int jj) 
     {
         if (jj < 0 || jj >= nx) return null;
-        
         
         if (Math.abs(seg.getEndPoint().getX() - seg.getStartPoint().getX()) <= 0.000001) {
             return null; // Segment parallel to grid line
@@ -180,13 +174,19 @@ public class FltElevationGrid2Profile extends T3dProcFilter
     		z1 = this.grdElevation(ii1, jj),
     		z2 = this.grdElevation(ii2, jj);
         if (z1 != null && z2 != null) {
-        	double z = z1 + (iiFp - (int) Math.floor(iiFp)) * (z2 - z1);
+        	double z = z1 + (iiFp - Math.floor(iiFp)) * (z2 - z1);
             return new GmPoint(x, y, z);
+        } else {
+           	// z1 == null || z2 == null:
+        	if (z1 != null) return new GmPoint(x, y, z1);
+        	if (z2 != null) return new GmPoint(x, y, z2);
+        	// z1 == null && z2 == null:
+        	return new UnsetPoint(x, y);
         }
-        return null;
     }
 
-    // Compute intersection point of line-segment and horizontal grid line:
+    // Compute intersection point of line-segment and grid line in x-direction
+    // ("horizontal" grid line): 
     private VgPoint grdIntersectHoriz(VgLineSegment seg, int ii) 
     {
         if (ii < 0 || ii >= ny) return null;
@@ -217,8 +217,13 @@ public class FltElevationGrid2Profile extends T3dProcFilter
         if (z1 != null && z2 != null) {
         	double z = z1 + (jjFp - Math.floor(jjFp)) * (z2 - z1);
             return new GmPoint(x, y, z);
+        } else {
+           	// z1 == null || z2 == null:
+        	if (z1 != null) return new GmPoint(x, y, z1);
+        	if (z2 != null) return new GmPoint(x, y, z2);
+        	// z1 == null && z2 == null:
+        	return new UnsetPoint(x, y);
         }
-        return null;
     }
  
     // Project point to elevation surface:
@@ -295,12 +300,24 @@ public class FltElevationGrid2Profile extends T3dProcFilter
     	return grdIsSet(i, j) ? grid.getValue(i, j) : null;
     }
     
-    private void registerVertex(VgPoint pt, double t) // TODO: put this into GmProfile
+    private void registerVertex(double t, VgPoint pt) 
     {
     	//System.out.println("register vertex t = " + t + ", " + pt);
-        double[] tzp = new double[2];
+        Double[] tzp = new Double[2];
         tzp[0] = t;
-        tzp[1] = pt.getZ();
+        if (pt == null || pt instanceof UnsetPoint) 
+        	tzp[1] = null;
+        else
+        	tzp[1] = pt.getZ();
         ((GmProfile) res).addTZPair(tzp);
+    }
+    
+    private class UnsetPoint extends GmPoint {
+    	// Helper class to manage a point with unset z-value
+    	public UnsetPoint(double x, double y) {   
+    		this.setX(x);
+    		this.setY(y);
+    	}
+    	
     }
 }
