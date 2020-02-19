@@ -199,7 +199,7 @@ public class GmAttrFeature extends VgAttrFeature
     	throws T3dException
     {
     	int i = this.internalAttributePos(attrName);
-    	if (i <= 0)
+    	if (i < 0)
     	    throw new T3dException("Tried to access non-present attribute \"" + attrName + "\".");
     	// else:
     	mAttrValues.set(i, val);
