@@ -36,70 +36,76 @@ import org.n52.v3d.triturus.core.T3dException;
 import org.n52.v3d.triturus.core.T3dProcFilter;
 
 /**
- * Calculation of the difference of two equidistant elevation-grids.
+ * Computation of the difference of two elevation-grids. Both input grids must 
+ * refer to the same geometry, otherwise the computation will not be done.
  *
  * @author Benno Schmidt
  */
 public class FltElevationGridDifference extends T3dProcFilter
 {
-    private String mLogString = "";
+    private String logString = "";
 
     public FltElevationGridDifference() {
-        mLogString = this.getClass().getName();
+        logString = this.getClass().getName();
     }
                                                                                      
     public String log() {
-        return mLogString;
+        return logString;
     }
 
     /** 
      * calculates the difference of two elevation-grids.
      *
-     * @param pGrid1 Minuend
-     * @param pGrid2 Subtrahend
+     * @param grid1 Minuend
+     * @param grid2 Subtrahend
      * @return Difference grid
      * @throws T3dException
      */
-    public GmSimpleElevationGrid transform(GmSimpleElevationGrid pGrid1, GmSimpleElevationGrid pGrid2) throws T3dException
+    public GmSimpleElevationGrid transform(
+    	GmSimpleElevationGrid grid1, GmSimpleElevationGrid grid2) 
+    	throws T3dException
     {
-        boolean sameGeometry = this.checkGeometry(pGrid1, pGrid2);
-        if (!sameGeometry) throw new T3dException("Elevation grids do no refer to the same area!");
+        boolean sameGeometry = this.checkGeometry(grid1, grid2);
+        if (!sameGeometry) 
+        	throw new T3dException("Elevation grids differ in geometry!");
 
-        GmSimpleElevationGrid lGridRes = new GmSimpleElevationGrid(
-             pGrid1.numberOfColumns(), pGrid1.numberOfRows(),
-             ((GmSimple2dGridGeometry) pGrid1.getGeometry()).getOrigin(),
-             ((GmSimple2dGridGeometry) pGrid1.getGeometry()).getDeltaX(),
-             ((GmSimple2dGridGeometry) pGrid1.getGeometry()).getDeltaY());
+        GmSimpleElevationGrid gridRes = new GmSimpleElevationGrid(
+             grid1.numberOfColumns(), grid1.numberOfRows(),
+             ((GmSimple2dGridGeometry) grid1.getGeometry()).getOrigin(),
+             ((GmSimple2dGridGeometry) grid1.getGeometry()).getDeltaX(),
+             ((GmSimple2dGridGeometry) grid1.getGeometry()).getDeltaY());
 
-        for (int i = 0; i < lGridRes.numberOfRows(); i++) {
-            for (int j = 0; j < lGridRes.numberOfColumns(); j++) {
-                if (pGrid1.isSet(i, j) && pGrid2.isSet(i, j)) {
-                    lGridRes.setValue(i, j, pGrid2.getValue(i, j) - pGrid1.getValue(i, j));
+        for (int i = 0; i < gridRes.numberOfRows(); i++) {
+            for (int j = 0; j < gridRes.numberOfColumns(); j++) {
+                if (grid1.isSet(i, j) && grid2.isSet(i, j)) {
+                    gridRes.setValue(i, j, grid2.getValue(i, j) - grid1.getValue(i, j));
                 } else {
-                    lGridRes.unset(i, j);
+                    gridRes.unset(i, j);
                 }
             }
         }
 
-        return lGridRes;
+        return gridRes;
     }
     
-    private boolean checkGeometry(GmSimpleElevationGrid pGrid1, GmSimpleElevationGrid pGrid2) throws T3dException
+    private boolean checkGeometry(
+    	GmSimpleElevationGrid grid1, GmSimpleElevationGrid grid2) 
+    	throws T3dException
     {
         int
-                nx_1 = ((GmSimple2dGridGeometry) pGrid1.getGeometry()).numberOfColumns(),
-                ny_1 = ((GmSimple2dGridGeometry) pGrid1.getGeometry()).numberOfRows(),
-                nx_2 = ((GmSimple2dGridGeometry) pGrid2.getGeometry()).numberOfColumns(),
-                ny_2 = ((GmSimple2dGridGeometry) pGrid2.getGeometry()).numberOfRows();
+                nx_1 = ((GmSimple2dGridGeometry) grid1.getGeometry()).numberOfColumns(),
+                ny_1 = ((GmSimple2dGridGeometry) grid1.getGeometry()).numberOfRows(),
+                nx_2 = ((GmSimple2dGridGeometry) grid2.getGeometry()).numberOfColumns(),
+                ny_2 = ((GmSimple2dGridGeometry) grid2.getGeometry()).numberOfRows();
         double
-                xll_1 = pGrid1.getGeometry().envelope().getXMin(),
-                yll_1 = pGrid1.getGeometry().envelope().getYMin(),
-                xur_1 = pGrid1.getGeometry().envelope().getXMax(),
-                yur_1 = pGrid1.getGeometry().envelope().getYMax(),
-                xll_2 = pGrid2.getGeometry().envelope().getXMin(),
-                yll_2 = pGrid2.getGeometry().envelope().getYMin(),
-                xur_2 = pGrid2.getGeometry().envelope().getXMax(),
-                yur_2 = pGrid2.getGeometry().envelope().getYMax();
+                xll_1 = grid1.getGeometry().envelope().getXMin(),
+                yll_1 = grid1.getGeometry().envelope().getYMin(),
+                xur_1 = grid1.getGeometry().envelope().getXMax(),
+                yur_1 = grid1.getGeometry().envelope().getYMax(),
+                xll_2 = grid2.getGeometry().envelope().getXMin(),
+                yll_2 = grid2.getGeometry().envelope().getYMin(),
+                xur_2 = grid2.getGeometry().envelope().getXMax(),
+                yur_2 = grid2.getGeometry().envelope().getYMax();
 
         if (nx_1 != nx_2) return false;
         if (ny_1 != ny_2) return false;
