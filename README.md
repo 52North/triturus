@@ -13,7 +13,7 @@ scene descriptions.
 * Generation of simple POV-Ray scene descriptions* Cross-section generation for elevation grid models 
 
 ## Characteristics
-* Development platform: Java (Windows and Linux/Unix)
+* Development platform: Java version 1.6 (Windows and Linux/Unix)
 * Rendering pipeline (filter, mapper, renderer) as basic conceptual reference model
 * Abstraction of concrete (geo-) datasources and renderers 
 * Integration of basic I/O-classes and renderers (3d realtime rendering and ray tracing)* Freely available implementation examples using this framework: 
@@ -35,7 +35,7 @@ To compile the Triturus library, simply execute the following [Maven](http://mav
 
 'mvn clean install'
 
-To use the Triturus library, just add the Triturus JAR file to your Java project.
+To use the Triturus library, just add the Triturus JAR file to your Java project. 
 
 ## License information
 This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License 
@@ -49,6 +49,7 @@ This sections lists documents that lead to a deeper understanding of the Trituru
 * White Paper of Triturus: http://52north.org/images/stories/52n/communities/3D/triturus%20white%20paper.pdf 
 * 52North 3D Community Wiki: https://wiki.52north.org/bin/view/V3d/ 
 * Triturus Wiki: https://wiki.52north.org/bin/view/V3d/Triturus 
+* Triturus JavaDoc: To be generated from the source-code using the JavaDoc command. 
 
 ## Contributing
 Please find information for Contributing to the project in the separate [CONTRIBUTE.md](CONTRIBUTE.md).
@@ -67,5 +68,3 @@ If you encounter any issues with the software or if you would like to see certai
 The 3D Community
 
 52North Inititative for Geospatial Open Source Software GmbH, Germany
-
-

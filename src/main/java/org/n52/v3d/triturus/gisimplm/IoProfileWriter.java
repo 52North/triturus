@@ -55,6 +55,11 @@ public class IoProfileWriter extends IoAbstractWriter
      * documents.
      */
     public static final String SVG = "SVG";
+    /**
+     * File-format type identifier to be used to process objects in ACADGEO 
+     * format.
+     */
+    public static final String ACGEO = "AcGeo";
     
     private String logString = "";
     private String format;
@@ -354,7 +359,8 @@ public class IoProfileWriter extends IoAbstractWriter
         			//wl();
         		}
             }
-            wl("\" style=\"stroke:rgb(255,0,0);fill:none\"/>");
+            wl("\"");
+            wl("   style=\"stroke:rgb(255,0,0);fill:none\"/>");
 
             wl("</svg>");
             doc.close();
