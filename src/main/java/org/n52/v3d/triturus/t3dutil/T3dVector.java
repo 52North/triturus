@@ -184,7 +184,14 @@ public class T3dVector
 	public double scalarProd(T3dVector v) {
 		return mX * v.getX() + mY * v.getY() + mZ * v.getZ();   
 	}
-	
+
+	/**
+	 * returns the scalar product of the vectors <tt>v1</tt> and <tt>v2</tt>.
+	 */
+	static public double scalarProd(T3dVector v1, T3dVector v2) {
+		return v1.getX() * v2.getX() + v1.getY() * v2.getY() + v1.getZ() * v2.getZ();   
+	}
+
 	/**
 	 * assigns the cross product <tt>v1 x v2</tt> to the current vector object.
 	 */
@@ -295,7 +302,8 @@ public class T3dVector
 		if (l10 == 0. || l20 == 0. || l21 == 0.)
 			return 0.;
 		double cosPhi =
-			(l10 * l10 + l21 * l21 - l20 * l20) / (2. * l10 * l21);
+			// (l10 * l10 + l21 * l21 - l20 * l20) / (2. * l10 * l21);
+			T3dVector.scalarProd(v10, v20) / (l10 * l20);
 		return Math.acos(cosPhi);
 	}
 	
