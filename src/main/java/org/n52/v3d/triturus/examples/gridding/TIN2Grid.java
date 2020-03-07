@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2007-2019 52North Initiative for Geospatial Open Source 
+ * Copyright (C) 2007-2020 52North Initiative for Geospatial Open Source 
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it
@@ -33,15 +33,9 @@
 package org.n52.v3d.triturus.examples.gridding;
 
 import java.util.List;
-
-import org.n52.v3d.triturus.core.IoFormatType;
-import org.n52.v3d.triturus.core.T3dException;
+import org.n52.v3d.triturus.core.*;
 import org.n52.v3d.triturus.gisimplm.*;
-import org.n52.v3d.triturus.vgis.VgElevationGrid;
-import org.n52.v3d.triturus.vgis.VgEnvelope;
-import org.n52.v3d.triturus.vgis.VgEquidistGrid;
-import org.n52.v3d.triturus.vgis.VgLineSegment;
-import org.n52.v3d.triturus.vgis.VgPoint;
+import org.n52.v3d.triturus.vgis.*;
 
 /**
  * Triturus example application: Reads a simple triangle mesh ("triangulated 
@@ -59,40 +53,39 @@ public class TIN2Grid
 	private double cellSize = 200.;
 	private String conflictFile = "/data/example-conflicts.vtk";
     
-    public static void main(String args[]) {
-        TIN2Grid app = new TIN2Grid();
-        app.run();
-    }
+	public static void main(String args[]) {
+	    TIN2Grid app = new TIN2Grid();
+	    app.run();
+	}
     
-    private void run() 
-    {    
-        GmSimpleTINFeature tin = this.readInputFile(inputFile, inputFormat);
-        System.out.println(tin);
-        
-        VgEnvelope bbox = tin.envelope();
-        VgEquidistGrid grdGeom = this.setUpGeometry(bbox, cellSize);
-        
-        FltTIN2ElevationGrid trans = new FltTIN2ElevationGrid();
-        trans.setGridGeometry(grdGeom);
-        trans.setZConflictHandler(
-        	FltTIN2ElevationGrid.CONFLICT_TAKE_MAX_Z);
-
-        VgElevationGrid grd = trans.transform(tin);
-  
-        this.writeOutputFile(grd, outputFile, outputFormat); 
-        System.out.println("z_min = " + grd.minimalElevation());
-        System.out.println("z_max = " + grd.maximalElevation());
-        
-        if (trans.conflicts().size() > 0) {
-        	System.out.println("Detected " + trans.conflicts().size() + " non-unique z-values.");
-        	this.writeConflictOutputFile(trans.conflicts(), conflictFile);
-        }
-    }
+	private void run() 
+	{    
+		GmSimpleTINFeature tin = this.readInputFile(inputFile, inputFormat);
+		System.out.println(tin);
+		        
+		VgEnvelope bbox = tin.envelope();
+		VgEquidistGrid grdGeom = this.setUpGeometry(bbox, cellSize);
+		        
+		FltTIN2ElevationGrid trans = new FltTIN2ElevationGrid();
+		trans.setGridGeometry(grdGeom);
+		trans.setZConflictHandler(FltTIN2ElevationGrid.CONFLICT_TAKE_MAX_Z);
+		
+		VgElevationGrid grd = trans.transform(tin);
+		  
+		this.writeOutputFile(grd, outputFile, outputFormat); 
+		System.out.println("z_min = " + grd.minimalElevation());
+		System.out.println("z_max = " + grd.maximalElevation());
+		
+		if (trans.conflicts().size() > 0) {
+			System.out.println("Detected " + trans.conflicts().size() + " non-unique z-values.");
+			this.writeConflictOutputFile(trans.conflicts(), conflictFile);
+		}
+	}
 
 	private VgEquidistGrid setUpGeometry(VgEnvelope bbox, double cellSize) 
-    {
-        System.out.println(bbox);
-
+	{
+		System.out.println(bbox);
+		
 		VgPoint origin = new GmPoint(bbox.getXMin(), bbox.getYMin(), 0.0);
 		// TODO: origin ist noch ein schraeger Wert -> ist zu runden gemaess cellSize!
 		
@@ -101,73 +94,73 @@ public class TIN2Grid
 		        
 		GmSimple2dGridGeometry res = new GmSimple2dGridGeometry(
 			ncols, nrows, origin, cellSize, cellSize);
-        System.out.println(res);
-        return res;
+		System.out.println(res);
+		return res;
 	}
 
 	// read the input TIN:
-    private GmSimpleTINFeature readInputFile(
-    	String inputFile, 
-    	String inputFormat) 
-    {
+	private GmSimpleTINFeature readInputFile(
+		String inputFile, 
+		String inputFormat) 
+	{
 		GmSimpleTINFeature tin = null; 
 		try {
-		    System.out.println("Reading input file...");
-		
-		    IoTINReader reader = new IoTINReader(inputFormat);
-		    tin = reader.read(inputFile);
-		    
-		    System.out.println("Success!");
+			System.out.println("Reading input file...");
+			
+			IoTINReader reader = new IoTINReader(inputFormat);
+			tin = reader.read(inputFile);
+			
+			System.out.println("Success!");
 		}
 		catch (T3dException e) {
-		    e.printStackTrace();
+			e.printStackTrace();
 		}
 		catch (Exception e) {
-		    e.printStackTrace();
+			e.printStackTrace();
 		}
 		return tin;
-    }
+	}
 
-    // write the resulting elevation grid:
-    private void writeOutputFile(
-    	VgElevationGrid grd, String outputFile, String outputFormat) 
-    {
-        try {
-            System.out.println("Writing result file \"" + outputFile + "\"...");
-
-            IoElevationGridWriter writer = 
-            	new IoElevationGridWriter(outputFormat);
-            writer.writeToFile((GmSimpleElevationGrid) grd, outputFile);
-            
-            System.out.println("Success!");
-        }
-        catch (T3dException e) {
-            e.printStackTrace();
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+	// write the resulting elevation grid:
+	private void writeOutputFile(
+		VgElevationGrid grd, String outputFile, String outputFormat) 
+	{
+	    try {
+	        System.out.println("Writing result file \"" + outputFile + "\"...");
+	
+	        IoElevationGridWriter writer = 
+	        	new IoElevationGridWriter(outputFormat);
+	        writer.writeToFile((GmSimpleElevationGrid) grd, outputFile);
+	        
+	        System.out.println("Success!");
+	    }
+	    catch (T3dException e) {
+	        e.printStackTrace();
+	    }
+	    catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	}
     
-    // write conflict locations to VTK line dataset:
-    private void writeConflictOutputFile(
-    	List<VgLineSegment> conflicts, 
-    	String conflictFile) 
-    {
-        try {
-            System.out.println("Writing conflicts to file \"" + conflictFile + "\"...");
-
-        	IoLineSegmentWriter writer = 
-        		new IoLineSegmentWriter(IoFormatType.VTK_DATASET);
-            writer.writeToFile(conflicts, conflictFile);
-            
-            System.out.println("Success!");
-        }
-        catch (T3dException e) {
-            e.printStackTrace();
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }		 
+	// write conflict locations to VTK line dataset:
+	private void writeConflictOutputFile(
+		List<VgLineSegment> conflicts, 
+		String conflictFile) 
+	{
+		try {
+			System.out.println("Writing conflicts to file \"" + conflictFile + "\"...");
+			
+			IoLineSegmentWriter writer = 
+				new IoLineSegmentWriter(IoFormatType.VTK_DATASET);
+			writer.writeToFile(conflicts, conflictFile);
+			
+			System.out.println("Success!");
+		}
+		catch (T3dException e) {
+			e.printStackTrace();
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}		 
 	}
 }
