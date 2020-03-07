@@ -52,22 +52,25 @@ import org.n52.v3d.triturus.vgis.VgPoint;
  */
 public class TIN2Grid 
 {
-	private String inputFile = "/projects/Triturus/data/s_geologie_Rotliegend_ts.tin";
+	private String inputFile = "/data/example-in.tin";
 	private String inputFormat = IoFormatType.ACGEO; 
-	private String outputFile = "/projects/Triturus/data/s_geologie_Rotliegend_ts.obj";
+	private String outputFile = "/data/example-out.obj";
 	private String outputFormat = IoFormatType.OBJ;
 	private double cellSize = 200.;
-	private String conflictFile = "/projects/Triturus/data/s_geologie_Rotliegend_ts_conflicts.vtk";
+	private String conflictFile = "/data/example-conflicts.vtk";
     
-    public static void main(String args[]) 
-    {
+    public static void main(String args[]) {
         TIN2Grid app = new TIN2Grid();
-        
-        GmSimpleTINFeature tin = app.readInputFile();
+        app.run();
+    }
+    
+    private void run() 
+    {    
+        GmSimpleTINFeature tin = this.readInputFile(inputFile, inputFormat);
         System.out.println(tin);
         
         VgEnvelope bbox = tin.envelope();
-        VgEquidistGrid grdGeom = app.setUpGeometry(bbox);
+        VgEquidistGrid grdGeom = this.setUpGeometry(bbox, cellSize);
         
         FltTIN2ElevationGrid trans = new FltTIN2ElevationGrid();
         trans.setGridGeometry(grdGeom);
@@ -76,17 +79,17 @@ public class TIN2Grid
 
         VgElevationGrid grd = trans.transform(tin);
   
-        app.writeOutputFile(grd);
+        this.writeOutputFile(grd, outputFile, outputFormat); 
         System.out.println("z_min = " + grd.minimalElevation());
         System.out.println("z_max = " + grd.maximalElevation());
         
         if (trans.conflicts().size() > 0) {
         	System.out.println("Detected " + trans.conflicts().size() + " non-unique z-values.");
-        	app.writeConflictOutputFile(trans.conflicts());
+        	this.writeConflictOutputFile(trans.conflicts(), conflictFile);
         }
     }
 
-	private VgEquidistGrid setUpGeometry(VgEnvelope bbox) 
+	private VgEquidistGrid setUpGeometry(VgEnvelope bbox, double cellSize) 
     {
         System.out.println(bbox);
 
@@ -103,7 +106,10 @@ public class TIN2Grid
 	}
 
 	// read the input TIN:
-    private GmSimpleTINFeature readInputFile() {
+    private GmSimpleTINFeature readInputFile(
+    	String inputFile, 
+    	String inputFormat) 
+    {
 		GmSimpleTINFeature tin = null; 
 		try {
 		    System.out.println("Reading input file...");
@@ -123,12 +129,14 @@ public class TIN2Grid
     }
 
     // write the resulting elevation grid:
-    private void writeOutputFile(VgElevationGrid grd) 
+    private void writeOutputFile(
+    	VgElevationGrid grd, String outputFile, String outputFormat) 
     {
         try {
             System.out.println("Writing result file \"" + outputFile + "\"...");
 
-            IoElevationGridWriter writer = new IoElevationGridWriter(outputFormat);
+            IoElevationGridWriter writer = 
+            	new IoElevationGridWriter(outputFormat);
             writer.writeToFile((GmSimpleElevationGrid) grd, outputFile);
             
             System.out.println("Success!");
@@ -142,11 +150,15 @@ public class TIN2Grid
     }
     
     // write conflict locations to VTK line dataset:
-    private void writeConflictOutputFile(List<VgLineSegment> conflicts) {
+    private void writeConflictOutputFile(
+    	List<VgLineSegment> conflicts, 
+    	String conflictFile) 
+    {
         try {
             System.out.println("Writing conflicts to file \"" + conflictFile + "\"...");
 
-        	IoLineSegmentWriter writer = new IoLineSegmentWriter(IoFormatType.VTK_DATASET);
+        	IoLineSegmentWriter writer = 
+        		new IoLineSegmentWriter(IoFormatType.VTK_DATASET);
             writer.writeToFile(conflicts, conflictFile);
             
             System.out.println("Success!");
