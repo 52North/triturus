@@ -37,7 +37,7 @@ package org.n52.v3d.triturus.vgis;
  * the grid geometry's vertices (so-called &quot;lattices&quot;, <i>vertex-based 
  * grid</i>) or to the grid-cells (<i>cell-based grid</i>, often designed as 
  * &quot;grids&quot; in contrast to &quot;lattices&quot;). Since for all grid 
- * cells a &quot;no-data&quot;-flag can be set, not for all grid's elements 
+ * cells a &quot;no-data&quot;-flag can be set, not for all grid elements 
  * elevation values must be given.
  *
  * @author Benno Schmidt
@@ -45,14 +45,14 @@ package org.n52.v3d.triturus.vgis;
 abstract public class VgElevationGrid extends VgFeature 
 {
     /**  
-     * returns the number of grid elements in x-direction (columns).
+     * returns the number of grid elements in <i>x</i>-direction (columns).
      *
      * @return Number of the grid's columns
      */
     abstract public int numberOfColumns();
 
     /** 
-     * returns the number of grid elements in y-direction (rows).
+     * returns the number of grid elements in <i>y</i>-direction (rows).
      *
      * @return Number of the grid's rows
      */
