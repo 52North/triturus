@@ -59,8 +59,8 @@ abstract public class VgElevationGrid extends VgFeature
     abstract public int numberOfRows();
     
     /**
-     * sets the elevation value <tt>pZ</tt> for the row index <tt>pRow</tt> 
-     * and the column index <tt>pCol</tt>.
+     * sets the elevation value <tt>z</tt> for the row index <tt>row</tt> 
+     * and the column index <tt>col</tt>.
      *
      * @param row Row index
      * @param col Column index
@@ -69,8 +69,8 @@ abstract public class VgElevationGrid extends VgFeature
     abstract public void setValue(int row, int col, double z);
 
     /** 
-     * returns the elevation value for the row index <tt>pRow</tt> and the 
-     * column index <tt>pCol</tt>.
+     * returns the elevation value for the row index <tt>row</tt> and the 
+     * column index <tt>col</tt>.
      *
      * @return Elevation value
      */

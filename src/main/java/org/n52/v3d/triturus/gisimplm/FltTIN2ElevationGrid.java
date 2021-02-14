@@ -72,11 +72,17 @@ public class FltTIN2ElevationGrid extends T3dProcFilter
      */
     public static final int CONFLICT_TAKE_MIN_Z = 2;
     /**
+     * Identifier for z-conflict handler which take the median z-value if the 
+     * source TIN gives more than one z-value. (Note that this method has not 
+     * been implemented yet.)
+     */
+    public static final int CONFLICT_TAKE_MEDIAN_Z = 3;
+    /**
      * Identifier for z-conflict handler which take the average z-value if the 
      * source TIN gives more than one z-value. (Note that this method has not 
      * been implemented yet.)
      */
-    public static final int CONFLICT_TAKE_AVG_Z = 3;
+    public static final int CONFLICT_TAKE_AVG_Z = 4;
     
     private int zConflictHandler = CONFLICT_TAKE_MAX_Z;
     
@@ -180,7 +186,7 @@ public class FltTIN2ElevationGrid extends T3dProcFilter
     	    	
     	GmSimpleElevationGrid target = 
     		new GmSimpleElevationGrid((GmSimple2dGridGeometry) grdGeom);
-    	((GmSimpleElevationGrid) target).setLatticeInterpretation();
+    	target.setLatticeInterpretation();
     	
     	for (int ii = 0; ii < target.numberOfRows(); ii++) {
         	for (int jj = 0; jj < target.numberOfColumns(); jj++) {
@@ -213,6 +219,10 @@ public class FltTIN2ElevationGrid extends T3dProcFilter
 			case CONFLICT_TAKE_MAX_Z:
 				res = Math.max(z1, z2);
 				break;
+			case CONFLICT_TAKE_MEDIAN_Z:
+				// Note for implementers: The implementation would require to 
+				// store the minimum and maximum candidate elevations...
+				throw new T3dNotYetImplException();
 			case CONFLICT_TAKE_AVG_Z:
 				// Note for implementers: The implementation would require to 
 				// store the number of candidate elevations, which might be 
