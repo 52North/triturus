@@ -62,11 +62,11 @@ abstract public class VgElevationGrid extends VgFeature
      * sets the elevation value <tt>pZ</tt> for the row index <tt>pRow</tt> 
      * and the column index <tt>pCol</tt>.
      *
-     * @param pRow Row index
-     * @param pCol Column index
-     * @param pZ Elevation value
+     * @param row Row index
+     * @param col Column index
+     * @param z Elevation value
      */
-    abstract public void setValue(int pRow, int pCol, double pZ);
+    abstract public void setValue(int row, int col, double z);
 
     /** 
      * returns the elevation value for the row index <tt>pRow</tt> and the 
@@ -74,7 +74,7 @@ abstract public class VgElevationGrid extends VgFeature
      *
      * @return Elevation value
      */
-    abstract public double getValue(int pRow, int pCol);
+    abstract public double getValue(int row, int col);
 
     /** 
      * returns the elevation grid's minimum value.
