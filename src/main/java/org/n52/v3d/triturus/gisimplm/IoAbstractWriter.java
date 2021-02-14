@@ -51,8 +51,8 @@ abstract public class IoAbstractWriter extends IoObject
     private int mPrecisionZ = 2; // # positions after decimal point for z-coordinates
 
     /**
-     * returns the number of decimal places (after decimal point) for x- and 
-     * y-coordinates to be written.
+     * returns the number of decimal places (after decimal point) for <i>x</i>- 
+     * and <i>y</i>-coordinates to be written.
      * 
      * @return Number of decimal places (after decimal point)
      */
@@ -61,8 +61,8 @@ abstract public class IoAbstractWriter extends IoObject
     }
 
     /**
-     * sets the number of decimal places (after decimal point) for x- and 
-     * y-coordinates to be written. By default, a value of 2 is set.
+     * sets the number of decimal places (after decimal point) for <i>x</i>- 
+     * and <i>y</i>-coordinates to be written. By default, a value of 2 is set.
      * 
      * @param prec Number of decimal places (after decimal point)
      */
@@ -74,7 +74,7 @@ abstract public class IoAbstractWriter extends IoObject
 
     /**
      * returns the number of decimal places (after decimal point) for 
-     * z-coordinates to be written.
+     * <i>z</i>-coordinates to be written.
      * 
      * @return Number of decimal places (after decimal point)
      */
@@ -84,7 +84,7 @@ abstract public class IoAbstractWriter extends IoObject
 
     /**
      * sets the number of decimal places (after decimal point) for 
-     * z-coordinates to be written. By default, a value of 2 is set.
+     * <i>z</i>-coordinates to be written. By default, a value of 2 is set.
      * 
      * @param prec Number of decimal places (after decimal point) &gt;= 0
      */
@@ -96,8 +96,8 @@ abstract public class IoAbstractWriter extends IoObject
 
     /**
      * provides the <tt>DecimalFormat</tt>-object according to the precision 
-     * that has been set for x- and y-coordinates. As decimal point, the '.' 
-     * character will be used.
+     * that has been set for <i>x</i>- and <i>y</i>-coordinates. As decimal 
+     * point, the '.' character will be used.
      * 
      * @return <tt>DecimalFormat</tt> object
      */
@@ -112,8 +112,8 @@ abstract public class IoAbstractWriter extends IoObject
 
     /**
      * provides the <tt>DecimalFormat</tt>-object according to the precision
-     * that has been set for z-coordinates. As decimal point, the '.' character
-     * will be used.
+     * that has been set for <i>z</i>-coordinates. As decimal point, the '.' 
+     * Character will be used.
      * 
      * @return <tt>DecimalFormat</tt> object
      */
@@ -131,5 +131,5 @@ abstract public class IoAbstractWriter extends IoObject
         DecimalFormatSymbols ret = new DecimalFormatSymbols();
         ret.setDecimalSeparator('.');
         return ret;
-    }    
+    }  
 }
