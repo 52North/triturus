@@ -96,7 +96,6 @@ abstract public class VgFeature
      * @param i Index
      * @return Geo-object
      * @throws T3dException if an error occurs
-     * @see {@link #isCollection()}
      */
     abstract public VgFeature getFeature(int i) throws T3dException;
 
@@ -131,8 +130,7 @@ abstract public class VgFeature
     abstract public int numberOfFeatures();
 
     /**
-     * @deprecated (misleading method naming, should be &quot;numberOfFeatures&quot;) 
-     * @see {@link numberOfFeatures}
+     * @deprecated (misleading method naming, should be <tt>numberOfFeatures()</tt>) 
      */
     abstract public int numberOfSubFeatures();
 

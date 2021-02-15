@@ -174,6 +174,12 @@ public class GmProfile extends VgProfile
         return zMax;
     }
     
+
+	@Override
+	public int numberOfFeatures() {
+		return numberOfSubFeatures();
+	}
+    
     @Override
     public String toString() {
         String strGeom = "<empty geometry>";

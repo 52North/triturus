@@ -41,49 +41,49 @@ import org.n52.v3d.triturus.core.T3dException;
  */
 abstract public class VgAttrFeature extends VgFeature 
 {
-	/**
-	 * defines a thematic attribute. The name of the defining attribute has to 
-	 * be given as well as the attribute value's type.
+    /**
+     * defines a thematic attribute. The name of the defining attribute has to 
+     * be given as well as the attribute value's type.
      *
-	 * @param attrName Attribute name
-	 * @param attrType Attribute type as Java class-name
-	 */
-	abstract public void addAttribute(String attrName, String attrType);
+     * @param attrName Attribute name
+     * @param attrType Attribute type as Java class-name
+     */
+    abstract public void addAttribute(String attrName, String attrType);
 
-	/**
-	 * returns the names of the thematic attributes of an geo-object.
+    /**
+     * returns the names of the thematic attributes of an geo-object.
      *
-	 * @return List of strings
-	 */
-	abstract public String[] getAttributeNames();
+     * @return List of strings
+     */
+    abstract public String[] getAttributeNames();
 
-	/**
-	 * return a thematic attribute's value. If the given attribute is not 
-	 * defined, a <tt>T3dException</tt> will be thrown.
+    /**
+     * return a thematic attribute's value. If the given attribute is not 
+     * defined, a <tt>T3dException</tt> will be thrown.
      *
-	 * @param attrName Name of the queried attribute
-	 * @return Object of type of the queried attribute
-	 */
-	abstract public Object getAttributeValue(String attrName);
+     * @param attrName Name of the queried attribute
+     * @return Object of type of the queried attribute
+     */
+    abstract public Object getAttributeValue(String attrName);
 
-	/**
-	 * sets a thematic attribute's value. If the attribute has not been 
-	 * defined, or the given object types can not be mapped on each other, 
-	 * a <tt>T3dException</tt> will be thrown.
+    /**
+     * sets a thematic attribute's value. If the attribute has not been 
+     * defined, or the given object types can not be mapped on each other, 
+     * a <tt>T3dException</tt> will be thrown.
      *
-	 * @param attrName Attribute name
-	 * @param val Value to be set
-	 * @throws T3dException
-	 */
-	abstract public void setAttributeValue(String attrName, Object val) 
-		throws T3dException;
+     * @param attrName Attribute name
+     * @param val Value to be set
+     * @throws T3dException
+     */
+    abstract public void setAttributeValue(String attrName, Object val) 
+        throws T3dException;
 
-	/**
-	 * returns the type of a thematic attribute. If the attribute is not 
-	 * defined, a <tt>T3dException</tt> will be thrown.
+    /**
+     * returns the type of a thematic attribute. If the attribute is not 
+     * defined, a <tt>T3dException</tt> will be thrown.
      *
-	 * @param attrName Attribute name
-	 * @return Attribute type as Java class-name
-	 */
-	abstract public String getAttributeType(String attrName);
+     * @param attrName Attribute name
+     * @return Attribute type as Java class-name
+     */
+    abstract public String getAttributeType(String attrName);
 }
