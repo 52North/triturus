@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2007-2016 52 North Initiative for Geospatial Open Source
+ * Copyright (C) 2007-2016 52North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it
@@ -47,55 +47,53 @@ import org.n52.v3d.triturus.vgis.VgProfile;
  */
 public class GridProfile
 {
-	public static void main(String args[])
-	{
-		GridProfile app = new GridProfile();
-		app.run();
-	}
-	
-	public void run() 
-	{
+    public static void main(String args[]) {
+        new GridProfile().run();
+    }
+    
+    public void run() 
+    {
         // Read the elevation grid from file:
-		IoElevationGridReader reader = new IoElevationGridReader(
-				IoFormatType.ARCINFO_ASCII_GRID);
-		GmSimpleElevationGrid grid = null;
-		try {
-			grid = reader.readFromFile("data/test.asc");
-		}
-		catch (T3dException e) {
-			e.printStackTrace();
-		}
+        IoElevationGridReader reader = new IoElevationGridReader(
+            IoFormatType.ARCINFO_ASCII_GRID);
+        GmSimpleElevationGrid grid = null;
+        try {
+            grid = reader.read("data/test.asc");
+        }
+        catch (T3dException e) {
+            e.printStackTrace();
+        }
 
         // This is just some control output:
-    	System.out.println(grid);
+        System.out.println(grid);
         System.out.print("The elevation grid's bounding-box: ");
-		System.out.println(grid.envelope().toString());
+        System.out.println(grid.envelope().toString());
 
         // Give definition-line (sequence of x, y, z coordinates, z will be 
-		// ignored):
-		VgLineString defLine = new GmLineString(
-				"3532000,5505000,0," + 
-				"3532000,5505500,0," + 
-				"3532000,5506000,0," + 
-				"3534000,5506000,0");
-		System.out.println(defLine); // control output
-		
-		// Generate cross-section:
-		FltElevationGrid2Profile proc = new FltElevationGrid2Profile();
-		VgProfile prof = proc.transform(grid, defLine);
+        // ignored):
+        VgLineString defLine = new GmLineString(
+            "3532000,5505000,0," + 
+            "3532000,5505500,0," + 
+            "3532000,5506000,0," + 
+            "3534000,5506000,0");
+        System.out.println(defLine); // control output
+        
+        // Generate cross-section:
+        FltElevationGrid2Profile proc = new FltElevationGrid2Profile();
+        VgProfile prof = proc.transform(grid, defLine);
 
-		// Cross-section output to console...
+        // Cross-section output to console...
         for (int i = 0; i < prof.numberOfTZPairs(); i++) {
             System.out.println((prof.getTZPair(i))[0] + ", " + (prof.getTZPair(i))[1]);
         }
         // to SVG ...
         System.out.println("Writing SVG-file...");
-        IoProfileWriter lWriter = new IoProfileWriter(IoProfileWriter.SVG);
-        lWriter.writeToFile(prof, "data/cross-section.svg");
+        IoProfileWriter writer = new IoProfileWriter(IoProfileWriter.SVG);
+        writer.writeToFile(prof, "data/cross-section.svg");
         // and to ASCII-file:
         System.out.println("Exporting to ASCII-file...");
-        lWriter.setFormatType(IoProfileWriter.ACGEO);
-        lWriter.writeToFile(prof, "data/cross-section.prf");
+        // lWriter.setFormatType(IoProfileWriter.ACGEO);
+        writer.writeToFile(prof, "data/cross-section.prf");
         System.out.println("Success!");
     }
 }
