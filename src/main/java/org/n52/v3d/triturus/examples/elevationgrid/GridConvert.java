@@ -47,20 +47,20 @@ import org.n52.v3d.triturus.gisimplm.IoElevationGridWriter;
  */
 public class GridConvert
 {
-	public static void main(String args[])
-	{
+    public static void main(String args[])
+    {
         IoElevationGridReader reader = 
-        	new IoElevationGridReader(IoFormatType.ARCINFO_ASCII_GRID);
+            new IoElevationGridReader(IoFormatType.ARCINFO_ASCII_GRID);
 
-		try {
+        try {
             // Read the elevation grid from file:
-			GmSimpleElevationGrid grid = 
-				reader.readFromFile("data/test.asc");
+            GmSimpleElevationGrid grid = 
+                reader.read("data/test.asc");
 
             // This is just some control output:
-			System.out.println(grid);
+            System.out.println(grid);
             System.out.print("The elevation grid's bounding-box: ");
-			System.out.println(grid.envelope().toString());
+            System.out.println(grid.envelope().toString());
 
             // If some grid cell's have NODATA values, assign a value...
             for (int j = 0; j < grid.numberOfColumns(); j++) {
@@ -71,13 +71,13 @@ public class GridConvert
             }
 
             // Write X3DOM output:
-			IoElevationGridWriter writer = 
-				new IoElevationGridWriter(IoFormatType.X3DOM);
-    		writer.writeToFile(grid, "data/test.html");
-                System.out.println("Success!");
-		}
-		catch (T3dException e) {
-			e.printStackTrace();
-		}
+            IoElevationGridWriter writer = 
+                new IoElevationGridWriter(IoFormatType.X3DOM);
+            writer.writeToFile(grid, "data/test.html");
+            System.out.println("Success!");
+        }
+        catch (T3dException e) {
+            e.printStackTrace();
+        }
     }
 }

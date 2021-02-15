@@ -187,6 +187,7 @@ public class FltElevationGridGradientOperators extends T3dProcFilter
      *     </td>
      *     <td>(unitless<br/>values multiplied by 100)</td>
      *     <td>-oo .. +oo</td></tr>
+     *   </tr>
      * </table>
      */
     public enum AnalysisMode { 
