@@ -60,7 +60,7 @@ public class GmSimpleElevationGrid extends VgElevationGrid
     private double[][] mVal;
     private boolean[][] mIsSetFl;
     private boolean mLatticeMode = false;
-    private String mTheme = "Elevations";
+    private String mTheme = "Elevation";
 
     
     /**
@@ -234,12 +234,12 @@ public class GmSimpleElevationGrid extends VgElevationGrid
     }
 
     /**
-     * sets the elevation value <tt>pZ</tt> for the row index <tt>pRow</tt> 
-     * and the column index <tt>pCol</tt>. If one of the assertions 
-     * <i>0 &lt;= pRow &lt; this.numberOfRows(), 
-     * 0 &lt;= pCol &lt; this.numberOfColumns()</i>
+     * sets the elevation value <tt>z</tt> for the row index <tt>row</tt> and 
+     * the column index <tt>col</tt>. If one of the assertions 
+     * <i>0 &lt;= row &lt; this.numberOfRows(), 
+     * 0 &lt;= col &lt; this.numberOfColumns()</i>
      * is violated, a <tt>T3dException</tt> will be thrown. Post-condition: 
-     * <tt>this.isSet(pRow, pCol) = true</tt>
+     * <tt>this.isSet(row, col) = true</tt>
      * 
      * @param row Row-index
      * @param col Column-index
@@ -262,8 +262,8 @@ public class GmSimpleElevationGrid extends VgElevationGrid
     /** 
      * returns <i>true</i>, if an elevation-value is assigned to a given 
      * grid element. If one of the assertions
-     * <i>0 &lt;= pRow &lt; this.numberOfRows(), 
-     * 0 &lt;= pCol &lt; this.numberOfColumns()</i> 
+     * <i>0 &lt;= row &lt; this.numberOfRows(), 
+     * 0 &lt;= col &lt; this.numberOfColumns()</i> 
      * is violated, a <tt>T3dException</tt> will be thrown.
      * 
      * @param row Row index
@@ -296,10 +296,10 @@ public class GmSimpleElevationGrid extends VgElevationGrid
     /**
      * defines a grid element (vertex or cell) as unset (&quot;nodata&quot;). 
      * If one of the assertions
-     * <i>0 &lt;= pRow &lt; this.numberOfRows(), 
-     * 0 &lt;= pCol &lt; this.numberOfColumns()</i> 
+     * <i>0 &lt;= row &lt; this.numberOfRows(), 
+     * 0 &lt;= col &lt; this.numberOfColumns()</i> 
      * is violated, a <tt>T3dException</tt> will be thrown. Post-condition:
-     * <tt>this.isIsSet(pRow, pCol) = false</tt><p>
+     * <tt>this.isIsSet(row, col) = false</tt><p>
      * 
      * @param row Row index
      * @param col Column index
@@ -316,14 +316,14 @@ public class GmSimpleElevationGrid extends VgElevationGrid
     }
 
     /** 
-     * gets the elevation-value for the row-index <tt>pRow</tt> and the 
-     * column-index <tt>pCol</tt>. 
+     * gets the elevation-value for the row-index <tt>row</tt> and the 
+     * column-index <tt>col</tt>. 
      * If one of the assertions
-     * <i>0 &lt;= pRow &lt; this.numberOfRows(), 
-     * 0 &lt;= pCol &lt; this.numberOfColumns()</i> 
+     * <i>0 &lt;= row &lt; this.numberOfRows(), 
+     * 0 &lt;= col &lt; this.numberOfColumns()</i> 
      * is violated, or if the queried element is unset, a 
      * <tt>T3dException</tt> will be thrown. Post-condition:
-     * <tt>this.isIsSet(pRow, pCol) = false</tt><p>
+     * <tt>this.isIsSet(row, col) = false</tt><p>
      * 
      * @param row Row index
      * @param col Column index
@@ -549,8 +549,16 @@ public class GmSimpleElevationGrid extends VgElevationGrid
     public VgGeomObject footprint() {
         return mGeom.footprint();
     }
+    
+    public String getTheme() {
+		return mTheme;
+	}
 
-    public String toString() {
+	public void setTheme(String theme) {
+		mTheme = theme;
+	}
+
+	public String toString() {
         String strGeom = "<empty geometry>";
         if (mGeom != null)
             strGeom = mGeom.toString(); 

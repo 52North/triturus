@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2016 52 North Initiative for Geospatial Open Source
+ * Copyright (C) 2016 52North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it
@@ -37,42 +37,51 @@ import org.n52.v3d.triturus.core.T3dException;
 import org.n52.v3d.triturus.gisimplm.*;
 
 /**
- * Triturus example application: Calculated the difference of two elevation grids.
+ * Triturus example application: Calculates the difference of two elevation 
+ * grids read from the files <tt>inFile1</tt> and <tt>inFile2</tt>. The result
+ * will be written to <tt>outFile</tt>.
  *
  * @author Benno Schmidt
  */
 public class DifferenceGrid
 {
-	public static void main(String args[])
-	{
-        IoElevationGridReader reader = new IoElevationGridReader(IoFormatType.ARCINFO_ASCII_GRID);
+    static public String 
+        inFile1 = "data/test.asc",
+        inFile2 = "data/test.asc",
+        outFile = "data/test_diff.asc";
 
+    static public void main(String args[])
+    {
+        IoElevationGridReader reader = 
+            new IoElevationGridReader(IoFormatType.ARCINFO_ASCII_GRID);
+        FltElevationGridDifference flt = 
+            new FltElevationGridDifference();
+        IoElevationGridWriter writer = 
+            new IoElevationGridWriter(IoFormatType.ARCINFO_ASCII_GRID);
+        GmSimpleElevationGrid grid1, grid2, res;
+        
         try {
             // Read the source grids:
-            GmSimpleElevationGrid
-                    grid1 = reader.readFromFile("/data/grd1.grd"),
-                    grid2 = reader.readFromFile("/data/grd2.grd");
+            grid1 = reader.read(inFile1);
+            grid2 = reader.read(inFile2);
 
-            FltElevationGridDifference flt = new FltElevationGridDifference();
-            GmSimpleElevationGrid res = flt.transform(grid2, grid1);
+            System.out.println(grid1);
+            System.out.println(grid2);
+
+            // Compute difference grid:
+            res = flt.transform(grid2, grid1);
 
             System.out.println(res);
-            System.out.print("The elevation grid's bounding-box: ");
-            System.out.println(res.envelope().toString());
 
-            // Write VRML output:
-            IoElevationGridWriter writer = new IoElevationGridWriter(IoFormatType.VRML2);
-            writer.writeToFile(grid1, "/data/grd1.wrl");
-            writer.writeToFile(grid2, "/data/grd2.wrl");
-            writer.writeToFile(res, "/data/grd_diff.wrl");
+            // Write output:
+            writer.writeToFile(res, outFile);
+
+            System.out.println("Wrote result file \"" + outFile + "\".");
         }
         catch (T3dException e) {
             e.printStackTrace();
         }
+
+        System.out.println("Success!");
     }
 }
-
-
-
-
-
