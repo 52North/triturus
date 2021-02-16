@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2007-2016 52 North Initiative for Geospatial Open Source
+ * Copyright (C) 2007-2016 52North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it
@@ -39,10 +39,33 @@ import org.n52.v3d.triturus.vgis.VgPoint;
 import java.util.List;
 
 /** 
- * This class allows to construct a grid model (&quot;gridding&quot;) for a 
+ * Filter class to construct a grid model (&quot;gridding&quot;) from a 
  * collection of scattered (3-D) data points. The result will be given as 
- * {@link GmSimpleElevationGrid}-object. Various sampling-methods can be used 
- * to determine the grid-vertices' z-values.
+ * {@link GmSimpleElevationGrid}-object. Various sampling-methods are available
+ * to determine the grid-vertices' <i>z</i>-values:<br/>
+ * <br/>
+ * <table border="1">
+ *   <tr>
+ *     <th><tt>pWeightFnc</tt></th>
+ *     <th>Weight function</th>
+ *   </tr>
+ *   <tr>
+ *      <td><tt>this.cNearestNeighbor</tt></td>
+ *      <td>next neighbor gets highest weight</td>
+ *    </tr>
+ *   <tr>
+ *     <td><tt>this.cInverseDist</tt></td>
+ *     <td>Inverse distances (selectable exponent)</td>
+ *   </tr>
+ *   <tr>
+ *     <td><tt>this.cTriangleFnc</tt></td>
+ *     <td>Triangle function</td>
+ *   </tr>
+ *   <tr>
+ *     <td><tt>this.cFrankeLittle</tt></td>
+ *     <td>Franke/Little-Weighting</td>
+ *   </tr>
+ * </table>
  * 
  * @author Benno Schmidt
  */
@@ -73,7 +96,7 @@ public class FltPointSet2ElevationGrid extends T3dProcFilter
      */
     public final static short cFrankeLittle = 4;
     private final double cMaxWeight = 1.e10; // max. value for Franke/Little weight function. 
-    // Note: For a search-radius of 100 m and a distnce of 1 cm this would result in a 
+    // Note: For a search-radius of 100 m and a distance of 1 cm this would result in a 
     // weight of approx. 10.000; this the proposed value of 1e10 should do...
 
     private short mWeightFnc = 1; // Nearest-Neighbor as default
@@ -88,77 +111,70 @@ public class FltPointSet2ElevationGrid extends T3dProcFilter
 
     
     /**
-     * Constructor. Target geometry and search-radius have to be given as input 
+     * Constructor. Target geometry and search radius have to be given as input 
      * parameters. For this constructor, the &quot;nearest neighbor&quot; will be used.
      * 
-     * @param pGeom the target-grid's geometry
-     * @param pRadius Search-radius (referring to the set coordinate reference system)
+     * @param geom the target grid's geometry
+     * @param radius Search radius (referring to the set coordinate reference system)
      * @see FltPointSet2ElevationGrid#cNearestNeighbor
      */
-    public FltPointSet2ElevationGrid(GmSimple2dGridGeometry pGeom, double pRadius) 
+    public FltPointSet2ElevationGrid(GmSimple2dGridGeometry geom, double radius) 
     {
-        this.init(pGeom, cNearestNeighbor, pRadius);
+        this.init(geom, cNearestNeighbor, radius);
     }
 
     /** 
      * Constructor. Search-radius and the weight-function used for the gridding 
-     * process have to be given as input parameters. The following functions are 
-     * supported:<br />
-     * <table border="1">
-     * <tr><td><i>pWeightFnc</i></td><td>Weight function</td></tr>
-     * <tr><td><tt>this.cNearestNeighbor</tt></td><td>next neighbor gets highest weight</td></tr>
-     * <tr><td><tt>this.cInverseDist</tt></td><td>Inverse distances (selectable exponent)</td></tr>
-     * <tr><td><tt>this.cTriangleFnc</tt></td><td>Triangle function<td></td></tr>
-     * <tr><td><tt>this.cFrankeLittle</tt></td><td>Franke/Little-Weighting<td></td></tr>
-     * </table><p>
-     * 
-     * @param pGeom the target-grid's geometry
-     * @param pWeightFnc Constant determining the weight function
-     * @param pRadius Search-radius (referring to the set coordinate reference system)
+     * process have to be given as input parameters. 
+     *  
+     * @param geom the target grid's geometry
+     * @param weightFnc Constant determining the weight function
+     * @param radius Search radius (referring to the set coordinate reference system)
      */
     public FltPointSet2ElevationGrid(
-    		GmSimple2dGridGeometry pGeom, 
-    		short pWeightFnc, 
-    		double pRadius)
+            GmSimple2dGridGeometry geom, 
+            short weightFnc, 
+            double radius)
     {
-        this.init(pGeom, pWeightFnc, pRadius);
+        this.init(geom, weightFnc, radius);
     }
 
-    private void init(GmSimple2dGridGeometry pGeom, short pWeightFnc, double pRadius)
+    private void init(GmSimple2dGridGeometry geom, short weightFnc, double radius)
     {
         mLogString = this.getClass().getName();
-        mGrid = new GmSimpleElevationGrid(pGeom);
-        this.setEnvelopeInfo(pGeom);
-        mRadius = pRadius;
-        mWeightFnc = pWeightFnc;
+        
+        mGrid = new GmSimpleElevationGrid(geom);
+        this.setEnvelopeInfo(geom);
+        mRadius = radius;
+        mWeightFnc = weightFnc;
     }
 
     /**
      * sets the exponent to be used for the inverse distance weight-function 
      * (if this method is to be used).
      * 
-     * @param pExp Exponent (default-value is 2)
+     * @param exp Exponent (default-value is 2)
      */
-    public void setInverseDistanceExponent(int pExp) {
-        mInvDistExp = pExp;
+    public void setInverseDistanceExponent(int exp) {
+        mInvDistExp = exp;
     }
 
     /**
-     * sets the target-grid's geometry.
+     * sets the target grid's geometry.
      * 
-     * @param pGrid Elevation-grid
+     * @param grid Elevation-grid
      */
-    public void setGridGeometry(GmSimpleElevationGrid pGrid) {
-        mGrid = pGrid;
+    public void setGridGeometry(GmSimpleElevationGrid grid) {
+        mGrid = grid;
     }
 
     /**
-     * sets the search-radius.
+     * sets the search radius.
      * 
-     * @param pRadius Search-radius
+     * @param radius Search radius
      */
-    public void setSearchRadius(double pRadius) {
-        mRadius = pRadius;
+    public void setSearchRadius(double radius) {
+        mRadius = radius;
     }
 
     public String log() {
@@ -167,28 +183,28 @@ public class FltPointSet2ElevationGrid extends T3dProcFilter
 
     /**
      * estimates the amount of memory needed to perform the gridding process 
-     * (for test-purposes only). Before starting the gridding operation by using
-     * to <tt>this.transform()</tt>, the amount of memory (usually, in heap-space)
+     * (for test-purposes only). Before starting the gridding operation by 
+     * using to <tt>this.transform()</tt>, the amount of memory (heap space) 
      * given in Bytes will be estimated.
      * 
      * @return Estimated Memory-demand in Bytes
      */
     public int estimateMemoryConsumption() {
-    	return 2 * mNX * mNY * /* sizeof(double) = */ 8; // stimmt das?
+        return 2 * mNX * mNY * /* sizeof(double) = */ 8; // stimmt das?
     }
 
     /**
-     * determines the number of grid-points inside the search-radius with respect 
-     * to the target grid. This value might be useful to estimate the resulting
-     * calculation efforts.
+     * determines the number of grid points inside the search radius with 
+     * respect to the target grid. This value might be useful to estimate the 
+     * resulting calculation efforts.
      * 
-     * @return Number of points to be sampled inside the search-circles
+     * @return Number of points to be sampled inside the search circles
      */
     public int numberOfPointsInSearchCircle() 
     {
        int ct = 1; // Grid-point itself
 
-       // "Rectangle" corresponding to search-circle:
+       // "Rectangle" corresponding to search circle:
        int ctX = (int)(mRadius / mDX);
        int ctY = (int)(mRadius / mDY);
        
@@ -211,24 +227,24 @@ public class FltPointSet2ElevationGrid extends T3dProcFilter
     /** 
      * performs the grid calculation.
      * 
-     * @param pPointSet List of <tt>VgPoint</tt>-objects
+     * @param pointSet List of <tt>VgPoint</tt>-objects
      * @throws T3dException
      */
-    public GmSimpleElevationGrid transform(List<VgPoint> pPointSet) throws T3dException
-    {   	
+    public GmSimpleElevationGrid transform(List<VgPoint> pointSet) throws T3dException
+    {       
         if (mGrid == null) {
-            throw new T3dException("Destination grid-geometry is missing.");
+            throw new T3dException("Destination grid geometry is missing.");
         }
         
         mSumZ = new double[mNX * mNY];
         mSumN = new double[mNX * mNY];
                  
-        // In te following, in mSumZ[] will hold the sum of weighted z-values. mSumN[] 
-        // will be used to hold the sum of weights. Later, the interpolation-value will be
-        // given by mSumZ[i]/mSumN[i], if mWeightFnc = cInverseDist or = cFrankeLittle. 
-        // For mWeightFnc = cNearestNeighbor, the way of computation will be different: 
-        // sSumN[i] will be used to store the distance of the point thats z-value is held 
-        // in mSumZ[i].
+        // In the following, in mSumZ[] will hold the sum of weighted z-values. 
+        // mSumN[] will be used to hold the sum of weights. Later, the inter-
+        // polation value will be given by mSumZ[i]/mSumN[i], if mWeightFnc = 
+        // cInverseDist or = cFrankeLittle. For mWeightFnc = cNearestNeighbor, 
+        // the way of computation will be different: sSumN[i] will be used to 
+        // store the distance of the point thats z-value is held in mSumZ[i].
    
         if (mWeightFnc != cNearestNeighbor) {
             for (int i = 0; i < mNX * mNY; i++) {
@@ -242,7 +258,7 @@ public class FltPointSet2ElevationGrid extends T3dProcFilter
         }
 
         try {
-            this.processPoints(pPointSet);
+            this.processPoints(pointSet);
             this.putToElevationGrid();
         }
         catch (T3dException e) {
@@ -261,17 +277,17 @@ public class FltPointSet2ElevationGrid extends T3dProcFilter
         return Math.sqrt(k1 * k1 + k2 * k2);
     }
 
-    // Processing of all points of the given point-list and assigment of 
+    // Processing of all points of the given point-list and assignment of 
     // values to mSumZ[] and mSumN[]:
     private void processPoints(List<VgPoint> pPointSet)
     {
-        // Search-radius rfering to matrix coordinates:
+        // Search radius referring to matrix coordinates:
         int radIdxX = (int)(Math.floor(mRadius / mDX)) + 1;
         int radIdxY = (int)(Math.floor(mRadius / mDY)) + 1;
 
         // Helpers:
-        double faktorX = ((double)mNX - 1.) / (mXMax - mXMin);
-        double faktorY = ((double)mNY - 1.) / (mYMax - mYMin);
+        double faktorX = ((double) mNX - 1.) / (mXMax - mXMin);
+        double faktorY = ((double) mNY - 1.) / (mYMax - mYMin);
 
         int ii, jj, index;
         double x, y, z;
@@ -381,15 +397,15 @@ public class FltPointSet2ElevationGrid extends T3dProcFilter
     private double mDX, mDY;
     private double mXMin, mXMax, mYMin, mYMax;
     
-    private void setEnvelopeInfo(GmSimple2dGridGeometry pGeom) 
+    private void setEnvelopeInfo(GmSimple2dGridGeometry geom) 
     {
-    	mNX = pGeom.numberOfColumns();
-    	mNY = pGeom.numberOfRows();
-    	mDX = pGeom.getDeltaX();
-    	mDY = pGeom.getDeltaY();
-    	mXMin = pGeom.envelope().getXMin();
-    	mXMax = pGeom.envelope().getXMax();
-    	mYMin = pGeom.envelope().getYMin();
-    	mYMax = pGeom.envelope().getYMax();
+        mNX = geom.numberOfColumns();
+        mNY = geom.numberOfRows();
+        mDX = geom.getDeltaX();
+        mDY = geom.getDeltaY();
+        mXMin = geom.envelope().getXMin();
+        mXMax = geom.envelope().getXMax();
+        mYMin = geom.envelope().getYMin();
+        mYMax = geom.envelope().getYMax();
     }
 }
