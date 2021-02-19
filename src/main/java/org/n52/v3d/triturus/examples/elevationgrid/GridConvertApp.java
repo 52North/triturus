@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2007-2015 52°North Initiative for Geospatial Open Source
+ * Copyright (C) 2007-2015 52North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it
@@ -35,8 +35,8 @@ import org.n52.v3d.triturus.gisimplm.*;
 import org.n52.v3d.triturus.core.T3dException;
 
 /** 
- * Triturus example application: Reads an elevation grid from a file and writes it to another file. Source and
- * destination format might vary.
+ * Triturus example application: Reads an elevation grid from a file and writes
+ * it to another file, where source and destination format might vary.
  * 
  * @author Benno Schmidt, Martin May
  * @see GridConvert

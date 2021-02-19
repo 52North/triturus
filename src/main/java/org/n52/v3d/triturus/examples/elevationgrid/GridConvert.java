@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2007-2016 52 North Initiative for Geospatial Open Source
+ * Copyright (C) 2007-2016 52North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it
@@ -40,7 +40,7 @@ import org.n52.v3d.triturus.gisimplm.IoElevationGridWriter;
 
 /** 
  * Triturus example application: Reads an elevation grid in ArcInfo ASCII grid 
- * format and writes it to a VRML file.
+ * format and writes it to a X3D file.
  * 
  * @author Benno Schmidt
  * @see GridConvertApp
@@ -72,8 +72,8 @@ public class GridConvert
 
             // Write X3DOM output:
             IoElevationGridWriter writer = 
-                new IoElevationGridWriter(IoFormatType.X3DOM);
-            writer.writeToFile(grid, "data/test.html");
+                new IoElevationGridWriter(IoFormatType.X3D);
+            writer.writeToFile(grid, "data/test.x3d");
             System.out.println("Success!");
         }
         catch (T3dException e) {
