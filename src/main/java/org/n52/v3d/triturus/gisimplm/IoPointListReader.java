@@ -42,9 +42,14 @@ import java.io.*;
 import java.util.ArrayList;
 
 /**
- * Import of files that contain point coordinates. Here, a special simple ASCII 
- * format us used: Each line of the input files gives x-, y- and z-coordinate
- * separated by a space character (&quot; &quot;).
+ * Import of files that contain point coordinates. Here, a special simple 
+ * ASCII format us used: Each line of the input files gives <i>x-</i>, 
+ * <i>y-</i> and <i>z-</i>coordinate separated by a space character 
+ * (<tt>&quot; &quot;</tt>).<br/>
+ * <br/>
+ * Optionally, other separators, e.g. <tt>&quot;,&quot;</tt> or 
+ * <tt>&quot;;&quot;</tt>, can be set by calling this class's 
+ * <tt>setDelimiter()</tt> method.
  * 
  * @author Benno Schmidt
  */
@@ -56,6 +61,7 @@ public class IoPointListReader extends IoObject
     private ArrayList<VgPoint> mPointList = null;
 
     private VgEnvelope mSpatialFilter = null;
+    private String mDelimiter = " ";
 
     
     /**
@@ -68,14 +74,14 @@ public class IoPointListReader extends IoObject
      * Constructor. As an input parameter, the file format type identifier must
      * be specified. The supported formats are listed below:<br />
      * <ul>
-     * <li><i>Plain:</i> ASCII file, x, y and z line by line, separated by space character</li>
+     * <li><i>Plain:</i> ASCII file, <i>x</i>, <i>y</i> and <i>z</i> line by line, separated by space character</li>
      * </ul>
-     * @param pFormat Format-string, e.g. "Plain"
+     * @param format Format-string, e.g. <tt>"Plain"</tt>
      * @see IoPointListReader#PLAIN
      */
-    public IoPointListReader(String pFormat) {
+    public IoPointListReader(String format) {
         mLogString = this.getClass().getName();
-        this.setFormatType(pFormat);
+        this.setFormatType(format);
     }
 
     public String log() {
@@ -85,40 +91,40 @@ public class IoPointListReader extends IoObject
     /** 
      * sets the format type.
      * 
-     * @param pFormat Format-type (e.g. <tt>&quot;Plain&quot;</tt>)
+     * @param format Format-type (e.g. <tt>&quot;Plain&quot;</tt>)
      * @see IoPointListReader#PLAIN
      */
-    public void setFormatType(String pFormat)
+    public void setFormatType(String format)
     {
-        mFormat = pFormat;
+        mFormat = format;
     }
 
     /**
-     * reads in a set of 3-d points from a file. 
+     * reads in a set of 3-D points from a file. 
      * 
-     * @param pFilename File name (with path optionally)
+     * @param filename File name (with path optionally)
      * @return {@link ArrayList} consisting of {@link VgPoint} objects
      * @throws org.n52.v3d.triturus.core.T3dException
      * @throws org.n52.v3d.triturus.core.T3dNotYetImplException
      */
-    public ArrayList<VgPoint> readFromFile(String pFilename) 
-    		throws T3dException, T3dNotYetImplException
+    public ArrayList<VgPoint> readFromFile(String filename) 
+        throws T3dException, T3dNotYetImplException
     {
         int i = 0;
         if (mFormat.equalsIgnoreCase("Plain")) {
-        	i = 1;
+            i = 1;
         }
         // --> add more types here...
 
         try {
             switch (i) {
                 case 1: 
-                	this.readPlainAscii(pFilename); 
-                	break;
+                    this.readPlainAscii(filename); 
+                    break;
                 // --> add more types here...
 
                 default: 
-                	throw new T3dNotYetImplException("Unsupported file format");
+                    throw new T3dNotYetImplException("Unsupported file format");
             }
         }
         catch (T3dException e) {
@@ -128,16 +134,16 @@ public class IoPointListReader extends IoObject
         return mPointList;
     }
 
-    private void readPlainAscii(String pFilename) throws T3dException
+    private void readPlainAscii(String filename) throws T3dException
     {
-    	// TODO: Keep configurable: Separator, x-y-z order, skip point-identifiers etc.
+        // TODO: Also keep configurable: x-y-z order, skip point-identifiers etc.
         String line = "";
         int lineNumber = 0;
 
         mPointList = new ArrayList<VgPoint>();
 
         try {
-            FileReader lFileRead = new FileReader(pFilename);
+            FileReader lFileRead = new FileReader(filename);
             BufferedReader lDatRead = new BufferedReader(lFileRead);
 
             String tok1, tok2, tok3;
@@ -148,9 +154,9 @@ public class IoPointListReader extends IoObject
             while (line != null) {
                 lineNumber++;
 
-                tok1 = this.getStrTok(line, 1, " ");
-                tok2 = this.getStrTok(line, 2, " ");
-                tok3 = this.getStrTok(line, 3, " ");
+                tok1 = this.getStrTok(line, 1, mDelimiter);
+                tok2 = this.getStrTok(line, 2, mDelimiter);
+                tok3 = this.getStrTok(line, 3, mDelimiter);
 
                 x = this.toDouble(tok1);
                 y = this.toDouble(tok2);
@@ -170,16 +176,15 @@ public class IoPointListReader extends IoObject
             lDatRead.close();
         }
         catch (FileNotFoundException e) {
-            throw new T3dException("Could not access file \"" + pFilename + "\".");
+            throw new T3dException("Could not access file \"" + filename + "\".");
         }
         catch (IOException e) {
             throw new T3dException(e.getMessage());
         }
         catch (T3dException e) {
-            throw new T3dException(e.getMessage());
         }
         catch (Exception e) {
-            throw new T3dException("Parser error in \"" + pFilename + "\":" + lineNumber);
+            throw new T3dException("Parser error in \"" + filename + "\":" + lineNumber);
         }
         //System.out.println("lineNumber = " + lineNumber);
     } // readPlainAscii()
@@ -189,22 +194,26 @@ public class IoPointListReader extends IoObject
      * when importing points. If no filter shall be used (i.e., import all points from 
      * the source-file), the filter envelope has to be set to <i>null</i> (which is the 
      * default-value). Note: When using such filters, do not forget to set proper
-     * z-values!
+     * <i>z</i>-values!
      * 
-     * @param pFilter Bounding-Box
+     * @param filter Bounding-box
      */
-    public void setSpatialFilter(VgEnvelope pFilter) {
-        mSpatialFilter = pFilter;
+    public void setSpatialFilter(VgEnvelope filter) {
+        mSpatialFilter = filter;
     }
 
     /**
      * returns the set spatial filter.
      * 
-     * @return 3-D bounding-Box (if a spatial filter is set, else <i>null</i>)
-     * @see this{@link #setSpatialFilter(VgEnvelope)}
+     * @return 3-D bounding-box (if a spatial filter is set, else <i>null</i>)
+     * @see this{@link setSpatialFilter(VgEnvelope)}
      */
     public VgEnvelope getSpatialFilter() {
         return mSpatialFilter;
+    }
+
+    public void setDelimiter(String delimiter) {
+        mDelimiter = delimiter;
     }
 
     // private helpers, used by readPlainAscii():
@@ -212,24 +221,24 @@ public class IoPointListReader extends IoObject
     // Extraction of the i-th token from a string ('sep' as separator):
     private String getStrTok(String str, int i, String sep) throws T3dException
     {
-		String[] tok = str.split("[" + sep + "]+");
-		if (tok != null) {
-			boolean empty1 = tok[0].length() == 0 ? true : false; // preceding empty token 
-			if (empty1) {
-				if (i < tok.length)
-					return tok[i]; 
-			} else {
-				if (i - 1 < tok.length)
-					return tok[i - 1];
-			}
-		} 
-		throw new T3dException("Logical parser error.");
+        String[] tok = str.split("[" + sep + "]+");
+        if (tok != null) {
+            boolean empty1 = tok[0].length() == 0 ? true : false; // preceding empty token 
+            if (empty1) {
+                if (i < tok.length)
+                    return tok[i]; 
+            } else {
+                if (i - 1 < tok.length)
+                    return tok[i - 1];
+            }
+        } 
+        throw new T3dException("Logical parser error.");
     } 
 
     // Convert String to floating-point number:
     private double toDouble(String pStr) 
     {
-    	pStr = pStr.replaceAll(",", "."); // TODO: ',' as decimal-point
+        pStr = pStr.replaceAll(",", "."); // TODO: ',' as decimal-point
         return Double.parseDouble(pStr);
     } 
 
