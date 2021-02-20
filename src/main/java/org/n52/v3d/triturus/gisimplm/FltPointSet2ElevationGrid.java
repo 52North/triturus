@@ -279,15 +279,15 @@ public class FltPointSet2ElevationGrid extends T3dProcFilter
 
     // Processing of all points of the given point-list and assignment of 
     // values to mSumZ[] and mSumN[]:
-    private void processPoints(List<VgPoint> pPointSet)
+    private void processPoints(List<VgPoint> pointSet)
     {
         // Search radius referring to matrix coordinates:
         int radIdxX = (int)(Math.floor(mRadius / mDX)) + 1;
         int radIdxY = (int)(Math.floor(mRadius / mDY)) + 1;
 
         // Helpers:
-        double faktorX = ((double) mNX - 1.) / (mXMax - mXMin);
-        double faktorY = ((double) mNY - 1.) / (mYMax - mYMin);
+        double factorX = ((double) mNX - 1.) / (mXMax - mXMin);
+        double factorY = ((double) mNY - 1.) / (mYMax - mYMin);
 
         int ii, jj, index;
         double x, y, z;
@@ -295,16 +295,16 @@ public class FltPointSet2ElevationGrid extends T3dProcFilter
         double r, weight = 0.;
         VgPoint pnt;
 
-        for (int i = 0; i < pPointSet.size(); i++) // for all points in the list
+        for (int i = 0; i < pointSet.size(); i++) // for all points in the list
         {
-            pnt = ((VgPoint) pPointSet.get(i));
+            pnt = ((VgPoint) pointSet.get(i));
             x = pnt.getX();
             y = pnt.getY();
             z = pnt.getZ();
       
             // (real) grid-indices:
-            js = faktorX * (x - mXMin);
-            is = faktorY * (y - mYMin);
+            js = factorX * (x - mXMin);
+            is = factorY * (y - mYMin);
 
             for (jj = (((int)Math.floor(js)) - radIdxX - 1);  // -1 just to be sure
                  jj <= ((int)Math.floor(js)) + radIdxX + 1;

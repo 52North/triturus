@@ -204,8 +204,8 @@ public class IoFloatGridWriter extends IoAbstractWriter
                         pt = new T3dVector(0., 0., 0.); // dummy values
 
                     wl("" + dfZ.format(pt.getZ())); 
-                    // todo getZ() and dfZ appear ugly getZ() since the 3rd 
-                    // dim. refers to non-georeferenced values here...
+                    // Note: getZ() and dfZ appear 'ugly' getZ() since the 3rd
+                    // dimesion refers to non-georeferenced values here...
                 }
             }
 

@@ -373,7 +373,7 @@ public class GmSimpleElevationGrid extends VgElevationGrid
         }
     
         float is = idx[0], js = idx[1];
-        int row = (int)idx[0], col = (int)idx[1];
+        int row = (int) idx[0], col = (int) idx[1];
     
         if (
             mIsSetFl[row][col] && 
@@ -381,7 +381,7 @@ public class GmSimpleElevationGrid extends VgElevationGrid
             mIsSetFl[row][col + 1] &&
             mIsSetFl[row + 1][col + 1])
         {
-            double lambda = js - ((float)col), my = is - ((float)row);
+            double lambda = js - ((float) col), my = is - ((float) row);
             return 
                 mVal[row][col] * (1.f - my) * (1.f - lambda) +
                 mVal[row + 1][col] * my * (1.f - lambda) +

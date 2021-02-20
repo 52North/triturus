@@ -77,6 +77,23 @@ public class GmSimple2dGridGeometry extends VgEquidistGrid
        mDeltaY = pDeltaY;
     }
     
+    /**
+     * Copy constructor.
+     * 
+     * @param geom Grid geometry
+     */
+    public GmSimple2dGridGeometry(GmSimple2dGridGeometry geom) 
+    {
+    	this(
+    		geom.numberOfColumns(),
+    		geom.numberOfRows(),
+    		geom.getOrigin(),
+    		geom.getDeltaX(),
+    		geom.getDeltaY());
+    	this.setSRS(
+    		geom.getSRS());
+    }
+    
     /** 
      * returns the grid geometry's bounding-box.
      *

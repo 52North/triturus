@@ -122,7 +122,7 @@ public class GmSimpleFloatGrid extends VgFeature
         mVal = GmSimpleFloatGrid.setUpValArray(nCols, nRows); 
         mIsSetFl = GmSimpleFloatGrid.setUpIsSetArray(nCols, nRows); 
         
-        this.setName("unnamed data grid");
+        this.setName("unnamed_data_grid");
     }
 
     public String getTheme() {
