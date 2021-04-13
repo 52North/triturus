@@ -47,7 +47,7 @@ import org.n52.v3d.triturus.vgis.VgPoint;
  * these steps:<br/>
  * 1. For the input grid, generate a file that can be read by ParaView, e.g.
  * as shown in the {@link SlopeAnalysisApp}.<br/>
- * 2. Copy the console outout of this application to an ASCII file (with 
+ * 2. Copy the console output of this application to an ASCII file (with 
  * file extension <i>.csv</i>, open this file in ParaView, add a 
  * "TableToPoints" filter there, assign the columns "X", "Y", and "Z" to 
  * be used as point geometry, and map the column "CATEGORY" to proper

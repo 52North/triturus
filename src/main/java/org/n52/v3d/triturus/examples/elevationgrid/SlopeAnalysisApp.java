@@ -37,7 +37,7 @@ import org.n52.v3d.triturus.gisimplm.*;
 /** 
  * Triturus example application: Reads an elevation grid from a file, computes 
  * terrain slopes (also known as &quot;dip&quot; or (&quot;inclination&quot;) 
- * and generates a corrsponding output grid. 
+ * and generates a corresponding output grid. 
  * 
  * @author Benno Schmidt
  */
