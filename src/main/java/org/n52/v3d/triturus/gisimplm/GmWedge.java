@@ -39,8 +39,8 @@ import org.n52.v3d.triturus.vgis.VgWedge;
 /**
  * 3-D wedge geometry implementation. As often used in the field of solid 
  * geometry, here a <i>wedge<i> describes a polyhedron defined by two triangles 
- * and three trapezoid faces. Thus, a wedge consists of 5 faces (two triangles 
- * and three trapeziod faces with four corners), 9 edges, and 6 vertices).
+ * and three trapezoid faces. Thus, a wedge consists of 5 faces (2 triangles 
+ * and 3 trapeziod faces with 4 corners), 9 edges, and 6 vertices).
  * 
  * @author Benno Schmidt
  */
