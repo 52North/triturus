@@ -33,7 +33,7 @@
 package org.n52.v3d.triturus.gisimplm;
 
 import org.n52.v3d.triturus.vgis.VgEnvelope;
-import org.n52.v3d.triturus.vgis.VgPoint;
+import org.n52.v3d.triturus.vgis.VgPoint; 
 import org.n52.v3d.triturus.vgis.VgWedge;
 
 /**
