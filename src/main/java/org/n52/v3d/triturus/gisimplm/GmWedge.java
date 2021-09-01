@@ -37,7 +37,10 @@ import org.n52.v3d.triturus.vgis.VgPoint;
 import org.n52.v3d.triturus.vgis.VgWedge;
 
 /**
- * 3-D wedge geometry implementation.
+ * 3-D wedge geometry implementation. As often used in the field of solid 
+ * geometry, here a <i>wedge<i> describes a polyhedron defined by two triangles 
+ * and three trapezoid faces (consisting of four corners; thus, a wedge 
+ * consists of five faces, nine edges, and six vertices).
  * 
  * @author Benno Schmidt
  */
@@ -50,12 +53,12 @@ public class GmWedge extends VgWedge
     /* 
      * Constructor.
      * 
-	 * @param p0 1st corner point (base triangle)
-	 * @param p1 2nd corner point (base triangle)
-	 * @param p2 3rd corner point (base triangle)
-	 * @param p3 4th corner point (connected with 1st point)
-	 * @param p4 5th corner point (connected with 2nd point)
-	 * @param p5 6th corner point (connected with 3rd point)
+     * @param p0 1st corner point (base triangle)
+     * @param p1 2nd corner point (base triangle)
+     * @param p2 3rd corner point (base triangle)
+     * @param p3 4th corner point (connected with 1st point)
+     * @param p4 5th corner point (connected with 2nd point)
+     * @param p5 6th corner point (connected with 3rd point)
      */
     public GmWedge(VgPoint p0, VgPoint p1, VgPoint p2, VgPoint p3, VgPoint p4, VgPoint p5) 
     {
@@ -63,7 +66,7 @@ public class GmWedge extends VgWedge
     }
 
     public void setCornerPoints(
-    	VgPoint p0, VgPoint p1, VgPoint p2, VgPoint p3, VgPoint p4, VgPoint p5)
+        VgPoint p0, VgPoint p1, VgPoint p2, VgPoint p3, VgPoint p4, VgPoint p5)
     {
         this.p0 = new GmPoint(p0);
         this.assertSRS(p1); 
@@ -85,7 +88,7 @@ public class GmWedge extends VgWedge
      * @return Array consisting of six <tt>GmPoint</tt>-objects holding the corner-points
      */
     public VgPoint[] getCornerPoints() {
-    	GmPoint[] res = new GmPoint[6];
+        GmPoint[] res = new GmPoint[6];
         res[0] = p0; 
         res[1] = p1; 
         res[2] = p2; 
@@ -100,14 +103,14 @@ public class GmWedge extends VgWedge
      * 
      * @return Center point
      */
-	public VgPoint getCenterPoint() {		
-		GmPoint res = new GmPoint(
-			(p0.getX() + p1.getX() + p2.getX() + p3.getX() + p4.getX() + p5.getX()) / 6.,
-			(p0.getY() + p1.getY() + p2.getY() + p3.getY() + p4.getY() + p5.getY()) / 6.,
-			(p0.getZ() + p1.getZ() + p2.getZ() + p3.getZ() + p4.getZ() + p5.getZ()) / 6.);
-		res.setSRS(p1.getSRS());
-		return res;
-	}
+    public VgPoint getCenterPoint() {       
+        GmPoint res = new GmPoint(
+            (p0.getX() + p1.getX() + p2.getX() + p3.getX() + p4.getX() + p5.getX()) / 6.,
+            (p0.getY() + p1.getY() + p2.getY() + p3.getY() + p4.getY() + p5.getY()) / 6.,
+            (p0.getZ() + p1.getZ() + p2.getZ() + p3.getZ() + p4.getZ() + p5.getZ()) / 6.);
+        res.setSRS(p1.getSRS());
+        return res;
+    }
 
     /** 
      * returns the geometry's bounding-box.
