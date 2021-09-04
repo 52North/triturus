@@ -40,7 +40,7 @@ package org.n52.v3d.triturus.t3dutil;
 import java.io.File;
 
 /**
- * @deprecated -> org.n52.v3d.triturus.t3dutil.operatingsystem
+ * @deprecated See org.n52.v3d.triturus.t3dutil.operatingsystem
  * Hier werden einige ben�tigte Datei-Methoden vorgehalten
  * @author Martin May
  */

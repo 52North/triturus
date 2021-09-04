@@ -44,8 +44,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * Helper class to read property files.<br /><br />
- * <i>German:</i> Hilfsklasse zum Einlesen von Properties-Dateien.
+ * Helper class to read property files.
+ * 
  * @author Benno Schmidt
  */
 public class PropertyLoader {
@@ -81,7 +81,7 @@ public class PropertyLoader {
      * keine Pfadangabe.<p>
      * @param pFileName Dateiname
      * @param pPathComplete <i>true</i>, falls der vollst�ndige Dateipfad angegeben wird, sonst <i>false</i>.
-     * @throws IOException
+     * @throws IOException ...
      */
     public void loadProperties(String pFileName, boolean pPathComplete) throws IOException {
         sLogger.debug("loadProperties(file=\"" + pFileName + "\")");
@@ -97,7 +97,7 @@ public class PropertyLoader {
      * liest die Properties aus der angegebenen Datei. Diese Methodenaufruf entspricht
      * <tt>this.loadProperties(pFileName, false)</tt>.<p>
      * @param pFileName Dateiname
-     * @throws IOException
+     * @throws IOException ...
      */
     public void loadProperties(String pFileName) throws IOException {
         this.loadProperties(pFileName, false);
@@ -126,7 +126,7 @@ public class PropertyLoader {
      * liefert den vollst�ndigen Pfad der gegebenen Properties-Datei.<p>
      * @param pFileName Dateiname
      * @return vollst�ndige Pfadangabe
-     * @throws FileNotFoundException
+     * @throws FileNotFoundException ...
      */
     public String getCompleteFileNameForPropertyFile(String pFileName) throws FileNotFoundException {
         URL url = PropertyLoader.class.getResource(pFileName);
@@ -148,7 +148,7 @@ public class PropertyLoader {
      * liefert den Wert des angegebenen Schl�ssels (Property).<p>
      * @param pKey Schl�ssel (Property-Name)
      * @return Wert als Zeichenkette
-     * @throws org.n52.v3d.triturus.core.T3dException
+     * @throws org.n52.v3d.triturus.core.T3dException ...
      */
     public String getProperty(String pKey)   {
         Object property = mPropertiesMap.get(pKey);
@@ -163,7 +163,7 @@ public class PropertyLoader {
      * ganzzahliger Wert angegeben ist.<p>
      * @param pKey Schl�ssel (Property-Name)
      * @return Wert als Ganzzahl
-     * @throws org.n52.v3d.triturus.core.T3dException
+     * @throws org.n52.v3d.triturus.core.T3dException ...
      */
     public int getIntProperty(String pKey) throws T3dException {
         String property = this.getProperty(pKey);
@@ -176,7 +176,7 @@ public class PropertyLoader {
      * boolescher Wert angegeben ist.<p>
      * @param pKey Schl�ssel (Property-Name)
      * @return boolescher Wert
-     * @throws org.n52.v3d.triturus.core.T3dException
+     * @throws org.n52.v3d.triturus.core.T3dException ...
      */
     public boolean getBooleanProperty(String pKey) throws T3dException {
         String property = this.getProperty(pKey);
@@ -190,7 +190,7 @@ public class PropertyLoader {
      * @param pKey Schl�ssel (Property-Name)
      * @param pDefaultValue Vorgabewert
      * @return Wert als Zeichenkette
-     * @throws org.n52.v3d.triturus.core.T3dException
+     * @throws org.n52.v3d.triturus.core.T3dException ...
      */
     public String getProperty(String pKey, String pDefaultValue) {
         try {
@@ -255,7 +255,7 @@ public class PropertyLoader {
     /**
      * todo engl. JavaDoc
      * liefert die Anzahl der eingelesenen Properties.<p>
-     * @return Anzahl > 0
+     * @return Anzahl 
      */
     public int countLoadedProperies() {
         return mPropertiesMap.size();

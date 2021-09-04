@@ -34,7 +34,7 @@ package org.n52.v3d.triturus.t3dutil;
 import java.util.*;
 
 /**
- * @deprecated -> Klassen aus org.n52.v3d.triturus.survey nutzen!
+ * @deprecated Use classes from org.n52.v3d.triturus.survey!
  */
 public class GKTransform {
 

@@ -37,8 +37,8 @@ import org.n52.v3d.triturus.core.T3dNotYetImplException;
 
 /**
  * Class to manage color-information.
- * <br/>
- * Note that not all methods of this class have been properly tested yet. -> TODO
+ * <br>
+ * TODO: Note that not all methods of this class have been properly tested yet. 
  * 
  * @author Benno Schmidt, Torsten Heinen
  */
@@ -221,9 +221,9 @@ public class T3dColor
      * sets the color's Red, Green, and Blue portion referring to the RGB color 
      * model.
      * 
-     * @param pVal R-value in the range 0 ... 1
-     * @param pVal G-value in the range 0 ... 1
-     * @param pVal B-value in the range 0 ... 1
+     * @param red R-value in the range 0 ... 1
+     * @param green G-value in the range 0 ... 1
+     * @param blue B-value in the range 0 ... 1
      */
     public void setRGB(float red, float green, float blue) {
     	this.setRed(red);
@@ -235,10 +235,10 @@ public class T3dColor
      * sets the color's Red, Green, and Blue portion referring to the RGB color 
      * model.
      * 
-     * @param pVal R-value in the range 0 ... 1
-     * @param pVal G-value in the range 0 ... 1
-     * @param pVal B-value in the range 0 ... 1
-     * @param alpha Alpha-value Opaqueness (resp. transparency) value
+     * @param red R-value in the range 0 ... 1
+     * @param green G-value in the range 0 ... 1
+     * @param blue B-value in the range 0 ... 1
+     * @param alpha Opaqueness (resp. transparency) value
      */
     public void setRGBA(float red, float green, float blue, float alpha) {
     	this.setRGB(red, green, blue);
@@ -247,8 +247,8 @@ public class T3dColor
 
     /**      
      * gets the color's hue value referring to the HSV color model.
-     * <br/>
-     * Note: For grey colors (incl. Black and White) the saturation-value S is 
+     * <br>
+     * Note: For grey colors (incl. black and white) the saturation-value S is 
      * 0 whereas the hue-value is undefined. 
      * 
      * @return H-value in the range 0 ... <i>2*pi</i> (radians)
@@ -304,7 +304,7 @@ public class T3dColor
      * sets a color by giving a hexadecimal-coded value in the format 
      * <tt>0xRRGGBB</tt>. <tt>RR</tt>, <tt>GG</tt> and <tt>BB</tt> must be in 
      * the range 00 ... FF.
-     * <br/>
+     * <br>
      * Note: This format is often used in the scope of OGC/ISO or W3C 
      * specifications (e.g. OGC-WMS, OGC-WTS, CSS, ...).
      * 
