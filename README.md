@@ -1,3 +1,7 @@
+# ARCHIVED
+
+This project is no longer maintained and will not receive any further updates. If you plan to continue using it, please be aware that future security issues will not be addressed.
+
 ![](https://52north.org/wp-content/uploads/2016/06/logo-main.png) 
 # 52North Triturus
 README file for the [52North Triturus library](http://52north.org/communities/3d/triturus)
@@ -10,13 +14,16 @@ scene descriptions.
 * Gridding algorithms for scattered data points
 * Readers for various data formats (e.g., XYZ files and Arc/Info ASCII grids)
 * Simple file exporters (e.g., ASCII files, VRML/X3D/X3DOM scene descriptions, VTK/ParaView data files)
-* Generation of simple POV-Ray scene descriptions* Cross-section generation for elevation grid models 
+* Generation of simple POV-Ray scene descriptions
+* Cross-section generation for elevation grid models 
 
-## Characteristics
+## Characteristics
+
 * Development platform: Java version 1.6 (Windows and Linux/Unix)
 * Rendering pipeline (filter, mapper, renderer) as basic conceptual reference model
 * Abstraction of concrete (geo-) datasources and renderers 
-* Integration of basic I/O-classes and renderers (3d realtime rendering and ray tracing)* Freely available implementation examples using this framework: 
+* Integration of basic I/O-classes and renderers (3d realtime rendering and ray tracing)
+* Freely available implementation examples using this framework: 
 [52North GeologicToolbox] (https://github.com/52North/GeologicToolbox),
 Web Terrain Service (OGC-WTS for LOD 0), profile service for the generation of terrain cross sections, Web application for 
 WTS visualization using OGC-WMS as drape texture.
